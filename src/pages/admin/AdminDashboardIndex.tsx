@@ -4,7 +4,7 @@ import { db } from '../../lib/firebase';
 import { formatCurrency } from '../../lib/utils';
 import { Package, ShoppingBag, Users, IndianRupee, AlertTriangle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from '../../components/ui/button';
+import { Button, buttonVariants } from '../../components/ui/button';
 import { ProductData } from '../../components/shop/ProductCard';
 
 export default function AdminDashboardIndex() {
@@ -105,9 +105,9 @@ export default function AdminDashboardIndex() {
               </h2>
               <p className="text-sm text-muted-foreground mt-1">Products running low on inventory</p>
             </div>
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/admin/products">Manage Inventory</Link>
-            </Button>
+            <Link to="/admin/products" className={buttonVariants({ variant: "outline", size: "sm" })}>
+              Manage Inventory
+            </Link>
           </div>
           <div className="p-0 flex-1">
             <table className="w-full text-sm text-left">
@@ -153,18 +153,14 @@ export default function AdminDashboardIndex() {
           </div>
           <div className="p-6 flex-1 flex items-center justify-center">
             <div className="flex flex-col gap-4 w-full max-w-sm">
-              <Button asChild className="w-full flex justify-between items-center group">
-                <Link to="/admin/products">
-                  View All Products
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-              <Button variant="secondary" asChild className="w-full flex justify-between items-center group">
-                <Link to="/admin/products">
-                  Add New Product
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
+              <Link to="/admin/products" className={buttonVariants({ variant: "default", className: "w-full flex justify-between items-center group" })}>
+                View All Products
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link to="/admin/products" className={buttonVariants({ variant: "secondary", className: "w-full flex justify-between items-center group" })}>
+                Add New Product
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
           </div>
         </div>

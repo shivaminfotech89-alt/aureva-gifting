@@ -199,10 +199,8 @@ export default function AdminProducts() {
               setFormData({ name: '', description: '', basePrice: '', gstPercent: '18', stock: '', imageUrl: '' });
             }
           }}>
-            <DialogTrigger asChild>
-              <Button className="gap-2">
-                <Plus className="h-4 w-4" /> Add Product
-              </Button>
+            <DialogTrigger render={<Button className="gap-2" />}>
+              <Plus className="h-4 w-4" /> Add Product
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
@@ -232,8 +230,65 @@ export default function AdminProducts() {
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="imageUrl">Image URL</Label>
-                  <Input id="imageUrl" placeholder="https://images.unsplash.com/..." value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} />
+                  <Label htmlFor="imageFile">Upload Image</Label>
+                  <Input 
+                    id="imageFile" 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          const img = new Image();
+                          img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            const MAX_WIDTH = 800;
+                            const MAX_HEIGHT = 800;
+                            let width = img.width;
+                            let height = img.height;
+
+                            if (width > height) {
+                              if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                              }
+                            } else {
+                              if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                              }
+                            }
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx?.drawImage(img, 0, 0, width, height);
+                            // Compress image
+                            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                            setFormData({...formData, imageUrl: dataUrl});
+                          };
+                          img.src = reader.result as string;
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }} 
+                  />
+                  <div className="relative flex items-center py-2">
+                    <span className="flex-grow border-t border-border"></span>
+                    <span className="flex-shrink-0 mx-2 text-muted-foreground text-xs uppercase">Or use URL</span>
+                    <span className="flex-grow border-t border-border"></span>
+                  </div>
+                  <Input 
+                    id="imageUrl" 
+                    placeholder="https://images.unsplash.com/..." 
+                    value={formData.imageUrl && !formData.imageUrl.startsWith('data:') ? formData.imageUrl : ''} 
+                    onChange={e => setFormData({...formData, imageUrl: e.target.value})} 
+                  />
+                  {formData.imageUrl && (
+                     <div className="mt-2 h-20 w-20 rounded-md overflow-hidden border border-border">
+                       <img src={formData.imageUrl} alt="Preview" className="h-full w-full object-cover" />
+                     </div>
+                  )}
                 </div>
                 <Button type="submit" className="mt-4">Save Product</Button>
               </form>

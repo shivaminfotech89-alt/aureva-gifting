@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs, orderBy, where } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { Card } from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
+import { Button, buttonVariants } from '../../components/ui/button';
 import { Users, Search, Mail } from 'lucide-react';
 
 interface Customer {
@@ -92,9 +92,9 @@ export default function AdminCustomers() {
                     {customer.createdAt ? new Date(customer.createdAt).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <Button variant="ghost" size="sm" className="h-8 gap-2" asChild>
-                       <a href={`mailto:${customer.email}`}><Mail className="h-4 w-4" /> Email</a>
-                    </Button>
+                    <a href={`mailto:${customer.email}`} className={buttonVariants({ variant: "ghost", size: "sm", className: "h-8 gap-2" })}>
+                       <Mail className="h-4 w-4" /> Email
+                    </a>
                   </td>
                 </tr>
               ))}
