@@ -1,0 +1,10 @@
+{
+  "name": "Aureva Corporate Gifting",
+  "description": "Premium Gifts for Lasting Business Impressions",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

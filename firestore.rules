@@ -1,0 +1,109 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Core Helpers ---
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() { return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+
+    // --- Validation Helpers ---
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'role', 'createdAt']) &&
+             data.email is string && data.email.size() > 0 &&
+             data.role in ['admin', 'customer'] &&
+             data.createdAt is number;
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['name', 'basePrice', 'gstPercent', 'stock', 'enabled']) &&
+             data.name is string && data.name.size() > 0 &&
+             data.basePrice is number &&
+             data.gstPercent is number &&
+             data.stock is number &&
+             data.enabled is bool;
+    }
+
+    function isValidCategory(data) {
+      return data.keys().hasAll(['name', 'createdAt']) &&
+             data.name is string && data.name.size() > 0 &&
+             data.createdAt is number;
+    }
+
+    function isValidOrder(data) {
+      return data.keys().hasAll(['userId', 'totalAmount', 'status', 'createdAt']) &&
+             data.userId is string && data.userId.size() > 0 &&
+             data.totalAmount is number &&
+             data.status in ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'] &&
+             data.createdAt is number;
+    }
+    
+    function isValidCoupon(data) {
+      return data.keys().hasAll(['code', 'discountType', 'discountValue', 'enabled']) &&
+             data.code is string && data.code.size() > 0 &&
+             data.discountType in ['percentage', 'fixed'] &&
+             data.discountValue is number &&
+             data.enabled is bool;
+    }
+
+    // --- Collections ---
+
+    // Users
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && isValidId(userId) && 
+                       isValidUser(incoming()) && 
+                       incoming().role == 'customer'; // new user can only be customer
+      allow update: if isValidId(userId) && (
+        (isOwner(userId) && !isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'company', 'updatedAt']) && incoming().role == existing().role) ||
+        (isAdmin() && isValidUser(incoming())) // admins can update all fields
+      );
+    }
+
+    // Products
+    match /products/{productId} {
+      allow get: if true;
+      allow list: if isAdmin() || (existing().enabled == true); // customers only see enabled products
+      allow create: if isAdmin() && isValidId(productId) && isValidProduct(incoming()) && incoming().createdAt == request.time;
+      allow update: if isValidId(productId) && isAdmin() && isValidProduct(incoming());
+      allow delete: if isAdmin() && isValidId(productId);
+    }
+
+    // Categories
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(categoryId) && isValidCategory(incoming()) && incoming().createdAt == request.time;
+      allow update: if isValidId(categoryId) && isAdmin() && isValidCategory(incoming());
+      allow delete: if isAdmin() && isValidId(categoryId);
+    }
+
+    // Orders
+    match /orders/{orderId} {
+      allow get: if (isOwner(existing().userId) || isAdmin()) && isValidId(orderId);
+      allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow create: if isOwner(incoming().userId) && isValidId(orderId) && isValidOrder(incoming()) && incoming().status == 'pending' && incoming().createdAt == request.time;
+      allow update: if isValidId(orderId) && (
+        (isAdmin() && isValidOrder(incoming())) ||
+        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && existing().status == 'pending' && incoming().status == 'cancelled')
+      );
+    }
+
+    // Coupons
+    match /coupons/{couponId} {
+      allow get: if true; // anyone can get a coupon to apply it
+      allow list: if isAdmin() || existing().enabled == true;
+      allow create: if isAdmin() && isValidId(couponId) && isValidCoupon(incoming());
+      allow update: if isValidId(couponId) && isAdmin() && isValidCoupon(incoming());
+      allow delete: if isAdmin() && isValidId(couponId);
+    }
+  }
+}
