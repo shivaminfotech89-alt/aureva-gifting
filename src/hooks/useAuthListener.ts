@@ -18,19 +18,20 @@ export function useAuthListener() {
           
           if (userDoc.exists()) {
             const currentProfile = userDoc.data() as any;
-            if (user.email === 'shivaminfotech89@gmail.com' && currentProfile.role !== 'admin') {
+            const isAdminEmail = ['shivaminfotech89@gmail.com', 'aurevagiftingsolution@gmail.com'].includes(user.email || '');
+            if (isAdminEmail && currentProfile.role !== 'admin') {
               currentProfile.role = 'admin';
               await setDoc(userDocRef, currentProfile, { merge: true });
             }
             setProfile(currentProfile);
           } else {
             // New user, create a customer profile (or admin if specific email)
-            const isAdminEmail = user.email === 'shivaminfotech89@gmail.com';
+            const isNewAdminEmail = ['shivaminfotech89@gmail.com', 'aurevagiftingsolution@gmail.com'].includes(user.email || '');
             const newProfile = {
               uid: user.uid,
               email: user.email,
               name: user.displayName || '',
-              role: isAdminEmail ? 'admin' : 'customer',
+              role: isNewAdminEmail ? 'admin' : 'customer',
               createdAt: Date.now(),
               updatedAt: Date.now()
             };

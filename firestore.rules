@@ -8,7 +8,8 @@ service cloud.firestore {
 
     // --- Core Helpers ---
     function isSignedIn() { return request.auth != null; }
-    function isAdmin() { return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'; }
+    function isSuperAdmin() { return isSignedIn() && request.auth.token.email in ['shivaminfotech89@gmail.com', 'aurevagiftingsolution@gmail.com']; }
+    function isAdmin() { return isSuperAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/admin_settings/$(request.auth.token.email))); }
     function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
     
     function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
@@ -42,7 +43,7 @@ service cloud.firestore {
       return data.keys().hasAll(['userId', 'totalAmount', 'status', 'createdAt']) &&
              data.userId is string && data.userId.size() > 0 &&
              data.totalAmount is number &&
-             data.status in ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'] &&
+             data.status in ['pending_payment', 'admin_approval', 'pending', 'payment_verified', 'processing', 'confirmed', 'shipped', 'delivered', 'cancelled'] &&
              data.createdAt is number;
     }
     
@@ -90,10 +91,11 @@ service cloud.firestore {
     match /orders/{orderId} {
       allow get: if (isOwner(existing().userId) || isAdmin()) && isValidId(orderId);
       allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
-      allow create: if isOwner(incoming().userId) && isValidId(orderId) && isValidOrder(incoming()) && incoming().status == 'pending' && incoming().createdAt == request.time;
+      allow create: if isOwner(incoming().userId) && isValidId(orderId) && incoming().createdAt == request.time;
       allow update: if isValidId(orderId) && (
-        (isAdmin() && isValidOrder(incoming())) ||
-        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && existing().status == 'pending' && incoming().status == 'cancelled')
+        isAdmin() ||
+        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && existing().status == 'pending' && incoming().status == 'cancelled') ||
+        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'paymentUtr', 'updatedAt']) && existing().status == 'pending_payment' && incoming().status == 'admin_approval')
       );
     }
 
@@ -104,6 +106,17 @@ service cloud.firestore {
       allow create: if isAdmin() && isValidId(couponId) && isValidCoupon(incoming());
       allow update: if isValidId(couponId) && isAdmin() && isValidCoupon(incoming());
       allow delete: if isAdmin() && isValidId(couponId);
+    }
+    // Settings
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Admin Settings (Access Control)
+    match /admin_settings/{emailId} {
+      allow read: if isAdmin();
+      allow write: if isSuperAdmin();
     }
   }
 }

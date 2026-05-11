@@ -14,6 +14,7 @@ export interface ProductData {
   name: string;
   description: string;
   basePrice: number;
+  discountPercent?: number;
   gstPercent: number;
   stock: number;
   enabled: boolean;
@@ -24,12 +25,16 @@ export interface ProductData {
 export function ProductCard({ product }: { product: ProductData }) {
   const addItem = useCartStore(state => state.addItem);
 
+  const discountedPrice = product.discountPercent 
+    ? product.basePrice * (1 - product.discountPercent / 100) 
+    : product.basePrice;
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     addItem({
       productId: product.id,
       name: product.name,
-      basePrice: product.basePrice,
+      basePrice: discountedPrice,
       gstPercent: product.gstPercent,
       quantity: 1,
       image: product.images?.[0] || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400'
@@ -51,6 +56,11 @@ export function ProductCard({ product }: { product: ProductData }) {
               <span className="bg-destructive text-destructive-foreground px-4 py-1 font-bold tracking-wider uppercase text-sm">Out of Stock</span>
             </div>
           )}
+          {product.discountPercent && product.discountPercent > 0 && product.stock > 0 && (
+            <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-3 py-1 font-bold tracking-wider uppercase text-xs rounded-full shadow-lg">
+              {product.discountPercent}% OFF
+            </div>
+          )}
         </div>
         <CardContent className="p-5">
           <h3 className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors">{product.name}</h3>
@@ -58,7 +68,14 @@ export function ProductCard({ product }: { product: ProductData }) {
           <div className="flex items-end justify-between">
             <div>
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Excl. GST</p>
-              <p className="font-bold text-xl text-foreground">{formatCurrency(product.basePrice)}</p>
+              {product.discountPercent && product.discountPercent > 0 ? (
+                <div className="flex flex-col">
+                  <p className="text-xs text-muted-foreground line-through">{formatCurrency(product.basePrice)}</p>
+                  <p className="font-bold text-xl text-primary">{formatCurrency(discountedPrice)}</p>
+                </div>
+              ) : (
+                <p className="font-bold text-xl text-foreground">{formatCurrency(product.basePrice)}</p>
+              )}
             </div>
             <Button 
               size="icon" 

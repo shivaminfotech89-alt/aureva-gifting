@@ -7,7 +7,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/dialog';
-import { Plus, Edit, Trash2, Image as ImageIcon, Database, Search } from 'lucide-react';
+import { Plus, Edit, Trash2, Image as ImageIcon, Database, Search, Download } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { toast } from 'sonner';
 
@@ -17,7 +17,7 @@ export default function AdminProducts() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [formData, setFormData] = useState({
-    name: '', description: '', basePrice: '', gstPercent: '18', stock: '', imageUrl: ''
+    name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: ''
   });
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -41,6 +41,35 @@ export default function AdminProducts() {
 
   const filteredProducts = products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
+  const downloadCSV = () => {
+    let csvContent = "Product ID,Name,Description,Category,Base Price,Discount %,GST %,Stock,Status\n";
+    
+    products.forEach(function(p) {
+      const row = [
+        p.id,
+        `"${p.name.replace(/"/g, '""')}"`,
+        `"${p.description.replace(/"/g, '""')}"`,
+        `"${p.categoryId || 'Uncategorized'}"`,
+        p.basePrice,
+        p.discountPercent || 0,
+        p.gstPercent,
+        p.stock,
+        p.enabled ? 'Active' : 'Disabled'
+      ];
+      csvContent += row.join(",") + "\n";
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "aureva_products.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -48,9 +77,11 @@ export default function AdminProducts() {
         name: formData.name,
         description: formData.description,
         basePrice: Number(formData.basePrice),
+        discountPercent: formData.discountPercent ? Number(formData.discountPercent) : 0,
         gstPercent: Number(formData.gstPercent),
         stock: Number(formData.stock),
         images: formData.imageUrl ? [formData.imageUrl] : [],
+        categoryId: formData.categoryId || 'Uncategorized',
         enabled: true,
       };
 
@@ -69,7 +100,7 @@ export default function AdminProducts() {
         toast.success('Product created successfully');
       }
       
-      setFormData({ name: '', description: '', basePrice: '', gstPercent: '18', stock: '', imageUrl: '' });
+      setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '' });
       setEditingId(null);
       setIsDialogOpen(false);
       loadProducts();
@@ -84,9 +115,11 @@ export default function AdminProducts() {
       name: product.name,
       description: product.description,
       basePrice: product.basePrice.toString(),
+      discountPercent: product.discountPercent ? product.discountPercent.toString() : '',
       gstPercent: product.gstPercent.toString(),
       stock: product.stock.toString(),
-      imageUrl: product.images && product.images.length > 0 ? product.images[0] : ''
+      imageUrl: product.images && product.images.length > 0 ? product.images[0] : '',
+      categoryId: product.categoryId || ''
     });
     setIsDialogOpen(true);
   };
@@ -124,6 +157,7 @@ export default function AdminProducts() {
         images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600'],
         stock: 50,
         enabled: true,
+        categoryId: 'Bags',
         createdAt: serverTimestamp(),
       },
       {
@@ -135,6 +169,7 @@ export default function AdminProducts() {
         images: ['https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&q=80&w=600'],
         stock: 120,
         enabled: true,
+        categoryId: 'Stationery',
         createdAt: serverTimestamp(),
       },
       {
@@ -146,6 +181,7 @@ export default function AdminProducts() {
         images: ['https://images.unsplash.com/photo-1608248593842-8021c6a1d821?auto=format&fit=crop&q=80&w=600'],
         stock: 80,
         enabled: true,
+        categoryId: 'Hampers',
         createdAt: serverTimestamp(),
       },
       {
@@ -157,6 +193,7 @@ export default function AdminProducts() {
         images: ['https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?auto=format&fit=crop&q=80&w=600'],
         stock: 200,
         enabled: true,
+        categoryId: 'Electronics',
         createdAt: serverTimestamp(),
       }
     ];
@@ -178,14 +215,19 @@ export default function AdminProducts() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold">Products</h1>
         
-        <div className="flex bg-background border border-border rounded-md px-3 py-2 w-full md:w-64">
-           <Search className="h-4 w-4 text-muted-foreground mr-2 shrink-0" />
-           <input 
-             className="bg-transparent border-none outline-none text-sm w-full" 
-             placeholder="Search products..." 
-             value={searchQuery}
-             onChange={(e) => setSearchQuery(e.target.value)}
-           />
+        <div className="flex items-center gap-4 w-full md:w-auto">
+          <div className="flex bg-background border border-border rounded-md px-3 py-2 w-full md:w-64">
+             <Search className="h-4 w-4 text-muted-foreground mr-2 shrink-0" />
+             <input 
+               className="bg-transparent border-none outline-none text-sm w-full" 
+               placeholder="Search products..." 
+               value={searchQuery}
+               onChange={(e) => setSearchQuery(e.target.value)}
+             />
+          </div>
+          <Button variant="outline" onClick={downloadCSV} className="gap-2">
+            <Download className="h-4 w-4" /> Export
+          </Button>
         </div>
 
         <div className="flex gap-4">
@@ -196,7 +238,7 @@ export default function AdminProducts() {
             setIsDialogOpen(open);
             if (!open) {
               setEditingId(null);
-              setFormData({ name: '', description: '', basePrice: '', gstPercent: '18', stock: '', imageUrl: '' });
+              setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '' });
             }
           }}>
             <DialogTrigger render={<Button className="gap-2" />}>
@@ -206,19 +248,27 @@ export default function AdminProducts() {
               <DialogHeader>
                 <DialogTitle>{editingId ? "Edit Product" : "Add New Product"}</DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleCreateProduct} className="grid gap-4 py-4">
+              <form onSubmit={handleCreateProduct} className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto px-1">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Product Name</Label>
                   <Input id="name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
                 </div>
                 <div className="grid gap-2">
+                  <Label htmlFor="categoryId">Category</Label>
+                  <Input id="categoryId" placeholder="e.g. Hampers, Electronics" value={formData.categoryId} onChange={e => setFormData({...formData, categoryId: e.target.value})} required />
+                </div>
+                <div className="grid gap-2">
                   <Label htmlFor="description">Description</Label>
                   <Textarea id="description" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} required />
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="basePrice">Base Price (₹)</Label>
                     <Input id="basePrice" type="number" min="0" value={formData.basePrice} onChange={e => setFormData({...formData, basePrice: e.target.value})} required />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="discountPercent">Discount (%)</Label>
+                    <Input id="discountPercent" type="number" min="0" max="100" value={formData.discountPercent} onChange={e => setFormData({...formData, discountPercent: e.target.value})} />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="gstPercent">GST (%)</Label>
@@ -303,8 +353,8 @@ export default function AdminProducts() {
             <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
               <tr>
                 <th className="px-6 py-4 font-medium">Product</th>
+                <th className="px-6 py-4 font-medium">Category</th>
                 <th className="px-6 py-4 font-medium">Base Price</th>
-                <th className="px-6 py-4 font-medium">GST %</th>
                 <th className="px-6 py-4 font-medium">Stock</th>
                 <th className="px-6 py-4 font-medium">Status</th>
                 <th className="px-6 py-4 text-right font-medium">Actions</th>
@@ -330,8 +380,10 @@ export default function AdminProducts() {
                         <div className="font-medium text-foreground line-clamp-2">{product.name}</div>
                       </div>
                     </td>
+                    <td className="px-6 py-4">
+                      <span className="bg-muted px-2 py-1 rounded text-xs">{product.categoryId || 'Uncategorized'}</span>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">{formatCurrency(product.basePrice)}</td>
-                    <td className="px-6 py-4">{product.gstPercent}%</td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${product.stock > 10 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : product.stock > 0 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' : 'bg-destructive/10 text-destructive'}`}>
                         {product.stock} in stock

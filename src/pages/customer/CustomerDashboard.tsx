@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, onSnapshot } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { Package, User, FileText } from 'lucide-react';
+import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { auth } from '../../lib/firebase';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
 
 interface Order {
   id: string;
@@ -20,33 +21,60 @@ interface Order {
   deliveryDetails: any;
 }
 
+const ORDER_STATUSES = [
+  { id: 'pending', label: 'Pending', icon: Clock },
+  { id: 'admin_approval', label: 'Under Review', icon: ShieldCheck },
+  { id: 'payment_verified', label: 'Payment Verified', icon: ShieldCheck },
+  { id: 'processing', label: 'Processing', icon: Package },
+  { id: 'shipped', label: 'Shipped', icon: Truck },
+  { id: 'delivered', label: 'Delivered', icon: MapPin },
+];
+
 export default function CustomerDashboard() {
   const { user, profile } = useAuthStore();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
+  const [adminSettings, setAdminSettings] = useState<{adminWhatsApp?: string} | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   useEffect(() => {
-    async function fetchOrders() {
-      if (!user) return;
-      try {
-        const q = query(
-          collection(db, 'orders'),
-          where('userId', '==', user.uid),
-          orderBy('createdAt', 'desc')
-        );
-        const querySnapshot = await getDocs(q);
-        const fetchedOrders = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Order[];
-        setOrders(fetchedOrders);
-      } catch (error) {
-        handleFirestoreError(error, OperationType.LIST, 'orders');
-      } finally {
-        setLoadingOrders(false);
-      }
-    }
-    fetchOrders();
+    import('firebase/firestore').then(({ doc, getDoc }) => {
+      getDoc(doc(db, 'settings', 'admin')).then(s => {
+        if(s.exists()) setAdminSettings(s.data() as any);
+      }).catch(() => {});
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    
+    setLoadingOrders(true);
+    const q = query(
+      collection(db, 'orders'),
+      where('userId', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    );
+    
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const fetchedOrders = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Order[];
+      setOrders(fetchedOrders);
+      
+      // Update selected order if it's currently open
+      setSelectedOrder(current => {
+        if (!current) return null;
+        return fetchedOrders.find(o => o.id === current.id) || current;
+      });
+      
+      setLoadingOrders(false);
+    }, (error) => {
+      handleFirestoreError(error, OperationType.LIST, 'orders');
+      setLoadingOrders(false);
+    });
+
+    return () => unsubscribe();
   }, [user]);
 
   if (!user) {
@@ -226,14 +254,31 @@ export default function CustomerDashboard() {
                         </div>
                         <div>
                           <div className="text-muted-foreground mb-1 uppercase text-xs font-semibold">Status</div>
-                          <div className="font-medium capitalize text-primary">{order.status}</div>
+                          <div className="font-medium capitalize text-primary">{order.status.replace('_', ' ')}</div>
                         </div>
                         <div>
                           <div className="text-muted-foreground mb-1 uppercase text-xs font-semibold">Order ID</div>
                           <div className="font-medium truncate" title={order.id}>#{order.id.slice(-8)}</div>
                         </div>
                       </div>
-                      <div>
+                      <div className="flex gap-2">
+                        {adminSettings?.adminWhatsApp && (
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="gap-2 text-green-600 hover:text-green-700 hover:bg-green-50"
+                            onClick={() => {
+                               const phone = adminSettings.adminWhatsApp?.replace(/[^0-9]/g, '');
+                               const text = encodeURIComponent(`Hi Aureva Support,\n\nI have a question regarding my order #${order.id.slice(-8)}. Here are the details:\n\nTotal: ${formatCurrency(order.grandTotal)}\nStatus: ${order.status.replace('_', ' ').toUpperCase()}`);
+                               window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+                            }}
+                          >
+                            <User className="h-4 w-4" /> Support
+                          </Button>
+                        )}
+                        <Button variant="outline" size="sm" onClick={() => setSelectedOrder(order)} className="gap-2 text-primary hover:text-primary">
+                          <CheckCircle2 className="h-4 w-4" /> Track Order
+                        </Button>
                         <Button variant="outline" size="sm" onClick={() => handlePrintInvoice(order)} className="gap-2">
                           <FileText className="h-4 w-4" /> Invoice
                         </Button>
@@ -266,6 +311,66 @@ export default function CustomerDashboard() {
           
         </div>
       </div>
+
+      {/* Track Order Dialog */}
+      <Dialog open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>
+        <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Order Status - #{selectedOrder?.id?.slice(-8)}</DialogTitle>
+          </DialogHeader>
+
+          {selectedOrder && (
+            <div className="py-6">
+              <div className="flex flex-col space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+                {ORDER_STATUSES.map((status, index) => {
+                  const currentStatusIndex = ORDER_STATUSES.findIndex(s => s.id === selectedOrder.status);
+                  const isCompleted = index <= currentStatusIndex;
+                  const isCurrent = index === currentStatusIndex;
+                  const Icon = status.icon;
+                  const isCancelled = selectedOrder.status === 'cancelled';
+
+                  if (isCancelled) {
+                    if (index === 0) {
+                      return (
+                        <div key={status.id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-destructive text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                            <X className="w-5 h-5" />
+                          </div>
+                          <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded border border-destructive/20 bg-destructive/5 shadow">
+                            <div className="flex items-center justify-between space-x-2 mb-1">
+                              <div className="font-bold text-destructive">Cancelled</div>
+                            </div>
+                            <div className="text-sm text-muted-foreground">This order has been cancelled.</div>
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }
+
+                  return (
+                    <div key={status.id} className={`relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group ${isCompleted ? 'is-active' : ''}`}>
+                      <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 border-background shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 transition-colors ${isCompleted ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div className={`w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border shadow-sm transition-all ${isCurrent ? 'bg-primary/5 border-primary shadow-md' : 'bg-background'}`}>
+                        <div className="flex items-center justify-between space-x-2 mb-1">
+                          <div className={`font-bold ${isCurrent ? 'text-primary' : (isCompleted ? 'text-foreground' : 'text-muted-foreground')}`}>
+                            {status.label}
+                          </div>
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {isCurrent ? 'Current state of your order.' : (isCompleted ? 'Step completed.' : 'Pending...')}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

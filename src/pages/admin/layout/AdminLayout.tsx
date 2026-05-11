@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, Menu, X, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, Menu, X, ArrowLeft, Settings } from 'lucide-react';
 import { auth } from '../../../lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useAuthStore } from '../../../store/authStore';
@@ -20,6 +20,7 @@ export default function AdminLayout() {
     { name: 'Products', path: '/admin/products', icon: Package },
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
     { name: 'Customers', path: '/admin/customers', icon: Users },
+    { name: 'Settings', path: '/admin/settings', icon: Settings },
   ];
 
   const SidebarContent = () => (
@@ -90,9 +91,14 @@ export default function AdminLayout() {
       {/* Mobile Header (visible only on small screens) */}
       <header className="md:hidden h-16 border-b border-border bg-card flex items-center justify-between px-4 sticky top-0 z-20">
         <span className="font-sans font-bold text-lg tracking-tighter uppercase text-primary">Aureva Admin</span>
-        <button onClick={() => setMobileMenuOpen(true)} className="p-2 -mr-2">
-          <Menu className="h-6 w-6" />
-        </button>
+        <div className="flex gap-2 items-center">
+          <button onClick={handleLogout} className="p-2 text-destructive">
+            <LogOut className="h-5 w-5" />
+          </button>
+          <button onClick={() => setMobileMenuOpen(true)} className="p-2 -mr-2">
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
       </header>
 
       {/* Desktop Sidebar */}
@@ -115,9 +121,15 @@ export default function AdminLayout() {
         <header className="hidden md:flex h-20 border-b border-border bg-background items-center px-8 justify-between sticky top-0 z-10 w-full">
           <h2 className="text-xl font-semibold">Overview</h2>
           <div className="flex items-center gap-4">
-             <NavLink to="/" className="text-sm font-medium flex items-center gap-2 hover:text-primary transition-colors">
-               <ArrowLeft className="h-4 w-4" /> Back to Store
+             <NavLink to="/" className="text-sm font-medium flex items-center gap-2 hover:text-primary transition-colors bg-secondary px-4 py-2 rounded-lg text-secondary-foreground shadow-sm">
+               <ArrowLeft className="h-4 w-4" /> Go to Website
              </NavLink>
+             <button
+               onClick={handleLogout}
+               className="text-sm font-medium flex items-center gap-2 transition-colors bg-destructive/10 text-destructive hover:bg-destructive hover:text-destructive-foreground px-4 py-2 rounded-lg shadow-sm"
+             >
+               <LogOut className="h-4 w-4" /> Logout
+             </button>
           </div>
         </header>
         <div className="p-4 md:p-8 max-w-7xl w-full mx-auto">

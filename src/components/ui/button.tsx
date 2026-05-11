@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -41,39 +40,19 @@ const buttonVariants = cva(
   }
 )
 
-export interface ButtonProps
-  extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+function Button({
+  className,
+  variant = "default",
+  size = "default",
+  ...props
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  return (
+    <ButtonPrimitive
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
 }
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
-    if (asChild) {
-      // Base UI doesn't support asChild out of the box like Radix, so if someone passes asChild
-      // we ideally want to apply the render prop, but for ease without Radix Slot we simply 
-      // return a span and let the child render inside, or rather we'll fix callers to not use asChild.
-      // But we must NOT pass asChild to ButtonPrimitive.
-      return (
-        <ButtonPrimitive
-          ref={ref}
-          data-slot="button"
-          className={cn(buttonVariants({ variant, size, className }))}
-          {...props}
-        />
-      )
-    }
-
-    return (
-      <ButtonPrimitive
-        ref={ref}
-        data-slot="button"
-        className={cn(buttonVariants({ variant, size, className }))}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = "Button"
 
 export { Button, buttonVariants }

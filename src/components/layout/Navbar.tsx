@@ -6,11 +6,19 @@ import { useCartStore } from '../../store/cartStore';
 import { useAuthStore } from '../../store/authStore';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { auth } from '../../lib/firebase';
+import { signOut } from 'firebase/auth';
+
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const totalItems = useCartStore(state => state.getTotalItems());
   const { user, profile } = useAuthStore();
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate('/');
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -38,9 +46,6 @@ export default function Navbar() {
           <Link to="/corporate" className="transition-colors hover:text-primary">Corporate Bulk</Link>
           <Link to="/about" className="transition-colors hover:text-primary">About Us</Link>
           <Link to="/contact" className="transition-colors hover:text-primary">Contact</Link>
-          {profile?.role === 'admin' && (
-            <Link to="/admin" className="transition-colors text-primary font-bold hover:underline">Admin Panel</Link>
-          )}
         </nav>
 
         {/* Right Actions */}
@@ -49,12 +54,37 @@ export default function Navbar() {
             <Search className="h-5 w-5" />
           </button>
           
-          <Link to={user ? (profile?.role === 'admin' ? '/admin' : '/account') : '/account/login'}>
-            <button className="p-2 text-foreground hover:text-primary transition-colors">
+          {user ? (
+            profile?.role === 'admin' ? (
+              <div className="hidden md:flex items-center gap-2">
+                <Link to="/admin" className={buttonVariants({ variant: "outline", size: "sm" })}>
+                  Dashboard
+                </Link>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Link to="/account">
+                <button className="p-2 text-foreground hover:text-primary transition-colors">
+                  <User className="h-5 w-5" />
+                </button>
+              </Link>
+            )
+          ) : (
+            <Link to="/account/login">
+              <button className="p-2 text-foreground hover:text-primary transition-colors">
+                <User className="h-5 w-5" />
+              </button>
+            </Link>
+          )}
+
+          {profile?.role === 'admin' && (
+            <Link to="/admin" className="md:hidden p-2 text-foreground hover:text-primary transition-colors">
               <User className="h-5 w-5" />
-            </button>
-          </Link>
-          
+            </Link>
+          )}
+
           <Link to="/cart" className="relative p-2 text-foreground hover:text-primary transition-colors">
             <ShoppingCart className="h-5 w-5" />
             {totalItems > 0 && (
@@ -74,7 +104,7 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9990] md:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
@@ -82,7 +112,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
-              className="fixed inset-y-0 left-0 w-3/4 max-w-sm bg-background border-r border-border z-50 p-6 flex flex-col md:hidden"
+              className="fixed inset-y-0 left-0 w-[85%] max-w-sm bg-white dark:bg-[#09090b] shadow-2xl border-r border-border z-[9999] p-6 flex flex-col md:hidden"
             >
               <div className="flex items-center justify-between mb-8">
                 <span className="font-bold text-2xl tracking-tighter uppercase text-primary">
@@ -92,13 +122,13 @@ export default function Navbar() {
                   <X className="h-6 w-6" />
                 </button>
               </div>
-              <nav className="flex flex-col gap-6 text-lg font-medium">
-                <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-                <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
-                <Link to="/corporate" onClick={() => setIsMobileMenuOpen(false)}>Corporate Bulk</Link>
-                <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
-                <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
-                <Link to={user ? (profile?.role === 'admin' ? '/admin' : '/account') : '/account/login'} onClick={() => setIsMobileMenuOpen(false)}>
+              <nav className="flex flex-col gap-6 text-lg font-medium text-foreground">
+                <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary">Home</Link>
+                <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary">Shop</Link>
+                <Link to="/corporate" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary">Corporate Bulk</Link>
+                <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary">About Us</Link>
+                <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary">Contact</Link>
+                <Link to={user ? (profile?.role === 'admin' ? '/admin' : '/account') : '/account/login'} onClick={() => setIsMobileMenuOpen(false)} className="hover:text-primary">
                   {user ? (profile?.role === 'admin' ? 'Admin Dashboard' : 'My Account') : 'Sign In'}
                 </Link>
               </nav>
