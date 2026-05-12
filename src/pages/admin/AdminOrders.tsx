@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { collection, query, getDocs, orderBy, updateDoc, doc, onSnapshot } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { formatCurrency } from '../../lib/utils';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { Package, Search, Eye, MessageCircle, X, Clock, ShieldCheck, Truck, MapPin, CheckCircle2 } from 'lucide-react';
+import { Package, Search, Eye, MessageCircle, X, Clock, ShieldCheck, Truck, MapPin, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { Input } from '../../components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDesc } from '../../components/ui/dialog';
 import { toast } from 'sonner';
@@ -145,6 +146,11 @@ export default function AdminOrders() {
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center gap-4 mb-2">
+         <Button variant="outline" size="sm" asChild className="gap-2">
+            <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back</Link>
+         </Button>
+      </div>
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Orders Management</h1>
         <div className="flex flex-wrap items-center gap-4">
@@ -193,7 +199,13 @@ export default function AdminOrders() {
               ) : filteredOrders.map((order) => (
                 <tr key={order.id} className="hover:bg-muted/30">
                   <td className="px-6 py-4 font-medium text-foreground">
-                    #{order.id.slice(-8)}
+                    <Link 
+                      to={`/admin/orders/${order.id}`}
+                      className="text-primary hover:underline font-bold flex items-center gap-1 group"
+                    >
+                      #{order.id.slice(-8)}
+                      <Eye className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Link>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex flex-col">
@@ -237,17 +249,16 @@ export default function AdminOrders() {
                   <td className="px-6 py-4 font-medium font-mono text-xs text-muted-foreground whitespace-nowrap">
                     {order.paymentMethod === 'upi' ? (order.paymentUtr || 'N/A') : '-'}
                   </td>
-                  <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
-                    <Button variant="ghost" size="sm" className="h-8 gap-2" onClick={() => {
-                        setSelectedOrder(order);
-                        setFollowUpNote(order.notes || '');
-                    }}>
-                       <Eye className="h-4 w-4" /> Track & View
+                  <td className="px-6 py-4 text-right flex flex-col items-center justify-end gap-2">
+                    <Button variant="default" size="sm" className="h-9 gap-2 w-full font-bold shadow-sm bg-primary text-primary-foreground hover:bg-primary/90" asChild>
+                       <Link to={`/admin/orders/${order.id}`}>
+                         <Eye className="h-4 w-4" /> Track & View
+                       </Link>
                     </Button>
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="h-8 gap-1 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10"
+                      className="h-8 gap-1 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10 w-full md:w-auto"
                       onClick={() => {
                         if(order.deliveryDetails?.phone) {
                            const phone = order.deliveryDetails.phone.replace(/[^0-9]/g, '');
@@ -443,6 +454,17 @@ export default function AdminOrders() {
                               <div>
                                 <p className="font-medium line-clamp-2">{item.name}</p>
                                 <p className="text-xs text-muted-foreground">{formatCurrency(item.priceWithGst || (item.basePrice * (1 + (item.gstPercent || 0)/100)))} each</p>
+                                {item.customization?.enabled && (
+                                  <div className="mt-1 flex flex-col gap-1 text-xs">
+                                     <span className="bg-primary/10 text-primary w-fit px-1.5 rounded font-semibold uppercase tracking-wider text-[10px]">Customized</span>
+                                     {item.customization.logoUrl && (
+                                       <a href={item.customization.logoUrl} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">View Logo</a>
+                                     )}
+                                     {item.customization.customText && (
+                                       <span className="text-muted-foreground">Text: <span className="font-medium">"{item.customization.customText}"</span></span>
+                                     )}
+                                  </div>
+                                )}
                               </div>
                             </td>
                             <td className="py-3 px-4 text-center font-bold">{item.quantity}</td>

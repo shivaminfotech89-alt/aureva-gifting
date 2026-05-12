@@ -7,9 +7,10 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/dialog';
-import { Plus, Edit, Trash2, Image as ImageIcon, Database, Search, Download } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Trash2, Image as ImageIcon, Database, Search, Download } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
 export default function AdminProducts() {
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -24,6 +25,9 @@ export default function AdminProducts() {
 
   useEffect(() => {
     loadProducts();
+    if (window.location.hash === '#new') {
+      setIsDialogOpen(true);
+    }
   }, []);
 
   async function loadProducts() {
@@ -212,6 +216,11 @@ export default function AdminProducts() {
 
   return (
     <div>
+      <div className="flex items-center gap-4 mb-2">
+         <Button variant="outline" size="sm" asChild className="gap-2">
+            <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back</Link>
+         </Button>
+      </div>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold">Products</h1>
         

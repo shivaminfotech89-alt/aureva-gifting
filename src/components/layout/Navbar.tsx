@@ -50,9 +50,6 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 md:gap-4">
-          <button className="p-2 text-foreground hover:text-primary transition-colors hidden sm:block">
-            <Search className="h-5 w-5" />
-          </button>
           
           {user ? (
             profile?.role === 'admin' ? (

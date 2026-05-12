@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
@@ -7,8 +7,11 @@ import { useCartStore } from '../store/cartStore';
 import { Button } from '../components/ui/button';
 import { formatCurrency, calculateGST } from '../lib/utils';
 import { toast } from 'sonner';
-import { ShieldCheck, Truck, ArrowLeft, Star, Heart } from 'lucide-react';
+import { ShieldCheck, Truck, ArrowLeft, Star, Heart, Upload, X as XIcon, Edit3 } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
+import { Checkbox } from '../components/ui/checkbox';
+import { Label } from '../components/ui/label';
+import { Input } from '../components/ui/input';
 
 const FALLBACK_PRODUCTS: Record<string, ProductData> = {
   'sample-1': { id: 'sample-1', name: 'Executive Leather Briefcase', description: 'Premium full-grain leather briefcase perfect for executives.', basePrice: 12500, gstPercent: 18, images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600'], stock: 50, enabled: true },
@@ -23,7 +26,33 @@ export default function ProductDetails() {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [activeImage, setActiveImage] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore(state => state.addItem);
+
+  // Customization State
+  const [customizationEnabled, setCustomizationEnabled] = useState(false);
+  const [customizationText, setCustomizationText] = useState('');
+  const [customizationLogo, setCustomizationLogo] = useState<string | null>(null);
+  const [customizationLogoName, setCustomizationLogoName] = useState<string | null>(null);
+  const [logoChargeRate, setLogoChargeRate] = useState(150);
+  const [textChargeRate, setTextChargeRate] = useState(50);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    async function loadConfig() {
+       try {
+         const docRef = doc(db, 'settings', 'admin');
+         const docSnap = await getDoc(docRef);
+         if (docSnap.exists()) {
+           setLogoChargeRate(docSnap.data().logoCharge || 150);
+           setTextChargeRate(docSnap.data().textCharge || 50);
+         }
+       } catch (e) {
+         // ignore
+       }
+    }
+    loadConfig();
+  }, []);
 
   useEffect(() => {
     async function loadProduct() {
@@ -70,16 +99,57 @@ export default function ProductDetails() {
     ? product.basePrice * (1 - product.discountPercent / 100) 
     : product.basePrice;
 
-  const priceWithGst = discountedPrice + calculateGST(discountedPrice, product.gstPercent);
+  // Calculate customized charges
+  const currentCustomizationCharge = customizationEnabled ? 
+    ((customizationLogo ? logoChargeRate : 0) + (customizationText.trim() ? textChargeRate : 0)) : 0;
+
+  const priceWithGst = (discountedPrice + currentCustomizationCharge) + calculateGST(discountedPrice + currentCustomizationCharge, product.gstPercent);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!['image/jpeg', 'image/png', 'image/svg+xml', 'application/pdf'].includes(file.type)) {
+      toast.error('Please upload a valid logo file (JPG, PNG, SVG, PDF).');
+      return;
+    }
+
+    if (file.size > 1024 * 1024) {
+      toast.error('File size exceeds maximum allowed limit (1MB).');
+      return;
+    }
+
+    setCustomizationLogoName(file.name);
+    
+    // For demo/simplicity, we read it as a DataURL to show preview
+    // In production, we'd upload directly to Firebase Storage here
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setCustomizationLogo(e.target?.result as string);
+      toast.success('Logo uploaded successfully');
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleAddToCart = () => {
+    if (quantity > product.stock) {
+      toast.error('Requested quantity exceeds available stock.');
+      return;
+    }
+    
     addItem({
       productId: product.id,
       name: product.name,
       basePrice: discountedPrice,
       gstPercent: product.gstPercent,
-      quantity: 1,
+      quantity: quantity,
       image: product.images?.[0] || 'https://images.unsplash.com/photo-1581417478175-a9ef18abf5af?auto=format&fit=crop&q=80&w=600',
+      customization: customizationEnabled ? {
+        enabled: true,
+        logoUrl: customizationLogo || undefined,
+        customText: customizationText.trim() || undefined,
+        charge: currentCustomizationCharge
+      } : undefined
     });
     toast.success(`${product.name} added to cart`);
   };
@@ -166,6 +236,107 @@ export default function ProductDetails() {
                <p>{product.description}</p>
             </div>
             
+            {/* Customization Section */}
+            <div className={`mb-8 border rounded-2xl overflow-hidden transition-all duration-300 shadow-sm ${customizationEnabled ? 'ring-2 ring-primary border-transparent' : 'border-border'}`}>
+              <div 
+                className="p-4 bg-muted/40 flex items-center justify-between cursor-pointer hover:bg-muted/60 transition-colors"
+                onClick={() => setCustomizationEnabled(!customizationEnabled)}
+              >
+                <div className="flex items-center gap-3">
+                  <Checkbox 
+                    id="enable-customization" 
+                    checked={customizationEnabled} 
+                    onCheckedChange={(c) => setCustomizationEnabled(!!c)} 
+                    onClick={(e) => e.stopPropagation()} 
+                  />
+                  <Label htmlFor="enable-customization" className="font-semibold text-base cursor-pointer">
+                    Add Logo / Name Customization
+                  </Label>
+                </div>
+                <Badge variant={customizationEnabled ? "default" : "outline"} className={customizationEnabled ? "" : "text-muted-foreground"}>
+                  Personalize
+                </Badge>
+              </div>
+
+              {customizationEnabled && (
+                <div className="p-6 bg-card space-y-6 animate-in slide-in-from-top-2">
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {/* Logo Upload */}
+                    <div className="space-y-3">
+                      <Label className="flex justify-between">
+                        <span>Company Logo</span>
+                        <span className="text-xs text-muted-foreground">+₹{logoChargeRate}</span>
+                      </Label>
+                      
+                      {!customizationLogo ? (
+                        <div 
+                          className="border-2 border-dashed border-border rounded-xl p-6 flex flex-col items-center justify-center text-center hover:border-primary/50 hover:bg-muted/20 transition-all cursor-pointer group"
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          <div className="bg-primary/10 p-3 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                            <Upload className="w-6 h-6 text-primary" />
+                          </div>
+                          <span className="text-sm font-medium">Click to upload logo</span>
+                          <span className="text-xs text-muted-foreground mt-1">PNG, JPG, SVG or PDF (Max. 1MB)</span>
+                        </div>
+                      ) : (
+                        <div className="border rounded-xl p-4 flex items-center gap-4 bg-muted/20">
+                          <div className="w-16 h-16 rounded-lg bg-white border shadow-sm flex items-center justify-center overflow-hidden shrink-0">
+                            {customizationLogo.startsWith('data:image/') || customizationLogo.startsWith('http') ? (
+                              <img src={customizationLogo} alt="Logo" className="w-full h-full object-contain p-1" />
+                            ) : (
+                              <Badge variant="outline">PDF</Badge>
+                            )}
+                          </div>
+                          <div className="flex-1 truncate">
+                            <p className="text-sm font-medium truncate">{customizationLogoName || 'Uploaded Logo'}</p>
+                            <p className="text-xs text-primary font-medium mt-1">Ready for print</p>
+                          </div>
+                          <Button variant="ghost" size="icon" className="shrink-0 text-destructive hover:text-destructive hover:bg-destructive/10" onClick={() => { setCustomizationLogo(null); setCustomizationLogoName(null); }}>
+                             <XIcon className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      )}
+                      
+                      <input 
+                        type="file" 
+                        ref={fileInputRef} 
+                        className="hidden" 
+                        accept=".png,.jpg,.jpeg,.svg,.pdf" 
+                        onChange={handleFileUpload} 
+                      />
+                    </div>
+
+                    {/* Custom Text/Name */}
+                    <div className="space-y-3 flex flex-col justify-start">
+                      <Label htmlFor="custom-text" className="flex justify-between">
+                        <span>Custom Text / Employee Name</span>
+                        <span className="text-xs text-muted-foreground">+₹{textChargeRate}</span>
+                      </Label>
+                      <div className="relative">
+                        <Edit3 className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input 
+                          id="custom-text" 
+                          placeholder="e.g. John Doe / Best Employee" 
+                          value={customizationText}
+                          onChange={(e) => setCustomizationText(e.target.value)}
+                          className="pl-9 h-12"
+                        />
+                      </div>
+                      <p className="text-xs text-muted-foreground">Will be engraved or printed cleanly on the product.</p>
+                      
+                      {currentCustomizationCharge > 0 && (
+                        <div className="mt-4 p-3 bg-primary/10 rounded-lg border border-primary/20 flex justify-between items-center text-sm font-medium text-primary">
+                          <span>Customization Total:</span>
+                          <span>+ {formatCurrency(currentCustomizationCharge)}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <div className="space-y-4 mb-8 border-t py-6">
               <div className="flex items-center gap-2 text-sm">
                 <span className="font-semibold w-24">Availability:</span>
@@ -178,6 +349,30 @@ export default function ProductDetails() {
                    <span className="w-24"></span>
                    Hurry, only a few left!
                  </div>
+              )}
+
+              {product.stock > 0 && (
+                <div className="flex items-center gap-2 text-sm mt-4">
+                  <span className="font-semibold w-24">Quantity:</span>
+                  <div className="flex items-center border rounded-lg h-10 w-32 border-border shadow-sm">
+                    <button 
+                      className="w-10 h-full flex items-center justify-center hover:bg-muted text-lg transition-colors border-r"
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      disabled={quantity <= 1}
+                    >-</button>
+                    <span className="flex-1 text-center font-bold">{quantity}</span>
+                    <button 
+                      className="w-10 h-full flex items-center justify-center hover:bg-muted text-lg transition-colors border-l"
+                      onClick={() => {
+                        if (quantity >= product.stock) {
+                          toast.error('Requested quantity exceeds available stock.');
+                        } else {
+                          setQuantity(quantity + 1);
+                        }
+                      }}
+                    >+</button>
+                  </div>
+                </div>
               )}
             </div>
             

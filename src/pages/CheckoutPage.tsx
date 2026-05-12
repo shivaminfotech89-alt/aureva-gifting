@@ -72,7 +72,7 @@ export default function CheckoutPage() {
       async (position) => {
         try {
           const { latitude, longitude } = position.coords;
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&email=shivaminfotech89@gmail.com`);
           if (!res.ok) throw new Error('Failed to fetch location details');
           const data = await res.json();
           
@@ -157,20 +157,21 @@ export default function CheckoutPage() {
     }
   };
 
-  const handleFinishPayment = async () => {
+  const handleFinishPayment = async (utrNumber?: string) => {
     try {
       if (createdOrderId && paymentMethod === 'upi') {
-        await updateDoc(doc(db, 'orders', createdOrderId), {
+        const updateData: any = {
            status: 'admin_approval',
            updatedAt: serverTimestamp()
-        });
+        };
+        if (utrNumber) {
+           updateData.paymentUtr = utrNumber;
+        }
+        await updateDoc(doc(db, 'orders', createdOrderId), updateData);
       }
       
       setShowQR(false);
       toast.success('Order placed! We will verify your payment details shortly.');
-      if (createdOrderId) {
-        handleDownloadBill(createdOrderId);
-      }
       setShowSuccessDialog(true);
     } catch (error) {
        handleFirestoreError(error, OperationType.UPDATE, 'orders');
@@ -201,9 +202,12 @@ export default function CheckoutPage() {
 
       const itemsHtml = order.items.map((item: any) => `
         <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">${item.name}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #ddd;">
+            ${item.name}
+            ${item.customization?.enabled ? `<br><small style="color: #666; font-size: 11px;">+ Customization (${item.customization.customText ? `Text: ${item.customization.customText}` : ''} ${item.customization.logoUrl ? 'Logo' : ''})</small>` : ''}
+          </td>
           <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">${item.quantity}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₹${item.basePrice * item.quantity}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₹${((item.basePrice + (item.customization?.charge || 0))) * item.quantity}</td>
         </tr>
       `).join('');
 
@@ -325,7 +329,10 @@ export default function CheckoutPage() {
     }
     
     // Format items list
-    const itemsList = items.map(item => `- ${item.quantity}x ${item.name}`).join('\n');
+    const itemsList = items.map(item => {
+      let customTag = item.customization?.enabled ? ` (Customized)` : '';
+      return `- ${item.quantity}x ${item.name}${customTag}`;
+    }).join('\n');
     
     const text = encodeURIComponent(
       `🚨 *New Order Received!*\n\n` +
@@ -523,11 +530,28 @@ export default function CheckoutPage() {
               <p className="text-sm text-muted-foreground uppercase tracking-wide">Company UPI ID</p>
               <p className="text-xl font-bold font-mono bg-muted py-2 px-6 rounded-lg select-all">7990878248@ybl</p>
             </div>
+
+            <div className="w-full space-y-2 mt-4 text-left">
+              <Label htmlFor="utr" className="font-bold">Enter UTR / Reference ID</Label>
+              <Input 
+                id="utr" 
+                placeholder="e.g. 412345678901" 
+                className="font-mono text-center tracking-widest text-lg h-12"
+              />
+              <p className="text-xs text-muted-foreground text-center">Please enter the 12-digit UTR number from your payment app.</p>
+            </div>
           </div>
 
           <DialogFooter className="sm:justify-center">
-            <Button size="lg" className="w-full text-lg" onClick={handleFinishPayment}>
-              I have completed the payment
+            <Button size="lg" className="w-full text-lg" onClick={() => {
+              const utrInput = document.getElementById('utr') as HTMLInputElement;
+              if (utrInput && utrInput.value.trim() !== '') {
+                handleFinishPayment(utrInput.value.trim());
+              } else {
+                toast.error('Please enter the UTR number to proceed.');
+              }
+            }}>
+              Verify Payment
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -547,9 +571,11 @@ export default function CheckoutPage() {
                <Button onClick={notifyAdminWhatsApp} className="w-full bg-[#25D366] hover:bg-[#1ebd5b] text-white">
                  Notify Admin via WhatsApp
                </Button>
-               <Button onClick={handleDownloadBill} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                 Download Bill / Invoice
-               </Button>
+               {paymentMethod !== 'upi' && (
+                 <Button onClick={handleDownloadBill} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                   Download Bill / Invoice
+                 </Button>
+               )}
                <Button variant="outline" onClick={() => navigate('/account')} className="w-full">
                  Go to Dashboard
                </Button>

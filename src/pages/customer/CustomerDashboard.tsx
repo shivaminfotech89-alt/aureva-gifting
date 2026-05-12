@@ -279,9 +279,16 @@ export default function CustomerDashboard() {
                         <Button variant="outline" size="sm" onClick={() => setSelectedOrder(order)} className="gap-2 text-primary hover:text-primary">
                           <CheckCircle2 className="h-4 w-4" /> Track Order
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => handlePrintInvoice(order)} className="gap-2">
-                          <FileText className="h-4 w-4" /> Invoice
-                        </Button>
+                        
+                        {(order.paymentMethod !== 'upi' || ['payment_verified', 'processing', 'shipped', 'delivered'].includes(order.status)) ? (
+                          <Button variant="outline" size="sm" onClick={() => handlePrintInvoice(order)} className="gap-2">
+                            <FileText className="h-4 w-4" /> Invoice
+                          </Button>
+                        ) : (
+                          <Button variant="outline" size="sm" disabled className="gap-2 opacity-50" title="Invoice available after payment is verified">
+                            <FileText className="h-4 w-4" /> Invoice Pending
+                          </Button>
+                        )}
                       </div>
                     </div>
                     

@@ -6,8 +6,9 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { toast } from 'sonner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
-import { Trash2, UserPlus } from 'lucide-react';
+import { Trash2, UserPlus, ArrowLeft } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { Link } from 'react-router-dom';
 
 export default function AdminSettings() {
   const { user } = useAuthStore();
@@ -16,6 +17,8 @@ export default function AdminSettings() {
   const [settings, setSettings] = useState({
     adminEmail: '',
     adminWhatsApp: '',
+    logoCharge: 150,
+    textCharge: 50,
   });
 
   const [authorizedAdmins, setAuthorizedAdmins] = useState<{email: string}[]>([]);
@@ -30,8 +33,10 @@ export default function AdminSettings() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setSettings({
-            adminEmail: docSnap.data().adminEmail || '',
-            adminWhatsApp: docSnap.data().adminWhatsApp || '',
+             adminEmail: docSnap.data().adminEmail || '',
+             adminWhatsApp: docSnap.data().adminWhatsApp || '',
+             logoCharge: docSnap.data().logoCharge || 150,
+             textCharge: docSnap.data().textCharge || 50,
           });
         }
         
@@ -97,8 +102,10 @@ export default function AdminSettings() {
       await setDoc(doc(db, 'settings', 'admin'), {
         adminEmail: settings.adminEmail,
         adminWhatsApp: settings.adminWhatsApp,
+        logoCharge: Number(settings.logoCharge),
+        textCharge: Number(settings.textCharge),
         updatedAt: Date.now()
-      });
+      }, { merge: true });
       toast.success('Admin settings updated successfully!');
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, 'settings/admin');
@@ -112,6 +119,11 @@ export default function AdminSettings() {
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center gap-4 mb-2">
+         <Button variant="outline" size="sm" asChild className="gap-2">
+            <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back</Link>
+         </Button>
+      </div>
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">System Settings</h1>
@@ -148,6 +160,33 @@ export default function AdminSettings() {
                   onChange={(e) => setSettings({...settings, adminWhatsApp: e.target.value})} 
                 />
                 <p className="text-xs text-muted-foreground">Used for the floating action button and checkout alerts.</p>
+              </div>
+
+              <div className="space-y-2 pt-4 border-t">
+                 <h3 className="text-sm font-semibold">Customization Pricing</h3>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                 <div className="space-y-2">
+                   <Label htmlFor="logoCharge">Logo Printing Charge (₹)</Label>
+                   <Input 
+                     id="logoCharge" 
+                     type="number" 
+                     min="0"
+                     value={settings.logoCharge} 
+                     onChange={(e) => setSettings({...settings, logoCharge: Number(e.target.value)})} 
+                   />
+                 </div>
+                 <div className="space-y-2">
+                   <Label htmlFor="textCharge">Name/Text Engraving (₹)</Label>
+                   <Input 
+                     id="textCharge" 
+                     type="number" 
+                     min="0"
+                     value={settings.textCharge} 
+                     onChange={(e) => setSettings({...settings, textCharge: Number(e.target.value)})} 
+                   />
+                 </div>
               </div>
               
               <Button type="submit" disabled={saving}>

@@ -109,8 +109,8 @@ export default function AdminLayout() {
       {/* Mobile Sidebar Overlay */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden flex">
-          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <aside className="relative w-72 max-w-[80vw] bg-card h-full flex flex-col shadow-xl">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
+          <aside className="relative w-72 max-w-[80vw] bg-background h-full flex flex-col shadow-2xl border-r border-border">
             <SidebarContent />
           </aside>
         </div>

@@ -49,7 +49,32 @@ export default function CartPage() {
                     </button>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">Base: {formatCurrency(item.basePrice)}</p>
-                  <p className="text-sm text-muted-foreground">GST: {item.gstPercent}%</p>
+                  
+                  {item.customization?.enabled && (
+                     <div className="mt-2 p-3 bg-muted/40 rounded-lg border border-border/50 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-semibold bg-primary/10 text-primary px-2 py-0.5 rounded uppercase tracking-wider">Customized</span>
+                        </div>
+                        {item.customization.logoUrl && (
+                           <div className="flex items-center gap-2">
+                             <span className="text-xs text-muted-foreground w-16">Logo:</span>
+                             <img src={item.customization.logoUrl} alt="Logo preview" className="h-6 object-contain bg-white rounded p-0.5 border" />
+                           </div>
+                        )}
+                        {item.customization.customText && (
+                           <div className="flex text-xs">
+                             <span className="text-muted-foreground w-16">Name:</span>
+                             <span className="font-medium">"{item.customization.customText}"</span>
+                           </div>
+                        )}
+                        <div className="flex text-xs">
+                          <span className="text-muted-foreground w-16">Charge:</span>
+                          <span className="font-medium">{formatCurrency(item.customization.charge)}</span>
+                        </div>
+                     </div>
+                  )}
+
+                  <p className="text-sm text-muted-foreground mt-2">GST: {item.gstPercent}%</p>
                 </div>
                 
                 <div className="flex items-center justify-between mt-4">
@@ -59,7 +84,7 @@ export default function CartPage() {
                     <button onClick={() => handleQuantity(item.productId, item.quantity, 1)} className="p-1 hover:text-primary"><Plus className="h-4 w-4" /></button>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-lg">{formatCurrency((item.basePrice + calculateGST(item.basePrice, item.gstPercent)) * item.quantity)}</p>
+                    <p className="font-bold text-lg">{formatCurrency(((item.basePrice + (item.customization?.charge || 0)) + calculateGST(item.basePrice + (item.customization?.charge || 0), item.gstPercent)) * item.quantity)}</p>
                   </div>
                 </div>
               </div>

@@ -3,7 +3,8 @@ import { collection, query, getDocs, orderBy, where } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { Card } from '../../components/ui/card';
 import { Button, buttonVariants } from '../../components/ui/button';
-import { Users, Search, Mail } from 'lucide-react';
+import { Users, Search, Mail, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface Customer {
   id: string;
@@ -44,6 +45,11 @@ export default function AdminCustomers() {
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center gap-4 mb-2">
+         <Button variant="outline" size="sm" asChild className="gap-2">
+            <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back</Link>
+         </Button>
+      </div>
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Customers</h1>
         <div className="flex bg-background border border-border rounded-md px-3 py-2 w-full sm:w-64">
