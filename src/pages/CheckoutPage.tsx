@@ -306,23 +306,48 @@ export default function CheckoutPage() {
   };
 
   const notifyAdminWhatsApp = () => {
-    const phone = '919825622421';
+    // Area Group Routing Logic
+    const customerCity = customerDetails.city.toLowerCase();
+    
+    // Default fallback
+    let areaEmail = 'orders@aureva.com';
+    let areaPhone = '919825622421'; // Main group/admin
+    
+    if (customerCity.includes('mumbai') || customerCity.includes('pune')) {
+      areaEmail = 'maharashtra_admin@aureva.com';
+      areaPhone = '919825622421'; // Would be Maharashtra specific group
+    } else if (customerCity.includes('delhi') || customerCity.includes('ncr')) {
+      areaEmail = 'north_admin@aureva.com';
+      areaPhone = '919825622421'; // Would be North specific group
+    } else if (customerCity.includes('bangalore') || customerCity.includes('chennai') || customerCity.includes('hyderabad')) {
+      areaEmail = 'south_admin@aureva.com';
+      areaPhone = '919825622421'; // Would be South specific group
+    }
     
     // Format items list
     const itemsList = items.map(item => `- ${item.quantity}x ${item.name}`).join('\n');
     
     const text = encodeURIComponent(
       `🚨 *New Order Received!*\n\n` +
+      `*Area/Territory:* ${customerDetails.city}\n` +
       `*Customer:* ${customerDetails.firstName} ${customerDetails.lastName}\n` +
-      `*Phone:* ${customerDetails.phone}\n` +
-      `*City:* ${customerDetails.city}\n\n` +
+      `*Phone:* ${customerDetails.phone}\n\n` +
       `*Items Ordered:*\n${itemsList}\n\n` +
       `*Total Value:* ${formatCurrency(getGrandTotal())}\n\n` +
       `Please check the admin panel for complete details.`
     );
+    
+    const emailSubject = encodeURIComponent(`New Order from ${customerDetails.city} - ${customerDetails.firstName} ${customerDetails.lastName}`);
+    const emailBody = encodeURIComponent(`A new order has been placed in your territory.\n\nCustomer: ${customerDetails.firstName} ${customerDetails.lastName}\nCity: ${customerDetails.city}\nTotal: ${formatCurrency(getGrandTotal())}\n\nPlease check the Aureva Admin Dashboard.`);
        
-    window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
-    navigate('/account');
+    // Trigger Email to Area Admin
+    window.location.href = `mailto:${areaEmail}?subject=${emailSubject}&body=${emailBody}`;
+    
+    // Trigger WhatsApp
+    setTimeout(() => {
+      window.open(`https://wa.me/${areaPhone}?text=${text}`, '_blank');
+      navigate('/account');
+    }, 500);
   };
 
   if (items.length === 0 && !orderProcessed) {
