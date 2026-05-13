@@ -212,6 +212,12 @@ export default function AdminOrderDetails() {
                   <span className="font-medium text-muted-foreground">Subtotal:</span> 
                   <span>{formatCurrency(order.subTotal)}</span>
                 </div>
+                {order.discount > 0 && (
+                  <div className="flex justify-between items-center py-1 text-green-600">
+                    <span className="font-bold">Discount ({order.couponCode}):</span> 
+                    <span className="font-bold">-{formatCurrency(order.discount)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center py-1">
                   <span className="font-medium text-muted-foreground">GST:</span> 
                   <span>{formatCurrency(order.gstTotal)}</span>
@@ -221,11 +227,39 @@ export default function AdminOrderDetails() {
                   <span className="font-bold text-lg">{formatCurrency(order.grandTotal)}</span>
                 </div>
                 
+                {order.paymentId && (
+                  <div className="mt-4 pt-4 border-t">
+                    <p><span className="font-medium text-muted-foreground">Gateway Payment ID:</span></p>
+                    <p className="font-mono bg-blue-50 text-blue-700 p-3 mt-2 rounded-lg font-bold text-center border shadow-sm select-all">{order.paymentId}</p>
+                  </div>
+                )}
+
                 {order.paymentMethod === 'upi' && order.paymentUtr && (
                   <div className="mt-4 pt-4 border-t">
-                    <p><span className="font-medium text-muted-foreground">UPI Ref / UTR:</span></p>
+                    <p><span className="font-medium text-muted-foreground">Manual UPI UTR:</span></p>
                     <p className="font-mono bg-green-50 text-green-700 p-3 mt-2 rounded-lg font-bold text-center border shadow-sm select-all">{order.paymentUtr}</p>
                   </div>
+                )}
+                
+                {order.refundStatus && (
+                  <div className="mt-4 pt-4 border-t">
+                    <p><span className="font-medium text-muted-foreground">Refund Status:</span></p>
+                    <p className="font-bold text-red-600 bg-red-50 p-2 mt-2 rounded-lg text-center border shadow-sm">{order.refundStatus}</p>
+                  </div>
+                )}
+                
+                {order.failedPaymentLogs && order.failedPaymentLogs.length > 0 && (
+                   <div className="mt-4 pt-4 border-t">
+                     <p className="text-sm text-red-500 font-bold uppercase mb-2">Failed Payment Logs</p>
+                     <div className="space-y-2">
+                       {order.failedPaymentLogs.map((log: any, idx: number) => (
+                         <div key={idx} className="text-xs bg-red-50 border border-red-100 text-red-700 p-2 rounded flex flex-col">
+                            <span className="font-bold">{log.reason || 'Payment failed/cancelled'}</span>
+                            <span className="font-mono text-[10px] text-red-500 mt-1">{new Date(log.time).toLocaleString()}</span>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
                 )}
               </div>
             </CardContent>

@@ -3,10 +3,11 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { ProductCard, ProductData } from '../components/shop/ProductCard';
 import { Input } from '../components/ui/input';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronDown, Check } from 'lucide-react';
 import { Button } from '../components/ui/button';
 
 const FALLBACK_PRODUCTS: ProductData[] = [
+  // Keeping fallback products for preview resilience
   {
     id: 'sample-1',
     name: 'Executive Leather Briefcase',
@@ -60,6 +61,8 @@ export default function ShopPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedBudget, setSelectedBudget] = useState<string>('All');
+  const [sortBy, setSortBy] = useState<string>('featured');
+  const [isSortOpen, setIsSortOpen] = useState(false);
 
   useEffect(() => {
     async function loadProducts() {
@@ -99,8 +102,15 @@ export default function ShopPage() {
     { label: 'Over ₹10,000', value: '10000-9999999' }
   ];
 
+  const sortOptions = [
+    { label: 'Featured', value: 'featured' },
+    { label: 'Price: Low to High', value: 'price_asc' },
+    { label: 'Price: High to Low', value: 'price_desc' },
+    { label: 'Alphabetical: A-Z', value: 'name_asc' },
+  ];
+
   const filteredProducts = useMemo(() => {
-    return products.filter(product => {
+    let result = products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             product.description.toLowerCase().includes(searchQuery.toLowerCase());
       
@@ -114,126 +124,209 @@ export default function ShopPage() {
 
       return matchesSearch && matchesCategory && matchesBudget;
     });
-  }, [products, searchQuery, selectedCategory, selectedBudget]);
+
+    switch(sortBy) {
+      case 'price_asc':
+        result.sort((a, b) => a.basePrice - b.basePrice);
+        break;
+      case 'price_desc':
+        result.sort((a, b) => b.basePrice - a.basePrice);
+        break;
+      case 'name_asc':
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      default:
+        // KEEP original order or fallback
+        break;
+    }
+
+    return result;
+  }, [products, searchQuery, selectedCategory, selectedBudget, sortBy]);
 
   return (
-    <div className="container mx-auto px-4 py-12 md:px-8 max-w-7xl">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold font-sans tracking-tight mb-4 text-primary">Our Collections</h1>
-        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Explore our range of premium corporate gifting collections designed to leave a lasting impression.</p>
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-8 mb-10">
-        {/* Filters Sidebar */}
-        <div className="w-full md:w-64 space-y-8 flex-shrink-0">
-          <div className="bg-card p-6 rounded-2xl border shadow-sm space-y-6">
-            <div className="space-y-4">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <Search className="w-4 h-4" /> Search
-              </h3>
-              <Input 
-                placeholder="Search products..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-background"
-              />
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4" /> Categories
-              </h3>
-              <div className="space-y-2 flex flex-col">
-                {categories.map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                      selectedCategory === cat 
-                        ? 'bg-primary text-primary-foreground font-medium shadow-sm' 
-                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-semibold text-lg">Budget</h3>
-              <div className="space-y-2 flex flex-col">
-                {budgetRanges.map(range => (
-                  <button
-                    key={range.value}
-                    onClick={() => setSelectedBudget(range.value)}
-                    className={`text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                      selectedBudget === range.value 
-                        ? 'bg-primary text-primary-foreground font-medium shadow-sm' 
-                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                    }`}
-                  >
-                    {range.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            {(selectedCategory !== 'All' || selectedBudget !== 'All' || searchQuery) && (
-              <Button 
-                variant="outline" 
-                className="w-full mt-4"
-                onClick={() => {
-                  setSelectedCategory('All');
-                  setSelectedBudget('All');
-                  setSearchQuery('');
-                }}
-              >
-                Clear Filters
-              </Button>
-            )}
+    <div className="bg-slate-50 min-h-screen pb-20">
+      {/* Premium Hero Banner */}
+      <div className="bg-[#0F172A] text-white relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/90 to-transparent z-10" />
+          <img 
+            src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2640&auto=format&fit=crop" 
+            alt="Premium Gifts" 
+            className="w-full h-full object-cover opacity-40 mix-blend-luminosity"
+          />
+        </div>
+        <div className="container mx-auto px-4 py-20 md:py-28 max-w-7xl relative z-10">
+          <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <h1 className="text-4xl md:text-6xl font-bold font-serif mb-6 text-white leading-tight">
+              Curated Corporate <br/><span className="text-[#d4af37] italic">Collections</span>
+            </h1>
+            <p className="text-slate-300 text-lg md:text-xl max-w-xl font-light">
+              Explore our range of premium gifting collections. Designed to impress, built to last, and customized to perfection.
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* Product Grid */}
-        <div className="flex-1">
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1,2,3,4,5,6].map(n => (
-                <div key={n} className="h-96 rounded-xl bg-muted animate-pulse"></div>
-              ))}
-            </div>
-          ) : filteredProducts.length === 0 ? (
-            <div className="text-center py-24 bg-muted/20 rounded-2xl border border-dashed flex flex-col items-center">
-              <div className="bg-muted p-4 rounded-full mb-4">
-                <Search className="w-8 h-8 text-muted-foreground/50" />
+      <div className="container mx-auto px-4 py-12 md:px-8 max-w-[1600px]">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filters Sidebar */}
+          <div className="w-full lg:w-72 flex-shrink-0">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-24 space-y-8">
+              
+              <div className="space-y-4">
+                <h3 className="font-serif font-bold text-lg text-[#0F172A] flex items-center gap-2 border-b border-slate-100 pb-2">
+                  <Search className="w-4 h-4 text-[#d4af37]" /> Find Gifts
+                </h3>
+                <Input 
+                  placeholder="Search collections..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-slate-50 border-slate-200 focus-visible:ring-[#d4af37] rounded-xl"
+                />
               </div>
-              <h2 className="text-2xl font-bold mb-2">No products found</h2>
-              <p className="text-muted-foreground max-w-md">Try adjusting your filters or search query to find what you're looking for.</p>
-              <Button 
-                variant="default" 
-                className="mt-6"
-                onClick={() => {
-                  setSelectedCategory('All');
-                  setSelectedBudget('All');
-                  setSearchQuery('');
-                }}
-              >
-                Clear all filters
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <div className="mb-6 flex justify-between items-center text-sm text-muted-foreground">
-                <p>Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}</p>
+
+              <div className="space-y-4">
+                <h3 className="font-serif font-bold text-lg text-[#0F172A] flex items-center gap-2 border-b border-slate-100 pb-2">
+                  <SlidersHorizontal className="w-4 h-4 text-[#d4af37]" /> Categories
+                </h3>
+                <div className="space-y-1.5 flex flex-col">
+                  {categories.map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between group ${
+                        selectedCategory === cat 
+                          ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold border border-[#d4af37]/20 shadow-sm' 
+                          : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A] border border-transparent'
+                      }`}
+                    >
+                      <span>{cat}</span>
+                      {selectedCategory === cat && <Check className="w-4 h-4 text-[#d4af37]" />}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8">
-                {filteredProducts.map(product => (
-                   <ProductCard key={product.id} product={product} />
+
+              <div className="space-y-4">
+                <h3 className="font-serif font-bold text-lg text-[#0F172A] border-b border-slate-100 pb-2">Budget Range</h3>
+                <div className="space-y-1.5 flex flex-col">
+                  {budgetRanges.map(range => (
+                    <button
+                      key={range.value}
+                      onClick={() => setSelectedBudget(range.value)}
+                      className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between ${
+                        selectedBudget === range.value 
+                          ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold border border-[#d4af37]/20 shadow-sm' 
+                          : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A] border border-transparent'
+                      }`}
+                    >
+                      <span>{range.label}</span>
+                      {selectedBudget === range.value && <Check className="w-4 h-4 text-[#d4af37]" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              {(selectedCategory !== 'All' || selectedBudget !== 'All' || searchQuery) && (
+                <div className="pt-4 border-t border-slate-100">
+                  <Button 
+                    variant="outline" 
+                    className="w-full rounded-xl border-slate-200 text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 shadow-sm h-11 font-bold"
+                    onClick={() => {
+                      setSelectedCategory('All');
+                      setSelectedBudget('All');
+                      setSearchQuery('');
+                    }}
+                  >
+                    Clear All Filters
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Product Grid Area */}
+          <div className="flex-1">
+            <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+              <p className="text-sm text-slate-500 font-medium">
+                Showing <span className="text-[#0F172A] font-bold">{filteredProducts.length}</span> {filteredProducts.length === 1 ? 'result' : 'results'}
+              </p>
+              
+              <div className="relative">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-slate-500 font-medium tracking-wide">Sort by:</span>
+                  <button 
+                    onClick={() => setIsSortOpen(!isSortOpen)}
+                    className="flex items-center gap-2 text-sm font-bold text-[#0F172A] bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-200 shadow-sm hover:border-[#d4af37] focus:ring-2 focus:ring-[#d4af37]/20 outline-none transition-all"
+                  >
+                    {sortOptions.find(o => o.value === sortBy)?.label}
+                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${isSortOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
+                
+                {isSortOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 py-2 z-20 animate-in fade-in slide-in-from-top-2 p-1">
+                    {sortOptions.map(option => (
+                      <button
+                        key={option.value}
+                        onClick={() => {
+                          setSortBy(option.value);
+                          setIsSortOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2.5 text-sm rounded-xl transition-all font-medium ${
+                          sortBy === option.value ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A]'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {[1,2,3,4,5,6,7,8].map(n => (
+                  <div key={n} className="h-[400px] rounded-2xl bg-slate-100 animate-pulse border border-slate-200"></div>
                 ))}
               </div>
-            </div>
-          )}
+            ) : filteredProducts.length === 0 ? (
+              <div className="text-center py-32 bg-white/50 backdrop-blur-sm rounded-3xl border border-dashed border-slate-300 flex flex-col items-center">
+                <div className="bg-slate-50 p-6 rounded-2xl mb-6 border border-slate-100 shadow-sm">
+                  <Search className="w-10 h-10 text-slate-300" />
+                </div>
+                <h2 className="text-2xl font-serif font-bold mb-3 text-[#0F172A]">No products found</h2>
+                <p className="text-slate-500 max-w-md text-lg">Try adjusting your filters or search query to find what you're looking for.</p>
+                <Button 
+                  className="mt-8 bg-[#0F172A] text-white hover:bg-slate-800 rounded-xl h-12 px-8 font-bold shadow-md"
+                  size="lg"
+                  onClick={() => {
+                    setSelectedCategory('All');
+                    setSelectedBudget('All');
+                    setSearchQuery('');
+                  }}
+                >
+                  Clear all filters
+                </Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredProducts.map(product => (
+                    <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            )}
+            
+            {/* Optional pagination could go here */}
+            {!loading && filteredProducts.length > 0 && (
+              <div className="mt-16 flex justify-center">
+                <Button variant="outline" className="text-[#0F172A] border-slate-200 hover:bg-slate-50 hover:border-slate-300 px-8 py-6 rounded-xl font-bold shadow-sm">
+                  Load More Products
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

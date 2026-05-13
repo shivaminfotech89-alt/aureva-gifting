@@ -15,13 +15,17 @@ import AuthPage from './pages/AuthPage';
 import AboutPage from './pages/AboutPage';
 import CorporateBulkPage from './pages/CorporateBulkPage';
 import ContactPage from './pages/ContactPage';
+import WishlistPage from './pages/WishlistPage';
 import AdminLayout from './pages/admin/layout/AdminLayout';
 import AdminDashboardIndex from './pages/admin/AdminDashboardIndex';
 import AdminProducts from './pages/admin/AdminProducts';
+import AdminHomepageContent from './pages/admin/AdminHomepageContent';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminOrderDetails from './pages/admin/AdminOrderDetails';
 import AdminCustomers from './pages/admin/AdminCustomers';
 import AdminSettings from './pages/admin/AdminSettings';
+import AdminCoupons from './pages/admin/AdminCoupons';
+import AdminPlaceholderPage from './pages/admin/AdminPlaceholderPage';
 import CustomerDashboard from './pages/customer/CustomerDashboard';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 
@@ -50,6 +54,12 @@ function Layout() {
   );
 }
 
+import PrivacyPolicyPage from './pages/policies/PrivacyPolicyPage';
+import TermsConditionsPage from './pages/policies/TermsConditionsPage';
+import ReturnRefundPolicyPage from './pages/policies/ReturnRefundPolicyPage';
+import ShippingPolicyPage from './pages/policies/ShippingPolicyPage';
+import CancellationPolicyPage from './pages/policies/CancellationPolicyPage';
+
 export default function App() {
   useAuthListener();
 
@@ -62,10 +72,16 @@ export default function App() {
           <Route path="shop" element={<ShopPage />} />
           <Route path="product/:id" element={<ProductDetails />} />
           <Route path="cart" element={<CartPage />} />
+          <Route path="wishlist" element={<WishlistPage />} />
           <Route path="account/login" element={<AuthPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="corporate" element={<CorporateBulkPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="privacy" element={<PrivacyPolicyPage />} />
+          <Route path="terms" element={<TermsConditionsPage />} />
+          <Route path="refund" element={<ReturnRefundPolicyPage />} />
+          <Route path="shipping" element={<ShippingPolicyPage />} />
+          <Route path="cancellation" element={<CancellationPolicyPage />} />
           
           <Route element={<ProtectedRoute requiredRole="customer" />}>
             <Route path="checkout" element={<CheckoutPage />} />
@@ -81,10 +97,30 @@ export default function App() {
         }>
            <Route index element={<AdminDashboardIndex />} />
            <Route path="products" element={<AdminProducts />} />
+           <Route path="banners" element={<AdminHomepageContent />} />
            <Route path="orders" element={<AdminOrders />} />
            <Route path="orders/:id" element={<AdminOrderDetails />} />
            <Route path="customers" element={<AdminCustomers />} />
            <Route path="settings" element={<AdminSettings />} />
+           
+           {/* Placeholder Routes */}
+           <Route path="categories" element={<AdminPlaceholderPage />} />
+           <Route path="inventory" element={<AdminProducts />} />
+           <Route path="coupons" element={<AdminCoupons />} />
+           <Route path="analytics" element={<AdminPlaceholderPage />} />
+           <Route path="reviews" element={<AdminPlaceholderPage />} />
+           <Route path="reports" element={<AdminPlaceholderPage />} />
+           <Route path="whatsapp-leads" element={<AdminPlaceholderPage />} />
+           <Route path="email-campaigns" element={<AdminPlaceholderPage />} />
+           <Route path="notifications" element={<AdminPlaceholderPage />} />
+           <Route path="roles" element={<AdminPlaceholderPage />} />
+           <Route path="appearance" element={<AdminPlaceholderPage />} />
+           <Route path="payments" element={<AdminPlaceholderPage />} />
+           <Route path="shipping" element={<AdminPlaceholderPage />} />
+           <Route path="tax" element={<AdminPlaceholderPage />} />
+           <Route path="seo" element={<AdminPlaceholderPage />} />
+           <Route path="backup" element={<AdminPlaceholderPage />} />
+           <Route path="logs" element={<AdminPlaceholderPage />} />
         </Route>
       </Routes>
     </Router>

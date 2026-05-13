@@ -5,22 +5,25 @@ import { formatCurrency } from '../../lib/utils';
 import { 
   Package, ShoppingBag, Users, IndianRupee, AlertTriangle, ArrowRight,
   TrendingUp, Clock, Truck, MapPin, XCircle, Activity,
-  ChevronRight, Calendar, ArrowLeft
+  ChevronRight, Calendar, ArrowLeft, RefreshCw, AlertOctagon, CheckCircle2
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, buttonVariants } from '../../components/ui/button';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { format, subDays, startOfMonth, formatDistanceToNow } from 'date-fns';
 
 export default function AdminDashboardIndex() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalSales: 0,
     totalOrders: 0,
     pendingOrders: 0,
+    processingOrders: 0,
     dispatchedOrders: 0,
     deliveredOrders: 0,
     cancelledOrders: 0,
+    paymentFailedOrders: 0,
     totalProducts: 0,
     customers: 0
   });
@@ -45,9 +48,11 @@ export default function AdminDashboardIndex() {
         let sales = 0;
         let tOrders = 0;
         let pending = 0;
+        let processing = 0;
         let dispatched = 0;
         let delivered = 0;
         let cancelled = 0;
+        let paymentFailed = 0;
         
         const rOrders: any[] = [];
         const thirtyDaysAgo = subDays(new Date(), 30);
@@ -68,7 +73,7 @@ export default function AdminDashboardIndex() {
             rOrders.push({ id: doc.id, ...data });
           }
 
-          if (data.status !== 'cancelled') {
+          if (data.status !== 'cancelled' && data.status !== 'payment_failed') {
             sales += data.grandTotal || 0;
             
             // Build chart data
@@ -90,10 +95,12 @@ export default function AdminDashboardIndex() {
             });
           }
 
-          if (data.status === 'pending' || data.status === 'processing') pending++;
-          if (data.status === 'shipped') dispatched++;
+          if (data.status === 'pending') pending++;
+          if (data.status === 'processing' || data.status === 'confirmed') processing++;
+          if (data.status === 'shipped' || data.status === 'out_for_delivery' || data.status === 'dispatched') dispatched++;
           if (data.status === 'delivered') delivered++;
           if (data.status === 'cancelled') cancelled++;
+          if (data.status === 'payment_failed' || (data.failedPaymentLogs && data.failedPaymentLogs.length > 0)) paymentFailed++;
         });
 
         // Format sales data
@@ -130,9 +137,11 @@ export default function AdminDashboardIndex() {
           totalSales: sales,
           totalOrders: tOrders,
           pendingOrders: pending,
+          processingOrders: processing,
           dispatchedOrders: dispatched,
           deliveredOrders: delivered,
           cancelledOrders: cancelled,
+          paymentFailedOrders: paymentFailed,
           totalProducts: productsSnapshot.size,
           customers: customersSnapshot.size
         });
@@ -195,90 +204,110 @@ export default function AdminDashboardIndex() {
 
       {/* Main KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-card p-6 rounded-xl border shadow-sm outline outline-1 outline-transparent hover:outline-primary/20 transition-all">
+        <div className="bg-white/80 backdrop-blur-md p-6 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] outline outline-1 outline-transparent hover:outline-[#d4af37]/30 transition-all duration-300">
            <div className="flex justify-between items-start">
              <div>
-               <p className="text-sm font-medium text-muted-foreground mb-1">Total Revenue</p>
-               <h3 className="text-3xl font-bold text-primary">{formatCurrency(stats.totalSales)}</h3>
+               <p className="text-sm font-medium text-slate-500 mb-1">Total Revenue</p>
+               <h3 className="text-3xl font-bold text-[#0F172A]">{formatCurrency(stats.totalSales)}</h3>
              </div>
-             <div className="p-3 bg-primary/10 rounded-lg"><IndianRupee className="w-5 h-5 text-primary" /></div>
+             <div className="p-3 bg-[#d4af37]/10 rounded-xl"><IndianRupee className="w-5 h-5 text-[#d4af37]" /></div>
            </div>
         </div>
 
-        <div className="bg-card p-6 rounded-xl border shadow-sm outline outline-1 outline-transparent hover:outline-primary/20 transition-all">
+        <div onClick={() => navigate('/admin/orders')} className="cursor-pointer bg-white/80 backdrop-blur-md p-6 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] outline outline-1 outline-transparent hover:outline-[#3b82f6]/30 transition-all duration-300">
            <div className="flex justify-between items-start">
              <div>
-               <p className="text-sm font-medium text-muted-foreground mb-1">Total Orders</p>
-               <h3 className="text-3xl font-bold">{stats.totalOrders}</h3>
+               <p className="text-sm font-medium text-slate-500 mb-1">Total Orders</p>
+               <h3 className="text-3xl font-bold text-[#0F172A]">{stats.totalOrders}</h3>
              </div>
-             <div className="p-3 bg-blue-500/10 rounded-lg"><ShoppingBag className="w-5 h-5 text-blue-500" /></div>
+             <div className="p-3 bg-[#3b82f6]/10 rounded-xl"><ShoppingBag className="w-5 h-5 text-[#3b82f6]" /></div>
            </div>
         </div>
 
-        <div className="bg-card p-6 rounded-xl border shadow-sm outline outline-1 outline-transparent hover:outline-primary/20 transition-all">
+        <div className="bg-white/80 backdrop-blur-md p-6 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] outline outline-1 outline-transparent hover:outline-[#10B981]/30 transition-all duration-300">
            <div className="flex justify-between items-start">
              <div>
-               <p className="text-sm font-medium text-muted-foreground mb-1">Total Customers</p>
-               <h3 className="text-3xl font-bold">{stats.customers}</h3>
+               <p className="text-sm font-medium text-slate-500 mb-1">Total Customers</p>
+               <h3 className="text-3xl font-bold text-[#0F172A]">{stats.customers}</h3>
              </div>
-             <div className="p-3 bg-green-500/10 rounded-lg"><Users className="w-5 h-5 text-green-500" /></div>
+             <div className="p-3 bg-[#10B981]/10 rounded-xl"><Users className="w-5 h-5 text-[#10B981]" /></div>
            </div>
         </div>
 
-        <div className="bg-card p-6 rounded-xl border shadow-sm outline outline-1 outline-transparent hover:outline-primary/20 transition-all">
+        <div className="bg-white/80 backdrop-blur-md p-6 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] outline outline-1 outline-transparent hover:outline-[#8b5cf6]/30 transition-all duration-300">
            <div className="flex justify-between items-start">
              <div>
-               <p className="text-sm font-medium text-muted-foreground mb-1">Active Products</p>
-               <h3 className="text-3xl font-bold">{stats.totalProducts}</h3>
+               <p className="text-sm font-medium text-slate-500 mb-1">Active Products</p>
+               <h3 className="text-3xl font-bold text-[#0F172A]">{stats.totalProducts}</h3>
              </div>
-             <div className="p-3 bg-purple-500/10 rounded-lg"><Package className="w-5 h-5 text-purple-500" /></div>
+             <div className="p-3 bg-[#8b5cf6]/10 rounded-xl"><Package className="w-5 h-5 text-[#8b5cf6]" /></div>
            </div>
         </div>
       </div>
 
       {/* Order Status Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-card p-4 rounded-xl border shadow-sm flex items-center gap-4">
-           <div className="p-3 bg-amber-500/10 text-amber-600 rounded-full"><Clock className="w-5 h-5" /></div>
-           <div>
-             <p className="text-xs font-medium text-muted-foreground uppercase">Pending</p>
-             <p className="text-xl font-bold">{stats.pendingOrders}</p>
+      <h2 className="font-bold font-serif text-xl text-[#0F172A] mt-6 mb-2">Order Status Overview</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div onClick={() => navigate('/admin/orders?status=pending')} className="cursor-pointer bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-center gap-3 hover:-translate-y-1 hover:shadow-xl transition-all outline outline-1 outline-transparent hover:outline-amber-300">
+           <div className="flex justify-between items-center w-full">
+              <div className="p-2.5 bg-amber-50 rounded-xl text-amber-500 border border-amber-100"><Clock className="w-5 h-5" /></div>
+              <p className="text-3xl font-bold text-[#0F172A]">{stats.pendingOrders}</p>
            </div>
+           <p className="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Pending</p>
         </div>
-        <div className="bg-card p-4 rounded-xl border shadow-sm flex items-center gap-4">
-           <div className="p-3 bg-indigo-500/10 text-indigo-600 rounded-full"><Truck className="w-5 h-5" /></div>
-           <div>
-             <p className="text-xs font-medium text-muted-foreground uppercase">Dispatched</p>
-             <p className="text-xl font-bold">{stats.dispatchedOrders}</p>
+        
+        <div onClick={() => navigate('/admin/orders?status=processing')} className="cursor-pointer bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-center gap-3 hover:-translate-y-1 hover:shadow-xl transition-all outline outline-1 outline-transparent hover:outline-blue-400">
+           <div className="flex justify-between items-center w-full">
+             <div className="p-2.5 bg-blue-50 rounded-xl text-blue-500 border border-blue-100"><RefreshCw className="w-5 h-5" /></div>
+             <p className="text-3xl font-bold text-[#0F172A]">{stats.processingOrders}</p>
            </div>
+           <p className="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Processing</p>
         </div>
-        <div className="bg-card p-4 rounded-xl border shadow-sm flex items-center gap-4">
-           <div className="p-3 bg-emerald-500/10 text-emerald-600 rounded-full"><MapPin className="w-5 h-5" /></div>
-           <div>
-             <p className="text-xs font-medium text-muted-foreground uppercase">Delivered</p>
-             <p className="text-xl font-bold">{stats.deliveredOrders}</p>
+
+        <div onClick={() => navigate('/admin/orders?status=shipped')} className="cursor-pointer bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-center gap-3 hover:-translate-y-1 hover:shadow-xl transition-all outline outline-1 outline-transparent hover:outline-indigo-400">
+           <div className="flex justify-between items-center w-full">
+             <div className="p-2.5 bg-indigo-50 rounded-xl text-indigo-500 border border-indigo-100"><Truck className="w-5 h-5" /></div>
+             <p className="text-3xl font-bold text-[#0F172A]">{stats.dispatchedOrders}</p>
            </div>
+           <p className="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Dispatched</p>
         </div>
-        <div className="bg-card p-4 rounded-xl border shadow-sm flex items-center gap-4">
-           <div className="p-3 bg-destructive/10 text-destructive rounded-full"><XCircle className="w-5 h-5" /></div>
-           <div>
-             <p className="text-xs font-medium text-muted-foreground uppercase">Cancelled</p>
-             <p className="text-xl font-bold">{stats.cancelledOrders}</p>
+
+        <div onClick={() => navigate('/admin/orders?status=delivered')} className="cursor-pointer bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-center gap-3 hover:-translate-y-1 hover:shadow-xl transition-all outline outline-1 outline-transparent hover:outline-emerald-400">
+           <div className="flex justify-between items-center w-full">
+             <div className="p-2.5 bg-emerald-50 rounded-xl text-emerald-500 border border-emerald-100"><CheckCircle2 className="w-5 h-5" /></div>
+             <p className="text-3xl font-bold text-[#0F172A]">{stats.deliveredOrders}</p>
            </div>
+           <p className="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Delivered</p>
+        </div>
+
+        <div onClick={() => navigate('/admin/orders?status=cancelled')} className="cursor-pointer bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-center gap-3 hover:-translate-y-1 hover:shadow-xl transition-all outline outline-1 outline-transparent hover:outline-red-400">
+           <div className="flex justify-between items-center w-full">
+             <div className="p-2.5 bg-red-50 rounded-xl text-red-500 border border-red-100"><XCircle className="w-5 h-5" /></div>
+             <p className="text-3xl font-bold text-[#0F172A]">{stats.cancelledOrders}</p>
+           </div>
+           <p className="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Cancelled</p>
+        </div>
+
+        <div onClick={() => navigate('/admin/orders?status=payment_failed')} className="cursor-pointer bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-center gap-3 hover:-translate-y-1 hover:shadow-xl transition-all outline outline-1 outline-transparent hover:outline-orange-500">
+           <div className="flex justify-between items-center w-full">
+             <div className="p-2.5 bg-orange-50 rounded-xl text-orange-600 border border-orange-100"><AlertOctagon className="w-5 h-5" /></div>
+             <p className="text-3xl font-bold text-[#0F172A]">{stats.paymentFailedOrders}</p>
+           </div>
+           <p className="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Payment Failed</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Analytics Chart */}
-        <div className="lg:col-span-2 bg-card rounded-xl border shadow-sm p-6 overflow-hidden flex flex-col">
+        <div className="lg:col-span-2 bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 flex flex-col hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h2 className="text-lg font-bold">Revenue Analytics</h2>
-              <p className="text-sm text-muted-foreground">Last 7 days performance</p>
+              <h2 className="text-xl font-bold font-serif text-[#0F172A]">Revenue Analytics</h2>
+              <p className="text-sm text-slate-500">Last 7 days performance</p>
             </div>
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/admin/settings" className="text-primary gap-1">Detailed Report <ChevronRight className="w-4 h-4"/></Link>
+            <Button variant="ghost" size="sm" asChild className="text-[#d4af37] hover:text-[#b49124] hover:bg-[#d4af37]/10">
+              <Link to="/admin/settings" className="gap-1">Detailed Report <ChevronRight className="w-4 h-4"/></Link>
             </Button>
           </div>
           <div className="flex-1 min-h-[300px] w-full">
@@ -286,26 +315,26 @@ export default function AdminDashboardIndex() {
               <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#d4af37" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#d4af37" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} dy={10} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
                 <YAxis 
                    axisLine={false} 
                    tickLine={false} 
-                   tick={{ fontSize: 12 }} 
+                   tick={{ fill: '#64748b', fontSize: 12 }} 
                    tickFormatter={(value) => `₹${value/1000}k`}
                 />
                 <RechartsTooltip 
-                  contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))' }}
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}
                   formatter={(value: number) => [formatCurrency(value), 'Revenue']}
                 />
                 <Area 
                   type="monotone" 
                   dataKey="total" 
-                  stroke="hsl(var(--primary))" 
+                  stroke="#d4af37" 
                   strokeWidth={3}
                   fillOpacity={1} 
                   fill="url(#colorRevenue)" 
@@ -317,59 +346,59 @@ export default function AdminDashboardIndex() {
 
         {/* Action Panel */}
         <div className="space-y-6">
-           <div className="bg-card rounded-xl border shadow-sm flex flex-col overflow-hidden">
-             <div className="p-4 border-b bg-muted/20">
-               <h2 className="font-bold flex items-center gap-2">
-                 <AlertTriangle className="h-4 w-4 text-amber-500" />
+           <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+             <div className="p-5 border-b border-slate-100 bg-slate-50/50">
+               <h2 className="font-bold font-serif flex items-center gap-2 text-[#0F172A]">
+                 <AlertTriangle className="h-5 w-5 text-amber-500" />
                  Low Stock Alerts
                </h2>
              </div>
              <div className="p-0">
                 {lowStockProducts.length > 0 ? (
-                  <ul className="divide-y text-sm">
+                  <ul className="divide-y divide-slate-100 text-sm">
                     {lowStockProducts.map(p => (
-                      <li key={p.id} className="p-4 flex justify-between items-center hover:bg-muted/30 transition-colors">
+                      <li key={p.id} className="p-4 flex justify-between items-center hover:bg-slate-50 transition-colors">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded bg-muted overflow-hidden flex-shrink-0">
+                          <div className="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden flex-shrink-0 border border-slate-200">
                             {p.images?.[0] && <img src={p.images[0]} className="w-full h-full object-cover" alt="" />}
                           </div>
                           <div>
-                            <p className="font-medium line-clamp-1">{p.name}</p>
-                            <p className="text-xs text-muted-foreground">{p.sku || 'No SKU'}</p>
+                            <p className="font-medium text-[#0F172A] line-clamp-1">{p.name}</p>
+                            <p className="text-xs text-slate-500">{p.sku || 'No SKU'}</p>
                           </div>
                         </div>
-                        <span className="font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded text-xs">
+                        <span className="font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md text-xs border border-amber-200 shadow-sm">
                           {p.stock} left
                         </span>
                       </li>
                     ))}
                   </ul>
                 ) : (
-                  <div className="p-8 text-center text-muted-foreground text-sm">No low stock items!</div>
+                  <div className="p-8 text-center text-slate-500 text-sm">No low stock items!</div>
                 )}
              </div>
            </div>
 
-           <div className="bg-card rounded-xl border shadow-sm outline outline-1 outline-primary/20 p-5">
-              <h2 className="font-bold mb-4 flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-primary" />
+           <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] outline outline-1 outline-transparent hover:outline-[#10B981]/30 p-6 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+              <h2 className="font-bold font-serif mb-5 flex items-center gap-2 text-[#0F172A]">
+                <TrendingUp className="h-5 w-5 text-[#10B981]" />
                 Best Selling Products
               </h2>
               <div className="space-y-4">
                  {bestSelling.map((p, i) => (
                    <div key={i} className="flex justify-between items-center group">
                       <div className="flex items-center gap-3">
-                         <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs font-bold text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                         <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500 group-hover:bg-[#10B981] group-hover:text-white transition-colors shadow-sm">
                            {i + 1}
                          </div>
-                         <p className="text-sm font-medium line-clamp-1 flex-1">{p.name}</p>
+                         <p className="text-sm font-medium line-clamp-1 flex-1 text-[#0F172A]">{p.name}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-bold">{p.count} sold</p>
+                        <p className="text-sm font-bold text-[#10B981]">{p.count} sold</p>
                       </div>
                    </div>
                  ))}
-                 {bestSelling.length === 0 && <p className="text-sm text-muted-foreground">No data available yet</p>}
+                 {bestSelling.length === 0 && <p className="text-sm text-slate-500">No data available yet</p>}
               </div>
            </div>
         </div>
@@ -379,57 +408,57 @@ export default function AdminDashboardIndex() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Recent Orders Table */}
-        <div className="lg:col-span-2 bg-card rounded-xl border shadow-sm overflow-hidden flex flex-col">
-        <div className="p-5 border-b flex justify-between items-center">
+        <div className="lg:col-span-2 bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <div>
-            <h2 className="font-bold text-lg">Recent Orders</h2>
-            <p className="text-sm text-muted-foreground">Latest transactions processed</p>
+            <h2 className="font-bold font-serif text-xl text-[#0F172A]">Recent Orders</h2>
+            <p className="text-sm text-slate-500">Latest transactions processed</p>
           </div>
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" asChild className="hover:bg-slate-100 border-slate-200 text-slate-700">
              <Link to="/admin/orders">View All</Link>
           </Button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-muted/50 border-b text-left text-muted-foreground">
+            <thead className="bg-[#F8FAFC] border-b border-slate-100 text-left text-slate-500 uppercase tracking-wider text-[11px] font-bold">
               <tr>
-                <th className="p-4 font-medium min-w-[120px]">Order ID</th>
-                <th className="p-4 font-medium">Customer</th>
-                <th className="p-4 font-medium">Date</th>
-                <th className="p-4 font-medium">Status</th>
-                <th className="p-4 font-medium text-right">Amount</th>
+                <th className="p-5 min-w-[120px]">Order ID</th>
+                <th className="p-5">Customer</th>
+                <th className="p-5">Date</th>
+                <th className="p-5">Status</th>
+                <th className="p-5 text-right">Amount</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-slate-50">
               {recentOrders.length > 0 ? recentOrders.map(order => (
-                <tr key={order.id} className="hover:bg-muted/30 transition-colors">
-                  <td className="p-4 font-medium text-primary">
-                    <Link to={`/admin/orders/${order.id}`} className="hover:underline">
+                <tr key={order.id} className="hover:bg-slate-50/80 transition-colors">
+                  <td className="p-5 font-bold text-[#d4af37]">
+                    <Link to={`/admin/orders/${order.id}`} className="hover:underline hover:text-[#b49124]">
                       #{order.id.slice(-8)}
                     </Link>
                   </td>
-                  <td className="p-4">
-                    <p className="font-medium">{order.deliveryDetails?.firstName} {order.deliveryDetails?.lastName}</p>
-                    <p className="text-xs text-muted-foreground">{order.deliveryDetails?.city}</p>
+                  <td className="p-5">
+                    <p className="font-bold text-[#0F172A]">{order.deliveryDetails?.firstName} {order.deliveryDetails?.lastName}</p>
+                    <p className="text-xs text-slate-500">{order.deliveryDetails?.city}</p>
                   </td>
-                  <td className="p-4 text-muted-foreground">
+                  <td className="p-5 text-slate-500 font-medium">
                     {order.createdAt?.toDate ? formatDistanceToNow(order.createdAt.toDate(), {addSuffix: true}) : 'Just now'}
                   </td>
-                  <td className="p-4 uppercase text-xs font-bold">
-                    <span className={`px-2 py-1 rounded-full ${
-                      order.status === 'delivered' ? 'bg-emerald-100 text-emerald-800' :
-                      order.status === 'cancelled' ? 'bg-destructive/10 text-destructive' :
-                      order.status === 'shipped' ? 'bg-indigo-100 text-indigo-800' :
-                      'bg-amber-100 text-amber-800'
+                  <td className="p-5 uppercase text-[10px] tracking-widest font-bold">
+                    <span className={`px-3 py-1.5 rounded-md border shadow-sm ${
+                      order.status === 'delivered' ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' :
+                      order.status === 'cancelled' ? 'bg-red-500/10 text-red-600 border-red-500/20' :
+                      order.status === 'shipped' ? 'bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20' :
+                      'bg-[#d4af37]/10 text-[#b49124] border-[#d4af37]/20'
                     }`}>
                       {order.status.replace('_', ' ')}
                     </span>
                   </td>
-                  <td className="p-4 text-right font-medium">{formatCurrency(order.grandTotal)}</td>
+                  <td className="p-5 text-right font-bold text-[#0F172A]">{formatCurrency(order.grandTotal)}</td>
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-muted-foreground">No recent orders found.</td>
+                  <td colSpan={5} className="p-8 text-center text-slate-500">No recent orders found.</td>
                 </tr>
               )}
             </tbody>
@@ -440,45 +469,45 @@ export default function AdminDashboardIndex() {
       {/* Quick Actions & Notifications Column */}
       <div className="space-y-6">
          {/* Quick Actions */}
-         <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
-            <div className="p-4 border-b bg-muted/10">
-               <h2 className="font-bold">Quick Actions</h2>
+         <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <div className="p-5 border-b border-slate-100 bg-slate-50/50">
+               <h2 className="font-bold font-serif text-[#0F172A]">Quick Actions</h2>
             </div>
-            <div className="grid grid-cols-2 p-4 gap-3">
-               <Link to="/admin/products#new" className="flex flex-col items-center justify-center p-4 bg-muted/40 hover:bg-primary/5 hover:text-primary rounded-xl transition-colors border shadow-sm">
-                  <Package className="w-6 h-6 mb-2 text-primary" />
-                  <span className="text-xs font-medium text-center">Add Product</span>
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 p-4 gap-3">
+               <Link to="/admin/products#new" className="flex flex-col items-center justify-center p-5 bg-[#F8FAFC] hover:bg-white hover:shadow-md rounded-xl transition-all border border-slate-100 group">
+                  <Package className="w-7 h-7 mb-3 text-[#0F172A] group-hover:scale-110 transition-transform" />
+                  <span className="text-xs font-bold text-slate-600 group-hover:text-[#0F172A] text-center">Add Product</span>
                </Link>
-               <Link to="/admin/orders" className="flex flex-col items-center justify-center p-4 bg-muted/40 hover:bg-primary/5 hover:text-primary rounded-xl transition-colors border shadow-sm">
-                  <ShoppingBag className="w-6 h-6 mb-2 text-blue-500" />
-                  <span className="text-xs font-medium text-center">Manage Orders</span>
+               <Link to="/admin/orders" className="flex flex-col items-center justify-center p-5 bg-[#F8FAFC] hover:bg-white hover:shadow-md rounded-xl transition-all border border-slate-100 group">
+                  <ShoppingBag className="w-7 h-7 mb-3 text-[#3b82f6] group-hover:scale-110 transition-transform" />
+                  <span className="text-xs font-bold text-slate-600 group-hover:text-[#3b82f6] text-center">Manage Orders</span>
                </Link>
-               <Link to="/admin/customers" className="flex flex-col items-center justify-center p-4 bg-muted/40 hover:bg-primary/5 hover:text-primary rounded-xl transition-colors border shadow-sm">
-                  <Users className="w-6 h-6 mb-2 text-green-500" />
-                  <span className="text-xs font-medium text-center">Customers</span>
+               <Link to="/admin/coupons" className="flex flex-col items-center justify-center p-5 bg-[#F8FAFC] hover:bg-white hover:shadow-md rounded-xl transition-all border border-slate-100 group">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-ticket w-7 h-7 mb-3 text-[#f59e0b] group-hover:scale-110 transition-transform"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/></svg>
+                  <span className="text-[11px] font-bold text-slate-600 group-hover:text-[#f59e0b] text-center">Coupon Mgmt</span>
                </Link>
-               <Link to="/admin/settings" className="flex flex-col items-center justify-center p-4 bg-muted/40 hover:bg-primary/5 hover:text-primary rounded-xl transition-colors border shadow-sm">
-                  <Activity className="w-6 h-6 mb-2 text-purple-500" />
-                  <span className="text-xs font-medium text-center">Settings</span>
+               <Link to="/admin/banners" className="flex flex-col items-center justify-center p-5 bg-[#F8FAFC] hover:bg-white hover:shadow-md rounded-xl transition-all border border-slate-100 group">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-palette w-7 h-7 mb-3 text-[#ec4899] group-hover:scale-110 transition-transform"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                  <span className="text-[11px] font-bold text-slate-600 group-hover:text-[#ec4899] text-center">Images</span>
                </Link>
             </div>
          </div>
 
          {/* Notifications */}
-         <div className="bg-card rounded-xl border shadow-sm overflow-hidden flex flex-col">
-            <div className="p-4 border-b flex justify-between items-center">
-               <h2 className="font-bold">Notifications</h2>
-               <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full font-bold">2 New</span>
+         <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+               <h2 className="font-bold font-serif text-[#0F172A]">Notifications</h2>
+               <span className="bg-[#d4af37] text-[#0F172A] text-[10px] tracking-widest uppercase px-3 py-1 rounded-md font-bold shadow-sm">2 New</span>
             </div>
             <div className="p-0">
-               <ul className="divide-y text-sm">
+               <ul className="divide-y divide-slate-100 text-sm">
                   {notifications.map(n => (
-                     <li key={n.id} className={`p-4 hover:bg-muted/30 transition-colors ${n.unread ? 'bg-primary/5' : ''}`}>
+                     <li key={n.id} className={`p-5 hover:bg-slate-50 transition-colors ${n.unread ? 'bg-amber-50/30' : ''}`}>
                         <div className="flex gap-3">
-                           <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${n.unread ? 'bg-primary' : 'bg-transparent'}`} />
+                           <div className={`w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 shadow-sm ${n.unread ? 'bg-[#d4af37]' : 'bg-slate-200'}`} />
                            <div>
-                              <p className={`font-medium ${n.unread ? 'text-foreground' : 'text-muted-foreground'}`}>{n.message}</p>
-                              <p className="text-xs text-muted-foreground mt-1">{n.time}</p>
+                              <p className={`font-medium leading-snug ${n.unread ? 'text-[#0F172A]' : 'text-slate-500'}`}>{n.message}</p>
+                              <p className="text-xs text-slate-400 mt-2 font-medium">{n.time}</p>
                            </div>
                         </div>
                      </li>
@@ -488,30 +517,30 @@ export default function AdminDashboardIndex() {
          </div>
          
          {/* Recent Customer Activity */}
-         <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
-            <div className="p-4 border-b flex justify-between items-center">
-               <h2 className="font-bold">Recent Customers</h2>
+         <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+               <h2 className="font-bold font-serif text-[#0F172A]">Recent Customers</h2>
             </div>
             <div className="p-0">
                {recentCustomers.length > 0 ? (
-                 <ul className="divide-y text-sm">
+                 <ul className="divide-y divide-slate-100 text-sm">
                    {recentCustomers.map((user, idx) => (
-                     <li key={idx} className="p-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
+                     <li key={idx} className="p-5 flex items-center justify-between hover:bg-slate-50 transition-colors">
                         <div className="flex items-center gap-3">
-                           <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
+                           <div className="w-10 h-10 rounded-xl bg-[#0F172A]/5 text-[#0F172A] flex items-center justify-center font-bold border border-slate-200">
                               {user.name?.charAt(0) || user.email?.charAt(0)?.toUpperCase() || 'U'}
                            </div>
                            <div>
-                              <p className="font-medium line-clamp-1">{user.name || 'New User'}</p>
-                              <p className="text-xs text-muted-foreground">{user.email}</p>
+                              <p className="font-bold text-[#0F172A] line-clamp-1">{user.name || 'New User'}</p>
+                              <p className="text-xs text-slate-500">{user.email}</p>
                            </div>
                         </div>
-                        <Link to="/admin" className="text-xs text-primary font-medium hover:underline">View</Link>
+                        <Link to="/admin" className="text-xs text-[#d4af37] font-bold hover:underline">View</Link>
                      </li>
                    ))}
                  </ul>
                ) : (
-                 <div className="p-6 text-center text-muted-foreground text-sm">No recent customers.</div>
+                 <div className="p-6 text-center text-slate-500 text-sm">No recent customers.</div>
                )}
             </div>
          </div>

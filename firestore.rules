@@ -48,11 +48,11 @@ service cloud.firestore {
     }
     
     function isValidCoupon(data) {
-      return data.keys().hasAll(['code', 'discountType', 'discountValue', 'enabled']) &&
+      return data.keys().hasAll(['code', 'discountType', 'discountValue', 'isActive']) &&
              data.code is string && data.code.size() > 0 &&
              data.discountType in ['percentage', 'fixed'] &&
              data.discountValue is number &&
-             data.enabled is bool;
+             data.isActive is bool;
     }
 
     // --- Collections ---
@@ -73,7 +73,7 @@ service cloud.firestore {
     // Products
     match /products/{productId} {
       allow get: if true;
-      allow list: if isAdmin() || (existing().enabled == true); // customers only see enabled products
+      allow list: if true;
       allow create: if isAdmin() && isValidId(productId) && isValidProduct(incoming()) && incoming().createdAt == request.time;
       allow update: if isValidId(productId) && isAdmin() && isValidProduct(incoming());
       allow delete: if isAdmin() && isValidId(productId);
@@ -95,20 +95,39 @@ service cloud.firestore {
       allow update: if isValidId(orderId) && (
         isAdmin() ||
         (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && existing().status == 'pending' && incoming().status == 'cancelled') ||
-        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'paymentUtr', 'updatedAt']) && existing().status == 'pending_payment' && incoming().status == 'admin_approval')
+        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'paymentUtr', 'updatedAt']) && existing().status == 'pending_payment' && incoming().status == 'admin_approval') ||
+        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'paymentId', 'updatedAt']) && existing().status == 'pending_payment' && incoming().status == 'paid') ||
+        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['failedPaymentLogs']))
       );
     }
 
     // Coupons
     match /coupons/{couponId} {
-      allow get: if true; // anyone can get a coupon to apply it
-      allow list: if isAdmin() || existing().enabled == true;
+      allow read: if true;
       allow create: if isAdmin() && isValidId(couponId) && isValidCoupon(incoming());
-      allow update: if isValidId(couponId) && isAdmin() && isValidCoupon(incoming());
+      allow update: if isAdmin() && isValidId(couponId) || (
+        isValidId(couponId) && isSignedIn() && incoming().diff(existing()).affectedKeys().hasOnly(['usageCount', 'totalRevenue'])
+      );
       allow delete: if isAdmin() && isValidId(couponId);
     }
     // Settings
     match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Homepage Collections
+    match /homepageCategories/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /homepageCollections/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Banners
+    match /banners/{bannerId} {
       allow read: if true;
       allow write: if isAdmin();
     }

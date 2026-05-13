@@ -18,7 +18,8 @@ export default function AdminProducts() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [formData, setFormData] = useState({
-    name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: ''
+    name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '',
+    smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: ''
   });
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -86,6 +87,10 @@ export default function AdminProducts() {
         stock: Number(formData.stock),
         images: formData.imageUrl ? [formData.imageUrl] : [],
         categoryId: formData.categoryId || 'Uncategorized',
+        smallLogoCharge: formData.smallLogoCharge ? Number(formData.smallLogoCharge) : 0,
+        mediumLogoCharge: formData.mediumLogoCharge ? Number(formData.mediumLogoCharge) : 0,
+        largeLogoCharge: formData.largeLogoCharge ? Number(formData.largeLogoCharge) : 0,
+        fullWrapCharge: formData.fullWrapCharge ? Number(formData.fullWrapCharge) : 0,
         enabled: true,
       };
 
@@ -104,7 +109,7 @@ export default function AdminProducts() {
         toast.success('Product created successfully');
       }
       
-      setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '' });
+      setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '' });
       setEditingId(null);
       setIsDialogOpen(false);
       loadProducts();
@@ -123,7 +128,11 @@ export default function AdminProducts() {
       gstPercent: product.gstPercent.toString(),
       stock: product.stock.toString(),
       imageUrl: product.images && product.images.length > 0 ? product.images[0] : '',
-      categoryId: product.categoryId || ''
+      categoryId: product.categoryId || '',
+      smallLogoCharge: product.smallLogoCharge ? product.smallLogoCharge.toString() : '',
+      mediumLogoCharge: product.mediumLogoCharge ? product.mediumLogoCharge.toString() : '',
+      largeLogoCharge: product.largeLogoCharge ? product.largeLogoCharge.toString() : '',
+      fullWrapCharge: product.fullWrapCharge ? product.fullWrapCharge.toString() : ''
     });
     setIsDialogOpen(true);
   };
@@ -222,36 +231,36 @@ export default function AdminProducts() {
          </Button>
       </div>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <h1 className="text-3xl font-bold">Products</h1>
+        <h1 className="text-3xl font-bold font-serif text-[#0F172A]">Inventory & Products</h1>
         
         <div className="flex items-center gap-4 w-full md:w-auto">
-          <div className="flex bg-background border border-border rounded-md px-3 py-2 w-full md:w-64">
-             <Search className="h-4 w-4 text-muted-foreground mr-2 shrink-0" />
+          <div className="flex bg-white border border-slate-200 rounded-xl px-4 py-2 w-full md:w-72 shadow-sm focus-within:border-[#d4af37] focus-within:ring-1 focus-within:ring-[#d4af37] transition-all">
+             <Search className="h-4 w-4 text-slate-400 mr-2 shrink-0" />
              <input 
-               className="bg-transparent border-none outline-none text-sm w-full" 
+               className="bg-transparent border-none outline-none text-sm w-full text-[#0F172A] placeholder:text-slate-400" 
                placeholder="Search products..." 
                value={searchQuery}
                onChange={(e) => setSearchQuery(e.target.value)}
              />
           </div>
-          <Button variant="outline" onClick={downloadCSV} className="gap-2">
+          <Button variant="outline" onClick={downloadCSV} className="gap-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#0F172A] rounded-xl h-10 shadow-sm">
             <Download className="h-4 w-4" /> Export
           </Button>
         </div>
 
         <div className="flex gap-4">
-          <Button variant="outline" onClick={seedProducts} className="gap-2">
+          <Button variant="outline" onClick={seedProducts} className="gap-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#0F172A] rounded-xl h-10 shadow-sm">
             <Database className="h-4 w-4" /> Seed Products
           </Button>
           <Dialog open={isDialogOpen} onOpenChange={(open) => {
             setIsDialogOpen(open);
             if (!open) {
               setEditingId(null);
-              setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '' });
+              setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '' });
             }
           }}>
-            <DialogTrigger render={<Button className="gap-2" />}>
-              <Plus className="h-4 w-4" /> Add Product
+            <DialogTrigger render={<Button className="gap-2 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] font-bold rounded-xl h-10 shadow-sm" />}>
+              <Plus className="h-5 w-5" /> Add Product
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
@@ -288,7 +297,28 @@ export default function AdminProducts() {
                     <Input id="stock" type="number" min="0" value={formData.stock} onChange={e => setFormData({...formData, stock: e.target.value})} required />
                   </div>
                 </div>
-                <div className="grid gap-2">
+                
+                <Label className="mt-2 text-sm font-semibold border-b pb-1">Logo Printing Customization Charges</Label>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 bg-muted/30 p-3 rounded-lg border">
+                  <div className="grid gap-2">
+                    <Label htmlFor="smallLogoCharge">Small Logo (₹)</Label>
+                    <Input id="smallLogoCharge" type="number" min="0" placeholder="e.g. 50" value={formData.smallLogoCharge} onChange={e => setFormData({...formData, smallLogoCharge: e.target.value})} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="mediumLogoCharge">Medium Logo (₹)</Label>
+                    <Input id="mediumLogoCharge" type="number" min="0" placeholder="e.g. 100" value={formData.mediumLogoCharge} onChange={e => setFormData({...formData, mediumLogoCharge: e.target.value})} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="largeLogoCharge">Large Logo (₹)</Label>
+                    <Input id="largeLogoCharge" type="number" min="0" placeholder="e.g. 150" value={formData.largeLogoCharge} onChange={e => setFormData({...formData, largeLogoCharge: e.target.value})} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="fullWrapCharge">Full Wrap (₹)</Label>
+                    <Input id="fullWrapCharge" type="number" min="0" placeholder="e.g. 250" value={formData.fullWrapCharge} onChange={e => setFormData({...formData, fullWrapCharge: e.target.value})} />
+                  </div>
+                </div>
+
+                <div className="grid gap-2 mt-2">
                   <Label htmlFor="imageFile">Upload Image</Label>
                   <Input 
                     id="imageFile" 
@@ -356,57 +386,57 @@ export default function AdminProducts() {
         </div>
       </div>
 
-      <div className="bg-card border border-border shadow-sm rounded-xl overflow-hidden">
+      <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
+            <thead className="text-[11px] font-bold text-slate-500 uppercase tracking-wider bg-[#F8FAFC] border-b border-slate-100">
               <tr>
-                <th className="px-6 py-4 font-medium">Product</th>
-                <th className="px-6 py-4 font-medium">Category</th>
-                <th className="px-6 py-4 font-medium">Base Price</th>
-                <th className="px-6 py-4 font-medium">Stock</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 text-right font-medium">Actions</th>
+                <th className="px-6 py-5 font-medium">Product</th>
+                <th className="px-6 py-5 font-medium">Category</th>
+                <th className="px-6 py-5 font-medium">Base Price</th>
+                <th className="px-6 py-5 font-medium">Stock</th>
+                <th className="px-6 py-5 font-medium">Status</th>
+                <th className="px-6 py-5 text-right font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-50">
               {loading ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">Loading products...</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500">Loading products...</td></tr>
               ) : filteredProducts.length === 0 ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">No products found.</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500">No products found.</td></tr>
               ) : (
                 filteredProducts.map((product) => (
-                  <tr key={product.id} className="border-b border-border last:border-0 hover:bg-muted/20">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-md bg-muted flex items-center justify-center overflow-hidden flex-shrink-0">
+                  <tr key={product.id} className="hover:bg-slate-50/80 transition-colors">
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
                           {product.images?.[0] ? (
-                            <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover" />
+                            <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" />
                           ) : (
-                            <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                            <ImageIcon className="h-5 w-5 text-slate-400" />
                           )}
                         </div>
-                        <div className="font-medium text-foreground line-clamp-2">{product.name}</div>
+                        <div className="font-bold text-[#0F172A] line-clamp-2 max-w-[200px] leading-snug">{product.name}</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="bg-muted px-2 py-1 rounded text-xs">{product.categoryId || 'Uncategorized'}</span>
+                    <td className="px-6 py-5">
+                      <span className="bg-[#0F172A]/5 text-[#0F172A] border border-slate-200 font-medium px-3 py-1.5 rounded-md text-xs">{product.categoryId || 'Uncategorized'}</span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{formatCurrency(product.basePrice)}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${product.stock > 10 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : product.stock > 0 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' : 'bg-destructive/10 text-destructive'}`}>
+                    <td className="px-6 py-5 whitespace-nowrap font-bold text-[#0F172A]">{formatCurrency(product.basePrice)}</td>
+                    <td className="px-6 py-5">
+                      <span className={`px-3 py-1.5 rounded-md text-xs font-bold border shadow-sm ${product.stock > 10 ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' : product.stock > 0 ? 'bg-amber-100/50 text-amber-700 border-amber-200' : 'bg-red-500/10 text-red-600 border-red-200'}`}>
                         {product.stock} in stock
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                       <button onClick={() => toggleEnabled(product.id, product.enabled)} className={`px-2 py-1 rounded-full text-xs font-medium transition-colors ${product.enabled ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}>
+                    <td className="px-6 py-5">
+                       <button onClick={() => toggleEnabled(product.id, product.enabled)} className={`px-3 py-1.5 rounded-md border shadow-sm text-xs font-bold tracking-wider uppercase transition-colors ${product.enabled ? 'bg-[#d4af37]/10 text-[#b49124] border-[#d4af37]/20 hover:bg-[#d4af37]/20' : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'}`}>
                         {product.enabled ? 'Active' : 'Draft'}
                       </button>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-6 py-5 text-right">
                       <div className="flex justify-end gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openEditDialog(product)}><Edit className="h-4 w-4" /></Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => deleteProduct(product.id)}><Trash2 className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-[#0F172A]" onClick={() => openEditDialog(product)}><Edit className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-700 hover:border hover:border-red-100" onClick={() => deleteProduct(product.id)}><Trash2 className="h-4 w-4" /></Button>
                       </div>
                     </td>
                   </tr>

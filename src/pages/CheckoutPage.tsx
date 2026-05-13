@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCartStore } from '../store/cartStore';
-import { formatCurrency, calculateGST } from '../lib/utils';
+import { formatCurrency } from '../lib/utils';
 import { Button, buttonVariants } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -9,15 +9,34 @@ import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../components/ui/dialog';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc, query, where, getDocs, increment } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { useAuthStore } from '../store/authStore';
 
+const loadScript = (src: string) => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
 export default function CheckoutPage() {
-  const { items, getSubTotal, getGstTotal, getGrandTotal, clearCart } = useCartStore();
+  const { items, getSubTotal, getGstTotal, getGrandTotal, clearCart, appliedCoupon, setCoupon, getDiscount } = useCartStore();
   const { user } = useAuthStore();
   const [adminSettings, setAdminSettings] = useState<{adminWhatsApp?: string, adminEmail?: string} | null>(null);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [couponInput, setCouponInput] = useState('');
+  const [couponMessage, setCouponMessage] = useState('');
+  const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
+
+  React.useEffect(() => {
+    if (appliedCoupon) {
+      setCouponInput(appliedCoupon.code);
+    }
+  }, [appliedCoupon]);
 
   React.useEffect(() => {
     getDoc(doc(db, 'settings', 'admin')).then(s => {
@@ -53,6 +72,66 @@ export default function CheckoutPage() {
       }));
     }
   }, [user]);
+
+  const handleApplyCoupon = async () => {
+    if (!couponInput.trim()) return;
+    setIsValidatingCoupon(true);
+    setCouponMessage('');
+
+    try {
+      const q = query(collection(db, 'coupons'), where('code', '==', couponInput.trim().toUpperCase()));
+      const snap = await getDocs(q);
+      
+      if (snap.empty) {
+        setCouponMessage('Invalid coupon code.');
+        setIsValidatingCoupon(false);
+        return;
+      }
+
+      const couponDoc = snap.docs[0];
+      const couponData = { id: couponDoc.id, ...couponDoc.data() } as any;
+
+      if (!couponData.isActive) {
+         setCouponMessage('This coupon is no longer active.');
+         setIsValidatingCoupon(false);
+         return;
+      }
+
+      if (couponData.expiryDate && new Date(couponData.expiryDate) < new Date()) {
+         setCouponMessage('This coupon has expired.');
+         setIsValidatingCoupon(false);
+         return;
+      }
+
+      if (couponData.maxUsage && (couponData.usageCount || 0) >= Number(couponData.maxUsage)) {
+         setCouponMessage('This coupon usage limit has been reached.');
+         setIsValidatingCoupon(false);
+         return;
+      }
+
+      const subtotal = getSubTotal();
+      if (subtotal < (couponData.minPurchase || 0)) {
+         setCouponMessage(`This coupon is valid only on minimum purchase of ${formatCurrency(couponData.minPurchase)}.`);
+         setIsValidatingCoupon(false);
+         return;
+      }
+
+      setCoupon(couponData);
+      setCouponMessage(`Coupon applied successfully!`);
+    } catch (error) {
+       console.error("Error applying coupon", error);
+       setCouponMessage("Failed to validate coupon.");
+    } finally {
+       setIsValidatingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setCoupon(null);
+    setCouponInput('');
+    setCouponMessage('');
+  };
+
   const [showQR, setShowQR] = useState(false);
   const [orderProcessed, setOrderProcessed] = useState(false);
   const navigate = useNavigate();
@@ -121,12 +200,15 @@ export default function CheckoutPage() {
         pincode: formData.get('pincode'),
       };
 
+      const totalAmount = getGrandTotal();
       const orderData = {
         userId: user.uid,
         items,
         subTotal: getSubTotal(),
         gstTotal: getGstTotal(),
-        grandTotal: getGrandTotal(),
+        discount: getDiscount(),
+        couponCode: appliedCoupon?.code || null,
+        grandTotal: totalAmount,
         paymentMethod,
         deliveryDetails,
         status: paymentMethod === 'upi' ? 'pending_payment' : 'pending',
@@ -136,20 +218,94 @@ export default function CheckoutPage() {
       const docRef = await addDoc(collection(db, 'orders'), orderData);
       setCreatedOrderId(docRef.id);
       
-      clearCart();
-      setIsProcessing(false);
-      setOrderProcessed(true);
+      // Update coupon usage statistics
+      if (appliedCoupon) {
+         try {
+           await updateDoc(doc(db, 'coupons', appliedCoupon.id), {
+              usageCount: increment(1),
+              totalRevenue: increment(totalAmount)
+           });
+         } catch (e) {
+            console.error("Failed to update coupon usage:", e);
+         }
+      }
 
       if (paymentMethod === 'upi') {
-        setShowQR(true);
+        setIsProcessing(false);
+        // Direct UPI Intents for Mobile - 100% reliable for GPay/PhonePe/Paytm
+        if (isMobile) {
+          setShowQR(true);
+          return;
+        }
+
+        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+        if (!res) {
+          toast.error("Payment Gateway failed to load. Fallback to manual QR.");
+          setShowQR(true);
+          return;
+        }
+
+        const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_1DP5mmOlF5G5ag", // Dummy test key for Demo
+          amount: Math.round(totalAmount * 100),
+          currency: "INR",
+          name: "Aureva Corporate Gifting",
+          description: "Order Payment",
+          handler: async function (response: any) {
+            try {
+              await updateDoc(doc(db, 'orders', docRef.id), {
+                status: 'paid',
+                paymentId: response.razorpay_payment_id,
+                updatedAt: serverTimestamp()
+              });
+              toast.success('Payment successful!');
+              clearCart();
+              setOrderProcessed(true);
+              setShowQR(false);
+              setShowSuccessDialog(true);
+            } catch (err) {
+               console.error(err);
+               toast.error('Failed to update order status');
+               setShowQR(true);
+            }
+          },
+          modal: {
+            ondismiss: function() {
+              toast.info("Payment window closed. Please try again or use the QR code.");
+              setShowQR(true);
+            }
+          },
+          prefill: {
+            name: `${deliveryDetails.firstName} ${deliveryDetails.lastName}`,
+            email: deliveryDetails.email,
+            contact: deliveryDetails.phone,
+          },
+          theme: {
+            color: "#0F172A",
+          },
+        };
+
+        const paymentObject = new (window as any).Razorpay(options);
+        paymentObject.on('payment.failed', async function (response: any) {
+          try {
+            await updateDoc(doc(db, 'orders', docRef.id), {
+               failedPaymentLogs: [
+                 { reason: response.error.description || 'Payment Failed', code: response.error.code, time: new Date().toISOString() }
+               ]
+            });
+          } catch(e){}
+          toast.error("Payment failed. Please try again or use the QR code.");
+          setShowQR(true);
+        });
+        paymentObject.open();
       } else {
+        clearCart();
+        setIsProcessing(false);
+        setOrderProcessed(true);
         toast.success('Order placed successfully! We will contact you soon.');
         handleDownloadBill(docRef.id);
-        if (adminSettings?.adminWhatsApp) {
-          setShowSuccessDialog(true);
-        } else {
-          navigate('/account');
-        }
+        setShowSuccessDialog(true);
       }
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, 'orders');
@@ -170,6 +326,8 @@ export default function CheckoutPage() {
         await updateDoc(doc(db, 'orders', createdOrderId), updateData);
       }
       
+      clearCart();
+      setOrderProcessed(true);
       setShowQR(false);
       toast.success('Order placed! We will verify your payment details shortly.');
       setShowSuccessDialog(true);
@@ -315,17 +473,17 @@ export default function CheckoutPage() {
     
     // Default fallback
     let areaEmail = 'orders@aureva.com';
-    let areaPhone = '919825622421'; // Main group/admin
+    let areaPhone = adminSettings?.adminWhatsApp || '919825622421'; // Main group/admin
     
     if (customerCity.includes('mumbai') || customerCity.includes('pune')) {
       areaEmail = 'maharashtra_admin@aureva.com';
-      areaPhone = '919825622421'; // Would be Maharashtra specific group
+      areaPhone = adminSettings?.adminWhatsApp || '919825622421'; // Would be Maharashtra specific group
     } else if (customerCity.includes('delhi') || customerCity.includes('ncr')) {
       areaEmail = 'north_admin@aureva.com';
-      areaPhone = '919825622421'; // Would be North specific group
+      areaPhone = adminSettings?.adminWhatsApp || '919825622421'; // Would be North specific group
     } else if (customerCity.includes('bangalore') || customerCity.includes('chennai') || customerCity.includes('hyderabad')) {
       areaEmail = 'south_admin@aureva.com';
-      areaPhone = '919825622421'; // Would be South specific group
+      areaPhone = adminSettings?.adminWhatsApp || '919825622421'; // Would be South specific group
     }
     
     // Format items list
@@ -458,45 +616,78 @@ export default function CheckoutPage() {
         </div>
 
         <div>
-          <div className="bg-muted/30 p-8 rounded-xl border border-border h-fit sticky top-28">
-            <h2 className="text-xl font-bold mb-6">Order Summary</h2>
-            <div className="space-y-4 mb-6 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Subtotal ({items.length} items)</span>
-                <span className="font-medium">{formatCurrency(getSubTotal())}</span>
+          <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-fit sticky top-28">
+            <h2 className="text-2xl font-bold font-serif mb-6 text-[#0F172A]">Order Summary</h2>
+
+            <div className="mb-6 pb-6 border-b border-slate-100">
+               <Label className="font-bold text-slate-700 text-sm mb-2 block">Have a coupon code?</Label>
+               <div className="flex gap-2">
+                 <Input 
+                   value={couponInput}
+                   onChange={e => setCouponInput(e.target.value.toUpperCase())}
+                   placeholder="Enter code" 
+                   className="rounded-xl uppercase font-mono tracking-wider h-11"
+                   disabled={!!appliedCoupon || isValidatingCoupon}
+                 />
+                 {appliedCoupon ? (
+                   <Button type="button" variant="outline" onClick={handleRemoveCoupon} className="rounded-xl h-11 px-4 text-red-500 hover:text-red-600 hover:bg-red-50 border-slate-200">
+                     Remove
+                   </Button>
+                 ) : (
+                   <Button type="button" onClick={handleApplyCoupon} disabled={!couponInput.trim() || isValidatingCoupon} className="bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] rounded-xl h-11 px-6 font-bold shadow-sm transition-all">
+                     {isValidatingCoupon ? "Validating..." : "Apply"}
+                   </Button>
+                 )}
+               </div>
+               {couponMessage && (
+                 <p className={`text-xs font-bold mt-2 ${couponMessage.includes('Invalid') || couponMessage.includes('expired') || couponMessage.includes('minimum') ? 'text-red-500' : 'text-green-600'}`}>
+                   {couponMessage}
+                 </p>
+               )}
+            </div>
+
+            <div className="space-y-4 mb-8 text-sm">
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500 font-bold uppercase tracking-wider text-[11px]">Subtotal ({items.length} items)</span>
+                <span className="font-bold text-[#0F172A] text-base">{formatCurrency(getSubTotal())}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">GST Estimate</span>
-                <span className="font-medium">{formatCurrency(getGstTotal())}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500 font-bold uppercase tracking-wider text-[11px]">GST Estimate</span>
+                <span className="font-bold text-[#0F172A] text-base">{formatCurrency(getGstTotal())}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Delivery</span>
-                <span className="font-medium text-green-600">Free</span>
+              {appliedCoupon && (
+                <div className="flex justify-between items-center text-green-600">
+                  <span className="font-bold uppercase tracking-wider text-[11px]">Discount ({appliedCoupon.code})</span>
+                  <span className="font-bold text-base">-{formatCurrency(getDiscount())}</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500 font-bold uppercase tracking-wider text-[11px]">Delivery</span>
+                <span className="font-bold text-[#d4af37] text-[11px] uppercase tracking-wider">Free</span>
               </div>
             </div>
             
-            <div className="border-t border-border pt-4 mb-8 flex justify-between items-end">
-              <span className="font-bold text-lg">Total</span>
-              <span className="font-bold text-3xl text-primary">{formatCurrency(getGrandTotal())}</span>
+            <div className="border-t border-slate-200 pt-6 mb-8 flex justify-between items-end">
+              <span className="font-bold text-slate-500 uppercase tracking-widest text-xs">Total</span>
+              <span className="font-bold font-serif text-4xl text-[#0F172A]">{formatCurrency(getGrandTotal())}</span>
             </div>
 
-            <Button size="lg" className="w-full text-lg font-bold" type="submit" disabled={isProcessing}>
+            <Button size="lg" className="w-full text-base font-bold bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] rounded-xl h-14 shadow-sm transition-all" type="submit" disabled={isProcessing}>
               {isProcessing ? "Processing..." : `Pay ${formatCurrency(getGrandTotal())}`}
             </Button>
             
             {paymentMethod === 'upi' && (
-              <div className="mt-4 p-4 bg-primary/10 rounded-lg border border-primary/20 text-center">
-                <div className="text-sm font-medium text-primary mb-1">UPI Payment Selected</div>
-                <p className="text-xs text-muted-foreground">You will be redirected to complete your payment securely via our payment gateway.</p>
+              <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100 text-center">
+                <div className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Razorpay UPI Payment</div>
+                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Redirecting securely via payment gateway...</p>
               </div>
             )}
             
             <div className="mt-6 text-center space-y-2">
-               <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1">
                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                  Secure Checkout
                </p>
-               <p className="text-[10px] text-muted-foreground/70">Your payment information is processed securely. We never store your credit card details.</p>
             </div>
           </div>
         </div>

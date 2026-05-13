@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { collection, query, getDocs, orderBy, updateDoc, doc, onSnapshot } from 'firebase/firestore';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { formatCurrency } from '../../lib/utils';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { Package, Search, Eye, MessageCircle, X, Clock, ShieldCheck, Truck, MapPin, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { Package, Search, Eye, MessageCircle, X, Clock, ShieldCheck, Truck, MapPin, CheckCircle2, ArrowLeft, RefreshCw, AlertOctagon } from 'lucide-react';
 import { Input } from '../../components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDesc } from '../../components/ui/dialog';
 import { toast } from 'sonner';
@@ -14,11 +14,23 @@ import * as XLSX from 'xlsx';
 
 const ORDER_STATUSES = [
   { id: 'pending', label: 'Pending', icon: Clock },
-  { id: 'admin_approval', label: 'Under Review', icon: ShieldCheck },
-  { id: 'payment_verified', label: 'Payment Verified', icon: ShieldCheck },
-  { id: 'processing', label: 'Processing', icon: Package },
-  { id: 'shipped', label: 'Shipped', icon: Truck },
-  { id: 'delivered', label: 'Delivered', icon: MapPin },
+  { id: 'confirmed', label: 'Confirmed', icon: CheckCircle2 },
+  { id: 'processing', label: 'Processing', icon: RefreshCw },
+  { id: 'dispatched', label: 'Dispatched', icon: Truck },
+  { id: 'out_for_delivery', label: 'Out for Delivery', icon: MapPin },
+  { id: 'delivered', label: 'Delivered', icon: CheckCircle2 },
+];
+
+const FILTER_TABS = [
+  { id: 'all', label: 'All Orders' },
+  { id: 'pending', label: 'Pending' },
+  { id: 'confirmed', label: 'Confirmed' },
+  { id: 'processing', label: 'Processing' },
+  { id: 'shipped', label: 'Dispatched' }, // Legacy mapped to shipped
+  { id: 'out_for_delivery', label: 'Out for Delivery' },
+  { id: 'delivered', label: 'Delivered' },
+  { id: 'cancelled', label: 'Cancelled' },
+  { id: 'payment_failed', label: 'Payment Failed' },
 ];
 
 interface Order {
@@ -37,15 +49,27 @@ interface Order {
 }
 
 export default function AdminOrders() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialFilter = searchParams.get('status') || 'all';
+  
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState(initialFilter);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [followUpNote, setFollowUpNote] = useState('');
   const [savingNote, setSavingNote] = useState(false);
   
   // Use a ref to track if this is the initial load vs a real-time update
   const isInitialLoad = useRef(true);
+
+  // Sync initial query parameter if it changes
+  useEffect(() => {
+    const status = searchParams.get('status');
+    if (status && status !== statusFilter) {
+      setStatusFilter(status);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     setLoading(true);
@@ -137,102 +161,140 @@ export default function AdminOrders() {
   };
 
   const filteredOrders = orders.filter(o => 
-    o.id.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    (statusFilter === 'all' || 
+     (statusFilter === 'shipped' && (o.status === 'shipped' || o.status === 'dispatched')) || 
+     o.status === statusFilter
+    ) &&
+    (o.id.toLowerCase().includes(searchQuery.toLowerCase()) || 
     o.deliveryDetails?.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     o.deliveryDetails?.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     o.deliveryDetails?.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    o.deliveryDetails?.city?.toLowerCase().includes(searchQuery.toLowerCase())
+    o.deliveryDetails?.city?.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  const handleFilterChange = (id: string) => {
+    setStatusFilter(id);
+    if (id === 'all') {
+      searchParams.delete('status');
+    } else {
+      searchParams.set('status', id);
+    }
+    setSearchParams(searchParams);
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4 mb-2">
          <Button variant="outline" size="sm" asChild className="gap-2">
-            <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back</Link>
+            <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back to Dashboard</Link>
          </Button>
       </div>
-      <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">Orders Management</h1>
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex bg-background border border-border rounded-md px-3 py-2 w-full sm:w-64">
-            <Search className="h-4 w-4 text-muted-foreground mr-2 mt-1" />
+      <div className="flex flex-col md:flex-row justify-between gap-4 items-start md:items-center">
+        <div>
+          <h1 className="text-3xl font-bold font-serif text-[#0F172A]">Orders Management</h1>
+          <p className="text-sm text-slate-500 mt-1">Manage and track your corporate gifting orders</p>
+        </div>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <div className="flex bg-white border border-slate-200 rounded-xl px-4 py-2 w-full md:w-72 shadow-sm focus-within:border-[#d4af37] focus-within:ring-1 focus-within:ring-[#d4af37] transition-all">
+            <Search className="h-4 w-4 text-slate-400 mr-2 mt-0.5" />
             <input 
-              className="bg-transparent border-none outline-none text-sm w-full" 
+              className="bg-transparent border-none outline-none text-sm w-full text-[#0F172A] placeholder:text-slate-400" 
               placeholder="Search by ID, name, city..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Button variant="outline" className="bg-[#107c41] text-white hover:bg-[#185c37] border-none" onClick={exportToExcel}>
+          <Button variant="outline" className="bg-[#107c41] text-white hover:bg-[#185c37] border-none rounded-xl h-10 shadow-sm shrink-0 px-4" onClick={exportToExcel}>
             Export to Excel
           </Button>
         </div>
       </div>
 
-      <Card>
-        <div className="overflow-x-auto">
+      <div className="flex overflow-x-auto hide-scrollbar border-b border-slate-200 w-full mb-6">
+        <div className="flex space-x-1 p-1">
+          {FILTER_TABS.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => handleFilterChange(tab.id)}
+              className={`px-4 py-2 text-sm font-semibold rounded-t-lg border-b-2 whitespace-nowrap transition-all ${
+                statusFilter === tab.id 
+                  ? 'border-[#d4af37] text-[#d4af37] bg-amber-50/50' 
+                  : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              {tab.label}
+              {tab.id === 'all' && (
+                 <span className="ml-2 bg-slate-100 text-slate-600 py-0.5 px-2 rounded-full text-[10px]">{orders.length}</span>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+        <div className="overflow-x-auto min-h-[500px]">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/50 border-b border-border">
+            <thead className="text-[11px] font-bold text-slate-500 uppercase tracking-wider bg-[#F8FAFC] border-b border-slate-100">
               <tr>
-                <th className="px-6 py-4 font-medium">Order ID</th>
-                <th className="px-6 py-4 font-medium">Customer</th>
-                <th className="px-6 py-4 font-medium">Items Ordered</th>
-                <th className="px-6 py-4 font-medium">Date</th>
-                <th className="px-6 py-4 font-medium">Total</th>
-                <th className="px-6 py-4 font-medium">Status & Timeline</th>
-                <th className="px-6 py-4 font-medium">UTR</th>
-                <th className="px-6 py-4 text-right font-medium">Actions</th>
+                <th className="px-6 py-5 font-medium">Order ID</th>
+                <th className="px-6 py-5 font-medium">Customer</th>
+                <th className="px-6 py-5 font-medium">Items Ordered</th>
+                <th className="px-6 py-5 font-medium">Date</th>
+                <th className="px-6 py-5 font-medium">Total</th>
+                <th className="px-6 py-5 font-medium">Status & Timeline</th>
+                <th className="px-6 py-5 font-medium">UTR</th>
+                <th className="px-6 py-5 text-right font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-slate-50">
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-8 text-center text-muted-foreground">Loading orders...</td>
+                  <td colSpan={8} className="px-6 py-8 text-center text-slate-500">Loading orders...</td>
                 </tr>
               ) : filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-8 border-dashed border-2 border-border m-4 text-center rounded-lg">
-                    <Package className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
-                    <p className="text-muted-foreground">No orders found.</p>
+                  <td colSpan={8} className="px-6 py-8 border-dashed border-2 border-slate-200 m-4 text-center rounded-2xl">
+                    <Package className="h-8 w-8 text-slate-300 mx-auto mb-2" />
+                    <p className="text-slate-500">No orders found.</p>
                   </td>
                 </tr>
               ) : filteredOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-muted/30">
-                  <td className="px-6 py-4 font-medium text-foreground">
+                <tr key={order.id} className="hover:bg-slate-50/80 transition-colors group">
+                  <td className="px-6 py-5 font-bold text-[#d4af37]">
                     <Link 
                       to={`/admin/orders/${order.id}`}
-                      className="text-primary hover:underline font-bold flex items-center gap-1 group"
+                      className="hover:underline flex items-center gap-1 group"
                     >
-                      #{order.id.slice(-8)}
+                      #{order.id.slice(-8).toUpperCase()}
                       <Eye className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </Link>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5">
                     <div className="flex flex-col">
-                      <span className="font-medium">{order.deliveryDetails?.firstName} {order.deliveryDetails?.lastName}</span>
-                      <span className="text-xs text-muted-foreground">{order.deliveryDetails?.email}</span>
-                      <span className="text-xs text-muted-foreground">{order.deliveryDetails?.phone}</span>
-                      <span className="text-xs text-primary font-medium mt-1">{order.deliveryDetails?.city}</span>
+                      <span className="font-bold text-[#0F172A]">{order.deliveryDetails?.firstName} {order.deliveryDetails?.lastName}</span>
+                      <span className="text-xs text-slate-500 mt-0.5">{order.deliveryDetails?.email}</span>
+                      <span className="text-xs text-slate-500">{order.deliveryDetails?.phone}</span>
+                      <span className="text-[10px] uppercase tracking-widest text-[#d4af37] font-bold mt-1.5">{order.deliveryDetails?.city}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5">
                     <div className="flex flex-col gap-1 max-w-[200px]">
                       {order.items?.map((item, idx) => (
-                        <div key={idx} className="text-xs font-medium text-foreground bg-muted/50 px-2 py-1 rounded truncate">
+                        <div key={idx} className="text-xs font-bold text-slate-700 bg-slate-100/50 px-2.5 py-1.5 rounded-md truncate border border-slate-100">
                           {item.quantity}x {item.name}
                         </div>
                       ))}
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-muted-foreground">
+                  <td className="px-6 py-5 text-slate-500 font-medium whitespace-nowrap">
                      {order.createdAt?.toDate ? order.createdAt.toDate().toLocaleDateString() : 'N/A'}
                   </td>
-                  <td className="px-6 py-4 font-medium">
+                  <td className="px-6 py-5 font-bold text-[#0F172A] whitespace-nowrap">
                     {formatCurrency(order.grandTotal)}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5">
                     <select 
-                      className="bg-transparent text-sm font-bold border rounded outline-none p-1.5 capitalize text-primary mb-2 shadow-sm"
+                      className="bg-transparent text-xs uppercase tracking-wider font-bold border border-slate-200 rounded-lg outline-none p-2 text-[#d4af37] mb-2 shadow-sm focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37] w-full"
                       value={order.status}
                       onChange={(e) => updateOrderStatus(order.id, e.target.value)}
                     >
@@ -246,11 +308,11 @@ export default function AdminOrders() {
                       <option value="cancelled">Cancelled</option>
                     </select>
                   </td>
-                  <td className="px-6 py-4 font-medium font-mono text-xs text-muted-foreground whitespace-nowrap">
+                  <td className="px-6 py-5 font-medium font-mono text-[10px] text-slate-500 whitespace-nowrap">
                     {order.paymentMethod === 'upi' ? (order.paymentUtr || 'N/A') : '-'}
                   </td>
-                  <td className="px-6 py-4 text-right flex flex-col items-center justify-end gap-2">
-                    <Button variant="default" size="sm" className="h-9 gap-2 w-full font-bold shadow-sm bg-primary text-primary-foreground hover:bg-primary/90" asChild>
+                  <td className="px-6 py-5 text-right flex flex-col items-end gap-2">
+                    <Button size="sm" className="h-9 gap-2 w-full max-w-[140px] font-bold shadow-sm bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] rounded-xl" asChild>
                        <Link to={`/admin/orders/${order.id}`}>
                          <Eye className="h-4 w-4" /> Track & View
                        </Link>
@@ -258,7 +320,7 @@ export default function AdminOrders() {
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="h-8 gap-1 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10 w-full md:w-auto"
+                      className="h-8 gap-1.5 font-bold text-[#10B981] border-[#10B981]/20 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/30 w-full max-w-[140px] rounded-xl transition-colors"
                       onClick={() => {
                         if(order.deliveryDetails?.phone) {
                            const phone = order.deliveryDetails.phone.replace(/[^0-9]/g, '');
@@ -275,7 +337,7 @@ export default function AdminOrders() {
             </tbody>
           </table>
         </div>
-      </Card>
+      </div>
 
       {/* Order Details & Tracking Modal */}
       <Dialog open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>
