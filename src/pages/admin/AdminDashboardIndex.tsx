@@ -5,7 +5,8 @@ import { formatCurrency } from '../../lib/utils';
 import { 
   Package, ShoppingBag, Users, IndianRupee, AlertTriangle, ArrowRight,
   TrendingUp, Clock, Truck, MapPin, XCircle, Activity,
-  ChevronRight, Calendar, ArrowLeft, RefreshCw, AlertOctagon, CheckCircle2
+  ChevronRight, Calendar, ArrowLeft, RefreshCw, AlertOctagon, CheckCircle2,
+  ChevronUp, ChevronDown
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, buttonVariants } from '../../components/ui/button';
@@ -15,6 +16,7 @@ import { format, subDays, startOfMonth, formatDistanceToNow } from 'date-fns';
 export default function AdminDashboardIndex() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [isChartMinimized, setIsChartMinimized] = useState(false);
   const [stats, setStats] = useState({
     totalSales: 0,
     totalOrders: 0,
@@ -306,42 +308,50 @@ export default function AdminDashboardIndex() {
               <h2 className="text-xl font-bold font-serif text-[#0F172A]">Revenue Analytics</h2>
               <p className="text-sm text-slate-500">Last 7 days performance</p>
             </div>
-            <Button variant="ghost" size="sm" asChild className="text-[#d4af37] hover:text-[#b49124] hover:bg-[#d4af37]/10">
-              <Link to="/admin/settings" className="gap-1">Detailed Report <ChevronRight className="w-4 h-4"/></Link>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" onClick={() => setIsChartMinimized(!isChartMinimized)} className="text-slate-400 hover:text-[#d4af37] bg-transparent hover:bg-[#d4af37]/10 transition-colors">
+                {isChartMinimized ? <ChevronDown className="w-5 h-5"/> : <ChevronUp className="w-5 h-5"/>}
+              </Button>
+              <Button variant="ghost" size="sm" asChild className="text-[#d4af37] hover:text-[#b49124] hover:bg-[#d4af37]/10">
+                <Link to="/admin/settings" className="gap-1">Detailed Report <ChevronRight className="w-4 h-4"/></Link>
+              </Button>
+            </div>
           </div>
-          <div className="flex-1 min-h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#d4af37" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#d4af37" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
-                <YAxis 
-                   axisLine={false} 
-                   tickLine={false} 
-                   tick={{ fill: '#64748b', fontSize: 12 }} 
-                   tickFormatter={(value) => `₹${value/1000}k`}
-                />
-                <RechartsTooltip 
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}
-                  formatter={(value: number) => [formatCurrency(value), 'Revenue']}
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="total" 
-                  stroke="#d4af37" 
-                  strokeWidth={3}
-                  fillOpacity={1} 
-                  fill="url(#colorRevenue)" 
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+          
+          {!isChartMinimized && (
+            <div className="flex-1 min-h-[300px] w-full animate-in slide-in-from-top-4 fade-in duration-300">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#d4af37" stopOpacity={0.4}/>
+                      <stop offset="95%" stopColor="#d4af37" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
+                  <YAxis 
+                     axisLine={false} 
+                     tickLine={false} 
+                     tick={{ fill: '#64748b', fontSize: 12 }} 
+                     tickFormatter={(value) => `₹${value/1000}k`}
+                  />
+                  <RechartsTooltip 
+                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}
+                    formatter={(value: number) => [formatCurrency(value), 'Revenue']}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="total" 
+                    stroke="#d4af37" 
+                    strokeWidth={3}
+                    fillOpacity={1} 
+                    fill="url(#colorRevenue)" 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+             </div>
+          )}
         </div>
 
         {/* Action Panel */}

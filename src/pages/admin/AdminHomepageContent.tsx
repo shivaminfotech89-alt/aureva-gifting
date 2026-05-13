@@ -3,7 +3,8 @@ import { collection, doc, setDoc, deleteDoc, onSnapshot, getDoc, serverTimestamp
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { Button } from '../../components/ui/button';
 import { toast } from 'sonner';
-import { Plus, Trash2, Edit3, Image as ImageIcon, Check, X, GripVertical } from 'lucide-react';
+import { Plus, Trash2, Edit3, Image as ImageIcon, Check, X, GripVertical, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
@@ -21,6 +22,45 @@ export default function AdminHomepageContent() {
   const [editingItem, setEditingItem] = useState<any | null>(null);
 
   const [formData, setFormData] = useState<any>({});
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          setFormData((prev: any) => ({ ...prev, [fieldName]: dataUrl }));
+        };
+        img.src = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     // Sliders
@@ -112,6 +152,11 @@ export default function AdminHomepageContent() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
+      <div className="flex items-center gap-4 mb-2">
+         <Button variant="outline" size="sm" asChild className="gap-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#0F172A] rounded-xl h-10 shadow-sm">
+            <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back to Dashboard</Link>
+         </Button>
+      </div>
       <div>
         <h1 className="text-3xl font-bold font-serif text-[#0F172A] tracking-tight">Homepage Content Management</h1>
         <p className="text-slate-500 mt-2">Manage sliders, categories, and promotional banners for the homepage.</p>
@@ -235,6 +280,51 @@ export default function AdminHomepageContent() {
                            <Input name="imageUrl" defaultValue={brandingSection?.imageUrl || 'https://images.unsplash.com/photo-1587834575747-df9039afac29?auto=format&fit=crop&q=80&w=1200'} className="h-12 rounded-xl" placeholder="https://" />
                         </div>
                         <div className="space-y-2">
+                           <Label>Or Upload Corporate Branding Image (Recommended: 1200x800)</Label>
+                           <Input type="file" accept="image/*" onChange={(e) => {
+                             const file = e.target.files?.[0];
+                             if (file) {
+                               const reader = new FileReader();
+                               reader.onloadend = () => {
+                                 const img = new Image();
+                                 img.onload = () => {
+                                   const canvas = document.createElement('canvas');
+                                   // Resize logic
+                                   const MAX_WIDTH = 1200;
+                                   const MAX_HEIGHT = 1200;
+                                   let width = img.width;
+                                   let height = img.height;
+
+                                   if (width > height) {
+                                     if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                                   } else {
+                                     if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                                   }
+                                   canvas.width = width;
+                                   canvas.height = height;
+                                   const ctx = canvas.getContext('2d');
+                                   ctx?.drawImage(img, 0, 0, width, height);
+                                   
+                                   const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                                   const input = document.querySelector('input[name="imageUrl"]') as HTMLInputElement;
+                                   if (input) {
+                                     input.value = dataUrl;
+                                     // Dispatch a change event if needed
+                                     const event = new Event('input', { bubbles: true });
+                                     input.dispatchEvent(event);
+                                     
+                                     // Use a hidden form element or direct update if state is preferred
+                                     // Here we update the DOM directly so it correctly picks up during form submission
+                                     setBrandingSection((prev: any) => ({ ...prev, imageUrl: dataUrl }));
+                                   }
+                                 };
+                                 img.src = reader.result as string;
+                               };
+                               reader.readAsDataURL(file);
+                             }
+                           }} className="h-12 rounded-xl text-slate-500 pt-3" />
+                        </div>
+                        <div className="space-y-2">
                            <Label>Section Subtitle (e.g. Personalization Engine)</Label>
                            <Input name="subTitle" defaultValue={brandingSection?.subTitle || 'Personalization Engine'} className="h-12 rounded-xl" />
                         </div>
@@ -277,8 +367,11 @@ export default function AdminHomepageContent() {
                {dialogType === 'banner' && (
                  <>
                    <div className="space-y-2">
-                      <Label>Image URL</Label>
-                      <Input value={formData.imageUrl} onChange={e=>setFormData({...formData, imageUrl: e.target.value})} required />
+                      <Label>Image URL or Upload File (Recommended: 1200x500 banner)</Label>
+                      <div className="flex flex-col gap-2">
+                        <Input value={formData.imageUrl} onChange={e=>setFormData({...formData, imageUrl: e.target.value})} placeholder="https://" required />
+                        <Input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'imageUrl')} />
+                      </div>
                    </div>
                    <div className="space-y-2">
                       <Label>Title</Label>
@@ -306,8 +399,11 @@ export default function AdminHomepageContent() {
                       <Input value={formData.name} onChange={e=>setFormData({...formData, name: e.target.value})} required />
                    </div>
                    <div className="space-y-2">
-                      <Label>Image URL (Supports JPG, PNG, WEBP)</Label>
-                      <Input value={formData.url} onChange={e=>setFormData({...formData, url: e.target.value})} required />
+                      <Label>Image URL or Upload File (Recommended: 800x800 square)</Label>
+                      <div className="flex flex-col gap-2">
+                        <Input value={formData.url} onChange={e=>setFormData({...formData, url: e.target.value})} placeholder="https://" required />
+                        <Input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'url')} />
+                      </div>
                    </div>
                    <div className="space-y-2">
                       <Label>Description</Label>
@@ -327,8 +423,11 @@ export default function AdminHomepageContent() {
                       <Input value={formData.sub} onChange={e=>setFormData({...formData, sub: e.target.value})} required />
                    </div>
                    <div className="space-y-2">
-                      <Label>Image URL (Supports JPG, PNG, WEBP)</Label>
-                      <Input value={formData.img} onChange={e=>setFormData({...formData, img: e.target.value})} required />
+                      <Label>Image URL or Upload File (Recommended: 800x1200 portrait)</Label>
+                      <div className="flex flex-col gap-2">
+                        <Input value={formData.img} onChange={e=>setFormData({...formData, img: e.target.value})} placeholder="https://" required />
+                        <Input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'img')} />
+                      </div>
                    </div>
                    <div className="space-y-2">
                       <Label>Description</Label>

@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Switch } from '../../components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash2, Tag, Percent, DollarSign, Activity, TrendingUp, AlertCircle, RefreshCw } from 'lucide-react';
+import { Plus, Edit, Trash2, Tag, Percent, DollarSign, Activity, TrendingUp, AlertCircle, RefreshCw, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function AdminCoupons() {
   const [coupons, setCoupons] = useState<any[]>([]);
@@ -152,6 +153,11 @@ export default function AdminCoupons() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
+      <div className="flex items-center gap-4 mb-2">
+         <Button variant="outline" size="sm" asChild className="gap-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#0F172A] rounded-xl h-10 shadow-sm">
+            <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back to Dashboard</Link>
+         </Button>
+      </div>
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold font-serif text-[#0F172A] tracking-tight">Coupon Management</h1>
