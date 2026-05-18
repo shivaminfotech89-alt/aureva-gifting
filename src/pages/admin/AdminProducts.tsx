@@ -19,7 +19,8 @@ export default function AdminProducts() {
   const [searchQuery, setSearchQuery] = useState('');
   const [formData, setFormData] = useState({
     name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '',
-    smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: ''
+    smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '',
+    nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: ''
   });
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -91,6 +92,9 @@ export default function AdminProducts() {
         mediumLogoCharge: formData.mediumLogoCharge ? Number(formData.mediumLogoCharge) : 0,
         largeLogoCharge: formData.largeLogoCharge ? Number(formData.largeLogoCharge) : 0,
         fullWrapCharge: formData.fullWrapCharge ? Number(formData.fullWrapCharge) : 0,
+        nameEngravingCharge: formData.nameEngravingCharge ? Number(formData.nameEngravingCharge) : 0,
+        textPrintingCharge: formData.textPrintingCharge ? Number(formData.textPrintingCharge) : 0,
+        customMessageCharge: formData.customMessageCharge ? Number(formData.customMessageCharge) : 0,
         enabled: true,
       };
 
@@ -109,7 +113,7 @@ export default function AdminProducts() {
         toast.success('Product created successfully');
       }
       
-      setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '' });
+      setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '' });
       setEditingId(null);
       setIsDialogOpen(false);
       loadProducts();
@@ -132,7 +136,10 @@ export default function AdminProducts() {
       smallLogoCharge: product.smallLogoCharge ? product.smallLogoCharge.toString() : '',
       mediumLogoCharge: product.mediumLogoCharge ? product.mediumLogoCharge.toString() : '',
       largeLogoCharge: product.largeLogoCharge ? product.largeLogoCharge.toString() : '',
-      fullWrapCharge: product.fullWrapCharge ? product.fullWrapCharge.toString() : ''
+      fullWrapCharge: product.fullWrapCharge ? product.fullWrapCharge.toString() : '',
+      nameEngravingCharge: product.nameEngravingCharge ? product.nameEngravingCharge.toString() : '',
+      textPrintingCharge: product.textPrintingCharge ? product.textPrintingCharge.toString() : '',
+      customMessageCharge: product.customMessageCharge ? product.customMessageCharge.toString() : ''
     });
     setIsDialogOpen(true);
   };
@@ -256,13 +263,13 @@ export default function AdminProducts() {
             setIsDialogOpen(open);
             if (!open) {
               setEditingId(null);
-              setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '' });
+              setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '' });
             }
           }}>
             <DialogTrigger render={<Button className="gap-2 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] font-bold rounded-xl h-10 shadow-sm" />}>
               <Plus className="h-5 w-5" /> Add Product
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[700px] max-h-[90vh]">
               <DialogHeader>
                 <DialogTitle>{editingId ? "Edit Product" : "Add New Product"}</DialogTitle>
               </DialogHeader>
@@ -279,7 +286,7 @@ export default function AdminProducts() {
                   <Label htmlFor="description">Description</Label>
                   <Textarea id="description" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} required />
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="basePrice">Base Price (₹)</Label>
                     <Input id="basePrice" type="number" min="0" value={formData.basePrice} onChange={e => setFormData({...formData, basePrice: e.target.value})} required />
@@ -315,6 +322,22 @@ export default function AdminProducts() {
                   <div className="grid gap-2">
                     <Label htmlFor="fullWrapCharge">Full Wrap (₹)</Label>
                     <Input id="fullWrapCharge" type="number" min="0" placeholder="e.g. 250" value={formData.fullWrapCharge} onChange={e => setFormData({...formData, fullWrapCharge: e.target.value})} />
+                  </div>
+                </div>
+
+                <Label className="mt-2 text-sm font-semibold border-b pb-1">Text/Name Branding Charges</Label>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-muted/30 p-3 rounded-lg border">
+                  <div className="grid gap-2">
+                    <Label htmlFor="nameEngravingCharge">Name Engraving (₹)</Label>
+                    <Input id="nameEngravingCharge" type="number" min="0" placeholder="e.g. 60" value={formData.nameEngravingCharge} onChange={e => setFormData({...formData, nameEngravingCharge: e.target.value})} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="textPrintingCharge">Text Printing (₹)</Label>
+                    <Input id="textPrintingCharge" type="number" min="0" placeholder="e.g. 40" value={formData.textPrintingCharge} onChange={e => setFormData({...formData, textPrintingCharge: e.target.value})} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="customMessageCharge">Custom Message (₹)</Label>
+                    <Input id="customMessageCharge" type="number" min="0" placeholder="e.g. 20" value={formData.customMessageCharge} onChange={e => setFormData({...formData, customMessageCharge: e.target.value})} />
                   </div>
                 </div>
 
@@ -411,7 +434,14 @@ export default function AdminProducts() {
                       <div className="flex items-center gap-4">
                         <div className="h-12 w-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
                           {product.images?.[0] ? (
-                            <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                            <img 
+                              src={product.images[0]} 
+                              alt={product.name} 
+                              className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400';
+                              }}
+                            />
                           ) : (
                             <ImageIcon className="h-5 w-5 text-slate-400" />
                           )}

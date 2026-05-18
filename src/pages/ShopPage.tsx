@@ -5,6 +5,7 @@ import { ProductCard, ProductData } from '../components/shop/ProductCard';
 import { Input } from '../components/ui/input';
 import { Search, SlidersHorizontal, ChevronDown, Check } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { useSearchParams } from 'react-router-dom';
 
 const FALLBACK_PRODUCTS: ProductData[] = [
   // Keeping fallback products for preview resilience
@@ -55,14 +56,33 @@ const FALLBACK_PRODUCTS: ProductData[] = [
 ];
 
 export default function ShopPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState(true);
   
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
+  const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get('category') || 'All');
   const [selectedBudget, setSelectedBudget] = useState<string>('All');
   const [sortBy, setSortBy] = useState<string>('featured');
   const [isSortOpen, setIsSortOpen] = useState(false);
+
+  // Update URL perfectly when state changes
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    if (selectedCategory && selectedCategory !== 'All') {
+      params.set('category', selectedCategory);
+    } else {
+      params.delete('category');
+    }
+    
+    if (searchQuery) {
+      params.set('q', searchQuery);
+    } else {
+      params.delete('q');
+    }
+    
+    setSearchParams(params, { replace: true });
+  }, [selectedCategory, searchQuery, setSearchParams]);
 
   useEffect(() => {
     async function loadProducts() {
@@ -153,6 +173,9 @@ export default function ShopPage() {
             src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2640&auto=format&fit=crop" 
             alt="Premium Gifts" 
             className="w-full h-full object-cover opacity-40 mix-blend-luminosity"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2640&auto=format&fit=crop";
+            }}
           />
         </div>
         <div className="container mx-auto px-4 py-20 md:py-28 max-w-7xl relative z-10">

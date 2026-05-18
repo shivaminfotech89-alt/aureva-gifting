@@ -46,7 +46,7 @@ export default function HomePage() {
            { id: 'f2', title: 'Curated Festival Hampers', subtitle: 'Spread joy this festive season with our exclusive premium hampers designed for enterprises.', ctaText: 'Shop Festive', ctaLink: '/shop', imageUrl: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80', enabled: true, order: 1 }
         ]);
       }
-    });
+    }, (err) => console.error("homepage banners error: ", err));
 
     // Fetch featured products
     const qProducts = query(
@@ -66,7 +66,7 @@ export default function HomePage() {
           { id: 'sample-5', name: 'Smart Desk Organizer', description: 'Minimalist wooden organizer with built-in wireless charging.', basePrice: 6500, gstPercent: 18, images: ['https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&q=80&w=600'], stock: 75, enabled: true }
          ]);
       }
-    });
+    }, (err) => console.error("homepage products error: ", err));
 
     // Categories
     const unsubCats = onSnapshot(query(collection(db, 'homepageCategories'), orderBy('order', 'asc')), (snapshot) => {
@@ -80,7 +80,7 @@ export default function HomePage() {
            { name: "Eco-friendly", url: "https://images.unsplash.com/photo-1536766768582-1dd38f32acab?auto=format&fit=crop&q=80" }
          ]);
       }
-    });
+    }, (err) => console.error("homepage cats error: ", err));
 
     // Festival Collections
     const unsubCols = onSnapshot(query(collection(db, 'homepageCollections'), orderBy('order', 'asc')), (snapshot) => {
@@ -93,7 +93,7 @@ export default function HomePage() {
           { title: "Welcome Kits", sub: "Onboarding Essentials", img: "https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&q=80&w=800" }
          ]);
       }
-    });
+    }, (err) => console.error("homepage cols error: ", err));
 
     // Branding Image
     const unsubBranding = onSnapshot(doc(db, 'settings', 'brandingImage'), (docSnap) => {
@@ -102,7 +102,7 @@ export default function HomePage() {
        } else {
           setBrandingSection({ imageUrl: "https://images.unsplash.com/photo-1587834575747-df9039afac29?auto=format&fit=crop&q=80&w=1200" });
        }
-    });
+    }, (err) => console.error("homepage branding error: ", err));
 
     return () => { unsubBanners(); unsubProducts(); unsubCats(); unsubCols(); unsubBranding(); };
   }, []);
@@ -247,7 +247,7 @@ export default function HomePage() {
            
            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
              {categories.map((cat, idx) => (
-                <Link to="/shop" key={idx} className="group relative h-64 md:h-80 overflow-hidden rounded-[1.5rem]">
+                <Link to={`/shop?category=${encodeURIComponent(cat.name)}`} key={idx} className="group relative h-64 md:h-80 overflow-hidden rounded-[1.5rem]">
                   <img 
                     src={cat.url} 
                     alt={cat.name} 
@@ -293,34 +293,35 @@ export default function HomePage() {
            
            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {collectionsData.map((collection, idx) => (
-              <motion.div 
-                key={idx}
-                whileHover={{ y: -10 }}
-                className="group relative h-[450px] md:h-[550px] overflow-hidden rounded-[2rem] bg-slate-900 cursor-pointer shadow-2xl"
-              >
-                <img 
-                  src={collection.img} 
-                  alt={collection.title} 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    const fallback = "https://images.unsplash.com/photo-1511269366734-cd2500028fb3?auto=format&fit=crop&q=80&w=800";
-                    if (target.src !== fallback) target.src = fallback;
-                  }}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end">
-                   <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <p className="text-[#FFB347] font-bold tracking-widest uppercase text-xs mb-3">{collection.sub}</p>
-                      <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-2">{collection.title}</h3>
-                      {collection.description && (
-                         <p className="text-white/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">{collection.description}</p>
-                      )}
-                      <div className="h-1 w-0 group-hover:w-16 bg-[#d4af37] transition-all duration-500 mt-4"></div>
-                   </div>
-                </div>
-              </motion.div>
+              <Link to={`/shop?q=${encodeURIComponent(collection.title)}`} key={idx}>
+                <motion.div 
+                  whileHover={{ y: -10 }}
+                  className="group relative h-[450px] md:h-[550px] overflow-hidden rounded-[2rem] bg-slate-900 cursor-pointer shadow-2xl"
+                >
+                  <img 
+                    src={collection.img} 
+                    alt={collection.title} 
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      const fallback = "https://images.unsplash.com/photo-1511269366734-cd2500028fb3?auto=format&fit=crop&q=80&w=800";
+                      if (target.src !== fallback) target.src = fallback;
+                    }}
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end">
+                     <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <p className="text-[#FFB347] font-bold tracking-widest uppercase text-xs mb-3">{collection.sub}</p>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-2">{collection.title}</h3>
+                        {collection.description && (
+                           <p className="text-white/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">{collection.description}</p>
+                        )}
+                        <div className="h-1 w-0 group-hover:w-16 bg-[#d4af37] transition-all duration-500 mt-4"></div>
+                     </div>
+                  </div>
+                </motion.div>
+              </Link>
             ))}
            </div>
         </div>

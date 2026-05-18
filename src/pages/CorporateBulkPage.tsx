@@ -8,9 +8,15 @@ import { toast } from 'sonner';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Briefcase, Building2, CheckCircle2, Handshake, Mail, MessageSquare } from 'lucide-react';
+import { useSettingsStore } from '../store/settingsStore';
 
 export default function CorporateBulkPage() {
   const [loading, setLoading] = useState(false);
+  const { settings } = useSettingsStore();
+
+  const whatsappNumber = settings?.adminWhatsApp || '919825622421';
+  const cleanNumber = String(whatsappNumber).replace(/[^0-9]/g, '');
+  const salesEmail = settings?.salesEmail || 'aurevagifts@gmail.com';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,10 +114,10 @@ export default function CorporateBulkPage() {
               <h3 className="font-serif font-bold text-2xl mb-3 text-amber-400 relative z-10">Direct Connect</h3>
               <p className="text-zinc-400 mb-6 relative z-10 text-sm">Have urgent requirements? Reach out to our corporate sales team directly.</p>
               <div className="flex flex-col gap-4 relative z-10">
-                <a href="mailto:sales@aurevagifting.com" className="bg-zinc-800 hover:bg-zinc-700 text-white py-3 px-4 rounded-xl flex items-center gap-3 transition-colors text-sm font-medium border border-zinc-700">
-                  <Mail className="w-5 h-5 text-amber-500" /> sales@aurevagifting.com
+                <a href={`mailto:${salesEmail}`} className="bg-zinc-800 hover:bg-zinc-700 text-white py-3 px-4 rounded-xl flex items-center gap-3 transition-colors text-sm font-medium border border-zinc-700">
+                  <Mail className="w-5 h-5 text-amber-500" /> {salesEmail}
                 </a>
-                <a href="https://wa.me/919825622421" target="_blank" rel="noreferrer" className="bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/30 py-3 px-4 rounded-xl flex items-center gap-3 transition-colors text-sm font-medium">
+                <a href={`https://wa.me/${cleanNumber}`} target="_blank" rel="noreferrer" className="bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/30 py-3 px-4 rounded-xl flex items-center gap-3 transition-colors text-sm font-medium">
                   <MessageSquare className="w-5 h-5" /> WhatsApp Business Support
                 </a>
               </div>

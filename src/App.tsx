@@ -4,6 +4,7 @@ import { useAuthListener } from './hooks/useAuthListener';
 import { Toaster } from './components/ui/sonner';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import { useSettingsStore } from './store/settingsStore';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -23,6 +24,7 @@ import AdminHomepageContent from './pages/admin/AdminHomepageContent';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminOrderDetails from './pages/admin/AdminOrderDetails';
 import AdminCustomers from './pages/admin/AdminCustomers';
+import AdminCustomerDetails from './pages/admin/AdminCustomerDetails';
 import AdminSettings from './pages/admin/AdminSettings';
 import AdminCoupons from './pages/admin/AdminCoupons';
 import AdminPlaceholderPage from './pages/admin/AdminPlaceholderPage';
@@ -30,17 +32,21 @@ import CustomerDashboard from './pages/customer/CustomerDashboard';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 
 function Layout() {
+  const { settings } = useSettingsStore();
+  const whatsappNumber = settings?.adminWhatsApp || '919825622421';
+  const cleanNumber = String(whatsappNumber).replace(/[^0-9]/g, '');
+
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground font-sans selection:bg-primary/30 relative">
       <Navbar />
-      <main className="flex-grow w-full overflow-hidden">
+      <main className="flex-grow w-full">
         <Outlet />
       </main>
       <Footer />
       
       {/* WhatsApp FAB */}
       <a 
-        href="https://wa.me/919825622421" 
+        href={`https://wa.me/${cleanNumber}`}
         target="_blank" 
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 z-50 flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-xl hover:bg-[#20bd5a] hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#25D366]/50"
@@ -62,6 +68,14 @@ import CancellationPolicyPage from './pages/policies/CancellationPolicyPage';
 
 export default function App() {
   useAuthListener();
+  const initSettings = useSettingsStore(state => state.initSettings);
+
+  useEffect(() => {
+    const unsub = initSettings();
+    return () => {
+      unsub && unsub();
+    };
+  }, [initSettings]);
 
   return (
     <Router>
@@ -90,37 +104,36 @@ export default function App() {
         </Route>
         
         {/* Admin Routes with dedicated Layout */}
-        <Route path="/admin" element={
-          <ProtectedRoute requiredRole="admin">
-            <AdminLayout />
-          </ProtectedRoute>
-        }>
-           <Route index element={<AdminDashboardIndex />} />
-           <Route path="products" element={<AdminProducts />} />
-           <Route path="banners" element={<AdminHomepageContent />} />
-           <Route path="orders" element={<AdminOrders />} />
-           <Route path="orders/:id" element={<AdminOrderDetails />} />
-           <Route path="customers" element={<AdminCustomers />} />
-           <Route path="settings" element={<AdminSettings />} />
-           
-           {/* Placeholder Routes */}
-           <Route path="categories" element={<AdminPlaceholderPage />} />
-           <Route path="inventory" element={<AdminProducts />} />
-           <Route path="coupons" element={<AdminCoupons />} />
-           <Route path="analytics" element={<AdminPlaceholderPage />} />
-           <Route path="reviews" element={<AdminPlaceholderPage />} />
-           <Route path="reports" element={<AdminPlaceholderPage />} />
-           <Route path="whatsapp-leads" element={<AdminPlaceholderPage />} />
-           <Route path="email-campaigns" element={<AdminPlaceholderPage />} />
-           <Route path="notifications" element={<AdminPlaceholderPage />} />
-           <Route path="roles" element={<AdminPlaceholderPage />} />
-           <Route path="appearance" element={<AdminPlaceholderPage />} />
-           <Route path="payments" element={<AdminPlaceholderPage />} />
-           <Route path="shipping" element={<AdminPlaceholderPage />} />
-           <Route path="tax" element={<AdminPlaceholderPage />} />
-           <Route path="seo" element={<AdminPlaceholderPage />} />
-           <Route path="backup" element={<AdminPlaceholderPage />} />
-           <Route path="logs" element={<AdminPlaceholderPage />} />
+        <Route element={<ProtectedRoute requiredRole="admin" />}>
+          <Route path="/admin" element={<AdminLayout />}>
+             <Route index element={<AdminDashboardIndex />} />
+             <Route path="products" element={<AdminProducts />} />
+             <Route path="banners" element={<AdminHomepageContent />} />
+             <Route path="orders" element={<AdminOrders />} />
+             <Route path="orders/:id" element={<AdminOrderDetails />} />
+             <Route path="customers" element={<AdminCustomers />} />
+             <Route path="customers/:id" element={<AdminCustomerDetails />} />
+             <Route path="settings" element={<AdminSettings />} />
+             
+             {/* Placeholder Routes */}
+             <Route path="categories" element={<AdminPlaceholderPage />} />
+             <Route path="inventory" element={<AdminProducts />} />
+             <Route path="coupons" element={<AdminCoupons />} />
+             <Route path="analytics" element={<AdminPlaceholderPage />} />
+             <Route path="reviews" element={<AdminPlaceholderPage />} />
+             <Route path="reports" element={<AdminPlaceholderPage />} />
+             <Route path="whatsapp-leads" element={<AdminPlaceholderPage />} />
+             <Route path="email-campaigns" element={<AdminPlaceholderPage />} />
+             <Route path="notifications" element={<AdminPlaceholderPage />} />
+             <Route path="roles" element={<AdminPlaceholderPage />} />
+             <Route path="appearance" element={<AdminPlaceholderPage />} />
+             <Route path="payments" element={<AdminPlaceholderPage />} />
+             <Route path="shipping" element={<AdminPlaceholderPage />} />
+             <Route path="tax" element={<AdminPlaceholderPage />} />
+             <Route path="seo" element={<AdminPlaceholderPage />} />
+             <Route path="backup" element={<AdminPlaceholderPage />} />
+             <Route path="logs" element={<AdminPlaceholderPage />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

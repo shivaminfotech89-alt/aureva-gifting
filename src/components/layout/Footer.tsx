@@ -1,8 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Youtube } from 'lucide-react';
+import { useSettingsStore } from '../../store/settingsStore';
 
 export default function Footer() {
+  const { settings } = useSettingsStore();
+
+  const handleSocialLink = (url?: string) => {
+    return url && url.trim() !== '' ? url : '#';
+  };
+
   return (
     <footer className="bg-secondary text-secondary-foreground">
       <div className="container px-4 py-12 md:py-16 md:px-8 max-w-7xl mx-auto">
@@ -16,10 +23,10 @@ export default function Footer() {
               Premium Gifts for Lasting Business Impressions. We specialize in luxury corporate gifting that elevates your brand and nurtures key relationships.
             </p>
             <div className="flex space-x-4 pt-2">
-              <a href="#" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Instagram className="h-5 w-5" /></a>
-              <a href="#" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Linkedin className="h-5 w-5" /></a>
-              <a href="#" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Facebook className="h-5 w-5" /></a>
-              <a href="#" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Twitter className="h-5 w-5" /></a>
+              <a href={handleSocialLink(settings?.instagramUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Instagram className="h-5 w-5" /></a>
+              <a href={handleSocialLink(settings?.linkedinUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Linkedin className="h-5 w-5" /></a>
+              <a href={handleSocialLink(settings?.facebookUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Facebook className="h-5 w-5" /></a>
+              <a href={handleSocialLink(settings?.youtubeUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Youtube className="h-5 w-5" /></a>
             </div>
           </div>
 
@@ -54,11 +61,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-primary shrink-0" />
-                <span>+91 9825622421</span>
+                <span>{settings?.contactNumber || "+91 9825622421"}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary shrink-0" />
-                <span>aurevagifts@gmail.com</span>
+                <span>{settings?.supportEmail || "aurevagifts@gmail.com"}</span>
               </li>
             </ul>
           </div>

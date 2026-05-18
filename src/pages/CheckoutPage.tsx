@@ -9,9 +9,11 @@ import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../components/ui/dialog';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc, query, where, getDocs, increment } from 'firebase/firestore';
-import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc, query, where, getDocs, setDoc, increment } from 'firebase/firestore';
+import { db, handleFirestoreError, OperationType, storage } from '../lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuthStore } from '../store/authStore';
+import { X } from 'lucide-react';
 
 const loadScript = (src: string) => {
   return new Promise((resolve) => {
@@ -134,6 +136,8 @@ export default function CheckoutPage() {
 
   const [showQR, setShowQR] = useState(false);
   const [orderProcessed, setOrderProcessed] = useState(false);
+  const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
+  const [isUploadingPayment, setIsUploadingPayment] = useState(false);
   const navigate = useNavigate();
 
   const handleFetchLocation = () => {
@@ -151,7 +155,7 @@ export default function CheckoutPage() {
       async (position) => {
         try {
           const { latitude, longitude } = position.coords;
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&email=shivaminfotech89@gmail.com`);
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&email=aurevagifts@gmail.com`);
           if (!res.ok) throw new Error('Failed to fetch location details');
           const data = await res.json();
           
@@ -177,6 +181,8 @@ export default function CheckoutPage() {
     );
   };
 
+  const [pendingOrderData, setPendingOrderData] = useState<any>(null);
+
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
@@ -201,6 +207,7 @@ export default function CheckoutPage() {
       };
 
       const totalAmount = getGrandTotal();
+      const newOrderRef = doc(collection(db, 'orders'));
       const orderData = {
         userId: user.uid,
         items,
@@ -211,12 +218,20 @@ export default function CheckoutPage() {
         grandTotal: totalAmount,
         paymentMethod,
         deliveryDetails,
-        status: paymentMethod === 'upi' ? 'pending_payment' : 'pending',
+        status: 'payment_verification_pending',
         createdAt: serverTimestamp(),
       };
 
-      const docRef = await addDoc(collection(db, 'orders'), orderData);
-      setCreatedOrderId(docRef.id);
+      if (paymentMethod === 'upi' || paymentMethod === 'card' || paymentMethod === 'netbanking') {
+        setCreatedOrderId(newOrderRef.id);
+        setPendingOrderData({ ref: newOrderRef, data: orderData });
+        setIsProcessing(false);
+        setShowQR(true);
+        return;
+      }
+
+      await setDoc(newOrderRef, { ...orderData, status: 'pending' });
+      setCreatedOrderId(newOrderRef.id);
       
       // Update coupon usage statistics
       if (appliedCoupon) {
@@ -230,109 +245,63 @@ export default function CheckoutPage() {
          }
       }
 
-      if (paymentMethod === 'upi') {
-        setIsProcessing(false);
-        // Direct UPI Intents for Mobile - 100% reliable for GPay/PhonePe/Paytm
-        if (isMobile) {
-          setShowQR(true);
-          return;
-        }
-
-        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-
-        if (!res) {
-          toast.error("Payment Gateway failed to load. Fallback to manual QR.");
-          setShowQR(true);
-          return;
-        }
-
-        const options = {
-          key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_1DP5mmOlF5G5ag", // Dummy test key for Demo
-          amount: Math.round(totalAmount * 100),
-          currency: "INR",
-          name: "Aureva Corporate Gifting",
-          description: "Order Payment",
-          handler: async function (response: any) {
-            try {
-              await updateDoc(doc(db, 'orders', docRef.id), {
-                status: 'paid',
-                paymentId: response.razorpay_payment_id,
-                updatedAt: serverTimestamp()
-              });
-              toast.success('Payment successful!');
-              clearCart();
-              setOrderProcessed(true);
-              setShowQR(false);
-              setShowSuccessDialog(true);
-            } catch (err) {
-               console.error(err);
-               toast.error('Failed to update order status');
-               setShowQR(true);
-            }
-          },
-          modal: {
-            ondismiss: function() {
-              toast.info("Payment window closed. Please try again or use the QR code.");
-              setShowQR(true);
-            }
-          },
-          prefill: {
-            name: `${deliveryDetails.firstName} ${deliveryDetails.lastName}`,
-            email: deliveryDetails.email,
-            contact: deliveryDetails.phone,
-          },
-          theme: {
-            color: "#0F172A",
-          },
-        };
-
-        const paymentObject = new (window as any).Razorpay(options);
-        paymentObject.on('payment.failed', async function (response: any) {
-          try {
-            await updateDoc(doc(db, 'orders', docRef.id), {
-               failedPaymentLogs: [
-                 { reason: response.error.description || 'Payment Failed', code: response.error.code, time: new Date().toISOString() }
-               ]
-            });
-          } catch(e){}
-          toast.error("Payment failed. Please try again or use the QR code.");
-          setShowQR(true);
-        });
-        paymentObject.open();
-      } else {
-        clearCart();
-        setIsProcessing(false);
-        setOrderProcessed(true);
-        toast.success('Order placed successfully! We will contact you soon.');
-        handleDownloadBill(docRef.id);
-        setShowSuccessDialog(true);
-      }
+      clearCart();
+      setIsProcessing(false);
+      setOrderProcessed(true);
+      toast.success('Order placed successfully! We will contact you soon.');
+      handleDownloadBill(newOrderRef.id);
+      setShowSuccessDialog(true);
     } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'orders');
+      toast.error('An error occurred while placing order. Please try again.');
+      try {
+         handleFirestoreError(error, OperationType.CREATE, 'orders');
+      } catch(e) {
+         console.error(e);
+      }
+    } finally {
       setIsProcessing(false);
     }
   };
 
-  const handleFinishPayment = async (utrNumber?: string) => {
+  const handleFinishPayment = async (utrNumber?: string, file?: File | null) => {
+    if (!pendingOrderData) return;
+    setIsUploadingPayment(true);
     try {
-      if (createdOrderId && paymentMethod === 'upi') {
-        const updateData: any = {
-           status: 'admin_approval',
-           updatedAt: serverTimestamp()
-        };
-        if (utrNumber) {
-           updateData.paymentUtr = utrNumber;
-        }
-        await updateDoc(doc(db, 'orders', createdOrderId), updateData);
+      const finalData = { ...pendingOrderData.data };
+      if (utrNumber) finalData.paymentUtr = utrNumber;
+      
+      let screenshotUrl = null;
+      if (file) {
+        const storageRef = ref(storage, `payment_screenshots/${pendingOrderData.ref.id}_${Date.now()}_${file.name}`);
+        await uploadBytes(storageRef, file);
+        screenshotUrl = await getDownloadURL(storageRef);
+        finalData.paymentScreenshotUrl = screenshotUrl;
+      }
+      
+      await setDoc(pendingOrderData.ref, finalData);
+      
+      if (appliedCoupon) {
+         try {
+           await updateDoc(doc(db, 'coupons', appliedCoupon.id), {
+              usageCount: increment(1),
+              totalRevenue: increment(finalData.grandTotal)
+           });
+         } catch (e) {
+            console.error("Failed to update coupon usage:", e);
+         }
       }
       
       clearCart();
       setOrderProcessed(true);
       setShowQR(false);
-      toast.success('Order placed! We will verify your payment details shortly.');
+      toast.success('Payment submitted successfully. Your payment is under verification.');
       setShowSuccessDialog(true);
+      setPendingOrderData(null);
     } catch (error) {
-       handleFirestoreError(error, OperationType.UPDATE, 'orders');
+       toast.error('Something went wrong. Please try again.');
+       handleFirestoreError(error, OperationType.CREATE, 'orders');
+    } finally {
+       setIsUploadingPayment(false);
     }
   };
 
@@ -469,20 +438,20 @@ export default function CheckoutPage() {
 
   const notifyAdminWhatsApp = () => {
     // Area Group Routing Logic
-    const customerCity = customerDetails.city.toLowerCase();
+    const customerCity = addressDetails.city.toLowerCase();
     
     // Default fallback
-    let areaEmail = 'orders@aureva.com';
+    let areaEmail = 'aurevagifts@gmail.com';
     let areaPhone = adminSettings?.adminWhatsApp || '919825622421'; // Main group/admin
     
     if (customerCity.includes('mumbai') || customerCity.includes('pune')) {
-      areaEmail = 'maharashtra_admin@aureva.com';
+      areaEmail = 'aurevagifts@gmail.com';
       areaPhone = adminSettings?.adminWhatsApp || '919825622421'; // Would be Maharashtra specific group
     } else if (customerCity.includes('delhi') || customerCity.includes('ncr')) {
-      areaEmail = 'north_admin@aureva.com';
+      areaEmail = 'aurevagifts@gmail.com';
       areaPhone = adminSettings?.adminWhatsApp || '919825622421'; // Would be North specific group
     } else if (customerCity.includes('bangalore') || customerCity.includes('chennai') || customerCity.includes('hyderabad')) {
-      areaEmail = 'south_admin@aureva.com';
+      areaEmail = 'aurevagifts@gmail.com';
       areaPhone = adminSettings?.adminWhatsApp || '919825622421'; // Would be South specific group
     }
     
@@ -494,7 +463,7 @@ export default function CheckoutPage() {
     
     const text = encodeURIComponent(
       `🚨 *New Order Received!*\n\n` +
-      `*Area/Territory:* ${customerDetails.city}\n` +
+      `*Area/Territory:* ${addressDetails.city}\n` +
       `*Customer:* ${customerDetails.firstName} ${customerDetails.lastName}\n` +
       `*Phone:* ${customerDetails.phone}\n\n` +
       `*Items Ordered:*\n${itemsList}\n\n` +
@@ -502,8 +471,8 @@ export default function CheckoutPage() {
       `Please check the admin panel for complete details.`
     );
     
-    const emailSubject = encodeURIComponent(`New Order from ${customerDetails.city} - ${customerDetails.firstName} ${customerDetails.lastName}`);
-    const emailBody = encodeURIComponent(`A new order has been placed in your territory.\n\nCustomer: ${customerDetails.firstName} ${customerDetails.lastName}\nCity: ${customerDetails.city}\nTotal: ${formatCurrency(getGrandTotal())}\n\nPlease check the Aureva Admin Dashboard.`);
+    const emailSubject = encodeURIComponent(`New Order from ${addressDetails.city} - ${customerDetails.firstName} ${customerDetails.lastName}`);
+    const emailBody = encodeURIComponent(`A new order has been placed in your territory.\n\nCustomer: ${customerDetails.firstName} ${customerDetails.lastName}\nCity: ${addressDetails.city}\nTotal: ${formatCurrency(getGrandTotal())}\n\nPlease check the Aureva Admin Dashboard.`);
        
     // Trigger Email to Area Admin
     window.location.href = `mailto:${areaEmail}?subject=${emailSubject}&body=${emailBody}`;
@@ -584,32 +553,18 @@ export default function CheckoutPage() {
           <Card>
             <CardHeader>
               <CardTitle>Payment Method</CardTitle>
-              <CardDescription>Select how you would like to pay.</CardDescription>
+              <CardDescription>We accept direct and secure UPI payments.</CardDescription>
             </CardHeader>
             <CardContent>
-              <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-4">
-                <div className="flex items-center space-x-3 space-y-0 border border-border rounded-lg p-4 cursor-pointer hover:bg-muted/50 transition-colors">
-                  <RadioGroupItem value="upi" id="payment-upi" />
-                  <Label htmlFor="payment-upi" className="flex flex-col cursor-pointer w-full">
-                    <span className="font-semibold block mb-1">UPI / QR Code</span>
-                    <span className="text-sm text-muted-foreground font-normal">Pay seamlessly by scanning our QR Code or via UPI ID.</span>
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-3 space-y-0 border border-border rounded-lg p-4 cursor-pointer hover:bg-muted/50 transition-colors">
-                  <RadioGroupItem value="card" id="payment-card" />
-                  <Label htmlFor="payment-card" className="flex flex-col cursor-pointer w-full">
-                    <span className="font-semibold block mb-1">Credit / Debit Card</span>
-                    <span className="text-sm text-muted-foreground font-normal">We accept all major credit and debit cards.</span>
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-3 space-y-0 border border-border rounded-lg p-4 cursor-pointer hover:bg-muted/50 transition-colors">
-                  <RadioGroupItem value="netbanking" id="payment-netbanking" />
-                  <Label htmlFor="payment-netbanking" className="flex flex-col cursor-pointer w-full">
-                    <span className="font-semibold block mb-1">Net Banking</span>
-                    <span className="text-sm text-muted-foreground font-normal">Transfer directly from your bank's portal.</span>
-                  </Label>
-                </div>
-              </RadioGroup>
+               <div className="flex items-center space-x-3 space-y-0 border border-green-200 bg-green-50 rounded-lg p-4 cursor-pointer">
+                 <div className="bg-green-100 p-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-700"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M7 7h.01"/><path d="M17 7h.01"/><path d="M7 17h.01"/><path d="M17 17h.01"/><path d="M12 12h.01"/><path d="M12 7v5"/></svg>
+                 </div>
+                 <Label className="flex flex-col cursor-pointer w-full">
+                   <span className="font-semibold block mb-1 text-green-800">Secure UPI Payment</span>
+                   <span className="text-sm text-green-700 font-normal">Pay seamlessly using Google Pay, PhonePe, Paytm, BHIM, or any UPI app.</span>
+                 </Label>
+               </div>
             </CardContent>
           </Card>
 
@@ -673,15 +628,8 @@ export default function CheckoutPage() {
             </div>
 
             <Button size="lg" className="w-full text-base font-bold bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] rounded-xl h-14 shadow-sm transition-all" type="submit" disabled={isProcessing}>
-              {isProcessing ? "Processing..." : `Pay ${formatCurrency(getGrandTotal())}`}
+              {isProcessing ? "Processing..." : `Continue to Payment`}
             </Button>
-            
-            {paymentMethod === 'upi' && (
-              <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100 text-center">
-                <div className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Razorpay UPI Payment</div>
-                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Redirecting securely via payment gateway...</p>
-              </div>
-            )}
             
             <div className="mt-6 text-center space-y-2">
                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1">
@@ -693,58 +641,151 @@ export default function CheckoutPage() {
         </div>
       </form>
 
-      <Dialog open={showQR} onOpenChange={(open) => !open && handleFinishPayment()}>
-        <DialogContent className="sm:max-w-md text-center">
-          <DialogHeader>
-            <DialogTitle className="text-center text-2xl">Scan to Pay</DialogTitle>
-            <DialogDescription className="text-center text-base">
-              Please pay {formatCurrency(getGrandTotal())} to complete your order.
-            </DialogDescription>
-          </DialogHeader>
+      <Dialog open={showQR} onOpenChange={(open) => {
+        if (!open) {
+          setShowQR(false);
+          setPendingOrderData(null);
+          toast.error('Payment not completed.');
+        }
+      }}>
+        <DialogContent showCloseButton={false} className="w-[95vw] sm:max-w-[550px] md:max-w-[600px] text-center p-0 rounded-2xl border-0 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden !fixed !top-1/2 !left-1/2 !-translate-y-1/2 !-translate-x-1/2 z-[100]">
           
-          <div className="flex flex-col items-center justify-center py-6 space-y-6">
-            <div className="bg-white p-4 rounded-xl border shadow-sm">
-              {isMobile ? (
-                  <a className={buttonVariants({ size: "lg", className: "w-full h-16 text-lg" })} href={`upi://pay?pa=7990878248@ybl&pn=Aureva&mc=0000&tn=AurevaOrder_${createdOrderId || ''}&am=${getGrandTotal().toFixed(2)}&cu=INR`}>
-                    Pay with UPI App
-                  </a>
-              ) : (
-                <img 
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=7990878248@ybl&pn=Aureva&mc=0000&tn=AurevaOrder_${createdOrderId || ''}&am=${getGrandTotal().toFixed(2)}&cu=INR`)}`} 
-                  alt="UPI QR Code" 
-                  className="w-56 h-56"
-                />
-              )}
-            </div>
+          <div className="flex-1 overflow-y-auto w-full relative bg-white">
+            <button 
+               onClick={() => setShowQR(false)}
+               className="sticky top-3 right-3 float-right z-[110] flex h-8 w-8 items-center justify-center rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-all shadow-sm"
+            >
+               <X className="w-5 h-5" />
+               <span className="sr-only">Close</span>
+            </button>
             
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground uppercase tracking-wide">Company UPI ID</p>
-              <p className="text-xl font-bold font-mono bg-muted py-2 px-6 rounded-lg select-all">7990878248@ybl</p>
-            </div>
-
-            <div className="w-full space-y-2 mt-4 text-left">
-              <Label htmlFor="utr" className="font-bold">Enter UTR / Reference ID</Label>
-              <Input 
-                id="utr" 
-                placeholder="e.g. 412345678901" 
-                className="font-mono text-center tracking-widest text-lg h-12"
-              />
-              <p className="text-xs text-muted-foreground text-center">Please enter the 12-digit UTR number from your payment app.</p>
+            <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-6 pt-10 text-white relative flex-shrink-0 -mt-11">
+              <div className="absolute top-0 right-0 p-4 opacity-20">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M7 7h.01"/><path d="M17 7h.01"/><path d="M7 17h.01"/><path d="M17 17h.01"/><path d="M12 12h.01"/><path d="M12 7v5"/></svg>
+              </div>
+            <DialogHeader>
+              <DialogTitle className="text-center text-2xl font-bold text-white flex items-center justify-center gap-2">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                 Secure UPI Payment
+              </DialogTitle>
+              <DialogDescription className="text-center text-green-50">
+                Scan QR using any UPI app to pay
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 flex flex-col items-center">
+               <span className="text-3xl font-bold font-serif mb-1">
+                 {formatCurrency(getGrandTotal())}
+               </span>
+               <span className="text-xs uppercase tracking-widest text-green-100 font-semibold">Order Amount</span>
             </div>
           </div>
+          
+          <div className="p-6 bg-white flex flex-col items-center flex-shrink-0">
+            <div className="bg-white p-4 rounded-xl border shadow-sm relative group w-[220px] h-[220px] flex items-center justify-center mb-6">
+                <img 
+                  src={(adminSettings?.qrCodeUrl) || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`upi://pay?pa=${adminSettings?.upiId || '7990878248@ybl'}&pn=${adminSettings?.upiName || 'Aureva'}&mc=0000&tn=AurevaOrder_${createdOrderId || ''}&am=${getGrandTotal().toFixed(2)}&cu=INR`)}`} 
+                  alt="UPI QR Code" 
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    if (adminSettings?.qrCodeUrl) {
+                      (e.target as HTMLImageElement).src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`upi://pay?pa=${adminSettings?.upiId || '7990878248@ybl'}&pn=${adminSettings?.upiName || 'Aureva'}&mc=0000&tn=AurevaOrder_${createdOrderId || ''}&am=${getGrandTotal().toFixed(2)}&cu=INR`)}`;
+                    } else {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }
+                  }}
+                />
+            </div>
+            
+            <div className="space-y-1 text-center w-full mb-6">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">{adminSettings?.upiName || 'Aureva Corporate Gifting'}</p>
+              <div className="flex items-center justify-center gap-2 bg-slate-50 border py-2 px-4 rounded-lg">
+                <p className="text-base font-bold font-mono text-slate-800">{adminSettings?.upiId || '7990878248@ybl'}</p>
+                <Button 
+                   variant="ghost" 
+                   size="sm" 
+                   className="h-8 w-8 p-0 text-slate-500 hover:text-[#d4af37]"
+                   onClick={() => {
+                     navigator.clipboard.writeText(adminSettings?.upiId || "7990878248@ybl");
+                     toast.success("UPI ID copied to clipboard!");
+                   }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                </Button>
+              </div>
+            </div>
 
-          <DialogFooter className="sm:justify-center">
-            <Button size="lg" className="w-full text-lg" onClick={() => {
+            <div className="w-full flex justify-center gap-3 mb-8 border-b border-slate-100 pb-6">
+                <Button variant="outline" size="sm" onClick={() => {
+                     const link = document.createElement('a');
+                     link.href = adminSettings?.qrCodeUrl || `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(`upi://pay?pa=${adminSettings?.upiId || '7990878248@ybl'}&pn=${adminSettings?.upiName || 'Aureva'}&mc=0000&tn=AurevaOrder_${createdOrderId || ''}&am=${getGrandTotal().toFixed(2)}&cu=INR`)}`;
+                     link.download = `Aureva_UPI_QR_${createdOrderId}.png`;
+                     document.body.appendChild(link);
+                     link.click();
+                     document.body.removeChild(link);
+                }} className="text-slate-600 bg-white shadow-sm font-semibold rounded-full px-4 border-slate-200 hover:bg-slate-50">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                  Download QR
+                </Button>
+                {isMobile && (
+                  <a className={buttonVariants({ size: "sm", variant: "default", className: "bg-[#d4af37] text-[#0F172A] hover:bg-[#F4C542] rounded-full px-4 font-bold shadow-sm" })} href={`upi://pay?pa=7990878248@ybl&pn=Aureva&mc=0000&tn=AurevaOrder_${createdOrderId || ''}&am=${getGrandTotal().toFixed(2)}&cu=INR`}>
+                    Pay Now Open App
+                  </a>
+                )}
+            </div>
+
+            <div className="w-full space-y-4 mb-6">
+              <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl text-left">
+                <Label htmlFor="screenshot" className="font-bold text-sm text-slate-800 flex items-center gap-2 mb-2">
+                   <span className="bg-slate-200 text-slate-600 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">1</span>
+                   Upload Screenshot (Optional)
+                </Label>
+                <Input 
+                  id="screenshot" 
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setScreenshotFile(e.target.files?.[0] || null)}
+                  className="bg-white border-slate-300 text-sm cursor-pointer file:cursor-pointer file:bg-slate-100 file:border-0 file:rounded-md file:px-3 file:py-1 file:mr-3 file:text-sm file:font-semibold"
+                />
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl text-left">
+                <Label htmlFor="utr" className="font-bold text-sm text-slate-800 flex items-center gap-2 mb-2">
+                   <span className="bg-slate-200 text-slate-600 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">2</span>
+                   Enter Transaction ID (UTR)
+                </Label>
+                <Input 
+                  id="utr" 
+                  placeholder="e.g. 412356789012" 
+                  className="font-mono tracking-wider text-base h-12 bg-white border-slate-300"
+                />
+                <p className="text-[11px] text-slate-500 mt-2">After payment, enter the 12-digit UTR/Reference number.</p>
+              </div>
+            </div>
+          </div>
+          </div>
+          
+          <div className="bg-white p-4 border-t z-20 w-full flex-shrink-0">
+            <Button size="lg" disabled={isUploadingPayment} className="w-full text-base font-bold bg-[#0F172A] hover:bg-black disabled:opacity-70 text-white h-14 rounded-xl shadow-md" onClick={() => {
               const utrInput = document.getElementById('utr') as HTMLInputElement;
-              if (utrInput && utrInput.value.trim() !== '') {
-                handleFinishPayment(utrInput.value.trim());
-              } else {
-                toast.error('Please enter the UTR number to proceed.');
+              const utr = utrInput?.value?.trim();
+              if (!utr) {
+                toast.error('Please enter transaction ID.');
+                return;
               }
+              if (utr.length < 12) {
+                toast.error('Please enter valid transaction ID.');
+                return;
+              }
+              handleFinishPayment(utr, screenshotFile);
             }}>
-              Verify Payment
+              {isUploadingPayment ? (
+                <span className="flex items-center gap-2">
+                   <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                   Processing...
+                </span>
+              ) : "Submit Payment Confirmation"}
             </Button>
-          </DialogFooter>
+          </div>
         </DialogContent>
       </Dialog>
 

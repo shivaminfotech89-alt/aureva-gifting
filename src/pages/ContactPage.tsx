@@ -3,7 +3,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
-import { MapPin, Phone, Mail, MessageSquare } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageSquare, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
@@ -91,7 +91,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-serif font-bold text-xl text-zinc-900 mb-1">Email</h3>
-                  <a href="mailto:sales@aurevagifting.com" className="text-zinc-500 hover:text-amber-600 transition-colors block text-sm mb-1">sales@aurevagifting.com</a>
+                  <a href="mailto:aurevagifts@gmail.com" className="text-zinc-500 hover:text-amber-600 transition-colors block text-sm mb-1">aurevagifts@gmail.com</a>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-green-50 text-green-700 text-xs font-medium">We reply within 24hrs</span>
                 </div>
               </div>

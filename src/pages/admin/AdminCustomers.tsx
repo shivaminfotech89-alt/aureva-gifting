@@ -102,9 +102,12 @@ export default function AdminCustomers() {
                   <td className="px-6 py-5 text-slate-500 font-medium whitespace-nowrap">
                     {customer.createdAt ? new Date(customer.createdAt).toLocaleDateString() : 'N/A'}
                   </td>
-                  <td className="px-6 py-5 text-right">
-                    <a href={`mailto:${customer.email}`} className={buttonVariants({ variant: "outline", size: "sm", className: "h-9 gap-2 rounded-lg border-slate-200 text-slate-700 hover:text-[#0F172A]" })}>
-                       <Mail className="h-4 w-4 text-slate-400" /> Email
+                  <td className="px-6 py-5 text-right flex items-center justify-end gap-2">
+                    <Button variant="outline" size="sm" asChild className="h-9 gap-2 rounded-lg border-slate-200 text-slate-700 hover:text-[#0F172A] bg-white shadow-sm">
+                       <Link to={`/admin/customers/${customer.id}`}>View Details</Link>
+                    </Button>
+                    <a href={`mailto:${customer.email}`} className={buttonVariants({ variant: "outline", size: "icon", className: "h-9 w-9 rounded-lg border-slate-200 text-slate-700 hover:text-[#0F172A] bg-white shadow-sm" })}>
+                       <Mail className="h-4 w-4 text-slate-400" />
                     </a>
                   </td>
                 </tr>

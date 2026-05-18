@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { formatCurrency } from '../../lib/utils';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
@@ -8,13 +8,17 @@ import { Button } from '../../components/ui/button';
 import { Package, ArrowLeft, Clock, ShieldCheck, Truck, MapPin, X } from 'lucide-react';
 import { Textarea } from '../../components/ui/textarea';
 import { toast } from 'sonner';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
 
 const ORDER_STATUSES = [
   { id: 'pending', label: 'Pending', icon: Clock },
-  { id: 'admin_approval', label: 'Under Review', icon: ShieldCheck },
-  { id: 'payment_verified', label: 'Payment Verified', icon: ShieldCheck },
+  { id: 'awaiting_payment', label: 'Awaiting Payment', icon: Clock },
+  { id: 'payment_verification_pending', label: 'Payment Verification Pending', icon: ShieldCheck },
+  { id: 'paid', label: 'Paid', icon: ShieldCheck },
   { id: 'processing', label: 'Processing', icon: Package },
-  { id: 'shipped', label: 'Shipped', icon: Truck },
+  { id: 'dispatched', label: 'Dispatched', icon: Truck },
+  { id: 'out_for_delivery', label: 'Out for Delivery', icon: MapPin },
   { id: 'delivered', label: 'Delivered', icon: MapPin },
 ];
 
@@ -25,6 +29,8 @@ export default function AdminOrderDetails() {
   const [loading, setLoading] = useState(true);
   const [followUpNote, setFollowUpNote] = useState('');
   const [savingNote, setSavingNote] = useState(false);
+  const [dispatchDetails, setDispatchDetails] = useState({ courierName: '', trackingNumber: '', dispatchDate: '' });
+  const [savingDispatch, setSavingDispatch] = useState(false);
 
   useEffect(() => {
     async function loadOrder() {
@@ -34,6 +40,7 @@ export default function AdminOrderDetails() {
         if (docSnap.exists()) {
           setOrder({ id: docSnap.id, ...docSnap.data() });
           setFollowUpNote(docSnap.data().notes || '');
+          if (docSnap.data().dispatchDetails) setDispatchDetails(docSnap.data().dispatchDetails);
         } else {
           toast.error('Order not found');
           navigate('/admin/orders');
@@ -47,6 +54,24 @@ export default function AdminOrderDetails() {
     loadOrder();
   }, [id, navigate]);
 
+  const saveDispatchDetails = async () => {
+    if (!id) return;
+    setSavingDispatch(true);
+    try {
+      await updateDoc(doc(db, 'orders', id), {
+        dispatchDetails,
+        status: 'dispatched', // automatically update status
+        updatedAt: serverTimestamp()
+      });
+      setOrder((prev: any) => ({ ...prev, dispatchDetails, status: 'dispatched' }));
+      toast.success('Dispatch details saved and order dispatched');
+    } catch (e) {
+      toast.error('Failed to save dispatch details');
+    } finally {
+      setSavingDispatch(false);
+    }
+  };
+
   const updateOrderStatus = async (newStatus: string) => {
     try {
       await updateDoc(doc(db, 'orders', id!), { status: newStatus });
@@ -55,7 +80,7 @@ export default function AdminOrderDetails() {
       
       if (order.deliveryDetails?.phone) {
         if (window.confirm(`Status updated to ${newStatus.replace('_', ' ').toUpperCase()}.\nDo you want to notify the customer via WhatsApp?`)) {
-           const phone = order.deliveryDetails.phone.replace(/[^0-9]/g, '');
+           const phone = String(order.deliveryDetails.phone).replace(/[^0-9]/g, '');
            const text = encodeURIComponent(`Hi ${order.deliveryDetails.firstName},\n\nGood news! Your Aureva order #${order.id.slice(-8)} status has been updated to: *${newStatus.replace('_', ' ').toUpperCase()}*.\n\nThank you for shopping with us!`);
            window.open(`https://wa.me/91${phone}?text=${text}`, '_blank');
         }
@@ -107,12 +132,13 @@ export default function AdminOrderDetails() {
                   value={order.status}
                   onChange={(e) => updateOrderStatus(e.target.value)}
                 >
-                  <option value="pending_payment">Pending Payment</option>
-                  <option value="admin_approval">Admin Approval</option>
                   <option value="pending">Pending</option>
-                  <option value="payment_verified">Payment Verified</option>
+                  <option value="awaiting_payment">Awaiting Payment</option>
+                  <option value="payment_verification_pending">Payment Verification Pending</option>
+                  <option value="paid">Paid</option>
                   <option value="processing">Processing</option>
-                  <option value="shipped">Shipped</option>
+                  <option value="dispatched">Dispatched</option>
+                  <option value="out_for_delivery">Out for Delivery</option>
                   <option value="delivered">Delivered</option>
                   <option value="cancelled">Cancelled</option>
                 </select>
@@ -180,6 +206,30 @@ export default function AdminOrderDetails() {
               </Button>
             </CardContent>
           </Card>
+
+          <Card className="shadow-md">
+             <CardHeader className="pb-2 border-b">
+                <CardTitle>Dispatch Management</CardTitle>
+                <CardDescription>Enter courier details for tracking</CardDescription>
+             </CardHeader>
+             <CardContent className="pt-4 space-y-4">
+                <div className="space-y-2">
+                   <Label>Courier Name</Label>
+                   <Input value={dispatchDetails.courierName} onChange={e => setDispatchDetails({...dispatchDetails, courierName: e.target.value})} placeholder="e.g. BlueDart" />
+                </div>
+                <div className="space-y-2">
+                   <Label>Tracking Number</Label>
+                   <Input value={dispatchDetails.trackingNumber} onChange={e => setDispatchDetails({...dispatchDetails, trackingNumber: e.target.value})} placeholder="e.g. BD12345678" />
+                </div>
+                <div className="space-y-2">
+                   <Label>Dispatch Date</Label>
+                   <Input type="date" value={dispatchDetails.dispatchDate} onChange={e => setDispatchDetails({...dispatchDetails, dispatchDate: e.target.value})} />
+                </div>
+                <Button onClick={saveDispatchDetails} disabled={savingDispatch} className="w-full bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] font-bold">
+                   {savingDispatch ? 'Saving...' : 'Update Dispatch Info'}
+                </Button>
+             </CardContent>
+          </Card>
         </div>
 
         {/* Right Column: Order Details */}
@@ -192,7 +242,7 @@ export default function AdminOrderDetails() {
                 <p><span className="font-medium text-muted-foreground">Email:</span> {order.deliveryDetails?.email}</p>
                 <p><span className="font-medium text-muted-foreground w-16 inline-block">Phone:</span> 
                   <a href={`tel:${order.deliveryDetails?.phone}`} className="text-primary hover:underline font-bold bg-primary/10 px-2 py-0.5 rounded ml-1">{order.deliveryDetails?.phone}</a>
-                  <a href={`https://wa.me/91${order.deliveryDetails?.phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" className="text-[#25D366] ml-2 text-xs font-bold border border-[#25D366] px-2 py-0.5 rounded hover:bg-[#25D366]/10">WhatsApp</a>
+                  <a href={`https://wa.me/91${String(order.deliveryDetails?.phone || '').replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" className="text-[#25D366] ml-2 text-xs font-bold border border-[#25D366] px-2 py-0.5 rounded hover:bg-[#25D366]/10">WhatsApp</a>
                 </p>
                 <p className="pt-2"><span className="font-medium text-muted-foreground">Address:</span> {order.deliveryDetails?.address}</p>
                 <p><span className="font-medium text-muted-foreground">Location:</span> {order.deliveryDetails?.city}, {order.deliveryDetails?.state} {order.deliveryDetails?.pincode}</p>
@@ -283,7 +333,16 @@ export default function AdminOrderDetails() {
                     <tr key={idx} className="hover:bg-muted/30">
                       <td className="py-3 px-4 flex items-center gap-3">
                         <div className="w-12 h-12 bg-muted rounded overflow-hidden flex-shrink-0 border shadow-sm">
-                          {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
+                          {item.image && (
+                            <img 
+                              src={item.image} 
+                              alt={item.name} 
+                              className="w-full h-full object-cover" 
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400';
+                              }}
+                            />
+                          )}
                         </div>
                         <div>
                           <p className="font-medium line-clamp-2">{item.name}</p>

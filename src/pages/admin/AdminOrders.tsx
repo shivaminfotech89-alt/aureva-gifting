@@ -5,7 +5,7 @@ import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { formatCurrency } from '../../lib/utils';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { Package, Search, Eye, MessageCircle, X, Clock, ShieldCheck, Truck, MapPin, CheckCircle2, ArrowLeft, RefreshCw, AlertOctagon } from 'lucide-react';
+import { Package, Search, Eye, MessageCircle, X, Clock, ShieldCheck, Truck, MapPin, CheckCircle2, ArrowLeft, RefreshCw, AlertOctagon, XCircle } from 'lucide-react';
 import { Input } from '../../components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDesc } from '../../components/ui/dialog';
 import { toast } from 'sonner';
@@ -14,23 +14,26 @@ import * as XLSX from 'xlsx';
 
 const ORDER_STATUSES = [
   { id: 'pending', label: 'Pending', icon: Clock },
-  { id: 'confirmed', label: 'Confirmed', icon: CheckCircle2 },
+  { id: 'awaiting_payment', label: 'Awaiting Payment', icon: Clock },
+  { id: 'payment_verification_pending', label: 'Payment Verification Pending', icon: ShieldCheck },
+  { id: 'paid', label: 'Paid', icon: CheckCircle2 },
   { id: 'processing', label: 'Processing', icon: RefreshCw },
   { id: 'dispatched', label: 'Dispatched', icon: Truck },
   { id: 'out_for_delivery', label: 'Out for Delivery', icon: MapPin },
   { id: 'delivered', label: 'Delivered', icon: CheckCircle2 },
+  { id: 'cancelled', label: 'Cancelled', icon: XCircle }
 ];
 
 const FILTER_TABS = [
   { id: 'all', label: 'All Orders' },
-  { id: 'pending', label: 'Pending' },
-  { id: 'confirmed', label: 'Confirmed' },
+  { id: 'awaiting_payment', label: 'Awaiting Payment' },
+  { id: 'payment_verification_pending', label: 'Verification Pending' },
+  { id: 'paid', label: 'Paid / Confirmed' },
   { id: 'processing', label: 'Processing' },
   { id: 'shipped', label: 'Dispatched' }, // Legacy mapped to shipped
   { id: 'out_for_delivery', label: 'Out for Delivery' },
   { id: 'delivered', label: 'Delivered' },
   { id: 'cancelled', label: 'Cancelled' },
-  { id: 'payment_failed', label: 'Payment Failed' },
 ];
 
 interface Order {
@@ -147,9 +150,9 @@ export default function AdminOrders() {
       'Phone': o.deliveryDetails?.phone || '',
       'City': o.deliveryDetails?.city || '',
       'Total Amount': o.grandTotal,
-      'Payment Method': o.paymentMethod.toUpperCase(),
+      'Payment Method': 'UPI QR',
       'UTR Number': o.paymentUtr || 'N/A',
-      'Status': o.status.replace('_', ' ').toUpperCase(),
+      'Status': o.status.replace(/_/g, ' ').toUpperCase(),
       'Date': o.createdAt?.toDate ? o.createdAt.toDate().toLocaleDateString() : 'N/A',
       'Notes': o.notes || ''
     }));
@@ -162,6 +165,8 @@ export default function AdminOrders() {
 
   const filteredOrders = orders.filter(o => 
     (statusFilter === 'all' || 
+     (statusFilter === 'paid' && (o.status === 'paid' || o.status === 'confirmed')) || 
+     (statusFilter === 'awaiting_payment' && (o.status === 'awaiting_payment' || o.status === 'pending')) || 
      (statusFilter === 'shipped' && (o.status === 'shipped' || o.status === 'dispatched')) || 
      o.status === statusFilter
     ) &&
@@ -298,12 +303,12 @@ export default function AdminOrders() {
                       value={order.status}
                       onChange={(e) => updateOrderStatus(order.id, e.target.value)}
                     >
-                      <option value="pending_payment">Pending Payment</option>
-                      <option value="admin_approval">Admin Approval</option>
-                      <option value="pending">Pending</option>
-                      <option value="payment_verified">Payment Verified</option>
+                      <option value="awaiting_payment">Awaiting Payment</option>
+                      <option value="payment_verification_pending">Payment Verification Pending</option>
+                      <option value="paid">Paid</option>
                       <option value="processing">Processing</option>
-                      <option value="shipped">Shipped</option>
+                      <option value="dispatched">Dispatched</option>
+                      <option value="out_for_delivery">Out for Delivery</option>
                       <option value="delivered">Delivered</option>
                       <option value="cancelled">Cancelled</option>
                     </select>
@@ -362,20 +367,20 @@ export default function AdminOrders() {
                     </CardHeader>
                     <CardContent>
                       <div className="mb-6">
-                        <select 
-                          className="w-full bg-primary/10 text-primary font-bold border-2 border-primary rounded-lg outline-none p-3 capitalize"
-                          value={selectedOrder.status}
-                          onChange={(e) => updateOrderStatus(selectedOrder.id, e.target.value)}
-                        >
-                          <option value="pending_payment">Pending Payment</option>
-                          <option value="admin_approval">Admin Approval</option>
-                          <option value="pending">Pending</option>
-                          <option value="payment_verified">Payment Verified</option>
-                          <option value="processing">Processing</option>
-                          <option value="shipped">Shipped</option>
-                          <option value="delivered">Delivered</option>
-                          <option value="cancelled">Cancelled</option>
-                        </select>
+                      <select 
+                        className="w-full bg-primary/10 text-primary font-bold border-2 border-primary rounded-lg outline-none p-3 capitalize"
+                        value={selectedOrder.status}
+                        onChange={(e) => updateOrderStatus(selectedOrder.id, e.target.value)}
+                      >
+                        <option value="awaiting_payment">Awaiting Payment</option>
+                        <option value="payment_verification_pending">Payment Verification Pending</option>
+                        <option value="paid">Paid</option>
+                        <option value="processing">Processing</option>
+                        <option value="dispatched">Dispatched</option>
+                        <option value="out_for_delivery">Out for Delivery</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
                       </div>
 
                       <div className="flex flex-col space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent pt-2">
@@ -511,7 +516,16 @@ export default function AdminOrders() {
                           <tr key={idx} className="hover:bg-muted/30">
                             <td className="py-3 px-4 flex items-center gap-3">
                               <div className="w-12 h-12 bg-muted rounded overflow-hidden flex-shrink-0 border shadow-sm">
-                                {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
+                                {item.image && (
+                                  <img 
+                                    src={item.image} 
+                                    alt={item.name} 
+                                    className="w-full h-full object-cover" 
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400';
+                                    }}
+                                  />
+                                )}
                               </div>
                               <div>
                                 <p className="font-medium line-clamp-2">{item.name}</p>

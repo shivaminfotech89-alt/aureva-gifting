@@ -43,128 +43,152 @@ export default function AdminDashboardIndex() {
   ]);
 
   useEffect(() => {
-    async function fetchData() {
+    let unsubscribeOrders: any;
+    let unsubscribeProducts: any;
+    let unsubscribeCustomers: any;
+    let unsubscribeLowStock: any;
+
+    async function setupListeners() {
       try {
-        // Fetch Orders
-        const ordersSnapshot = await getDocs(query(collection(db, 'orders'), orderBy('createdAt', 'desc')));
-        let sales = 0;
-        let tOrders = 0;
-        let pending = 0;
-        let processing = 0;
-        let dispatched = 0;
-        let delivered = 0;
-        let cancelled = 0;
-        let paymentFailed = 0;
+        setLoading(true);
         
-        const rOrders: any[] = [];
-        const thirtyDaysAgo = subDays(new Date(), 30);
-        
-        // Setup initial chart data (last 7 days mapping)
-        const dailyData: Record<string, number> = {};
-        for(let i=6; i>=0; i--) {
-          dailyData[format(subDays(new Date(), i), 'MMM dd')] = 0;
-        }
-
-        const productSales: Record<string, {name: string, count: number, rev: number}> = {};
-
-        ordersSnapshot.forEach(doc => {
-          const data = doc.data();
-          tOrders++;
-          
-          if (tOrders <= 5) {
-            rOrders.push({ id: doc.id, ...data });
-          }
-
-          if (data.status !== 'cancelled' && data.status !== 'payment_failed') {
-            sales += data.grandTotal || 0;
-            
-            // Build chart data
-            if (data.createdAt?.toDate) {
-               const d = data.createdAt.toDate();
-               const dayStr = format(d, 'MMM dd');
-               if (dailyData[dayStr] !== undefined) {
-                 dailyData[dayStr] += data.grandTotal || 0;
-               }
-            }
-            
-            // Build best sellers
-            data.items?.forEach((item: any) => {
-               if (!productSales[item.productId]) {
-                  productSales[item.productId] = { name: item.name, count: 0, rev: 0 };
-               }
-               productSales[item.productId].count += item.quantity;
-               productSales[item.productId].rev += (item.quantity * (item.priceWithGst || item.basePrice));
-            });
-          }
-
-          if (data.status === 'pending') pending++;
-          if (data.status === 'processing' || data.status === 'confirmed') processing++;
-          if (data.status === 'shipped' || data.status === 'out_for_delivery' || data.status === 'dispatched') dispatched++;
-          if (data.status === 'delivered') delivered++;
-          if (data.status === 'cancelled') cancelled++;
-          if (data.status === 'payment_failed' || (data.failedPaymentLogs && data.failedPaymentLogs.length > 0)) paymentFailed++;
+        // Products listener for totalProducts count
+        unsubscribeProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
+           setStats(prev => ({ ...prev, totalProducts: snapshot.size }));
         });
 
-        // Format sales data
-        const chartData = Object.keys(dailyData).map(key => ({
-          name: key,
-          total: dailyData[key]
-        }));
-        setSalesData(chartData);
-        
-        const topProducts = Object.values(productSales)
-           .sort((a, b) => b.count - a.count)
-           .slice(0, 5);
-        setBestSelling(topProducts);
-
-        setRecentOrders(rOrders);
-
-        // Fetch Products
-        const productsSnapshot = await getDocs(collection(db, 'products'));
-        
-        // Fetch Customers
-        const customersSnapshot = await getDocs(query(collection(db, 'users'), where('role', '==', 'customer')));
-        
-        const rCustomers: any[] = [];
-        let i = 0;
-        customersSnapshot.forEach(doc => {
-          if (i < 5) {
-             rCustomers.push({ id: doc.id, ...doc.data() });
-          }
-          i++;
-        });
-        setRecentCustomers(rCustomers);
-
-        setStats({
-          totalSales: sales,
-          totalOrders: tOrders,
-          pendingOrders: pending,
-          processingOrders: processing,
-          dispatchedOrders: dispatched,
-          deliveredOrders: delivered,
-          cancelledOrders: cancelled,
-          paymentFailedOrders: paymentFailed,
-          totalProducts: productsSnapshot.size,
-          customers: customersSnapshot.size
+        // Customers listener for totalCustomers count & recent customers
+        unsubscribeCustomers = onSnapshot(query(collection(db, 'users'), where('role', '==', 'customer')), (snapshot) => {
+           const rCustomers: any[] = [];
+           let i = 0;
+           snapshot.forEach(doc => {
+             if (i < 5) rCustomers.push({ id: doc.id, ...doc.data() });
+             i++;
+           });
+           setRecentCustomers(rCustomers);
+           setStats(prev => ({ ...prev, customers: snapshot.size }));
         });
 
-        // Fetch Low Stock Products
+        // Low stock listener
         const lowStockQuery = query(
           collection(db, 'products'),
           where('stock', '<', 10),
           orderBy('stock', 'asc'),
           limit(5)
         );
-        const lowStockSnap = await getDocs(lowStockQuery);
-        setLowStockProducts(lowStockSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-        
-        setLoading(false);
+        unsubscribeLowStock = onSnapshot(lowStockQuery, (snapshot) => {
+          setLowStockProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        });
+
+        // Orders listener
+        const ordersQuery = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
+        unsubscribeOrders = onSnapshot(ordersQuery, (snapshot) => {
+          let sales = 0;
+          let tOrders = 0;
+          let pending = 0;
+          let processing = 0;
+          let dispatched = 0;
+          let delivered = 0;
+          let cancelled = 0;
+          let paymentFailed = 0;
+          
+          const rOrders: any[] = [];
+          
+          // Setup initial chart data (last 7 days mapping)
+          const dailyData: Record<string, number> = {};
+          for(let i=6; i>=0; i--) {
+            dailyData[format(subDays(new Date(), i), 'MMM dd')] = 0;
+          }
+
+          const productSales: Record<string, {name: string, count: number, rev: number}> = {};
+
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            tOrders++;
+            
+            if (tOrders <= 5) {
+              rOrders.push({ id: doc.id, ...data });
+            }
+
+            const status = data.status || 'pending';
+
+            if (status !== 'cancelled' && status !== 'payment_failed') {
+              sales += data.grandTotal || 0;
+              
+              if (data.createdAt?.toDate) {
+                 const d = data.createdAt.toDate();
+                 const dayStr = format(d, 'MMM dd');
+                 if (dailyData[dayStr] !== undefined) {
+                   dailyData[dayStr] += data.grandTotal || 0;
+                 }
+              }
+              
+              data.items?.forEach((item: any) => {
+                 if (!productSales[item.productId]) {
+                    productSales[item.productId] = { name: item.name, count: 0, rev: 0 };
+                 }
+                 productSales[item.productId].count += item.quantity;
+                 productSales[item.productId].rev += (item.quantity * (item.priceWithGst || item.basePrice));
+              });
+            }
+
+            if (status === 'pending' || status === 'awaiting_payment' || status === 'payment_verification_pending') {
+              pending++;
+            } else if (status === 'processing' || status === 'paid') {
+              processing++;
+            } else if (status === 'dispatched' || status === 'out_for_delivery') {
+              dispatched++;
+            } else if (status === 'delivered') {
+              delivered++;
+            } else if (status === 'cancelled') {
+              cancelled++;
+            } else if (status === 'payment_failed') {
+              paymentFailed++;
+            } else {
+              pending++;
+            }
+          });
+
+          // Format sales data
+          const chartData = Object.keys(dailyData).map(key => ({
+            name: key,
+            total: dailyData[key]
+          }));
+          setSalesData(chartData);
+          
+          const topProducts = Object.values(productSales)
+             .sort((a, b) => b.count - a.count)
+             .slice(0, 5);
+          setBestSelling(topProducts);
+          setRecentOrders(rOrders);
+
+          setStats(prev => ({
+            ...prev,
+            totalSales: sales,
+            totalOrders: tOrders,
+            pendingOrders: pending,
+            processingOrders: processing,
+            dispatchedOrders: dispatched,
+            deliveredOrders: delivered,
+            cancelledOrders: cancelled,
+            paymentFailedOrders: paymentFailed
+          }));
+          
+          setLoading(false);
+        });
       } catch (error) {
-        console.error("Error fetching dashboard data:", error);
+        console.error("Error setting up listeners:", error);
         setLoading(false);
       }
     }
-    fetchData();
+    setupListeners();
+
+    return () => {
+      if (unsubscribeOrders) unsubscribeOrders();
+      if (unsubscribeProducts) unsubscribeProducts();
+      if (unsubscribeCustomers) unsubscribeCustomers();
+      if (unsubscribeLowStock) unsubscribeLowStock();
+    };
   }, []);
 
   if (loading) {
@@ -266,7 +290,7 @@ export default function AdminDashboardIndex() {
            <p className="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Processing</p>
         </div>
 
-        <div onClick={() => navigate('/admin/orders?status=shipped')} className="cursor-pointer bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-center gap-3 hover:-translate-y-1 hover:shadow-xl transition-all outline outline-1 outline-transparent hover:outline-indigo-400">
+        <div onClick={() => navigate('/admin/orders?status=dispatched')} className="cursor-pointer bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-center gap-3 hover:-translate-y-1 hover:shadow-xl transition-all outline outline-1 outline-transparent hover:outline-indigo-400">
            <div className="flex justify-between items-center w-full">
              <div className="p-2.5 bg-indigo-50 rounded-xl text-indigo-500 border border-indigo-100"><Truck className="w-5 h-5" /></div>
              <p className="text-3xl font-bold text-[#0F172A]">{stats.dispatchedOrders}</p>
@@ -458,10 +482,10 @@ export default function AdminDashboardIndex() {
                     <span className={`px-3 py-1.5 rounded-md border shadow-sm ${
                       order.status === 'delivered' ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' :
                       order.status === 'cancelled' ? 'bg-red-500/10 text-red-600 border-red-500/20' :
-                      order.status === 'shipped' ? 'bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20' :
+                      (order.status === 'dispatched' || order.status === 'out_for_delivery') ? 'bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20' :
                       'bg-[#d4af37]/10 text-[#b49124] border-[#d4af37]/20'
                     }`}>
-                      {order.status.replace('_', ' ')}
+                      {(order.status || 'pending').replace(/_/g, ' ')}
                     </span>
                   </td>
                   <td className="p-5 text-right font-bold text-[#0F172A]">{formatCurrency(order.grandTotal)}</td>
@@ -545,7 +569,7 @@ export default function AdminDashboardIndex() {
                               <p className="text-xs text-slate-500">{user.email}</p>
                            </div>
                         </div>
-                        <Link to="/admin" className="text-xs text-[#d4af37] font-bold hover:underline">View</Link>
+                        <Link to={`/admin/customers/${user.id}`} className="text-xs text-[#d4af37] font-bold hover:underline">View</Link>
                      </li>
                    ))}
                  </ul>

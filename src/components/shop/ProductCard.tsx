@@ -25,6 +25,9 @@ export interface ProductData {
   mediumLogoCharge?: number;
   largeLogoCharge?: number;
   fullWrapCharge?: number;
+  nameEngravingCharge?: number;
+  textPrintingCharge?: number;
+  customMessageCharge?: number;
 }
 
 export function ProductCard({ product }: { product: ProductData }) {
@@ -67,6 +70,9 @@ export function ProductCard({ product }: { product: ProductData }) {
             src={product.images?.[0] || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400'} 
             alt={product.name} 
             className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 ease-out group-hover:scale-110" 
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400';
+            }}
           />
           {product.stock <= 0 && (
             <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center z-20">

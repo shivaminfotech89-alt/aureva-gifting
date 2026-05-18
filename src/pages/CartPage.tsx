@@ -41,7 +41,14 @@ export default function CartPage() {
             {items.map(item => (
               <div key={item.productId} className="flex gap-6 p-5 sm:p-6 bg-white border border-slate-200 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                 <div className="h-28 w-28 sm:h-36 sm:w-36 rounded-2xl bg-slate-100 overflow-hidden flex-shrink-0 border border-slate-200">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover" 
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400";
+                    }}
+                  />
                 </div>
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
@@ -61,7 +68,14 @@ export default function CartPage() {
                         {item.customization.logoUrl && (
                            <div className="flex items-center gap-3">
                              <span className="text-xs font-bold text-slate-500 w-16">Logo:</span>
-                             <img src={item.customization.logoUrl} alt="Logo preview" className="h-8 w-8 object-contain bg-white rounded-lg p-1 border shadow-sm" />
+                             <img 
+                               src={item.customization.logoUrl} 
+                               alt="Logo preview" 
+                               className="h-8 w-8 object-contain bg-white rounded-lg p-1 border shadow-sm"
+                               onError={(e) => {
+                                 (e.target as HTMLImageElement).style.display = 'none';
+                               }}
+                             />
                              {item.customization.logoSize && <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">({item.customization.logoSize})</span>}
                            </div>
                         )}

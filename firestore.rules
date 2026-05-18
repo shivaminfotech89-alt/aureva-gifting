@@ -132,6 +132,12 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
     
+    // Media Library
+    match /mediaLibrary/{docId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+    
     // Admin Settings (Access Control)
     match /admin_settings/{emailId} {
       allow read: if isAdmin();

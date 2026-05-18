@@ -4,7 +4,7 @@ import { collection, query, where, getDocs, orderBy, onSnapshot } from 'firebase
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag } from 'lucide-react';
+import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag, RefreshCw, XCircle } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { auth } from '../../lib/firebase';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
@@ -20,15 +20,18 @@ interface Order {
   status: string;
   createdAt: any;
   deliveryDetails: any;
+  dispatchDetails?: any;
 }
 
 const ORDER_STATUSES = [
   { id: 'pending', label: 'Pending', icon: Clock },
-  { id: 'admin_approval', label: 'Under Review', icon: ShieldCheck },
-  { id: 'payment_verified', label: 'Payment Verified', icon: ShieldCheck },
-  { id: 'processing', label: 'Processing', icon: Package },
-  { id: 'shipped', label: 'Shipped', icon: Truck },
-  { id: 'delivered', label: 'Delivered', icon: MapPin },
+  { id: 'awaiting_payment', label: 'Awaiting Payment', icon: Clock },
+  { id: 'payment_verification_pending', label: 'Payment Verification Pending', icon: ShieldCheck },
+  { id: 'paid', label: 'Paid', icon: CheckCircle2 },
+  { id: 'processing', label: 'Processing', icon: RefreshCw },
+  { id: 'dispatched', label: 'Dispatched', icon: Truck },
+  { id: 'out_for_delivery', label: 'Out for Delivery', icon: MapPin },
+  { id: 'delivered', label: 'Delivered', icon: CheckCircle2 },
 ];
 
 export default function CustomerDashboard() {
@@ -72,8 +75,12 @@ export default function CustomerDashboard() {
       
       setLoadingOrders(false);
     }, (error) => {
-      handleFirestoreError(error, OperationType.LIST, 'orders');
       setLoadingOrders(false);
+      try {
+         handleFirestoreError(error, OperationType.LIST, 'orders');
+      } catch (e) {
+         console.error(e);
+      }
     });
 
     return () => unsubscribe();
@@ -315,8 +322,8 @@ export default function CustomerDashboard() {
                             <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider
                                ${order.status === 'delivered' ? 'bg-green-100 text-green-700' : ''}
                                ${order.status === 'cancelled' ? 'bg-red-100 text-red-700' : ''}
-                               ${['pending', 'processing', 'payment_verified', 'admin_approval'].includes(order.status) ? 'bg-amber-100 text-amber-700' : ''}
-                               ${order.status === 'shipped' ? 'bg-blue-100 text-blue-700' : ''}
+                               ${['pending', 'processing', 'paid', 'awaiting_payment', 'payment_verification_pending'].includes(order.status) ? 'bg-amber-100 text-amber-700' : ''}
+                               ${['dispatched', 'out_for_delivery'].includes(order.status) ? 'bg-blue-100 text-blue-700' : ''}
                             `}>
                                {order.status.replace('_', ' ')}
                             </span>
@@ -361,7 +368,7 @@ export default function CustomerDashboard() {
                               Track Status
                             </Button>
                             
-                            {(order.paymentMethod !== 'upi' || ['payment_verified', 'processing', 'shipped', 'delivered'].includes(order.status)) ? (
+                            {(order.paymentMethod !== 'upi' || ['paid', 'processing', 'dispatched', 'out_for_delivery', 'delivered'].includes(order.status)) ? (
                               <Button variant="outline" size="sm" onClick={() => handlePrintInvoice(order)} className="h-10 px-4 rounded-lg font-bold border-zinc-200 text-zinc-700 hover:bg-zinc-50 gap-2">
                                 <FileText className="h-4 w-4 text-zinc-400" /> Download Invoice
                               </Button>
@@ -479,6 +486,13 @@ export default function CustomerDashboard() {
                           {isCurrent ? 'Your order is currently at this stage.' : 
                            isCompleted ? 'Step completed successfully.' : 'Waiting for this step...'}
                         </div>
+                        {status.id === 'dispatched' && isCompleted && selectedOrder.dispatchDetails && (
+                          <div className="mt-4 bg-zinc-50 border border-zinc-200 rounded-xl p-4 space-y-2 text-sm text-zinc-700">
+                             <p><span className="font-bold text-zinc-900">Courier:</span> {selectedOrder.dispatchDetails.courierName}</p>
+                             <p><span className="font-bold text-zinc-900">Tracking Number:</span> <span className="font-mono bg-zinc-200 px-2 py-0.5 rounded select-all">{selectedOrder.dispatchDetails.trackingNumber}</span></p>
+                             <p><span className="font-bold text-zinc-900">Dispatch Date:</span> {selectedOrder.dispatchDetails.dispatchDate}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );

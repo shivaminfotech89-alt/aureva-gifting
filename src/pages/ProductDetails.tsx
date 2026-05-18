@@ -5,6 +5,7 @@ import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { ProductData } from '../components/shop/ProductCard';
 import { useCartStore } from '../store/cartStore';
 import { useWishlistStore } from '../store/wishlistStore';
+import { useSettingsStore } from '../store/settingsStore';
 import { Button } from '../components/ui/button';
 import { formatCurrency, calculateGST } from '../lib/utils';
 import { toast } from 'sonner';
@@ -30,8 +31,15 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore(state => state.addItem);
   const { hasItem, addItem: addToWishlist, removeItem: removeFromWishlist } = useWishlistStore();
+  const { settings } = useSettingsStore();
 
   const isWishlisted = product ? hasItem(product.id) : false;
+
+  const handleBuyNow = () => {
+    if (!product) return;
+    handleAddToCart();
+    navigate('/checkout');
+  };
 
   const handleToggleWishlist = () => {
     if (!product) return;
@@ -48,23 +56,7 @@ export default function ProductDetails() {
   const [customizationLogo, setCustomizationLogo] = useState<string | null>(null);
   const [customizationLogoName, setCustomizationLogoName] = useState<string | null>(null);
   const [logoSize, setLogoSize] = useState<'small' | 'medium' | 'large' | 'full'>('small');
-  const [textChargeRate, setTextChargeRate] = useState(50);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    async function loadConfig() {
-       try {
-         const docRef = doc(db, 'settings', 'admin');
-         const docSnap = await getDoc(docRef);
-         if (docSnap.exists()) {
-           setTextChargeRate(docSnap.data().textCharge || 50);
-         }
-       } catch (e) {
-         // ignore
-       }
-    }
-    loadConfig();
-  }, []);
 
   useEffect(() => {
     async function loadProduct() {
@@ -111,17 +103,29 @@ export default function ProductDetails() {
     ? product.basePrice * (1 - product.discountPercent / 100) 
     : product.basePrice;
 
+  const getCharge = (pVal: number | undefined, sVal: number | undefined, def: number) => {
+    if (pVal !== undefined && pVal > 0) return pVal;
+    if (sVal !== undefined && sVal > 0) return sVal;
+    return def;
+  };
+
+  const pSmallLogo = getCharge(product.smallLogoCharge, settings?.logoSmallCharge, 50);
+  const pMedLogo = getCharge(product.mediumLogoCharge, settings?.logoMediumCharge, 100);
+  const pLargeLogo = getCharge(product.largeLogoCharge, settings?.logoLargeCharge, 150);
+  const pFullWrap = getCharge(product.fullWrapCharge, settings?.logoFullCharge, 250);
+  const pTextPrint = getCharge(product.textPrintingCharge, settings?.textCharge, 50);
+
   // Calculate customized charges
   let logoCharge = 0;
   if (customizationLogo) {
-     if (logoSize === 'small') logoCharge = product.smallLogoCharge || 50;
-     else if (logoSize === 'medium') logoCharge = product.mediumLogoCharge || 100;
-     else if (logoSize === 'large') logoCharge = product.largeLogoCharge || 150;
-     else if (logoSize === 'full') logoCharge = product.fullWrapCharge || 250;
+     if (logoSize === 'small') logoCharge = pSmallLogo;
+     else if (logoSize === 'medium') logoCharge = pMedLogo;
+     else if (logoSize === 'large') logoCharge = pLargeLogo;
+     else if (logoSize === 'full') logoCharge = pFullWrap;
   }
 
   const currentCustomizationCharge = customizationEnabled ? 
-    (logoCharge + (customizationText.trim() ? textChargeRate : 0)) : 0;
+    (logoCharge + (customizationText.trim() ? pTextPrint : 0)) : 0;
 
   const priceWithGst = (discountedPrice + currentCustomizationCharge) + calculateGST(discountedPrice + currentCustomizationCharge, product.gstPercent);
 
@@ -200,6 +204,9 @@ export default function ProductDetails() {
                 src={images[activeImage]} 
                 alt={product.name} 
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581417478175-a9ef18abf5af?auto=format&fit=crop&q=80&w=600';
+                }}
               />
             </div>
             
@@ -213,7 +220,14 @@ export default function ProductDetails() {
                       activeImage === idx ? 'border-[#d4af37] ring-2 ring-[#d4af37] ring-offset-2 opacity-100' : 'border-slate-200 opacity-60 hover:opacity-100 hover:border-[#d4af37]/50'
                     }`}
                   >
-                    <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
+                    <img 
+                      src={img} 
+                      alt={`Thumbnail ${idx}`} 
+                      className="w-full h-full object-cover" 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581417478175-a9ef18abf5af?auto=format&fit=crop&q=80&w=600';
+                      }}
+                    />
                   </button>
                 ))}
               </div>
@@ -249,7 +263,7 @@ export default function ProductDetails() {
                 <span className="text-sm text-slate-500 font-bold tracking-wide uppercase">incl. taxes</span>
               </div>
               <p className="text-xs font-medium text-slate-500 mt-3 bg-slate-50 px-3 py-1.5 rounded-lg w-fit border border-slate-100">
-                Base: {formatCurrency(discountedPrice)} + {product.gstPercent}% GST
+                Base: {formatCurrency(discountedPrice)} {currentCustomizationCharge > 0 ? `+ Customization: ${formatCurrency(currentCustomizationCharge)} ` : ''}+ {product.gstPercent}% GST
               </p>
             </div>
             
@@ -324,19 +338,19 @@ export default function ProductDetails() {
                             <div className="grid grid-cols-2 gap-3 text-sm">
                               <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'small' ? 'bg-[#d4af37]/10 border-[#d4af37] font-bold text-[#0F172A]' : 'bg-white border-slate-200 hover:border-[#d4af37]/50 font-medium text-slate-600'}`}>
                                 <input type="radio" className="hidden" name="logosize" checked={logoSize === 'small'} onChange={() => setLogoSize('small')} />
-                                Small (+₹{product.smallLogoCharge || 50})
+                                Small (+₹{pSmallLogo})
                               </label>
                               <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'medium' ? 'bg-[#d4af37]/10 border-[#d4af37] font-bold text-[#0F172A]' : 'bg-white border-slate-200 hover:border-[#d4af37]/50 font-medium text-slate-600'}`}>
                                 <input type="radio" className="hidden" name="logosize" checked={logoSize === 'medium'} onChange={() => setLogoSize('medium')} />
-                                Medium (+₹{product.mediumLogoCharge || 100})
+                                Medium (+₹{pMedLogo})
                               </label>
                               <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'large' ? 'bg-[#d4af37]/10 border-[#d4af37] font-bold text-[#0F172A]' : 'bg-white border-slate-200 hover:border-[#d4af37]/50 font-medium text-slate-600'}`}>
                                 <input type="radio" className="hidden" name="logosize" checked={logoSize === 'large'} onChange={() => setLogoSize('large')} />
-                                Large (+₹{product.largeLogoCharge || 150})
+                                Large (+₹{pLargeLogo})
                               </label>
                               <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'full' ? 'bg-[#d4af37]/10 border-[#d4af37] font-bold text-[#0F172A]' : 'bg-white border-slate-200 hover:border-[#d4af37]/50 font-medium text-slate-600'}`}>
                                 <input type="radio" className="hidden" name="logosize" checked={logoSize === 'full'} onChange={() => setLogoSize('full')} />
-                                Full Wrap (+₹{product.fullWrapCharge || 250})
+                                Full Wrap (+₹{pFullWrap})
                               </label>
                             </div>
                           </div>
@@ -356,7 +370,7 @@ export default function ProductDetails() {
                     <div className="space-y-3 flex flex-col justify-start">
                       <Label htmlFor="custom-text" className="flex justify-between font-bold text-slate-700">
                         <span>Custom Text / Employee Name</span>
-                        <span className="text-xs text-[#d4af37] font-bold">+₹{textChargeRate}</span>
+                        <span className="text-xs text-[#d4af37] font-bold">+₹{pTextPrint}</span>
                       </Label>
                       <div className="relative">
                         <Edit3 className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
@@ -424,13 +438,22 @@ export default function ProductDetails() {
             <div className="flex gap-4 mt-auto">
                <Button 
                 size="lg" 
-                className="flex-1 text-[15px] font-bold rounded-xl h-14 bg-[#0F172A] hover:bg-slate-800 text-white shadow-[0_8px_30px_rgb(15,23,42,0.2)] hover:shadow-[0_8px_30px_rgb(15,23,42,0.3)] transition-all uppercase tracking-widest" 
+                variant="outline"
+                className="flex-1 text-[15px] font-bold rounded-xl h-14 text-slate-700 transition-all uppercase tracking-widest bg-white border-slate-200 shadow-sm" 
                 onClick={handleAddToCart} 
                 disabled={product.stock <= 0}
                >
                  Add to Cart
                </Button>
-               <Button size="icon" variant="outline" className={`w-14 h-14 rounded-xl border-slate-200 bg-white shadow-sm hover:border-red-200 hover:bg-red-50 transition-colors ${isWishlisted ? 'border-red-200 bg-red-50 shadow-inner' : ''}`} onClick={handleToggleWishlist}>
+               <Button 
+                size="lg" 
+                className="flex-1 text-[15px] font-bold rounded-xl h-14 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] shadow-sm transition-all uppercase tracking-widest" 
+                onClick={handleBuyNow} 
+                disabled={product.stock <= 0}
+               >
+                 Buy Now
+               </Button>
+               <Button size="icon" variant="outline" className={`w-14 h-14 shrink-0 rounded-xl border-slate-200 bg-white shadow-sm hover:border-red-200 hover:bg-red-50 transition-colors ${isWishlisted ? 'border-red-200 bg-red-50 shadow-inner' : ''}`} onClick={handleToggleWishlist}>
                  <Heart className={`w-6 h-6 transition-colors ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-slate-400 hover:text-red-500'}`} />
                </Button>
             </div>
@@ -441,7 +464,9 @@ export default function ProductDetails() {
               className="w-full mt-4 h-14 rounded-xl font-bold uppercase tracking-widest text-[#10B981] border-[#10B981] hover:bg-[#10B981] hover:text-white transition-colors shadow-sm"
               onClick={() => {
                 const message = encodeURIComponent(`Hi Aureva,\n\nI want to order this product:\n\n*${product.name}*\nPrice: ${formatCurrency(priceWithGst)}\nLink: ${window.location.href}`);
-                window.open(`https://wa.me/919825622421?text=${message}`, '_blank');
+                const whatsappNumber = settings?.adminWhatsApp || '919825622421';
+                const cleanNumber = String(whatsappNumber).replace(/[^0-9]/g, '');
+                window.open(`https://wa.me/${cleanNumber}?text=${message}`, '_blank');
               }}
             >
               Order via WhatsApp
