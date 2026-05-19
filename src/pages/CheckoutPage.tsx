@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc, query, where, getDocs, setDoc, increment } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType, storage } from '../lib/firebase';
+import { sendOrderEmailNotification } from '../lib/notifications';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuthStore } from '../store/authStore';
 import { X } from 'lucide-react';
@@ -233,6 +234,25 @@ export default function CheckoutPage() {
       await setDoc(newOrderRef, { ...orderData, status: 'pending' });
       setCreatedOrderId(newOrderRef.id);
       
+      const adminEmail = adminSettings?.adminEmail || 'aurevagifts@gmail.com';
+      await addDoc(collection(db, 'admin_notifications'), {
+        type: 'NEW_ORDER',
+        title: 'New Order Received',
+        message: `Order #${newOrderRef.id} received from ${deliveryDetails.firstName} ${deliveryDetails.lastName}`,
+        orderId: newOrderRef.id,
+        customerName: `${deliveryDetails.firstName} ${deliveryDetails.lastName}`,
+        amount: totalAmount,
+        status: 'pending',
+        read: false,
+        createdAt: serverTimestamp()
+      });
+      await sendOrderEmailNotification({
+        orderId: newOrderRef.id,
+        customerName: `${deliveryDetails.firstName} ${deliveryDetails.lastName}`,
+        customerEmail: deliveryDetails.email,
+        amount: totalAmount
+      }, adminEmail);
+      
       // Update coupon usage statistics
       if (appliedCoupon) {
          try {
@@ -279,6 +299,26 @@ export default function CheckoutPage() {
       }
       
       await setDoc(pendingOrderData.ref, finalData);
+      
+      const adminEmail = adminSettings?.adminEmail || 'aurevagifts@gmail.com';
+      await addDoc(collection(db, 'admin_notifications'), {
+        type: 'PAYMENT_VERIFICATION_PENDING',
+        title: 'Payment Verification Pending',
+        message: `Payment submitted for Order #${pendingOrderData.ref.id}. Please verify UTR: ${utrNumber || 'Screenshot Uploaded'}`,
+        orderId: pendingOrderData.ref.id,
+        customerName: `${finalData.deliveryDetails.firstName} ${finalData.deliveryDetails.lastName}`,
+        amount: finalData.grandTotal,
+        paymentUtr: utrNumber || null,
+        status: 'payment_verification_pending',
+        read: false,
+        createdAt: serverTimestamp()
+      });
+      await sendOrderEmailNotification({
+        orderId: pendingOrderData.ref.id,
+        customerName: `${finalData.deliveryDetails.firstName} ${finalData.deliveryDetails.lastName}`,
+        customerEmail: finalData.deliveryDetails.email,
+        amount: finalData.grandTotal
+      }, adminEmail);
       
       if (appliedCoupon) {
          try {

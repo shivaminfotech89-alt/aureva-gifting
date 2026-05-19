@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, Menu, X, ArrowLeft, Settings, Tag, Grid, Calendar, Warehouse, BarChart3, MessageCircle, Mail, Ticket, Star, Bell, FileText, Shield, Palette, CreditCard, Truck, Receipt, Search, Database, Activity, ChevronLeft, ChevronRight } from 'lucide-react';
+import { toast } from 'sonner';
 import { auth } from '../../../lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useAuthStore } from '../../../store/authStore';
+
+import { NotificationBell } from '../../../components/admin/NotificationBell';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -25,66 +28,108 @@ export default function AdminLayout() {
     navigate('/');
   };
 
-  const menuGroups = [
-    {
-      title: "Main",
-      items: [
-        { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-        { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
-        { name: 'Products', path: '/admin/products', icon: Package },
-      ]
-    },
-    {
-      title: "Catalog & Content",
-      items: [
-        { name: 'Categories', path: '/admin/categories', icon: Grid },
-        { name: 'Image Management', path: '/admin/banners', icon: Palette },
-        { name: 'Inventory', path: '/admin/inventory', icon: Warehouse },
-        { name: 'Coupon Management', path: '/admin/coupons', icon: Ticket },
-      ]
-    },
-    {
-      title: "Customers & Analytics",
-      items: [
-        { name: 'Customers', path: '/admin/customers', icon: Users },
-        { name: 'Analytics', path: '/admin/analytics', icon: BarChart3 },
-        { name: 'Reviews', path: '/admin/reviews', icon: Star },
-        { name: 'Reports', path: '/admin/reports', icon: FileText },
-      ]
-    },
-    {
-      title: "Marketing",
-      items: [
-        { name: 'WhatsApp Leads', path: '/admin/whatsapp-leads', icon: MessageCircle },
-        { name: 'Email Campaigns', path: '/admin/email-campaigns', icon: Mail },
-        { name: 'Notifications', path: '/admin/notifications', icon: Bell },
-      ]
-    },
-    {
-      title: "System",
-      items: [
-        { name: 'Admin Settings', path: '/admin/settings', icon: Settings },
-        { name: 'Roles', path: '/admin/roles', icon: Shield },
-        { name: 'Appearance', path: '/admin/appearance', icon: Palette },
-      ]
-    },
-    {
-      title: "Operations",
-      items: [
-        { name: 'Payments', path: '/admin/payments', icon: CreditCard },
-        { name: 'Shipping', path: '/admin/shipping', icon: Truck },
-        { name: 'Tax', path: '/admin/tax', icon: Receipt },
-      ]
-    },
-    {
-      title: "Advanced",
-      items: [
-        { name: 'SEO', path: '/admin/seo', icon: Search },
-        { name: 'Backup', path: '/admin/backup', icon: Database },
-        { name: 'Logs', path: '/admin/logs', icon: Activity },
-      ]
+  const getFilteredMenuGroups = () => {
+    const adminRole = profile?.adminRole || 'Super Admin';
+    const isSuperAdmin = adminRole === 'Super Admin' || adminRole === 'admin'; // fallback
+
+    const allGroups = [
+      {
+        title: "Main",
+        items: [
+          { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, roles: ['Super Admin', 'Project Manager', 'Admin', 'Order Manager', 'Marketing Manager'] },
+          { name: 'Orders', path: '/admin/orders', icon: ShoppingBag, roles: ['Super Admin', 'Admin', 'Order Manager'] },
+          { name: 'Products', path: '/admin/products', icon: Package, roles: ['Super Admin', 'Project Manager', 'Admin'] },
+        ]
+      },
+      {
+        title: "Catalog & Content",
+        items: [
+          { name: 'Categories', path: '/admin/categories', icon: Grid, roles: ['Super Admin', 'Admin'] },
+          { name: 'Image Management', path: '/admin/banners', icon: Palette, roles: ['Super Admin', 'Project Manager', 'Marketing Manager'] },
+          { name: 'Inventory', path: '/admin/inventory', icon: Warehouse, roles: ['Super Admin', 'Admin'] },
+          { name: 'Coupon Management', path: '/admin/coupons', icon: Ticket, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
+        ]
+      },
+      {
+        title: "Customers & Analytics",
+        items: [
+          { name: 'Customers', path: '/admin/customers', icon: Users, roles: ['Super Admin', 'Admin', 'Order Manager'] },
+          { name: 'Analytics', path: '/admin/analytics', icon: BarChart3, roles: ['Super Admin', 'Project Manager'] },
+          { name: 'Reviews', path: '/admin/reviews', icon: Star, roles: ['Super Admin', 'Marketing Manager'] },
+          { name: 'Reports', path: '/admin/reports', icon: FileText, roles: ['Super Admin', 'Order Manager', 'Project Manager'] },
+        ]
+      },
+      {
+        title: "Marketing",
+        items: [
+          { name: 'WhatsApp Leads', path: '/admin/whatsapp-leads', icon: MessageCircle, roles: ['Super Admin', 'Marketing Manager'] },
+          { name: 'Email Campaigns', path: '/admin/email-campaigns', icon: Mail, roles: ['Super Admin', 'Project Manager', 'Marketing Manager'] },
+          { name: 'Notifications', path: '/admin/notifications', icon: Bell, roles: ['Super Admin', 'Marketing Manager'] },
+        ]
+      },
+      {
+        title: "System",
+        items: [
+          { name: 'Admin Settings', path: '/admin/settings', icon: Settings, roles: ['Super Admin'] },
+          { name: 'Roles', path: '/admin/roles', icon: Shield, roles: ['Super Admin'] },
+          { name: 'Appearance', path: '/admin/appearance', icon: Palette, roles: ['Super Admin'] },
+        ]
+      },
+      {
+        title: "Operations",
+        items: [
+          { name: 'Payments', path: '/admin/payments', icon: CreditCard, roles: ['Super Admin'] },
+          { name: 'Shipping', path: '/admin/shipping', icon: Truck, roles: ['Super Admin', 'Order Manager'] },
+          { name: 'Tax', path: '/admin/tax', icon: Receipt, roles: ['Super Admin'] },
+        ]
+      },
+      {
+        title: "Advanced",
+        items: [
+          { name: 'SEO', path: '/admin/seo', icon: Search, roles: ['Super Admin', 'Marketing Manager'] },
+          { name: 'Backup', path: '/admin/backup', icon: Database, roles: ['Super Admin'] },
+          { name: 'Logs', path: '/admin/logs', icon: Activity, roles: ['Super Admin'] },
+        ]
+      }
+    ];
+
+    if (isSuperAdmin) return allGroups;
+
+    const filtered = allGroups.map(group => ({
+      ...group,
+      items: group.items.filter(item => item.roles.includes(adminRole))
+    })).filter(group => group.items.length > 0);
+
+    return filtered;
+  };
+
+  const menuGroups = getFilteredMenuGroups();
+
+  useEffect(() => {
+    // Collect all allowed paths + base route + IDs (like orders/:id)
+    if (profile?.role === 'admin') {
+       const allowedPaths = new Set(
+         menuGroups.flatMap(group => group.items.map(item => item.path))
+       );
+       
+       let currentPath = location.pathname;
+       // Quick regex for paths with ids
+       const isOrderDetails = currentPath.match(/^\/admin\/orders\/[^/]+$/);
+       const isCustomerDetails = currentPath.match(/^\/admin\/customers\/[^/]+$/);
+
+       if (currentPath !== '/admin') {
+          // Normalise path (if it's /admin/orders/123 -> check if /admin/orders is allowed)
+          let categoryPath = currentPath;
+          if (isOrderDetails) categoryPath = '/admin/orders';
+          else if (isCustomerDetails) categoryPath = '/admin/customers';
+
+          if (!allowedPaths.has(categoryPath) && !allowedPaths.has(currentPath)) {
+             toast.error('Access Denied');
+             navigate('/admin');
+          }
+       }
     }
-  ];
+  }, [location.pathname, profile?.adminRole]);
 
   const SidebarContent = ({ isMobile = false }) => {
     const collapsed = isMobile ? false : isCollapsed;
@@ -182,6 +227,9 @@ export default function AdminLayout() {
       <header className="md:hidden h-16 border-b border-border bg-[#0F172A] flex items-center justify-between px-4 sticky top-0 z-20">
         <span className="font-serif font-bold text-lg tracking-widest uppercase text-[#d4af37]">Aureva Admin</span>
         <div className="flex gap-2 items-center text-white">
+          <div className="invert brightness-0 mt-1">
+             <NotificationBell />
+          </div>
           <button onClick={handleLogout} className="p-2 text-red-400">
             <LogOut className="h-5 w-5" />
           </button>
@@ -222,7 +270,10 @@ export default function AdminLayout() {
             </h2>
           </div>
           <div className="flex items-center gap-6">
-             <div className="flex items-center gap-3 text-sm font-medium pr-6 border-r border-slate-200">
+             <div className="flex items-center gap-2">
+                 <NotificationBell />
+             </div>
+             <div className="flex items-center gap-3 text-sm font-medium pr-6 border-l pl-6 border-r border-slate-200">
                 <div className="w-10 h-10 rounded-full bg-[#0F172A] text-[#d4af37] flex items-center justify-center font-bold shadow-sm">
                    {profile?.name?.charAt(0) || 'A'}
                 </div>

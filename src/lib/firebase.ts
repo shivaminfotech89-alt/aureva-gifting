@@ -31,16 +31,24 @@ interface FirestoreErrorInfo {
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
-  const errInfo: FirestoreErrorInfo = {
-    error: error instanceof Error ? error.message : String(error),
-    authInfo: {
-      userId: auth.currentUser?.uid,
-      email: auth.currentUser?.email,
-      emailVerified: auth.currentUser?.emailVerified,
-    },
-    operationType,
-    path
+  let errInfoMsg = '';
+  try {
+    const errInfo: FirestoreErrorInfo = {
+      error: error instanceof Error ? error.message : String(error),
+      authInfo: {
+        userId: auth.currentUser?.uid,
+        email: auth.currentUser?.email,
+        emailVerified: auth.currentUser?.emailVerified,
+      },
+      operationType,
+      path: typeof path === 'string' ? path : 'invalid_path'
+    };
+    errInfoMsg = JSON.stringify(errInfo);
+  } catch (stringifyError) {
+    console.error('Failed to stringify errInfo:', stringifyError, { error, operationType, path });
+    errInfoMsg = String(error);
   }
-  console.error('Firestore Error: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+  
+  console.error('Firestore Error: ', errInfoMsg);
+  throw new Error(errInfoMsg);
 }
