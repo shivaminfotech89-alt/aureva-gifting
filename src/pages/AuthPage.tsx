@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { toast } from 'sonner';
 import { useAuthStore } from '../store/authStore';
 import { AlertCircle } from 'lucide-react';
+import { AurevaLogo } from '../components/ui/AurevaLogo';
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -54,10 +55,8 @@ export default function AuthPage() {
     <div className="container flex flex-col items-center justify-center min-h-[70vh] py-12 px-4">
       <Card className="w-full max-w-md border-border/50 shadow-2xl bg-card">
         <CardHeader className="text-center space-y-3 pb-6">
-          <div className="mx-auto bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-2">
-            <svg viewBox="0 0 24 24" className="w-8 h-8 text-primary" fill="none" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+          <div className="mx-auto flex items-center justify-center mb-4">
+            <AurevaLogo variant="dark" />
           </div>
           <CardTitle className="text-3xl font-bold tracking-tight text-primary">Welcome Back</CardTitle>
           <CardDescription className="text-base">

@@ -7,6 +7,8 @@ import { signOut } from 'firebase/auth';
 import { useAuthStore } from '../../../store/authStore';
 
 import { NotificationBell } from '../../../components/admin/NotificationBell';
+import { AurevaLogo } from '../../../components/ui/AurevaLogo';
+
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -137,9 +139,9 @@ export default function AdminLayout() {
       <div className="flex flex-col h-full w-full">
         <div className={`h-20 flex items-center border-b border-white/5 bg-[#0F172A] text-white shrink-0 ${collapsed ? 'justify-center px-0' : 'px-6 justify-between'}`}>
           {!collapsed ? (
-             <span className="font-serif font-bold text-xl tracking-widest uppercase text-[#d4af37]">Aureva Admin</span>
+             <AurevaLogo variant="light" className="scale-75 origin-left" />
           ) : (
-             <span className="font-serif font-bold text-2xl tracking-widest text-[#d4af37]">A</span>
+             <AurevaLogo variant="light" showIcon={true} className="scale-75 origin-center -ml-[72px]" />
           )}
           {isMobile ? (
             <button className="text-white" onClick={() => setMobileMenuOpen(false)}>
@@ -225,7 +227,7 @@ export default function AdminLayout() {
     <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
       {/* Mobile Header (visible only on small screens) */}
       <header className="md:hidden h-16 border-b border-border bg-[#0F172A] flex items-center justify-between px-4 sticky top-0 z-20">
-        <span className="font-serif font-bold text-lg tracking-widest uppercase text-[#d4af37]">Aureva Admin</span>
+        <AurevaLogo variant="light" className="scale-75 origin-left" />
         <div className="flex gap-2 items-center text-white">
           <div className="invert brightness-0 mt-1">
              <NotificationBell />

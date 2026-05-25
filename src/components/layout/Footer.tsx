@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Youtube } from 'lucide-react';
 import { useSettingsStore } from '../../store/settingsStore';
+import { AurevaLogo } from '../ui/AurevaLogo';
 
 export default function Footer() {
   const { settings } = useSettingsStore();
@@ -16,10 +17,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           
           <div className="space-y-4">
-            <span className="font-sans font-bold text-2xl tracking-tighter uppercase text-primary">
-              Aureva
-            </span>
-            <p className="text-secondary-foreground/70 text-sm leading-relaxed max-w-xs">
+            <AurevaLogo variant="dark" />
+            <p className="text-secondary-foreground/70 text-sm leading-relaxed max-w-xs mt-4">
               Premium Gifts for Lasting Business Impressions. We specialize in luxury corporate gifting that elevates your brand and nurtures key relationships.
             </p>
             <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg text-xs text-amber-700/80 max-w-xs">

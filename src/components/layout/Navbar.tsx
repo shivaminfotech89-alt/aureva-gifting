@@ -11,6 +11,8 @@ import { useSettingsStore } from '../../store/settingsStore';
 import { auth } from '../../lib/firebase';
 import { signOut } from 'firebase/auth';
 
+import { AurevaLogo } from '../ui/AurevaLogo';
+
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -61,8 +63,8 @@ export default function Navbar() {
           } />
           <SheetContent side="left" className="w-[85%] sm:max-w-md p-0 flex flex-col border-r-0 bg-white">
             <SheetHeader className="p-6 text-left border-b border-slate-100">
-              <SheetTitle className="font-serif font-bold text-2xl tracking-widest uppercase text-[#0F172A]">
-                Aureva
+              <SheetTitle>
+                <AurevaLogo variant="dark" className="scale-90 origin-left" />
               </SheetTitle>
             </SheetHeader>
             <div className="p-6 flex-1 overflow-y-auto">
@@ -91,9 +93,7 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 shrink-0">
-          <span className={`font-serif font-bold text-2xl tracking-widest uppercase ${scrolled || !isHome ? 'text-[#0F172A]' : 'text-white'}`}>
-            Aureva
-          </span>
+          <AurevaLogo variant={scrolled || !isHome ? 'dark' : 'light'} />
         </Link>
 
         {/* Desktop Navigation */}

@@ -143,27 +143,39 @@ export default function CustomerDashboard() {
           body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #18181b; line-height: 1.6; background-color: #fafafa; margin: 0; padding: 40px; }
           .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 50px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); border: 1px solid #f4f4f5; }
           .header { display: flex; justify-content: space-between; margin-bottom: 50px; border-bottom: 2px solid #e4e4e7; padding-bottom: 30px; }
-          .logo { font-size: 28px; font-weight: 800; color: #09090b; letter-spacing: -0.025em; text-transform: uppercase; font-family: serif; }
-          .logo-sub { color: #f59e0b; font-size: 14px; letter-spacing: 0.1em; display: block; margin-top: -5px; }
+          .logo-container { display: flex; align-items: center; gap: 12px; }
+          .logo { font-size: 26px; font-weight: 900; color: #0f172a; letter-spacing: 0.15em; text-transform: uppercase; font-family: serif; line-height: 1; margin-bottom: 4px; }
+          .logo-sub { color: #d4af37; font-size: 10px; letter-spacing: 0.3em; display: block; font-weight: 700; text-transform: uppercase; font-family: sans-serif; }
           .invoice-details { text-align: right; }
           .section-title { font-weight: 600; text-transform: uppercase; font-size: 11px; color: #71717a; letter-spacing: 0.05em; margin-bottom: 12px; }
-          .addresses { display: flex; justify-content: space-between; margin-bottom: 40px; background: #f4f4f5; padding: 24px; border-radius: 8px; }
+          .addresses { display: flex; justify-content: space-between; margin-bottom: 40px; background: #f8fafc; padding: 24px; border-radius: 8px; border: 1px solid #f1f5f9; }
           table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
-          th { text-align: left; padding: 12px 16px; border-bottom: 2px solid #e4e4e7; font-weight: 600; color: #71717a; text-transform: uppercase; font-size: 12px; letter-spacing: 0.05em; }
-          .totals { margin-left: auto; width: 320px; background: #fafafa; padding: 24px; border-radius: 8px; border: 1px solid #f4f4f5;}
-          .totals-row { display: flex; justify-content: space-between; padding: 10px 0; color: #52525b; }
-          .totals-row.grand { font-weight: 700; color: #09090b; font-size: 1.25em; border-top: 2px solid #e4e4e7; padding-top: 16px; margin-top: 8px; }
+          th { text-align: left; padding: 12px 16px; border-bottom: 2px solid #e4e4e7; font-weight: 600; color: #64748b; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+          td { padding: 16px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+          .totals { margin-left: auto; width: 320px; background: #f8fafc; padding: 24px; border-radius: 8px; border: 1px solid #f1f5f9;}
+          .totals-row { display: flex; justify-content: space-between; padding: 10px 0; color: #475569; font-size: 14px; }
+          .totals-row.grand { font-weight: 700; color: #0f172a; font-size: 1.25em; border-top: 2px solid #e2e8f0; padding-top: 16px; margin-top: 8px; }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
             <div>
-              <div class="logo">AUREVA <span class="logo-sub">CORPORATE GIFTING</span></div>
-              <p style="color: #71717a; font-size: 14px; margin-top: 16px;">Ahmedabad, Gujarat<br>380058, India<br>aurevagifts@gmail.com</p>
+              <div class="logo-container">
+                <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 2L6 16L16 30L26 16L16 2Z" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M16 8L10 16L16 24L22 16L16 8Z" stroke="#d4af37" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M16 13L13.5 16L16 19L18.5 16L16 13Z" fill="#d4af37"/>
+                </svg>
+                <div>
+                  <div class="logo">AUREVA</div>
+                  <span class="logo-sub">Corporate Gifting</span>
+                </div>
+              </div>
+              <p style="color: #64748b; font-size: 14px; margin-top: 20px; line-height: 1.5;">Ahmedabad, Gujarat<br>380058, India<br>aurevagifts@gmail.com</p>
             </div>
             <div class="invoice-details">
-              <h1 style="margin:0; font-size: 36px; font-weight: 800; color: #09090b; letter-spacing: -0.025em;">INVOICE</h1>
+              <h1 style="margin:0; font-size: 32px; font-weight: 800; color: #0f172a; letter-spacing: 0.05em; font-family: serif;">TAX INVOICE</h1>
               <p style="color: #71717a; font-size: 14px; margin-top: 16px;">
                 <strong>Order ID:</strong> #${order.id.slice(-8).toUpperCase()}<br>
                 <strong>Date:</strong> ${order.createdAt?.toDate ? order.createdAt.toDate().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}</p>

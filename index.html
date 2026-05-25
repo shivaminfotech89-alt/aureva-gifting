@@ -4,9 +4,70 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AUREVA CORPORATE GIFTING</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 2L6 16L16 30L26 16L16 2Z' stroke='%23d4af37' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/><path d='M16 8L10 16L16 24L22 16L16 8Z' stroke='%23d4af37' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' fill='none'/><path d='M16 13L13.5 16L16 19L18.5 16L16 13Z' fill='%23d4af37'/></svg>" />
+    <style>
+      #initial-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #0F172A;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        transition: opacity 0.5s ease;
+      }
+      .loader-logo-svg {
+        animation: pulse 2s infinite ease-in-out;
+      }
+      .loader-text {
+        color: #fff;
+        font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+        font-weight: 900;
+        letter-spacing: 0.25em;
+        font-size: 24px;
+        margin-top: 16px;
+        text-transform: uppercase;
+      }
+      .loader-subtext {
+        color: #d4af37;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.45em;
+        font-size: 9px;
+        margin-top: 6px;
+        text-transform: uppercase;
+      }
+      @keyframes pulse {
+        0% { transform: scale(0.95); opacity: 0.8; }
+        50% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(0.95); opacity: 0.8; }
+      }
+    </style>
   </head>
   <body>
+    <div id="initial-loader">
+      <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="loader-logo-svg">
+        <path d="M16 2L6 16L16 30L26 16L16 2Z" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 8L10 16L16 24L22 16L16 8Z" stroke="#d4af37" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 13L13.5 16L16 19L18.5 16L16 13Z" fill="#d4af37"/>
+      </svg>
+      <div class="loader-text">AUREVA</div>
+      <div class="loader-subtext">Corporate Gifting</div>
+    </div>
     <div id="root"></div>
+    <script>
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('initial-loader');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 500);
+        }
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

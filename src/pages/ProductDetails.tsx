@@ -229,7 +229,7 @@ export default function ProductDetails() {
           {/* Image Gallery */}
           <div className="flex flex-col gap-6">
             <div className="rounded-3xl overflow-hidden bg-white aspect-square border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative group">
-              {product.discountPercent && product.discountPercent > 0 && product.stock > 0 && (
+              {(product.discountPercent ?? 0) > 0 && product.stock > 0 && (
                 <div className="absolute top-4 left-4 bg-[#0F172A] text-white px-5 py-2.5 font-bold tracking-widest uppercase text-xs rounded-xl shadow-lg z-10 border border-[#0F172A]/80">
                   {product.discountPercent}% OFF
                 </div>
@@ -287,7 +287,7 @@ export default function ProductDetails() {
             </div>
 
             <div className="flex flex-col mb-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-              {product.discountPercent && product.discountPercent > 0 && (
+              {(product.discountPercent ?? 0) > 0 && (
                 <span className="text-lg text-slate-400 line-through decoration-red-500 decoration-2 mb-1">
                   MRP {formatCurrency(product.basePrice + calculateGST(product.basePrice, product.gstPercent))}
                 </span>

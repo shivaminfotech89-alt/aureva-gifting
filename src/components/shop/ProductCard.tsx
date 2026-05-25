@@ -90,7 +90,7 @@ export function ProductCard({ product }: { product: ProductData }) {
               <span className="bg-slate-900 text-white px-6 py-2 font-bold tracking-widest uppercase text-xs rounded-full">Out of Stock</span>
             </div>
           )}
-          {product.discountPercent && product.discountPercent > 0 && product.stock > 0 && (
+          {(product.discountPercent ?? 0) > 0 && product.stock > 0 && (
             <div className="absolute top-4 right-4 bg-[#FFB347] text-white px-3 py-1 font-bold tracking-wider uppercase text-[10px] rounded-full shadow-lg z-10">
               {product.discountPercent}% OFF
             </div>
