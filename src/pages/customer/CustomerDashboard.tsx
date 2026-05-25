@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
-import { collection, query, where, getDocs, orderBy, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, onSnapshot, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
+import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
+import { Button, buttonVariants } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
 import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag, RefreshCw, XCircle } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { auth } from '../../lib/firebase';
@@ -23,8 +26,8 @@ interface Order {
   dispatchDetails?: any;
 }
 
-const ORDER_STATUSES = [
-  { id: 'pending', label: 'Pending', icon: Clock },
+const CUSTOMER_ORDER_STATUSES = [
+  { id: 'inquiry_received', label: 'Inquiry Received', icon: Clock },
   { id: 'awaiting_payment', label: 'Awaiting Payment', icon: Clock },
   { id: 'payment_verification_pending', label: 'Payment Verification Pending', icon: ShieldCheck },
   { id: 'paid', label: 'Paid', icon: CheckCircle2 },
@@ -34,12 +37,22 @@ const ORDER_STATUSES = [
   { id: 'delivered', label: 'Delivered', icon: CheckCircle2 },
 ];
 
+const getCustomerStatus = (internalStatus: string) => {
+  if (['pending_supplier_confirmation', 'supplier_confirmed', 'pending'].includes(internalStatus)) {
+    return 'inquiry_received';
+  }
+  return internalStatus;
+};
+
 export default function CustomerDashboard() {
   const { user, profile } = useAuthStore();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [adminSettings, setAdminSettings] = useState<{adminWhatsApp?: string} | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [paymentOrder, setPaymentOrder] = useState<Order | null>(null);
+  const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
+  const [isUploadingPayment, setIsUploadingPayment] = useState(false);
   const [activeTab, setActiveTab] = useState<'orders' | 'profile'>('orders');
 
   useEffect(() => {
@@ -89,6 +102,25 @@ export default function CustomerDashboard() {
   if (!user) {
     return <div className="container mx-auto p-12 text-center h-screen flex items-center justify-center font-serif text-2xl text-zinc-500">Please login to view your account.</div>;
   }
+
+  const handleFinishPayment = async (utrNumber: string) => {
+    if (!paymentOrder) return;
+    setIsUploadingPayment(true);
+    try {
+      await updateDoc(doc(db, 'orders', paymentOrder.id), {
+         status: 'payment_verification_pending',
+         paymentMethod: 'upi',
+         utrNumber,
+         paymentSubmittedAt: serverTimestamp()
+      });
+      toast.success('Your payment is under verification. Invoice and order confirmation will be generated after successful payment verification.');
+      setPaymentOrder(null);
+    } catch(err: any) {
+      toast.error('Failed to submit payment verification: ' + err.message);
+    } finally {
+      setIsUploadingPayment(false);
+    }
+  };
 
   const handlePrintInvoice = (order: Order) => {
     const printWindow = window.open('', '_blank');
@@ -320,12 +352,12 @@ export default function CustomerDashboard() {
                           
                           <div className="flex items-center gap-3">
                             <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider
-                               ${order.status === 'delivered' ? 'bg-green-100 text-green-700' : ''}
-                               ${order.status === 'cancelled' ? 'bg-red-100 text-red-700' : ''}
-                               ${['pending', 'processing', 'paid', 'awaiting_payment', 'payment_verification_pending'].includes(order.status) ? 'bg-amber-100 text-amber-700' : ''}
-                               ${['dispatched', 'out_for_delivery'].includes(order.status) ? 'bg-blue-100 text-blue-700' : ''}
+                               ${getCustomerStatus(order.status) === 'delivered' ? 'bg-green-100 text-green-700' : ''}
+                               ${getCustomerStatus(order.status) === 'cancelled' ? 'bg-red-100 text-red-700' : ''}
+                               ${['pending', 'processing', 'paid', 'awaiting_payment', 'payment_verification_pending', 'inquiry_received'].includes(getCustomerStatus(order.status)) ? 'bg-amber-100 text-amber-700' : ''}
+                               ${['dispatched', 'out_for_delivery'].includes(getCustomerStatus(order.status)) ? 'bg-blue-100 text-blue-700' : ''}
                             `}>
-                               {order.status.replace('_', ' ')}
+                               {getCustomerStatus(order.status).replace(/_/g, ' ')}
                             </span>
                           </div>
                         </div>
@@ -363,12 +395,17 @@ export default function CustomerDashboard() {
                         </CardContent>
 
                         {/* Order Actions */}
-                        <div className="bg-white px-6 py-4 border-t border-zinc-100 flex justify-end gap-3">
+                        <div className="bg-white px-6 py-4 border-t border-zinc-100 flex justify-end gap-3 flex-wrap">
+                            {getCustomerStatus(order.status) === 'awaiting_payment' && (
+                               <Button size="sm" onClick={() => setPaymentOrder(order)} className="h-10 px-4 rounded-lg font-bold bg-[#d4af37] text-[#0F172A] hover:bg-[#F4C542] shadow-sm">
+                                 Pay Now
+                               </Button>
+                            )}
                             <Button variant="outline" size="sm" onClick={() => setSelectedOrder(order)} className="h-10 px-4 rounded-lg font-bold border-zinc-200 text-zinc-700 hover:bg-zinc-50">
                               Track Status
                             </Button>
                             
-                            {(order.paymentMethod !== 'upi' || ['paid', 'processing', 'dispatched', 'out_for_delivery', 'delivered'].includes(order.status)) ? (
+                            {['paid', 'processing', 'dispatched', 'out_for_delivery', 'delivered'].includes(getCustomerStatus(order.status)) ? (
                               <Button variant="outline" size="sm" onClick={() => handlePrintInvoice(order)} className="h-10 px-4 rounded-lg font-bold border-zinc-200 text-zinc-700 hover:bg-zinc-50 gap-2">
                                 <FileText className="h-4 w-4 text-zinc-400" /> Download Invoice
                               </Button>
@@ -384,7 +421,7 @@ export default function CustomerDashboard() {
                                 className="h-10 px-4 rounded-lg font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] gap-2 shadow-md hover:shadow-lg transition-all"
                                 onClick={() => {
                                    const phone = adminSettings.adminWhatsApp?.replace(/[^0-9]/g, '');
-                                   const text = encodeURIComponent(`Hi Aureva Support,\n\nI need help with my order #${order.id.slice(-8).toUpperCase()}.\nStatus: ${order.status.replace('_', ' ').toUpperCase()}`);
+                                   const text = encodeURIComponent(`Hi Aureva Support,\n\nI need help with my order #${order.id.slice(-8).toUpperCase()}.\nStatus: ${getCustomerStatus(order.status).replace(/_/g, ' ').toUpperCase()}`);
                                    window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
                                 }}
                               >
@@ -441,8 +478,8 @@ export default function CustomerDashboard() {
           {selectedOrder && (
             <div className="px-8 py-10 bg-white">
               <div className="flex flex-col space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px before:h-full before:w-0.5 before:bg-zinc-200">
-                {ORDER_STATUSES.map((status, index) => {
-                  const currentStatusIndex = ORDER_STATUSES.findIndex(s => s.id === selectedOrder.status);
+                {CUSTOMER_ORDER_STATUSES.map((status, index) => {
+                  const currentStatusIndex = CUSTOMER_ORDER_STATUSES.findIndex(s => s.id === getCustomerStatus(selectedOrder.status));
                   const isCompleted = index <= currentStatusIndex;
                   const isCurrent = index === currentStatusIndex;
                   const Icon = status.icon;
@@ -500,6 +537,109 @@ export default function CustomerDashboard() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+      {/* Payment Dialog */}
+      <Dialog open={!!paymentOrder} onOpenChange={(open) => {
+        if (!open) {
+          setPaymentOrder(null);
+          toast.error('Payment not completed.');
+        }
+      }}>
+        <DialogContent showCloseButton={false} className="w-[95vw] sm:max-w-[550px] md:max-w-[600px] text-center p-0 rounded-2xl border-0 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden !fixed !top-1/2 !left-1/2 !-translate-y-1/2 !-translate-x-1/2 z-[100]">
+          
+          <div className="flex-1 overflow-y-auto w-full relative bg-white">
+            <button 
+               onClick={() => setPaymentOrder(null)}
+               className="sticky top-3 right-3 float-right z-[110] flex h-8 w-8 items-center justify-center rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-all shadow-sm"
+            >
+               <X className="w-5 h-5" />
+               <span className="sr-only">Close</span>
+            </button>
+            
+            <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-6 pt-10 text-white relative flex-shrink-0 -mt-11">
+              <div className="absolute top-0 right-0 p-4 opacity-20">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M7 7h.01"/><path d="M17 7h.01"/><path d="M7 17h.01"/><path d="M17 17h.01"/><path d="M12 12h.01"/><path d="M12 7v5"/></svg>
+              </div>
+            <DialogHeader>
+              <DialogTitle className="text-center text-2xl font-bold text-white flex items-center justify-center gap-2 mt-4">
+                 <ShieldCheck className="w-6 h-6" />
+                 Secure UPI Payment
+              </DialogTitle>
+            </DialogHeader>
+            <div className="mt-4 flex flex-col items-center">
+               <span className="text-3xl font-bold font-serif mb-1">
+                 {paymentOrder && formatCurrency(paymentOrder.grandTotal)}
+               </span>
+               <span className="text-xs uppercase tracking-widest text-green-100 font-semibold">Order Amount</span>
+            </div>
+          </div>
+          
+          <div className="p-6 bg-white flex flex-col items-center flex-shrink-0">
+            <div className="bg-white p-4 rounded-xl border shadow-sm relative group w-[220px] h-[220px] flex items-center justify-center mb-6">
+                <img 
+                  src={(adminSettings?.qrCodeUrl) || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`upi://pay?pa=${adminSettings?.adminWhatsApp ? '7990878248@ybl' : '7990878248@ybl'}&pn=Aureva&mc=0000&tn=AurevaOrder_${paymentOrder?.id || ''}&am=${paymentOrder?.grandTotal}&cu=INR`)}`} 
+                  alt="UPI QR Code" 
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+            </div>
+            
+            <div className="w-full space-y-4 mb-6">
+              <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl text-left">
+                <Label htmlFor="screenshot" className="font-bold text-sm text-slate-800 flex items-center gap-2 mb-2">
+                   <span className="bg-slate-200 text-slate-600 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">1</span>
+                   Upload Screenshot (Optional)
+                </Label>
+                <Input 
+                  id="screenshot" 
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setScreenshotFile(e.target.files?.[0] || null)}
+                  className="bg-white border-slate-300 text-sm cursor-pointer file:cursor-pointer file:bg-slate-100 file:border-0 file:rounded-md file:px-3 file:py-1 file:mr-3 file:text-sm file:font-semibold"
+                />
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl text-left">
+                <Label htmlFor="utr" className="font-bold text-sm text-slate-800 flex items-center gap-2 mb-2">
+                   <span className="bg-slate-200 text-slate-600 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">2</span>
+                   Enter Transaction ID (UTR)
+                </Label>
+                <Input 
+                  id="utr" 
+                  placeholder="e.g. 412356789012" 
+                  className="font-mono tracking-wider text-base h-12 bg-white border-slate-300"
+                />
+                <p className="text-[11px] text-slate-500 mt-2">After payment, enter the 12-digit UTR/Reference number.</p>
+              </div>
+            </div>
+          </div>
+          </div>
+          
+          <div className="bg-white p-4 border-t z-20 w-full flex-shrink-0">
+            <Button size="lg" disabled={isUploadingPayment} className="w-full text-base font-bold bg-[#0F172A] hover:bg-black disabled:opacity-70 text-white h-14 rounded-xl shadow-md" onClick={() => {
+              const utrInput = document.getElementById('utr') as HTMLInputElement;
+              const utr = utrInput?.value?.trim();
+              if (!utr) {
+                toast.error('Please enter transaction ID.');
+                return;
+              }
+              if (utr.length < 12) {
+                toast.error('Please enter valid transaction ID.');
+                return;
+              }
+              handleFinishPayment(utr);
+            }}>
+              {isUploadingPayment ? (
+                <span className="flex items-center gap-2">
+                   <RefreshCw className="h-5 w-5 animate-spin" />
+                   Processing...
+                </span>
+              ) : "Submit Payment Confirmation"}
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

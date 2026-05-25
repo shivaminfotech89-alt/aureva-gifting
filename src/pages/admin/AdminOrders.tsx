@@ -13,6 +13,9 @@ import { Textarea } from '../../components/ui/textarea';
 import * as XLSX from 'xlsx';
 
 const ORDER_STATUSES = [
+  { id: 'inquiry_received', label: 'Inquiry Received', icon: Clock },
+  { id: 'pending_supplier_confirmation', label: 'Pending Supplier Confirmation', icon: Clock },
+  { id: 'supplier_confirmed', label: 'Supplier Confirmed', icon: CheckCircle2 },
   { id: 'pending', label: 'Pending', icon: Clock },
   { id: 'awaiting_payment', label: 'Awaiting Payment', icon: Clock },
   { id: 'payment_verification_pending', label: 'Payment Verification Pending', icon: ShieldCheck },
@@ -26,6 +29,9 @@ const ORDER_STATUSES = [
 
 const FILTER_TABS = [
   { id: 'all', label: 'All Orders' },
+  { id: 'inquiry_received', label: 'Inquiries' },
+  { id: 'pending_supplier_confirmation', label: 'Pending Supplier' },
+  { id: 'supplier_confirmed', label: 'Supplier Confirmed' },
   { id: 'awaiting_payment', label: 'Awaiting Payment' },
   { id: 'payment_verification_pending', label: 'Verification Pending' },
   { id: 'paid', label: 'Paid / Confirmed' },
@@ -116,9 +122,9 @@ export default function AdminOrders() {
       // Get order details to notify customer
       const orderToUpdate = orders.find(o => o.id === id);
       if (orderToUpdate && orderToUpdate.deliveryDetails?.phone) {
-        if (window.confirm(`Status updated to ${newStatus.replace('_', ' ').toUpperCase()}.\nDo you want to notify the customer via WhatsApp?`)) {
+        if (window.confirm(`Status updated to ${newStatus.replace(/_/g, ' ').toUpperCase()}.\nDo you want to notify the customer via WhatsApp?`)) {
            const phone = orderToUpdate.deliveryDetails.phone.replace(/[^0-9]/g, '');
-           const text = encodeURIComponent(`Hi ${orderToUpdate.deliveryDetails.firstName},\n\nGood news! Your Aureva order #${orderToUpdate.id.slice(-8)} status has been updated to: *${newStatus.replace('_', ' ').toUpperCase()}*.\n\nThank you for shopping with us!`);
+           const text = encodeURIComponent(`Hi ${orderToUpdate.deliveryDetails.firstName},\n\nGood news! Your Aureva order #${orderToUpdate.id.slice(-8)} status has been updated to: *${newStatus.replace(/_/g, ' ').toUpperCase()}*.\n\nThank you for shopping with us!`);
            window.open(`https://wa.me/91${phone}?text=${text}`, '_blank');
         }
       }
@@ -303,6 +309,10 @@ export default function AdminOrders() {
                       value={order.status}
                       onChange={(e) => updateOrderStatus(order.id, e.target.value)}
                     >
+                      <option value="inquiry_received">Inquiry Received</option>
+                      <option value="pending_supplier_confirmation">Pending Supplier Confirmation</option>
+                      <option value="supplier_confirmed">Supplier Confirmed</option>
+                      <option value="pending">Pending</option>
                       <option value="awaiting_payment">Awaiting Payment</option>
                       <option value="payment_verification_pending">Payment Verification Pending</option>
                       <option value="paid">Paid</option>
@@ -329,7 +339,7 @@ export default function AdminOrders() {
                       onClick={() => {
                         if(order.deliveryDetails?.phone) {
                            const phone = order.deliveryDetails.phone.replace(/[^0-9]/g, '');
-                           const text = encodeURIComponent(`Hi ${order.deliveryDetails.firstName},\n\nUpdate regarding your Aureva order #${order.id.slice(-8)} (Total: ${formatCurrency(order.grandTotal)}).\n\nThe current status is: *${order.status.replace('_', ' ').toUpperCase()}*.\n\nLet us know if you have any questions!`);
+                           const text = encodeURIComponent(`Hi ${order.deliveryDetails.firstName},\n\nUpdate regarding your Aureva order #${order.id.slice(-8)} (Total: ${formatCurrency(order.grandTotal)}).\n\nThe current status is: *${order.status.replace(/_/g, ' ').toUpperCase()}*.\n\nLet us know if you have any questions!`);
                            window.open(`https://wa.me/91${phone}?text=${text}`, '_blank');
                         }
                       }}
@@ -372,6 +382,10 @@ export default function AdminOrders() {
                         value={selectedOrder.status}
                         onChange={(e) => updateOrderStatus(selectedOrder.id, e.target.value)}
                       >
+                        <option value="inquiry_received">Inquiry Received</option>
+                        <option value="pending_supplier_confirmation">Pending Supplier Confirmation</option>
+                        <option value="supplier_confirmed">Supplier Confirmed</option>
+                        <option value="pending">Pending</option>
                         <option value="awaiting_payment">Awaiting Payment</option>
                         <option value="payment_verification_pending">Payment Verification Pending</option>
                         <option value="paid">Paid</option>
@@ -382,6 +396,51 @@ export default function AdminOrders() {
                         <option value="cancelled">Cancelled</option>
                       </select>
                       </div>
+
+                      {selectedOrder.status === 'supplier_confirmed' && (
+                        <div className="mb-6 p-4 rounded-xl border border-primary/20 bg-primary/5">
+                          <p className="text-sm font-semibold mb-3">Supplier is confirmed. Time to request payment?</p>
+                          <Button 
+                            className="w-full"
+                            onClick={() => {
+                              updateOrderStatus(selectedOrder.id, 'awaiting_payment');
+                              if(selectedOrder.deliveryDetails?.phone) {
+                                const phone = selectedOrder.deliveryDetails.phone.replace(/[^0-9]/g, '');
+                                const text = encodeURIComponent(`Hi ${selectedOrder.deliveryDetails.firstName},\n\nGreat news! Your AUREVA order request #${selectedOrder.id.slice(-8)} has been confirmed with our suppliers.\n\nPlease proceed with the payment of ${formatCurrency(selectedOrder.grandTotal)} so we can start processing your order.\n\nThank you!`);
+                                window.open(`https://wa.me/91${phone}?text=${text}`, '_blank');
+                              }
+                            }}
+                          >
+                            Send Payment Request
+                          </Button>
+                        </div>
+                      )}
+
+                      {/* Display Payment Info if available */}
+                      {selectedOrder.paymentMethod === 'upi' && selectedOrder.utrNumber && (
+                        <div className="mb-6 p-4 rounded-xl border border-green-200 bg-green-50 shadow-sm">
+                          <h4 className="font-bold text-green-800 flex items-center gap-2 mb-2">
+                             <ShieldCheck className="h-5 w-5" /> Payment Submitted by Customer
+                          </h4>
+                          <div className="text-sm text-green-700 space-y-1">
+                             <p><span className="font-semibold">UTR Number:</span> <span className="font-mono bg-white px-2 py-0.5 rounded border border-green-200 ml-2 select-all">{selectedOrder.utrNumber}</span></p>
+                             {selectedOrder.paymentScreenshotUrl && (
+                               <div className="mt-3">
+                                 <a href={selectedOrder.paymentScreenshotUrl} target="_blank" rel="noreferrer" className="text-green-600 underline font-medium hover:text-green-800">
+                                   View Payment Screenshot
+                                 </a>
+                               </div>
+                             )}
+                             {(selectedOrder.status === 'payment_verification_pending' || selectedOrder.status === 'awaiting_payment') && (
+                               <div className="pt-3 flex gap-2">
+                                  <Button size="sm" onClick={() => updateOrderStatus(selectedOrder.id, 'paid')} className="bg-green-600 hover:bg-green-700">
+                                     Verify & Mark Paid
+                                  </Button>
+                               </div>
+                             )}
+                          </div>
+                        </div>
+                      )}
 
                       <div className="flex flex-col space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent pt-2">
                         {ORDER_STATUSES.map((status, index) => {

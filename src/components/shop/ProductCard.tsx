@@ -28,6 +28,16 @@ export interface ProductData {
   nameEngravingCharge?: number;
   textPrintingCharge?: number;
   customMessageCharge?: number;
+  minOrderQuantity?: number;
+  availabilityStatus?: 'in_stock' | 'available_on_request' | 'bulk_only' | 'custom_production' | 'temporarily_unavailable';
+  estimatedProcurementTime?: 'ready' | '2_3_days' | '5_7_days' | '7_10_days';
+  supplierInfo?: {
+    supplierName?: string;
+    contact?: string;
+    backupSupplier?: string;
+    notes?: string;
+    lastPrice?: number;
+  };
 }
 
 export function ProductCard({ product }: { product: ProductData }) {
@@ -47,7 +57,8 @@ export function ProductCard({ product }: { product: ProductData }) {
       name: product.name,
       basePrice: discountedPrice,
       gstPercent: product.gstPercent,
-      quantity: 1,
+      quantity: product.minOrderQuantity || 1,
+      minOrderQuantity: product.minOrderQuantity || 1,
       image: product.images?.[0] || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400'
     });
     toast.success(`${product.name} added to cart`);

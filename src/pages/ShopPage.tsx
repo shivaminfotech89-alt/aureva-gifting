@@ -6,6 +6,8 @@ import { Input } from '../components/ui/input';
 import { Search, SlidersHorizontal, ChevronDown, Check } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useSearchParams } from 'react-router-dom';
+import { generateCatalogPDF } from '../lib/catalogGenerator';
+import { toast } from 'sonner';
 
 const FALLBACK_PRODUCTS: ProductData[] = [
   // Keeping fallback products for preview resilience
@@ -60,29 +62,29 @@ export default function ShopPage() {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState(true);
   
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
-  const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get('category') || 'All');
+  const searchQuery = searchParams.get('q') || '';
+  const selectedCategory = searchParams.get('category') || 'All';
   const [selectedBudget, setSelectedBudget] = useState<string>('All');
   const [sortBy, setSortBy] = useState<string>('featured');
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const [isGeneratingCatalog, setIsGeneratingCatalog] = useState(false);
 
-  // Update URL perfectly when state changes
-  useEffect(() => {
+  // Filter Panel Mobile State
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const setSearchQuery = (val: string) => {
     const params = new URLSearchParams(searchParams);
-    if (selectedCategory && selectedCategory !== 'All') {
-      params.set('category', selectedCategory);
-    } else {
-      params.delete('category');
-    }
-    
-    if (searchQuery) {
-      params.set('q', searchQuery);
-    } else {
-      params.delete('q');
-    }
-    
+    if (val) params.set('q', val);
+    else params.delete('q');
     setSearchParams(params, { replace: true });
-  }, [selectedCategory, searchQuery, setSearchParams]);
+  };
+
+  const setSelectedCategory = (val: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (val && val !== 'All') params.set('category', val);
+    else params.delete('category');
+    setSearchParams(params, { replace: true });
+  };
 
   useEffect(() => {
     async function loadProducts() {
@@ -163,6 +165,21 @@ export default function ShopPage() {
     return result;
   }, [products, searchQuery, selectedCategory, selectedBudget, sortBy]);
 
+  const handleDownloadCatalog = async () => {
+    setIsGeneratingCatalog(true);
+    toast.info("Generating catalog PDF. This may take a moment...", { duration: 3000 });
+    try {
+      const productsToExport = filteredProducts.length > 0 ? filteredProducts : (products.length > 0 ? products : FALLBACK_PRODUCTS);
+      await generateCatalogPDF(productsToExport, "AUREVA EXCLUSIVE CATALOG", selectedCategory !== 'All' ? selectedCategory : undefined);
+      toast.success("Catalog downloaded successfully!");
+    } catch(e) {
+      console.error(e);
+      toast.error("Failed to generate catalog");
+    } finally {
+      setIsGeneratingCatalog(false);
+    }
+  };
+
   return (
     <div className="bg-slate-50 min-h-screen pb-20">
       {/* Premium Hero Banner */}
@@ -183,9 +200,21 @@ export default function ShopPage() {
             <h1 className="text-4xl md:text-6xl font-bold font-serif mb-6 text-white leading-tight">
               Curated Corporate <br/><span className="text-[#d4af37] italic">Collections</span>
             </h1>
-            <p className="text-slate-300 text-lg md:text-xl max-w-xl font-light">
+            <p className="text-slate-300 text-lg md:text-xl max-w-xl font-light mb-8">
               Explore our range of premium gifting collections. Designed to impress, built to last, and customized to perfection.
             </p>
+            <button 
+              onClick={handleDownloadCatalog} 
+              disabled={isGeneratingCatalog}
+              className="inline-flex items-center justify-center font-bold tracking-wide text-sm md:text-base px-6 py-3 rounded-md bg-[#d4af37] text-[#0F172A] hover:bg-[#F4C542] transition-all duration-300 disabled:opacity-70 gap-2 shadow-lg"
+            >
+              {isGeneratingCatalog ? (
+                <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              )}
+              {isGeneratingCatalog ? 'Generating PDF...' : (selectedCategory === 'All' ? 'Download Master Catalog' : `Download ${selectedCategory} Catalog`)}
+            </button>
           </div>
         </div>
       </div>
@@ -194,77 +223,98 @@ export default function ShopPage() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className="w-full lg:w-72 flex-shrink-0">
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-24 space-y-8">
+            <div className="bg-white p-4 lg:p-6 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-24">
               
-              <div className="space-y-4">
-                <h3 className="font-serif font-bold text-lg text-[#0F172A] flex items-center gap-2 border-b border-slate-100 pb-2">
-                  <Search className="w-4 h-4 text-[#d4af37]" /> Find Gifts
-                </h3>
-                <Input 
-                  placeholder="Search collections..." 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-50 border-slate-200 focus-visible:ring-[#d4af37] rounded-xl"
-                />
-              </div>
+              {/* Mobile Toggle */}
+              <button 
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className="w-full flex items-center justify-between lg:hidden font-serif font-bold text-lg text-[#0F172A]"
+              >
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="w-5 h-5 text-[#d4af37]" />
+                  Filters & Categories
+                </div>
+                <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
+              </button>
 
-              <div className="space-y-4">
-                <h3 className="font-serif font-bold text-lg text-[#0F172A] flex items-center gap-2 border-b border-slate-100 pb-2">
-                  <SlidersHorizontal className="w-4 h-4 text-[#d4af37]" /> Categories
-                </h3>
-                <div className="space-y-1.5 flex flex-col">
-                  {categories.map(cat => (
-                    <button
-                      key={cat}
-                      onClick={() => setSelectedCategory(cat)}
-                      className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between group ${
-                        selectedCategory === cat 
-                          ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold border border-[#d4af37]/20 shadow-sm' 
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A] border border-transparent'
-                      }`}
-                    >
-                      <span>{cat}</span>
-                      {selectedCategory === cat && <Check className="w-4 h-4 text-[#d4af37]" />}
-                    </button>
-                  ))}
+              {/* Filter Content */}
+              <div className={`mt-6 space-y-8 lg:block ${isFilterOpen ? 'block' : 'hidden'}`}>
+                <div className="space-y-4">
+                  <h3 className="font-serif font-bold text-lg text-[#0F172A] flex items-center gap-2 border-b border-slate-100 pb-2">
+                    <Search className="w-4 h-4 text-[#d4af37]" /> Find Gifts
+                  </h3>
+                  <Input 
+                    placeholder="Search collections..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-slate-50 border-slate-200 focus-visible:ring-[#d4af37] rounded-xl"
+                  />
                 </div>
-              </div>
 
-              <div className="space-y-4">
-                <h3 className="font-serif font-bold text-lg text-[#0F172A] border-b border-slate-100 pb-2">Budget Range</h3>
-                <div className="space-y-1.5 flex flex-col">
-                  {budgetRanges.map(range => (
-                    <button
-                      key={range.value}
-                      onClick={() => setSelectedBudget(range.value)}
-                      className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between ${
-                        selectedBudget === range.value 
-                          ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold border border-[#d4af37]/20 shadow-sm' 
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A] border border-transparent'
-                      }`}
+                <div className="space-y-4">
+                  <h3 className="font-serif font-bold text-lg text-[#0F172A] flex items-center gap-2 border-b border-slate-100 pb-2">
+                    <SlidersHorizontal className="w-4 h-4 text-[#d4af37]" /> Categories
+                  </h3>
+                  <div className="space-y-1.5 flex flex-col">
+                    {categories.map(cat => (
+                      <button
+                        key={cat}
+                        onClick={() => {
+                          setSelectedCategory(cat);
+                          setIsFilterOpen(false); // Close mobile menu on select
+                        }}
+                        className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between group ${
+                          selectedCategory === cat 
+                            ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold border border-[#d4af37]/20 shadow-sm' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A] border border-transparent'
+                        }`}
+                      >
+                        <span>{cat}</span>
+                        {selectedCategory === cat && <Check className="w-4 h-4 text-[#d4af37]" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="font-serif font-bold text-lg text-[#0F172A] border-b border-slate-100 pb-2">Budget Range</h3>
+                  <div className="space-y-1.5 flex flex-col">
+                    {budgetRanges.map(range => (
+                      <button
+                        key={range.value}
+                        onClick={() => {
+                          setSelectedBudget(range.value);
+                          setIsFilterOpen(false); // Close mobile menu on select
+                        }}
+                        className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between ${
+                          selectedBudget === range.value 
+                            ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold border border-[#d4af37]/20 shadow-sm' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A] border border-transparent'
+                        }`}
+                      >
+                        <span>{range.label}</span>
+                        {selectedBudget === range.value && <Check className="w-4 h-4 text-[#d4af37]" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                {(selectedCategory !== 'All' || selectedBudget !== 'All' || searchQuery) && (
+                  <div className="pt-4 border-t border-slate-100">
+                    <Button 
+                      variant="outline" 
+                      className="w-full rounded-xl border-slate-200 text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 shadow-sm h-11 font-bold"
+                      onClick={() => {
+                        setSelectedCategory('All');
+                        setSelectedBudget('All');
+                        setSearchQuery('');
+                      }}
                     >
-                      <span>{range.label}</span>
-                      {selectedBudget === range.value && <Check className="w-4 h-4 text-[#d4af37]" />}
-                    </button>
-                  ))}
-                </div>
+                      Clear All Filters
+                    </Button>
+                  </div>
+                )}
               </div>
-              
-              {(selectedCategory !== 'All' || selectedBudget !== 'All' || searchQuery) && (
-                <div className="pt-4 border-t border-slate-100">
-                  <Button 
-                    variant="outline" 
-                    className="w-full rounded-xl border-slate-200 text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 shadow-sm h-11 font-bold"
-                    onClick={() => {
-                      setSelectedCategory('All');
-                      setSelectedBudget('All');
-                      setSearchQuery('');
-                    }}
-                  >
-                    Clear All Filters
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
 

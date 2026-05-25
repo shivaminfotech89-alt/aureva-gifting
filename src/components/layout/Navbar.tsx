@@ -107,19 +107,19 @@ export default function Navbar() {
                   <div>
                      <h4 className="font-bold text-[#d4af37] mb-4 uppercase tracking-widest text-xs">Categories</h4>
                      <ul className="space-y-3 text-sm">
-                       <li><Link to="/shop?category=drinkware" className="hover:text-[#d4af37] transition-colors">Premium Drinkware</Link></li>
-                       <li><Link to="/shop?category=office" className="hover:text-[#d4af37] transition-colors">Office Essentials</Link></li>
-                       <li><Link to="/shop?category=tech" className="hover:text-[#d4af37] transition-colors">Tech Gifts</Link></li>
-                       <li><Link to="/shop?category=eco" className="hover:text-[#d4af37] transition-colors">Eco-Friendly Gifts</Link></li>
+                       <li><Link to="/shop?category=Drinkware" className="hover:text-[#d4af37] transition-colors">Premium Drinkware</Link></li>
+                       <li><Link to="/shop?category=Office Essentials" className="hover:text-[#d4af37] transition-colors">Office Essentials</Link></li>
+                       <li><Link to="/shop?category=Electronics" className="hover:text-[#d4af37] transition-colors">Tech Gifts</Link></li>
+                       <li><Link to="/shop?category=Eco Friendly" className="hover:text-[#d4af37] transition-colors">Eco-Friendly Gifts</Link></li>
                      </ul>
                   </div>
                   <div>
                      <h4 className="font-bold text-[#d4af37] mb-4 uppercase tracking-widest text-xs">Collections</h4>
                      <ul className="space-y-3 text-sm">
-                       <li><Link to="/shop" className="hover:text-[#d4af37] transition-colors">Diwali Hampers</Link></li>
-                       <li><Link to="/shop" className="hover:text-[#d4af37] transition-colors">New Year Kits</Link></li>
-                       <li><Link to="/shop" className="hover:text-[#d4af37] transition-colors">Welcome Kits</Link></li>
-                       <li><Link to="/shop" className="hover:text-[#d4af37] transition-colors">Executive Premium</Link></li>
+                       <li><Link to="/shop?category=Diwali Hampers" className="hover:text-[#d4af37] transition-colors">Diwali Hampers</Link></li>
+                       <li><Link to="/shop?category=Welcome Kits" className="hover:text-[#d4af37] transition-colors">Welcome Kits</Link></li>
+                       <li><Link to="/shop?category=Corporate Branding" className="hover:text-[#d4af37] transition-colors">Corporate Branding</Link></li>
+                       <li><Link to="/shop?category=Bags" className="hover:text-[#d4af37] transition-colors">Executive Premium</Link></li>
                      </ul>
                   </div>
                   <div className="bg-slate-50 p-4 rounded-lg flex flex-col justify-end relative overflow-hidden">

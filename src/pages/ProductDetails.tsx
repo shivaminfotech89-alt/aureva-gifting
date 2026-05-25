@@ -9,7 +9,7 @@ import { useSettingsStore } from '../store/settingsStore';
 import { Button } from '../components/ui/button';
 import { formatCurrency, calculateGST } from '../lib/utils';
 import { toast } from 'sonner';
-import { ShieldCheck, Truck, ArrowLeft, Star, Heart, Upload, X as XIcon, Edit3 } from 'lucide-react';
+import { ShieldCheck, Truck, ArrowLeft, Star, Heart, Upload, X as XIcon, Edit3, AlertCircle } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
 import { Checkbox } from '../components/ui/checkbox';
 import { Label } from '../components/ui/label';
@@ -37,6 +37,19 @@ export default function ProductDetails() {
 
   const handleBuyNow = () => {
     if (!product) return;
+    const moq = product.minOrderQuantity || 1;
+    if (quantity < moq) {
+      toast.error(`This product requires minimum order quantity of ${moq} units.`);
+      return;
+    }
+    if (product.availabilityStatus === 'temporarily_unavailable') {
+      return;
+    }
+    if (product.availabilityStatus === 'in_stock' && quantity > product.stock) {
+      toast.error('Requested quantity exceeds available stock.');
+      return;
+    }
+
     handleAddToCart();
     navigate('/checkout');
   };
@@ -72,7 +85,11 @@ export default function ProductDetails() {
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
-          setProduct({ id: docSnap.id, ...docSnap.data() } as ProductData);
+          const loadedProduct = { id: docSnap.id, ...docSnap.data() } as ProductData;
+          setProduct(loadedProduct);
+          if (loadedProduct.minOrderQuantity && loadedProduct.minOrderQuantity > 1) {
+            setQuantity(loadedProduct.minOrderQuantity);
+          }
         } else {
           setProduct(null);
         }
@@ -156,7 +173,23 @@ export default function ProductDetails() {
   };
 
   const handleAddToCart = () => {
-    if (quantity > product.stock) {
+    const moq = product.minOrderQuantity || 1;
+    if (quantity < moq) {
+      toast.error(`This product requires minimum order quantity of ${moq} units.`);
+      return;
+    }
+    if (product.availabilityStatus !== 'temporarily_unavailable' && quantity > product.stock) {
+       // Only block if we truly track stock, else this might be pre-order. 
+       // We can just warn, but allow it for inquiry based. Actually, it's an inquiry, so stock limit can be bypassed or just warned. 
+       // Let's keep it but change logic for inquiry. The stock constraint could be removed if it's an inquiry, but let's keep it and let user know. 
+       // For a sourcing startup, stock may not be exact. We'll let them add up to stock or ignore stock if it's 'bulk_only'
+    }
+    if (product.availabilityStatus === 'temporarily_unavailable') {
+      toast.error('This product is temporarily unavailable and cannot be requested right now.');
+      return;
+    }
+
+    if (quantity > product.stock && product.availabilityStatus === 'in_stock') {
       toast.error('Requested quantity exceeds available stock.');
       return;
     }
@@ -167,6 +200,7 @@ export default function ProductDetails() {
       basePrice: discountedPrice,
       gstPercent: product.gstPercent,
       quantity: quantity,
+      minOrderQuantity: product.minOrderQuantity || 1,
       image: product.images?.[0] || 'https://images.unsplash.com/photo-1581417478175-a9ef18abf5af?auto=format&fit=crop&q=80&w=600',
       customization: customizationEnabled ? {
         enabled: true,
@@ -397,33 +431,68 @@ export default function ProductDetails() {
             </div>
 
             <div className="space-y-4 mb-8 border-t border-slate-200 py-6">
-              <div className="flex items-center gap-2 text-sm">
-                <span className="font-bold text-slate-700 w-24 tracking-wide uppercase text-[11px]">Availability:</span>
-                <span className={product.stock > 0 ? "text-[#10B981] font-bold px-3 py-1.5 bg-[#10B981]/10 border border-[#10B981]/20 rounded-md uppercase tracking-wider text-[10px]" : "text-red-600 font-bold px-3 py-1 bg-red-500/10 border border-red-200 rounded-md uppercase tracking-wider text-[10px]"}>
-                  {product.stock > 0 ? `${product.stock} IN STOCK` : 'OUT OF STOCK'}
-                </span>
+              
+              {/* Product Disclaimer & Notice */}
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl mb-4">
+                <p className="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                  <AlertCircle className="w-4 h-4" /> Important Notice
+                </p>
+                <p className="text-xs text-amber-900 font-medium tracking-tight">
+                  <strong className="font-bold">IMPORTANT:</strong> AUREVA specializes in bulk corporate gifting orders. Product availability, pricing, and customization are subject to stock confirmation and minimum order quantity requirements.
+                </p>
               </div>
-              {product.stock > 0 && product.stock < 10 && (
-                 <div className="text-xs uppercase tracking-widest text-[#d4af37] font-bold flex items-center gap-2">
-                   <span className="w-24"></span>
-                   Hurry, only a few left!
-                 </div>
-              )}
 
-              {product.stock > 0 && (
+              <div className="flex flex-col gap-3 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-slate-700 w-32 tracking-wide uppercase text-[11px]">Availability:</span>
+                  <span className={
+                    product.availabilityStatus === 'in_stock' ? "text-[#10B981] font-bold px-3 py-1.5 bg-[#10B981]/10 border border-[#10B981]/20 rounded-md uppercase tracking-wider text-[10px]" : 
+                    product.availabilityStatus === 'temporarily_unavailable' ? "text-red-600 font-bold px-3 py-1 bg-red-500/10 border border-red-200 rounded-md uppercase tracking-wider text-[10px]" : 
+                    "text-[#0F172A] font-bold px-3 py-1.5 bg-slate-200/50 border border-slate-300 rounded-md uppercase tracking-wider text-[10px]"
+                  }>
+                    {product.availabilityStatus === 'in_stock' ? 'In Stock (Check Details)' : 
+                     product.availabilityStatus === 'available_on_request' ? 'Available on Request' : 
+                     product.availabilityStatus === 'bulk_only' ? 'Bulk Order Only' : 
+                     product.availabilityStatus === 'custom_production' ? 'Custom Production' : 
+                     product.availabilityStatus === 'temporarily_unavailable' ? 'Temporarily Unavailable' :
+                     product.stock > 0 ? `${product.stock} IN STOCK` : 'OUT OF STOCK'}
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-slate-700 w-32 tracking-wide uppercase text-[11px]">Est. Procurement:</span>
+                  <span className="text-slate-600 font-bold text-[11px] uppercase tracking-wider">
+                    {product.estimatedProcurementTime === 'ready' ? 'Ready to Dispatch' :
+                     product.estimatedProcurementTime === '2_3_days' ? '2-3 Days' :
+                     product.estimatedProcurementTime === '5_7_days' ? '5-7 Days' :
+                     product.estimatedProcurementTime === '7_10_days' ? '7-10 Days' : 'Confirm with Admin'}
+                  </span>
+                </div>
+                
+                {product.minOrderQuantity && product.minOrderQuantity > 1 && (
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="font-bold text-slate-700 w-32 tracking-wide uppercase text-[11px]">Min Order:</span>
+                    <span className="text-[#d4af37] font-bold text-[11px] bg-[#d4af37]/10 px-2.5 py-1 rounded-md uppercase tracking-wider">
+                      {product.minOrderQuantity} Units Required
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {product.availabilityStatus !== 'temporarily_unavailable' && (
                 <div className="flex items-center gap-2 text-sm mt-6">
-                  <span className="font-bold text-slate-700 w-24 tracking-wide uppercase text-[11px]">Quantity:</span>
+                  <span className="font-bold text-slate-700 w-32 tracking-wide uppercase text-[11px]">Quantity:</span>
                   <div className="flex items-center border border-slate-200 bg-white rounded-xl h-12 w-32 shadow-sm focus-within:ring-2 focus-within:ring-[#d4af37]/20 focus-within:border-[#d4af37] transition-all">
                     <button 
                       className="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-600 font-bold transition-colors rounded-l-xl text-lg hover:text-[#0F172A]"
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      disabled={quantity <= 1}
+                      onClick={() => setQuantity(Math.max(product.minOrderQuantity || 1, quantity - 1))}
+                      disabled={quantity <= (product.minOrderQuantity || 1)}
                     >-</button>
                     <span className="flex-1 text-center font-bold text-[#0F172A] text-lg">{quantity}</span>
                     <button 
                       className="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-600 font-bold transition-colors rounded-r-xl text-lg hover:text-[#0F172A]"
                       onClick={() => {
-                        if (quantity >= product.stock) {
+                        if (product.availabilityStatus === 'in_stock' && quantity >= product.stock) {
                           toast.error('Requested quantity exceeds available stock.');
                         } else {
                           setQuantity(quantity + 1);
@@ -441,7 +510,7 @@ export default function ProductDetails() {
                 variant="outline"
                 className="flex-1 text-[15px] font-bold rounded-xl h-14 text-slate-700 transition-all uppercase tracking-widest bg-white border-slate-200 shadow-sm" 
                 onClick={handleAddToCart} 
-                disabled={product.stock <= 0}
+                disabled={product.availabilityStatus === 'temporarily_unavailable'}
                >
                  Add to Cart
                </Button>
@@ -449,9 +518,9 @@ export default function ProductDetails() {
                 size="lg" 
                 className="flex-1 text-[15px] font-bold rounded-xl h-14 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] shadow-sm transition-all uppercase tracking-widest" 
                 onClick={handleBuyNow} 
-                disabled={product.stock <= 0}
+                disabled={product.availabilityStatus === 'temporarily_unavailable'}
                >
-                 Buy Now
+                 Request Order
                </Button>
                <Button size="icon" variant="outline" className={`w-14 h-14 shrink-0 rounded-xl border-slate-200 bg-white shadow-sm hover:border-red-200 hover:bg-red-50 transition-colors ${isWishlisted ? 'border-red-200 bg-red-50 shadow-inner' : ''}`} onClick={handleToggleWishlist}>
                  <Heart className={`w-6 h-6 transition-colors ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-slate-400 hover:text-red-500'}`} />

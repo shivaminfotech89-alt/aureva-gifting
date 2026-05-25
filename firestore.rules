@@ -143,5 +143,18 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow write: if isSuperAdmin();
     }
+    // Admin Notifications
+    match /admin_notifications/{docId} {
+      allow read: if isAdmin();
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // Email Logs
+    match /email_logs/{docId} {
+      allow read: if isAdmin();
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
   }
 }

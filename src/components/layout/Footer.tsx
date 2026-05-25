@@ -22,6 +22,9 @@ export default function Footer() {
             <p className="text-secondary-foreground/70 text-sm leading-relaxed max-w-xs">
               Premium Gifts for Lasting Business Impressions. We specialize in luxury corporate gifting that elevates your brand and nurtures key relationships.
             </p>
+            <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg text-xs text-amber-700/80 max-w-xs">
+               <strong>IMPORTANT:</strong> AUREVA specializes in bulk corporate gifting orders. Product availability, pricing, and customization are subject to stock confirmation and minimum order quantity requirements.
+            </div>
             <div className="flex space-x-4 pt-2">
               <a href={handleSocialLink(settings?.instagramUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Instagram className="h-5 w-5" /></a>
               <a href={handleSocialLink(settings?.linkedinUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Linkedin className="h-5 w-5" /></a>

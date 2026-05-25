@@ -7,6 +7,7 @@ export interface CartItem {
   basePrice: number;
   gstPercent: number;
   quantity: number;
+  minOrderQuantity?: number;
   image: string;
   customization?: {
     enabled: boolean;

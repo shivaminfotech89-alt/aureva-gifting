@@ -79,9 +79,9 @@ export default function AdminOrderDetails() {
       toast.success('Status updated');
       
       if (order.deliveryDetails?.phone) {
-        if (window.confirm(`Status updated to ${newStatus.replace('_', ' ').toUpperCase()}.\nDo you want to notify the customer via WhatsApp?`)) {
+        if (window.confirm(`Status updated to ${newStatus.replace(/_/g, ' ').toUpperCase()}.\nDo you want to notify the customer via WhatsApp?`)) {
            const phone = String(order.deliveryDetails.phone).replace(/[^0-9]/g, '');
-           const text = encodeURIComponent(`Hi ${order.deliveryDetails.firstName},\n\nGood news! Your Aureva order #${order.id.slice(-8)} status has been updated to: *${newStatus.replace('_', ' ').toUpperCase()}*.\n\nThank you for shopping with us!`);
+           const text = encodeURIComponent(`Hi ${order.deliveryDetails.firstName},\n\nGood news! Your Aureva order #${order.id.slice(-8)} status has been updated to: *${newStatus.replace(/_/g, ' ').toUpperCase()}*.\n\nThank you for shopping with us!`);
            window.open(`https://wa.me/91${phone}?text=${text}`, '_blank');
         }
       }

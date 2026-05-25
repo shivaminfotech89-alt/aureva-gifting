@@ -81,6 +81,13 @@ export default function CorporateBulkPage() {
           
           {/* Information Side (Left) */}
           <div className="lg:col-span-5 space-y-12 lg:pt-16">
+            <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-start gap-3">
+               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600 shrink-0 mt-0.5"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+               <p className="text-sm text-amber-800 font-medium">
+                 <strong className="font-bold">IMPORTANT:</strong> AUREVA specializes in bulk corporate gifting orders. Product availability, pricing, and customization are subject to stock confirmation and minimum order quantity requirements.
+               </p>
+            </div>
+
             <div className="bg-white rounded-2xl p-8 border border-zinc-200 shadow-sm">
                <h3 className="text-2xl font-serif font-bold text-zinc-900 mb-6 flex items-center gap-3">
                   <Briefcase className="w-6 h-6 text-amber-500" />
@@ -200,6 +207,37 @@ export default function CorporateBulkPage() {
           </div>
           
         </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-16 max-w-4xl relative z-20">
+         <h2 className="text-3xl font-serif font-bold text-zinc-900 mb-10 text-center">Frequently Asked Questions</h2>
+         <div className="space-y-6">
+           {/* FAQ 1 */}
+           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+             <h4 className="text-lg font-bold text-zinc-900 mb-2">What is the Minimum Order Quantity (MOQ)?</h4>
+             <p className="text-zinc-600 text-sm">AUREVA specializes strictly in bulk corporate gifting. Our MOQ depends on the specific product, typically ranging from 30 to 50 units per item. Custom branding usually requires fulfilling the MOQ.</p>
+           </div>
+           {/* FAQ 2 */}
+           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+             <h4 className="text-lg font-bold text-zinc-900 mb-2">How does the supplier-based model work?</h4>
+             <p className="text-zinc-600 text-sm">When you place an order request on our website, it serves as an inquiry. Our operations team verifies stock availability and customization feasibility with our manufacturing partners before confirming your order.</p>
+           </div>
+           {/* FAQ 3 */}
+           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+             <h4 className="text-lg font-bold text-zinc-900 mb-2">When do I make the payment?</h4>
+             <p className="text-zinc-600 text-sm">Payment is requested ONLY after our administration team manually confirms stock and timeline. Once confirmed, you will be prompted to make the payment via UPI or Bank Transfer.</p>
+           </div>
+           {/* FAQ 4 */}
+           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+             <h4 className="text-lg font-bold text-zinc-900 mb-2">When do I receive the Tax Invoice?</h4>
+             <p className="text-zinc-600 text-sm">To ensure compliance, formal GST Tax Invoices are generated and shared specifically after successful manual payment verification of your submitted UTR or transaction ID.</p>
+           </div>
+           {/* FAQ 5 */}
+           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+             <h4 className="text-lg font-bold text-zinc-900 mb-2">Can I download the product catalog?</h4>
+             <p className="text-zinc-600 text-sm">Yes, you can visit our Shop page and instantly generate a real-time smart PDF catalog containing all current products to share with your management team.</p>
+           </div>
+         </div>
       </div>
     </div>
   );

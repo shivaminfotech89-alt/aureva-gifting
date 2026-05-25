@@ -96,15 +96,13 @@ export function NotificationBell() {
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <button className="relative p-2 text-slate-500 hover:text-[#0F172A] hover:bg-slate-100 rounded-full transition-colors mr-2">
-          <Bell className="w-5 h-5" />
-          {unreadCount > 0 && (
-            <span className="absolute top-1 right-1.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse border-2 border-white">
-              {unreadCount > 9 ? '9+' : unreadCount}
-            </span>
-          )}
-        </button>
+      <PopoverTrigger className="relative p-2 text-slate-500 hover:text-[#0F172A] hover:bg-slate-100 rounded-full transition-colors mr-2">
+        <Bell className="w-5 h-5" />
+        {unreadCount > 0 && (
+          <span className="absolute top-1 right-1.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse border-2 border-white">
+            {unreadCount > 9 ? '9+' : unreadCount}
+          </span>
+        )}
       </PopoverTrigger>
       <PopoverContent align="end" className="w-[380px] p-0 rounded-xl shadow-2xl z-[100]">
         <div className="flex items-center justify-between p-4 border-b border-slate-100 bg-slate-50/50 rounded-t-xl">

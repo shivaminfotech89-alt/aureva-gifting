@@ -8,12 +8,16 @@ import { Link } from 'react-router-dom';
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getSubTotal, getGstTotal, getGrandTotal } = useCartStore();
 
-  const handleQuantity = (id: string, current: number, change: number) => {
-    const next = current + change;
+  const handleQuantity = (item: any, change: number) => {
+    const next = item.quantity + change;
+    if (next < (item.minOrderQuantity || 1)) {
+        toast.error(`This product requires minimum order quantity of ${item.minOrderQuantity || 1} units.`);
+        return;
+    }
     if (next > 0) {
-      updateQuantity(id, next);
+      updateQuantity(item.productId, next);
     } else if (next === 0) {
-      removeItem(id);
+      removeItem(item.productId);
     }
   };
 
@@ -34,7 +38,13 @@ export default function CartPage() {
   return (
     <div className="bg-slate-50 min-h-[calc(100vh-4rem)] py-12">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-        <h1 className="text-3xl md:text-5xl font-bold font-serif tracking-tight mb-10 text-[#0F172A]">Shopping Cart</h1>
+        <h1 className="text-3xl md:text-5xl font-bold font-serif tracking-tight mb-6 text-[#0F172A]">Shopping Cart</h1>
+        <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl mb-10 flex items-start gap-3">
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600 shrink-0 mt-0.5"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+           <p className="text-sm text-amber-800 font-medium">
+             <strong className="font-bold">IMPORTANT:</strong> AUREVA specializes in bulk corporate gifting orders. Product availability, pricing, and customization are subject to stock confirmation and minimum order quantity requirements.
+           </p>
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-6">
@@ -97,9 +107,9 @@ export default function CartPage() {
                 
                 <div className="flex items-center justify-between mt-4">
                   <div className="flex items-center gap-3 bg-slate-50 rounded-xl p-1 border border-slate-200 shadow-inner">
-                    <button onClick={() => handleQuantity(item.productId, item.quantity, -1)} className="p-1.5 hover:bg-white hover:text-[#0F172A] rounded-lg text-slate-500 transition-colors shadow-sm"><Minus className="h-4 w-4" /></button>
+                    <button onClick={() => handleQuantity(item, -1)} className="p-1.5 hover:bg-white hover:text-[#0F172A] rounded-lg text-slate-500 transition-colors shadow-sm"><Minus className="h-4 w-4" /></button>
                     <span className="w-8 text-center font-bold text-[#0F172A] text-sm">{item.quantity}</span>
-                    <button onClick={() => handleQuantity(item.productId, item.quantity, 1)} className="p-1.5 hover:bg-white hover:text-[#0F172A] rounded-lg text-slate-500 transition-colors shadow-sm"><Plus className="h-4 w-4" /></button>
+                    <button onClick={() => handleQuantity(item, 1)} className="p-1.5 hover:bg-white hover:text-[#0F172A] rounded-lg text-slate-500 transition-colors shadow-sm"><Plus className="h-4 w-4" /></button>
                   </div>
                   <div className="text-right">
                     <p className="font-bold text-2xl text-[#0F172A]">{formatCurrency(((item.basePrice + (item.customization?.charge || 0)) + calculateGST(item.basePrice + (item.customization?.charge || 0), item.gstPercent)) * item.quantity)}</p>

@@ -12,15 +12,20 @@ import { formatCurrency } from '../../lib/utils';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 
+import { generateCatalogPDF } from '../../lib/catalogGenerator';
+
 export default function AdminProducts() {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isGeneratingCatalog, setIsGeneratingCatalog] = useState(false);
   const [formData, setFormData] = useState({
     name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '',
     smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '',
-    nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: ''
+    nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '',
+    minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready',
+    supplierName: '', supplierContact: '', supplierNotes: ''
   });
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -46,6 +51,21 @@ export default function AdminProducts() {
   }
 
   const filteredProducts = products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  const handleDownloadCatalog = async () => {
+    setIsGeneratingCatalog(true);
+    toast.info("Generating full catalog PDF...", { duration: 3000 });
+    try {
+      const activeProducts = products.filter(p => p.enabled);
+      await generateCatalogPDF(activeProducts, "AUREVA CORPORATE CATALOG");
+      toast.success("Catalog generated successfully!");
+    } catch(e) {
+      console.error(e);
+      toast.error("Failed to generate catalog");
+    } finally {
+      setIsGeneratingCatalog(false);
+    }
+  };
 
   const downloadCSV = () => {
     let csvContent = "Product ID,Name,Description,Category,Base Price,Discount %,GST %,Stock,Status\n";
@@ -95,6 +115,14 @@ export default function AdminProducts() {
         nameEngravingCharge: formData.nameEngravingCharge ? Number(formData.nameEngravingCharge) : 0,
         textPrintingCharge: formData.textPrintingCharge ? Number(formData.textPrintingCharge) : 0,
         customMessageCharge: formData.customMessageCharge ? Number(formData.customMessageCharge) : 0,
+        minOrderQuantity: formData.minOrderQuantity ? Number(formData.minOrderQuantity) : 1,
+        availabilityStatus: formData.availabilityStatus || 'in_stock',
+        estimatedProcurementTime: formData.estimatedProcurementTime || 'ready',
+        supplierInfo: {
+          supplierName: formData.supplierName,
+          contact: formData.supplierContact,
+          notes: formData.supplierNotes
+        },
         enabled: true,
       };
 
@@ -113,7 +141,7 @@ export default function AdminProducts() {
         toast.success('Product created successfully');
       }
       
-      setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '' });
+      setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '', minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready', supplierName: '', supplierContact: '', supplierNotes: '' });
       setEditingId(null);
       setIsDialogOpen(false);
       loadProducts();
@@ -139,7 +167,13 @@ export default function AdminProducts() {
       fullWrapCharge: product.fullWrapCharge ? product.fullWrapCharge.toString() : '',
       nameEngravingCharge: product.nameEngravingCharge ? product.nameEngravingCharge.toString() : '',
       textPrintingCharge: product.textPrintingCharge ? product.textPrintingCharge.toString() : '',
-      customMessageCharge: product.customMessageCharge ? product.customMessageCharge.toString() : ''
+      customMessageCharge: product.customMessageCharge ? product.customMessageCharge.toString() : '',
+      minOrderQuantity: product.minOrderQuantity ? product.minOrderQuantity.toString() : '',
+      availabilityStatus: product.availabilityStatus || 'in_stock',
+      estimatedProcurementTime: product.estimatedProcurementTime || 'ready',
+      supplierName: product.supplierInfo?.supplierName || '',
+      supplierContact: product.supplierInfo?.contact || '',
+      supplierNotes: product.supplierInfo?.notes || ''
     });
     setIsDialogOpen(true);
   };
@@ -256,6 +290,14 @@ export default function AdminProducts() {
         </div>
 
         <div className="flex gap-4">
+          <Button variant="outline" onClick={handleDownloadCatalog} disabled={isGeneratingCatalog} className="gap-2 border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37]/10 hover:text-amber-700 rounded-xl h-10 shadow-sm font-bold">
+            {isGeneratingCatalog ? (
+              <svg className="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            )}
+            Download PDF
+          </Button>
           <Button variant="outline" onClick={seedProducts} className="gap-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#0F172A] rounded-xl h-10 shadow-sm">
             <Database className="h-4 w-4" /> Seed Products
           </Button>
@@ -263,7 +305,7 @@ export default function AdminProducts() {
             setIsDialogOpen(open);
             if (!open) {
               setEditingId(null);
-              setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '' });
+              setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '', minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready', supplierName: '', supplierContact: '', supplierNotes: '' });
             }
           }}>
             <DialogTrigger render={<Button className="gap-2 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] font-bold rounded-xl h-10 shadow-sm" />}>
@@ -338,6 +380,45 @@ export default function AdminProducts() {
                   <div className="grid gap-2">
                     <Label htmlFor="customMessageCharge">Custom Message (₹)</Label>
                     <Input id="customMessageCharge" type="number" min="0" placeholder="e.g. 20" value={formData.customMessageCharge} onChange={e => setFormData({...formData, customMessageCharge: e.target.value})} />
+                  </div>
+                </div>
+
+                <Label className="mt-2 text-sm font-semibold border-b pb-1">Supplier & MOQ Settings</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/30 p-3 rounded-lg border">
+                  <div className="grid gap-2">
+                    <Label htmlFor="minOrderQuantity">Min Order Quantity</Label>
+                    <Input id="minOrderQuantity" type="number" min="1" placeholder="e.g. 10" value={formData.minOrderQuantity} onChange={e => setFormData({...formData, minOrderQuantity: e.target.value})} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="availabilityStatus">Availability</Label>
+                    <select id="availabilityStatus" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={formData.availabilityStatus} onChange={e => setFormData({...formData, availabilityStatus: e.target.value})}>
+                      <option value="in_stock">In Stock</option>
+                      <option value="available_on_request">Available on Request</option>
+                      <option value="bulk_only">Bulk Order Only</option>
+                      <option value="custom_production">Custom Production</option>
+                      <option value="temporarily_unavailable">Temporarily Unavailable</option>
+                    </select>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="estimatedProcurementTime">Procurement Time</Label>
+                    <select id="estimatedProcurementTime" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={formData.estimatedProcurementTime} onChange={e => setFormData({...formData, estimatedProcurementTime: e.target.value})}>
+                      <option value="ready">Ready to Dispatch</option>
+                      <option value="2_3_days">2-3 Days</option>
+                      <option value="5_7_days">5-7 Days</option>
+                      <option value="7_10_days">7-10 Days</option>
+                    </select>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="supplierName">Supplier Name</Label>
+                    <Input id="supplierName" placeholder="Supplier" value={formData.supplierName} onChange={e => setFormData({...formData, supplierName: e.target.value})} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="supplierContact">Supplier Contact</Label>
+                    <Input id="supplierContact" placeholder="Contact Details" value={formData.supplierContact} onChange={e => setFormData({...formData, supplierContact: e.target.value})} />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="supplierNotes">Procurement Notes</Label>
+                    <Input id="supplierNotes" placeholder="Cost, backup supplier..." value={formData.supplierNotes} onChange={e => setFormData({...formData, supplierNotes: e.target.value})} />
                   </div>
                 </div>
 
