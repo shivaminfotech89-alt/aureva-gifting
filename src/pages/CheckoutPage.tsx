@@ -14,7 +14,7 @@ import { db, handleFirestoreError, OperationType, storage } from '../lib/firebas
 import { sendOrderEmailNotification } from '../lib/notifications';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuthStore } from '../store/authStore';
-import { X } from 'lucide-react';
+import { X, MapPin } from 'lucide-react';
 
 const loadScript = (src: string) => {
   return new Promise((resolve) => {
@@ -28,12 +28,13 @@ const loadScript = (src: string) => {
 
 export default function CheckoutPage() {
   const { items, getSubTotal, getGstTotal, getGrandTotal, clearCart, appliedCoupon, setCoupon, getDiscount } = useCartStore();
-  const { user } = useAuthStore();
+  const { user, profile } = useAuthStore();
   const [adminSettings, setAdminSettings] = useState<{adminWhatsApp?: string, adminEmail?: string} | null>(null);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [couponInput, setCouponInput] = useState('');
   const [couponMessage, setCouponMessage] = useState('');
   const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
 
   React.useEffect(() => {
     if (appliedCoupon) {
@@ -66,15 +67,37 @@ export default function CheckoutPage() {
   });
 
   React.useEffect(() => {
-    if (user) {
+    if (user && profile) {
       setCustomerDetails(prev => ({
         ...prev,
-        firstName: prev.firstName || user.displayName?.split(' ')[0] || '',
-        lastName: prev.lastName || user.displayName?.split(' ').slice(1).join(' ') || '',
-        email: prev.email || user.email || '',
+        firstName: prev.firstName || profile.name?.split(' ')[0] || user.displayName?.split(' ')[0] || '',
+        lastName: prev.lastName || profile.name?.split(' ').slice(1).join(' ') || user.displayName?.split(' ').slice(1).join(' ') || '',
+        email: prev.email || profile.email || user.email || '',
+        phone: prev.phone || profile.phone || user.phoneNumber || ''
       }));
+
+      if (profile.savedAddresses && profile.savedAddresses.length > 0 && !selectedAddressId) {
+         const defaultAddr = profile.savedAddresses.find((a: any) => a.isDefault) || profile.savedAddresses[0];
+         handleSelectAddress(defaultAddr);
+      }
     }
-  }, [user]);
+  }, [user, profile]);
+
+  const handleSelectAddress = (addr: any) => {
+    setSelectedAddressId(addr.id);
+    setAddressDetails({
+      address: addr.address,
+      city: addr.city,
+      state: addr.state || '',
+      pincode: addr.pincode
+    });
+    setCustomerDetails(prev => ({
+      ...prev,
+      firstName: addr.firstName || prev.firstName,
+      lastName: addr.lastName || prev.lastName,
+      phone: addr.phone || prev.phone
+    }));
+  };
 
   const handleApplyCoupon = async () => {
     if (!couponInput.trim()) return;
@@ -350,6 +373,35 @@ export default function CheckoutPage() {
               <CardDescription>Where should we deliver your order?</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              
+              {profile?.savedAddresses && profile.savedAddresses.length > 0 && (
+                <div className="mb-6 space-y-3">
+                  <Label className="font-bold text-sm text-slate-700">Select Saved Address</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {profile.savedAddresses.map((addr: any) => (
+                      <div 
+                        key={addr.id}
+                        onClick={() => handleSelectAddress(addr)}
+                        className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedAddressId === addr.id ? 'border-[#d4af37] bg-amber-50/50 shadow-sm' : 'border-slate-200 hover:border-slate-300'}`}
+                      >
+                         <h4 className="font-bold text-slate-900 text-sm">{addr.firstName} {addr.lastName}</h4>
+                         <p className="text-slate-600 font-medium text-xs mt-1 truncate">{addr.address}, {addr.city}</p>
+                         <p className="text-slate-500 text-xs mt-1">{addr.phone}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex justify-end">
+                     <Button type="button" variant="link" size="sm" className="px-0 text-[#d4af37]" onClick={() => {
+                        setSelectedAddressId(null);
+                        setAddressDetails({ address: '', city: '', state: '', pincode: '' });
+                        setCustomerDetails({ firstName: '', lastName: '', email: user?.email || '', phone: user?.phoneNumber || '' });
+                     }}>
+                        + Enter new address
+                     </Button>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>

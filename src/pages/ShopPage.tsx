@@ -6,7 +6,6 @@ import { Input } from '../components/ui/input';
 import { Search, SlidersHorizontal, ChevronDown, Check } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useSearchParams } from 'react-router-dom';
-import { generateCatalogPDF } from '../lib/catalogGenerator';
 import { toast } from 'sonner';
 
 const FALLBACK_PRODUCTS: ProductData[] = [
@@ -64,13 +63,17 @@ export default function ShopPage() {
   
   const searchQuery = searchParams.get('q') || '';
   const selectedCategory = searchParams.get('category') || 'All';
-  const [selectedBudget, setSelectedBudget] = useState<string>('All');
+  const selectedBudget = searchParams.get('budget') || 'All';
   const [sortBy, setSortBy] = useState<string>('featured');
   const [isSortOpen, setIsSortOpen] = useState(false);
-  const [isGeneratingCatalog, setIsGeneratingCatalog] = useState(false);
 
   // Filter Panel Mobile State
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const startCatalogDownloadProcess = () => {
+    window.dispatchEvent(new Event('openCatalogModal'));
+  };
+
 
   const setSearchQuery = (val: string) => {
     const params = new URLSearchParams(searchParams);
@@ -83,6 +86,13 @@ export default function ShopPage() {
     const params = new URLSearchParams(searchParams);
     if (val && val !== 'All') params.set('category', val);
     else params.delete('category');
+    setSearchParams(params, { replace: true });
+  };
+  
+  const setSelectedBudget = (val: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (val && val !== 'All') params.set('budget', val);
+    else params.delete('budget');
     setSearchParams(params, { replace: true });
   };
 
@@ -118,10 +128,11 @@ export default function ShopPage() {
 
   const budgetRanges = [
     { label: 'All Budgets', value: 'All' },
-    { label: 'Under ₹1,000', value: '0-1000' },
-    { label: '₹1,000 - ₹5,000', value: '1000-5000' },
-    { label: '₹5,000 - ₹10,000', value: '5000-10000' },
-    { label: 'Over ₹10,000', value: '10000-9999999' }
+    { label: 'Under ₹100', value: '0-100' },
+    { label: '₹100 - ₹250', value: '100-250' },
+    { label: '₹250 - ₹500', value: '250-500' },
+    { label: '₹500 - ₹1000', value: '500-1000' },
+    { label: 'Above ₹1000', value: '1000-9999999' }
   ];
 
   const sortOptions = [
@@ -165,21 +176,6 @@ export default function ShopPage() {
     return result;
   }, [products, searchQuery, selectedCategory, selectedBudget, sortBy]);
 
-  const handleDownloadCatalog = async () => {
-    setIsGeneratingCatalog(true);
-    toast.info("Generating catalog PDF. This may take a moment...", { duration: 3000 });
-    try {
-      const productsToExport = filteredProducts.length > 0 ? filteredProducts : (products.length > 0 ? products : FALLBACK_PRODUCTS);
-      await generateCatalogPDF(productsToExport, "AUREVA EXCLUSIVE CATALOG", selectedCategory !== 'All' ? selectedCategory : undefined);
-      toast.success("Catalog downloaded successfully!");
-    } catch(e) {
-      console.error(e);
-      toast.error("Failed to generate catalog");
-    } finally {
-      setIsGeneratingCatalog(false);
-    }
-  };
-
   return (
     <div className="bg-slate-50 min-h-screen pb-20">
       {/* Premium Hero Banner */}
@@ -204,16 +200,11 @@ export default function ShopPage() {
               Explore our range of premium gifting collections. Designed to impress, built to last, and customized to perfection.
             </p>
             <button 
-              onClick={handleDownloadCatalog} 
-              disabled={isGeneratingCatalog}
-              className="inline-flex items-center justify-center font-bold tracking-wide text-sm md:text-base px-6 py-3 rounded-md bg-[#d4af37] text-[#0F172A] hover:bg-[#F4C542] transition-all duration-300 disabled:opacity-70 gap-2 shadow-lg"
+              onClick={startCatalogDownloadProcess} 
+              className="inline-flex items-center justify-center font-bold tracking-wide text-sm md:text-base px-6 py-3 rounded-md bg-[#d4af37] text-[#0F172A] hover:bg-[#F4C542] transition-all duration-300 gap-2 shadow-lg"
             >
-              {isGeneratingCatalog ? (
-                <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              )}
-              {isGeneratingCatalog ? 'Generating PDF...' : (selectedCategory === 'All' ? 'Download Master Catalog' : `Download ${selectedCategory} Catalog`)}
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              Download Catalog
             </button>
           </div>
         </div>

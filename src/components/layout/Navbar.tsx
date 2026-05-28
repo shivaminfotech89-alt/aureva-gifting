@@ -70,6 +70,17 @@ export default function Navbar() {
             <div className="p-6 flex-1 overflow-y-auto">
               <nav className="flex flex-col gap-6 text-lg font-medium text-slate-700">
                 <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#d4af37] transition-colors">Home</Link>
+                
+                <button 
+                  onClick={() => { 
+                    setIsMobileMenuOpen(false); 
+                    window.dispatchEvent(new Event('openCatalogModal')); 
+                  }} 
+                  className="text-left hover:text-[#d4af37] transition-colors font-medium"
+                >
+                  Catalog
+                </button>
+
                 <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#d4af37] transition-colors">Shop All Gifts</Link>
                 <Link to="/corporate" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#d4af37] transition-colors">Corporate Bulk</Link>
                 <Link to="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#d4af37] flex items-center gap-2 transition-colors">Wishlist {wishlistItemsCount > 0 && <span className="bg-[#d4af37] text-[#0F172A] text-xs px-2 py-0.5 rounded-full font-bold">{wishlistItemsCount}</span>}</Link>
@@ -99,7 +110,15 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <nav className={`hidden md:flex items-center gap-8 text-sm font-medium ${scrolled || !isHome ? 'text-slate-600' : 'text-white/90'}`}>
           <Link to="/" className={`transition-colors hover:text-[#d4af37] ${location.pathname === '/' ? 'text-[#d4af37]' : ''}`}>Home</Link>
-          <div className="group relative">
+          
+          <button 
+            onClick={() => window.dispatchEvent(new Event('openCatalogModal'))}
+            className={`transition-colors hover:text-[#d4af37] flex items-center gap-1`}
+          > 
+            Catalog 
+          </button>
+          
+          <div className="group relative z-[50]">
             <Link to="/shop" className={`transition-colors hover:text-[#d4af37] flex items-center gap-1 ${location.pathname.includes('/shop') ? 'text-[#d4af37]' : ''}`}> Shop </Link>
             {/* Simple Mega Menu Hover */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">

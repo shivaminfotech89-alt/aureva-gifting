@@ -7,10 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../..
 import { Button, buttonVariants } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
-import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag, RefreshCw, XCircle } from 'lucide-react';
+import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag, RefreshCw, XCircle, Plus, Edit2, Trash2 } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { auth } from '../../lib/firebase';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialog';
 import { Link } from 'react-router-dom';
 
 interface Order {
@@ -24,6 +24,19 @@ interface Order {
   createdAt: any;
   deliveryDetails: any;
   dispatchDetails?: any;
+}
+
+interface Address {
+  id: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  phone: string;
+  email: string;
+  isDefault: boolean;
 }
 
 const CUSTOMER_ORDER_STATUSES = [
@@ -53,7 +66,28 @@ export default function CustomerDashboard() {
   const [paymentOrder, setPaymentOrder] = useState<Order | null>(null);
   const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
   const [isUploadingPayment, setIsUploadingPayment] = useState(false);
-  const [activeTab, setActiveTab] = useState<'orders' | 'profile'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'profile' | 'addresses'>('orders');
+
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
+  const [addressForm, setAddressForm] = useState<Omit<Address, 'id'>>({
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
+    phone: '',
+    email: '',
+    isDefault: false
+  });
+
+  useEffect(() => {
+    if (profile?.savedAddresses) {
+      setAddresses(profile.savedAddresses);
+    }
+  }, [profile]);
 
   useEffect(() => {
     import('firebase/firestore').then(({ doc, getDoc }) => {
@@ -100,8 +134,77 @@ export default function CustomerDashboard() {
   }, [user]);
 
   if (!user) {
-    return <div className="container mx-auto p-12 text-center h-screen flex items-center justify-center font-serif text-2xl text-zinc-500">Please login to view your account.</div>;
+    return (
+      <div className="container mx-auto p-12 text-center h-screen flex flex-col items-center justify-center gap-4">
+        <div className="font-serif text-2xl text-zinc-500">Please login to view your account.</div>
+        <Link to="/account/login">
+           <Button className="bg-[#0a192f] hover:bg-[#0a192f]/90 text-white font-bold h-12 px-8 rounded-xl">
+             Go to Login Page
+           </Button>
+        </Link>
+      </div>
+    );
   }
+
+  const handleSaveAddress = async () => {
+    if (!addressForm.firstName || !addressForm.address || !addressForm.city || !addressForm.pincode || !addressForm.phone) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    try {
+      let updatedAddresses = [...addresses];
+      
+      if (addressForm.isDefault) {
+        updatedAddresses = updatedAddresses.map(a => ({ ...a, isDefault: false }));
+      } else if (updatedAddresses.length === 0) {
+        addressForm.isDefault = true;
+      }
+
+      if (editingAddressId) {
+        updatedAddresses = updatedAddresses.map(a => a.id === editingAddressId ? { ...addressForm, id: editingAddressId } : a);
+      } else {
+        updatedAddresses.push({ ...addressForm, id: Date.now().toString() });
+      }
+
+      await updateDoc(doc(db, 'users', user.uid), {
+        savedAddresses: updatedAddresses,
+        updatedAt: serverTimestamp()
+      });
+
+      setAddresses(updatedAddresses);
+      setIsAddressModalOpen(false);
+      setEditingAddressId(null);
+      setAddressForm({
+        firstName: '', lastName: '', address: '', city: '', state: '', pincode: '', phone: '', email: '', isDefault: false
+      });
+      toast.success(editingAddressId ? 'Address updated successfully' : 'Address added successfully');
+      
+    } catch (error: any) {
+      toast.error('Failed to save address: ' + error.message);
+    }
+  };
+
+  const handleDeleteAddress = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this address?')) return;
+
+    try {
+      const updatedAddresses = addresses.filter(a => a.id !== id);
+      if (updatedAddresses.length > 0 && addresses.find(a => a.id === id)?.isDefault) {
+         updatedAddresses[0].isDefault = true;
+      }
+
+      await updateDoc(doc(db, 'users', user.uid), {
+        savedAddresses: updatedAddresses,
+        updatedAt: serverTimestamp()
+      });
+
+      setAddresses(updatedAddresses);
+      toast.success('Address deleted successfully');
+    } catch (error: any) {
+      toast.error('Failed to delete address: ' + error.message);
+    }
+  };
 
   const handleFinishPayment = async (utrNumber: string) => {
     if (!paymentOrder) return;
@@ -254,12 +357,12 @@ export default function CustomerDashboard() {
             <div className="flex items-center gap-6">
               <div className="h-20 w-20 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center shadow-xl border border-amber-300 transform rotate-3">
                  <div className="bg-zinc-950 w-full h-full rounded-2xl flex items-center justify-center transform -rotate-3 text-amber-500 font-serif text-3xl font-bold">
-                    {profile?.name ? profile.name.charAt(0).toUpperCase() : user.email?.charAt(0).toUpperCase()}
+                    {profile?.name ? profile.name.charAt(0).toUpperCase() : user.email ? user.email.charAt(0).toUpperCase() : user.phoneNumber?.slice(-1) || 'C'}
                  </div>
               </div>
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold font-serif">{profile?.name || 'Customer Dashboard'}</h1>
-                <p className="text-zinc-400 text-lg">{user.email}</p>
+                <p className="text-zinc-400 text-lg">{user.email || user.phoneNumber}</p>
               </div>
             </div>
             <div className="flex gap-4">
@@ -286,6 +389,15 @@ export default function CustomerDashboard() {
                       <ShoppingBag className="w-5 h-5" /> Order History
                    </div>
                    {activeTab === 'orders' && <ArrowRight className="w-4 h-4 text-amber-500" />}
+                 </button>
+                 <button 
+                  onClick={() => setActiveTab('addresses')}
+                  className={`w-full flex items-center justify-between p-4 rounded-xl transition-all ${activeTab === 'addresses' ? 'bg-zinc-950 text-white shadow-md' : 'hover:bg-zinc-100 text-zinc-600'}`}
+                 >
+                   <div className="flex items-center gap-3 font-medium">
+                      <MapPin className="w-5 h-5" /> Saved Addresses
+                   </div>
+                   {activeTab === 'addresses' && <ArrowRight className="w-4 h-4 text-amber-500" />}
                  </button>
                  <button 
                   onClick={() => setActiveTab('profile')}
@@ -448,6 +560,69 @@ export default function CustomerDashboard() {
               </div>
             )}
 
+            {activeTab === 'addresses' && (
+              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold font-serif text-zinc-900">Saved Addresses</h2>
+                  <Button 
+                    onClick={() => {
+                      setEditingAddressId(null);
+                      setAddressForm({ firstName: '', lastName: '', address: '', city: '', state: '', pincode: '', phone: '', email: '', isDefault: addresses.length === 0 });
+                      setIsAddressModalOpen(true);
+                    }}
+                    className="bg-zinc-950 text-white hover:bg-zinc-800"
+                  >
+                    <Plus className="w-4 h-4 mr-2" /> Add New Address
+                  </Button>
+                </div>
+                
+                {addresses.length === 0 ? (
+                  <Card className="bg-white border-0 shadow-sm text-center p-12 rounded-2xl">
+                    <MapPin className="w-12 h-12 text-zinc-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-bold text-zinc-700 mb-2">No Saved Addresses</h3>
+                    <p className="text-zinc-500 text-sm">Add addresses here to save time during checkout.</p>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {addresses.map(address => (
+                      <Card key={address.id} className="p-5 border-zinc-200 relative group">
+                        {address.isDefault && (
+                          <span className="absolute -top-3 -right-3 bg-amber-500 text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-sm">
+                            Default
+                          </span>
+                        )}
+                        <h4 className="font-bold text-zinc-900 text-lg mb-1">{address.firstName} {address.lastName}</h4>
+                        <p className="text-zinc-600 text-sm mb-3 h-10 overflow-hidden line-clamp-2">
+                          {address.address}, {address.city}, {address.state} - {address.pincode}
+                        </p>
+                        <div className="text-zinc-500 text-sm space-y-1 mb-6">
+                           <div className="flex items-center gap-2"><Smartphone className="w-4 h-4" /> {address.phone}</div>
+                        </div>
+                        <div className="absolute bottom-5 right-5 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={() => {
+                              setEditingAddressId(address.id);
+                              setAddressForm(address);
+                              setIsAddressModalOpen(true);
+                            }}
+                            className="p-2 bg-zinc-100 hover:bg-zinc-200 rounded-full text-zinc-700 transition"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteAddress(address.id)}
+                            className="p-2 bg-red-50 hover:bg-red-100 rounded-full text-red-600 transition"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             {activeTab === 'profile' && (
                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                   <h2 className="text-2xl font-bold font-serif text-zinc-900 mb-6">Account Settings</h2>
@@ -455,7 +630,7 @@ export default function CustomerDashboard() {
                      <div className="max-w-md space-y-6">
                         <div className="bg-amber-50 p-6 rounded-xl border border-amber-100 text-amber-800">
                            <h4 className="font-bold mb-2 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-amber-600" /> Secure Account</h4>
-                           <p className="text-sm">Your account is secured via Google Authentication. Email changes must be managed through your Google Account settings.</p>
+                           <p className="text-sm">Your account is secured via standard authentication. Contact support to change your registered email or phone.</p>
                         </div>
                         
                         <div>
@@ -464,8 +639,8 @@ export default function CustomerDashboard() {
                         </div>
                         
                         <div>
-                           <label className="block text-sm font-bold text-zinc-700 mb-2">Email Address</label>
-                           <input type="text" disabled value={user.email || ''} className="w-full bg-zinc-100 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-600 font-medium cursor-not-allowed" />
+                           <label className="block text-sm font-bold text-zinc-700 mb-2">{user.phoneNumber ? 'Mobile Number' : 'Email Address'}</label>
+                           <input type="text" disabled value={user.email || user.phoneNumber || ''} className="w-full bg-zinc-100 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-600 font-medium cursor-not-allowed" />
                         </div>
                      </div>
                   </Card>
@@ -475,6 +650,89 @@ export default function CustomerDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Address Modal */}
+      <Dialog open={isAddressModalOpen} onOpenChange={setIsAddressModalOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-serif">{editingAddressId ? 'Edit Address' : 'Add New Address'}</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="space-y-2">
+              <Label>First Name *</Label>
+              <Input 
+                value={addressForm.firstName} 
+                onChange={(e) => setAddressForm({...addressForm, firstName: e.target.value})} 
+                placeholder="John"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Last Name</Label>
+              <Input 
+                value={addressForm.lastName} 
+                onChange={(e) => setAddressForm({...addressForm, lastName: e.target.value})} 
+                placeholder="Doe"
+              />
+            </div>
+            <div className="col-span-2 space-y-2">
+              <Label>Address *</Label>
+              <Input 
+                value={addressForm.address} 
+                onChange={(e) => setAddressForm({...addressForm, address: e.target.value})} 
+                placeholder="123 Corporate Tower, Business Hub"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>City *</Label>
+              <Input 
+                value={addressForm.city} 
+                onChange={(e) => setAddressForm({...addressForm, city: e.target.value})} 
+                placeholder="Mumbai"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Pincode *</Label>
+              <Input 
+                value={addressForm.pincode} 
+                onChange={(e) => setAddressForm({...addressForm, pincode: e.target.value})} 
+                placeholder="400001"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Mobile Number *</Label>
+              <Input 
+                value={addressForm.phone} 
+                onChange={(e) => setAddressForm({...addressForm, phone: e.target.value})} 
+                placeholder="9876543210"
+              />
+            </div>
+             <div className="space-y-2">
+              <Label>State</Label>
+              <Input 
+                value={addressForm.state} 
+                onChange={(e) => setAddressForm({...addressForm, state: e.target.value})} 
+                placeholder="Maharashtra"
+              />
+            </div>
+            
+            <div className="col-span-2 flex items-center gap-2 mt-4">
+              <input 
+                type="checkbox" 
+                id="isDefault" 
+                className="w-4 h-4 text-amber-600 rounded"
+                checked={addressForm.isDefault}
+                onChange={(e) => setAddressForm({...addressForm, isDefault: e.target.checked})}
+                disabled={addresses.length === 0 && !addressForm.isDefault}
+              />
+              <label htmlFor="isDefault" className="text-sm font-medium text-zinc-700">Set as default address</label>
+            </div>
+          </div>
+          <div className="flex justify-end gap-3 mt-6">
+            <Button variant="outline" onClick={() => setIsAddressModalOpen(false)}>Cancel</Button>
+            <Button onClick={handleSaveAddress} className="bg-zinc-950 text-white hover:bg-zinc-800">Save Address</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Track Order Dialog - Premium Redesign */}
       <Dialog open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>

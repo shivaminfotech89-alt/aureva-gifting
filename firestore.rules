@@ -65,7 +65,7 @@ service cloud.firestore {
                        isValidUser(incoming()) && 
                        incoming().role == 'customer'; // new user can only be customer
       allow update: if isValidId(userId) && (
-        (isOwner(userId) && !isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'company', 'updatedAt']) && incoming().role == existing().role) ||
+        (isOwner(userId) && !isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'company', 'email', 'savedAddresses', 'defaultAddressId', 'photoURL', 'updatedAt']) && incoming().role == existing().role) ||
         (isAdmin() && isValidUser(incoming())) // admins can update all fields
       );
     }
@@ -145,6 +145,13 @@ service cloud.firestore {
     }
     // Admin Notifications
     match /admin_notifications/{docId} {
+      allow read: if isAdmin();
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // Catalog Leads
+    match /catalogLeads/{docId} {
       allow read: if isAdmin();
       allow create: if true;
       allow update, delete: if isAdmin();

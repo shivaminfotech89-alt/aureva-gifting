@@ -4,6 +4,7 @@ import { auth, handleFirestoreError, OperationType } from '../lib/firebase';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '../components/ui/card';
+import { Input } from '../components/ui/input';
 import { toast } from 'sonner';
 import { useAuthStore } from '../store/authStore';
 import { AlertCircle } from 'lucide-react';
@@ -22,11 +23,12 @@ export default function AuthPage() {
       const result = await signInWithPopup(auth, provider);
       if (result.user) {
         toast.success("Successfully logged in!");
-        // Navigation will be handled by a useEffect watching the profile
       }
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user') {
         toast.info("Login cancelled");
+      } else if (error.code === 'auth/operation-not-allowed') {
+        toast.error('Google Sign-In is not enabled. Please enable it in the Firebase Console.');
       } else if (error.code === 'auth/web-storage-unsupported' || error.message?.includes('cross-origin')) {
         setShowIframeError(true);
         toast.error("Login popup blocked by your browser.");

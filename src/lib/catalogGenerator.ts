@@ -20,16 +20,63 @@ const getBase64ImageFromUrl = async (imageUrl: string): Promise<string> => {
   }
 };
 
+let robotoRegularBase64: string | null = null;
+let robotoBoldBase64: string | null = null;
+
+const loadFonts = async (doc: jsPDF) => {
+  try {
+    if (!robotoRegularBase64) {
+      const regRes = await fetch('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf');
+      if (regRes.ok) {
+         const regBuf = await regRes.arrayBuffer();
+         const regBytes = new Uint8Array(regBuf);
+         let regBin = '';
+         for (let i = 0; i < regBytes.byteLength; i++) {
+           regBin += String.fromCharCode(regBytes[i]);
+         }
+         robotoRegularBase64 = window.btoa(regBin);
+      }
+    }
+    if (robotoRegularBase64) {
+      doc.addFileToVFS('Roboto-Regular.ttf', robotoRegularBase64);
+      doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+    }
+
+    if (!robotoBoldBase64) {
+      const boldRes = await fetch('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf');
+      if (boldRes.ok) {
+         const boldBuf = await boldRes.arrayBuffer();
+         const boldBytes = new Uint8Array(boldBuf);
+         let boldBin = '';
+         for (let i = 0; i < boldBytes.byteLength; i++) {
+           boldBin += String.fromCharCode(boldBytes[i]);
+         }
+         robotoBoldBase64 = window.btoa(boldBin);
+      }
+    }
+    if (robotoBoldBase64) {
+       doc.addFileToVFS('Roboto-Medium.ttf', robotoBoldBase64);
+       doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
+    }
+  } catch(e) {
+    console.error("Failed to load custom fonts", e);
+  }
+};
+
 export const generateCatalogPDF = async (
   products: ProductData[], 
-  title: string = "AUREVA Corporate Gifting Catalog", 
-  categoryFilter?: string
+  title: string = "AUREVA Corporate Gifting Catalog",
+  catalogType: 'category' | 'budget' = 'category',
+  specificFilter?: string
 ) => {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
     format: 'a4'
   });
+
+  // Load custom fonts for unicode support (₹)
+  await loadFonts(doc);
 
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -43,13 +90,11 @@ export const generateCatalogPDF = async (
     const w = 6 * scale; 
     const h = 8 * scale;  
     
-    // Outer Diamond
     doc.line(x, y - h, x - w, y);
     doc.line(x - w, y, x, y + h);
     doc.line(x, y + h, x + w, y);
     doc.line(x + w, y, x, y - h);
 
-    // Inner Diamond
     doc.setLineWidth(0.4 * scale);
     const innerW = 3.5 * scale;
     const innerH = 5 * scale;
@@ -58,43 +103,28 @@ export const generateCatalogPDF = async (
     doc.line(x, y + innerH, x + innerW, y);
     doc.line(x + innerW, y, x, y - innerH);
 
-    // Center filled diamond
     doc.setFillColor(r, g, b);
     const centerW = 1.5 * scale;
     const centerH = 2 * scale;
-    doc.triangle(
-      x, y - centerH,
-      x - centerW, y,
-      x + centerW, y,
-      'F'
-    );
-    doc.triangle(
-      x, y + centerH,
-      x - centerW, y,
-      x + centerW, y,
-      'F'
-    );
+    doc.triangle(x, y - centerH, x - centerW, y, x + centerW, y, 'F');
+    doc.triangle(x, y + centerH, x - centerW, y, x + centerW, y, 'F');
   };
 
   // COVER PAGE
-  // Premium corporate navy blue background
   doc.setFillColor(10, 25, 47); // Dark navy
   doc.rect(0, 0, pageWidth, pageHeight, 'F');
   
-  // Decorative borders
   doc.setDrawColor(212, 175, 55); // Gold
   doc.setLineWidth(0.5);
   doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
   doc.setLineWidth(0.2);
   doc.rect(12, 12, pageWidth - 24, pageHeight - 24);
 
-  // Draw large center logo
   drawAurevaLogo(pageWidth / 2, pageHeight / 3 - 35, 2.5);
   
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(40);
   doc.setFont("times", "bold");
-  // Spaced text manually to avoid charSpace centering bug
   doc.text("A U R E V A", pageWidth / 2, pageHeight / 3 + 15, { align: 'center' });
   
   doc.setTextColor(212, 175, 55);
@@ -102,26 +132,26 @@ export const generateCatalogPDF = async (
   doc.setFont("helvetica", "bold");
   doc.text("C O R P O R A T E   G I F T I N G", pageWidth / 2, pageHeight / 3 + 28, { align: 'center' });
   
-  // Decorative dividing line under brand
   doc.setDrawColor(212, 175, 55);
   doc.setLineWidth(0.5);
   doc.line(pageWidth / 2 - 25, pageHeight / 3 + 40, pageWidth / 2 + 25, pageHeight / 3 + 40);
 
-  // Middle Section
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(26);
   doc.setFont("helvetica", "bold");
-  doc.text("CORPORATE GIFTING CATALOG", pageWidth / 2, pageHeight / 2 + 10, { align: 'center' });
+  const mainTitle = catalogType === 'budget' ? "MASTER BUDGET CATALOG" : "CORPORATE GIFTING CATALOG";
+  doc.text(mainTitle, pageWidth / 2, pageHeight / 2 + 10, { align: 'center' });
   
   doc.setTextColor(212, 175, 55);
   doc.setFontSize(12);
   doc.setFont("helvetica", "normal");
   doc.text("Premium Customized Corporate Gifting Solutions", pageWidth / 2, pageHeight / 2 + 22, { align: 'center' });
 
-  if (categoryFilter) {
+  if (catalogType === 'category' && specificFilter && specificFilter !== 'All') {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(13);
-    doc.text(`C A T E G O R Y :  ${categoryFilter.toUpperCase()}`, pageWidth / 2, pageHeight / 2 + 35, { align: 'center' });
+    doc.setFont("Roboto", "bold");
+    doc.text(`C A T E G O R Y :  ${specificFilter.toUpperCase()}`, pageWidth / 2, pageHeight / 2 + 35, { align: 'center' });
   }
 
   // BOTTOM SECTION
@@ -136,8 +166,7 @@ export const generateCatalogPDF = async (
   doc.text("Email: aurevagifts@gmail.com   |   WhatsApp: +91 7990878248", pageWidth / 2, startY + 8, { align: 'center' });
   doc.text("Headquarters: Ahmedabad, Gujarat, India", pageWidth / 2, startY + 16, { align: 'center' });
   
-  // Footer Note
-  doc.setFillColor(15, 30, 55); // Slightly lighter navy block for footer disclaimer
+  doc.setFillColor(15, 30, 55); 
   doc.rect(20, startY + 26, pageWidth - 40, 18, 'F');
   
   doc.setTextColor(180, 180, 180);
@@ -150,141 +179,133 @@ export const generateCatalogPDF = async (
   doc.text("AUREVA specializes in bulk corporate gifting orders.", pageWidth / 2, startY + 36, { align: 'center' });
   doc.text("Product availability, pricing, and customization are subject to stock confirmation and minimum order quantity requirements.", pageWidth / 2, startY + 40, { align: 'center' });
 
-  // PRODUCTS PAGES
+  // Add Index Page placeholder
   doc.addPage();
+  const indexPageNumber = 2;
   
-  let pageNumber = 1;
-
-  // Header on each page
-  const addHeader = () => {
+  // Header function
+  const addHeader = (pageNum: number) => {
     doc.setFillColor(15, 23, 42);
     doc.rect(0, 0, pageWidth, 22, 'F');
-    
     drawAurevaLogo(20, 10, 0.7);
-
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(14);
     doc.setFont("times", "bold");
     doc.text("AUREVA", 33, 12, { charSpace: 2 } as any);
-    
     doc.setTextColor(212, 175, 55);
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
-    doc.text("Corporate Catalog", pageWidth - 15, 12, { align: 'right' });
-    
-    // Watermark
-    // A faint large logo/text to give a premium feel to the page background
+    doc.text(`Page ${pageNum}`, pageWidth - 15, 12, { align: 'right' });
     doc.setTextColor(248, 248, 248);
     doc.setFontSize(80);
     doc.setFont("times", "bold");
-    // jsPDF rotation support using standard text with angle
     doc.text("AUREVA", pageWidth / 2, pageHeight / 2, { align: 'center', angle: -45, charSpace: 10 } as any);
-    
-    // reset colors for other elements
     doc.setTextColor(15, 23, 42); 
-    doc.setFontSize(14);
   };
 
+  // Grouping Products
+  const groups: { name: string; products: ProductData[] }[] = [];
+  
+  if (catalogType === 'budget') {
+     const slabs = [
+       { name: "Products Under ₹250", min: 0, max: 250 },
+       { name: "Products ₹250 – ₹1000", min: 250, max: 1000 },
+       { name: "Products ₹1000 – ₹2500", min: 1000, max: 2500 },
+       { name: "Premium Gifts (Above ₹2500)", min: 2500, max: 9999999 }
+     ];
+     slabs.forEach(slab => {
+        const slabProducts = products.filter(p => p.basePrice >= slab.min && p.basePrice < slab.max);
+        if (slabProducts.length > 0) {
+           groups.push({ name: slab.name, products: slabProducts.sort((a,b) => a.basePrice - b.basePrice) });
+        }
+     });
+  } else {
+     // Category Logic
+     const catMap: { [key: string]: ProductData[] } = {};
+     products.forEach(p => {
+       const cat = p.categoryId || 'Uncategorized';
+       if (specificFilter && specificFilter !== 'All' && cat !== specificFilter) return;
+       if (!catMap[cat]) catMap[cat] = [];
+       catMap[cat].push(p);
+     });
+     Object.keys(catMap).sort().forEach(cat => {
+       groups.push({ name: cat, products: catMap[cat] });
+     });
+  }
+
+  const indexEntries: { name: string, startPage: number, endPage: number }[] = [];
+  let currentActualPage = 3; 
+
+  doc.addPage();
+  addHeader(currentActualPage);
   let yPosition = 30;
-  
-  // Group products by category
-  const productsByCategory: { [key: string]: ProductData[] } = {};
-  
-  products.forEach(p => {
-    const cat = p.categoryId || 'Uncategorized';
-    if (!productsByCategory[cat]) {
-      productsByCategory[cat] = [];
-    }
-    productsByCategory[cat].push(p);
-  });
-  
-  const categories = Object.keys(productsByCategory).sort();
 
-  addHeader();
-
-  let isFirstCategory = true;
-  for (const cat of categories) {
-    // If not the first category, and we're too far down the page, start a new page
-    if (!isFirstCategory) {
-      if (yPosition > 200) {
-        doc.addPage();
-        addHeader();
-        yPosition = 30;
-      } else {
-        yPosition += 10;
-      }
+  for (const group of groups) {
+    if (yPosition > 200 && groups.indexOf(group) !== 0) {
+      doc.addPage();
+      currentActualPage++;
+      addHeader(currentActualPage);
+      yPosition = 30;
     }
-    isFirstCategory = false;
     
-    // Category Section Header
+    // Record index
+    const entry = { name: group.name, startPage: currentActualPage, endPage: currentActualPage };
+    indexEntries.push(entry);
+    
+    // Section Header
     doc.setFillColor(245, 245, 245);
-    doc.rect(15, yPosition, pageWidth - 30, 15, 'F');
+    doc.rect(15, yPosition, pageWidth - 30, 20, 'F');
     doc.setDrawColor(212, 175, 55);
-    doc.setLineWidth(1);
-    doc.line(15, yPosition, 15, yPosition + 15);
+    doc.setLineWidth(1.5);
+    doc.line(15, yPosition, 15, yPosition + 20);
     
     doc.setTextColor(15, 23, 42);
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text(`SECTION: ${cat.toUpperCase()}`, 25, yPosition + 10);
+    doc.setFontSize(16);
+    // Use Roboto for group titles to support ₹ symbol properly
+    doc.setFont("Roboto", "bold");
+    doc.text(`${group.name.toUpperCase()}`, 25, yPosition + 13);
     
-    yPosition += 25;
+    yPosition += 30;
     
-    // Render Products for this category
-    for (let i = 0; i < productsByCategory[cat].length; i++) {
-      const product = productsByCategory[cat][i];
-      
-      // Check if we need a new page for product
+    // Render Products
+    for (let i = 0; i < group.products.length; i++) {
+      const product = group.products[i];
       if (yPosition > 230) {
         doc.addPage();
-        addHeader();
+        currentActualPage++;
+        addHeader(currentActualPage);
+        entry.endPage = currentActualPage; // Update end page
         yPosition = 30;
       }
       
-      // Product Container styling
-      doc.setDrawColor(220, 220, 220); // soft border
+      doc.setDrawColor(220, 220, 220); 
       doc.setFillColor(255, 255, 255);
       doc.setLineWidth(0.2);
       doc.roundedRect(15, yPosition, pageWidth - 30, 60, 2, 2, 'FD');
       
-      // Image container bg
       doc.setFillColor(248, 248, 248);
       doc.roundedRect(15, yPosition, 60, 60, 2, 2, 'F');
       
-      // Product Image
       let imgBase64 = '';
       if (product.images && product.images.length > 0) {
-        imgBase64 = await getBase64ImageFromUrl(product.images[0]);
+         imgBase64 = await getBase64ImageFromUrl(product.images[0]);
       }
       
       if (imgBase64) {
-        try {
-           doc.addImage(imgBase64, 'JPEG', 20, yPosition + 5, 50, 50);
-        } catch (e) {
-           console.warn("Failed to add image to PDF for product:", product.name);
-           doc.setDrawColor(200, 200, 200);
-           doc.rect(20, yPosition + 5, 50, 50);
-           doc.setFontSize(8);
-           doc.setTextColor(150, 150, 150);
-           doc.text("Image Unavailable", 45, yPosition + 30, { align: 'center' });
+        try { doc.addImage(imgBase64, 'JPEG', 20, yPosition + 5, 50, 50); }
+        catch (e) {
+           doc.setDrawColor(200, 200, 200); doc.rect(20, yPosition + 5, 50, 50);
         }
       } else {
-         doc.setDrawColor(200, 200, 200);
-         doc.rect(20, yPosition + 5, 50, 50);
-         doc.setFontSize(8);
-         doc.setTextColor(150, 150, 150);
-         doc.text("No Image", 45, yPosition + 30, { align: 'center' });
+         doc.setDrawColor(200, 200, 200); doc.rect(20, yPosition + 5, 50, 50);
       }
       
-      // Vertical divider
       doc.setDrawColor(230, 230, 230);
       doc.line(75, yPosition, 75, yPosition + 60);
 
-      // Product Info
-      doc.setTextColor(15, 23, 42); // slate-900
+      doc.setTextColor(15, 23, 42);
       doc.setFontSize(13);
       doc.setFont("helvetica", "bold");
-      
       const textLines = doc.splitTextToSize(product.name, pageWidth - 145);
       doc.text(textLines, 82, yPosition + 12);
       
@@ -294,54 +315,91 @@ export const generateCatalogPDF = async (
       const descLines = doc.splitTextToSize(product.description || '', pageWidth - 145);
       doc.text(descLines.slice(0, 3), 82, yPosition + 25);
       
-      // Procurement Timeline
       doc.setTextColor(80, 80, 80);
       doc.setFontSize(8);
       doc.text(`Procurement Timeline: ${product.estimatedProcurementTime === 'ready' ? 'Ready to Ship' : (product.estimatedProcurementTime || 'Volume Dependent')}`, 82, yPosition + 45);
 
-      // Customization tags
       if (product.smallLogoCharge !== undefined || product.nameEngravingCharge !== undefined) {
-         doc.setTextColor(212, 175, 55); // Gold
+         doc.setTextColor(212, 175, 55); 
          doc.text("✓ Custom Branding Available", 82, yPosition + 52);
       }
 
-      // Divider for Price Section
       doc.setDrawColor(230, 230, 230);
       doc.line(pageWidth - 55, yPosition, pageWidth - 55, yPosition + 60);
-      
-      // Price Section Background
       doc.setFillColor(250, 250, 250);
       doc.roundedRect(pageWidth - 55, yPosition, 40, 60, 2, 2, 'F');
 
-      // Price and MOQ
-      doc.setTextColor(80, 80, 80);
-      doc.setFontSize(8);
-      doc.setFont("helvetica", "normal");
-      doc.text("Starting Price", pageWidth - 35, yPosition + 18, { align: 'center' });
-
-      doc.setTextColor(15, 23, 42); 
-      doc.setFontSize(14);
-      doc.setFont("helvetica", "bold");
-      doc.text(`${formatCurrency(product.basePrice)}`, pageWidth - 35, yPosition + 28, { align: 'center' });
+      const formattedPrice = formatCurrency(product.basePrice).replace(/[\s\u00A0\u202F]+/g, '').replace('₹', '₹');
       
-      doc.setTextColor(212, 175, 55); // Gold
+      doc.setTextColor(15, 23, 42); 
+      doc.setFontSize(11);
+      doc.setFont("Roboto", "bold");
+      doc.text(`Starting Price: \n${formattedPrice}`, pageWidth - 35, yPosition + 25, { align: 'center' });
+      
+      doc.setTextColor(212, 175, 55); 
       doc.setFontSize(9);
       doc.setFont("helvetica", "bold");
-      doc.text(`MOQ: ${product.minOrderQuantity || 1} units`, pageWidth - 35, yPosition + 40, { align: 'center' });
+      doc.text(`MOQ: ${product.minOrderQuantity || 1} units`, pageWidth - 35, yPosition + 42, { align: 'center' });
       
       yPosition += 65;
     }
   }
+
+  // Draw Index Page
+  doc.setPage(indexPageNumber);
+  addHeader(indexPageNumber);
   
-  // Footer
+  doc.setTextColor(15, 23, 42);
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  doc.text("AUREVA CORPORATE GIFTING", pageWidth / 2, 35, { align: 'center', charSpace: 1 } as any);
+
+  doc.setFontSize(22);
+  doc.setFont("helvetica", "bold");
+  const indexTitle = catalogType === 'budget' ? "BUDGET CATALOG INDEX" : "CATEGORY CATALOG INDEX";
+  doc.text(indexTitle, pageWidth / 2, 45, { align: 'center' });
+  
+  doc.setDrawColor(212, 175, 55);
+  doc.setLineWidth(1);
+  doc.line(pageWidth / 2 - 25, 50, pageWidth / 2 + 25, 50);
+
+  let idxY = 65;
+  for (const entry of indexEntries) {
+    if (idxY > 260) {
+      break;
+    }
+    
+    doc.setTextColor(15, 23, 42);
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold"); // Use Roboto to render ₹ symbol properly in indices
+    doc.text(entry.name, 30, idxY);
+    
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(150, 150, 150);
+    // Rough width calculation since Roboto and Helvetica differ slightly
+    const textWidth = doc.getTextWidth(entry.name);
+    // Draw dots
+    const dotsCount = Math.floor((pageWidth - 75 - textWidth - 20) / 2);
+    const dotStr = ".".repeat(Math.max(dotsCount, 1));
+    doc.text(dotStr, 30 + textWidth + 3, idxY);
+    
+    doc.setTextColor(60, 60, 60);
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    const pageText = entry.startPage === entry.endPage ? `Page ${entry.startPage}` : `Page ${entry.startPage}–${entry.endPage}`;
+    doc.text(pageText, pageWidth - 30, idxY, { align: 'right' });
+    
+    idxY += 16;
+  }
+
+  // Footer on index
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
+  doc.setFont("helvetica", "normal");
   doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
 
-  // Download
-  let filename = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-  if (categoryFilter) {
-    filename += `_${categoryFilter.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`;
-  }
+  doc.setPage(doc.internal.getNumberOfPages()); 
+
+  const filename = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
   doc.save(`${filename}.pdf`);
 };

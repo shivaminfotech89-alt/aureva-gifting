@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, Menu, X, ArrowLeft, Settings, Tag, Grid, Calendar, Warehouse, BarChart3, MessageCircle, Mail, Ticket, Star, Bell, FileText, Shield, Palette, CreditCard, Truck, Receipt, Search, Database, Activity, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, Menu, X, ArrowLeft, Settings, Tag, Grid, Calendar, Warehouse, BarChart3, MessageCircle, Mail, Ticket, Star, Bell, FileText, Shield, Palette, CreditCard, Truck, Receipt, Search, Database, Activity, ChevronLeft, ChevronRight, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import { auth } from '../../../lib/firebase';
 import { signOut } from 'firebase/auth';
@@ -47,6 +47,7 @@ export default function AdminLayout() {
         title: "Catalog & Content",
         items: [
           { name: 'Categories', path: '/admin/categories', icon: Grid, roles: ['Super Admin', 'Admin'] },
+          { name: 'Budget Catalogs', path: '/admin/budget-catalogs', icon: FileText, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
           { name: 'Image Management', path: '/admin/banners', icon: Palette, roles: ['Super Admin', 'Project Manager', 'Marketing Manager'] },
           { name: 'Inventory', path: '/admin/inventory', icon: Warehouse, roles: ['Super Admin', 'Admin'] },
           { name: 'Coupon Management', path: '/admin/coupons', icon: Ticket, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
@@ -56,6 +57,7 @@ export default function AdminLayout() {
         title: "Customers & Analytics",
         items: [
           { name: 'Customers', path: '/admin/customers', icon: Users, roles: ['Super Admin', 'Admin', 'Order Manager'] },
+          { name: 'Catalog Leads', path: '/admin/catalog-leads', icon: Download, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
           { name: 'Analytics', path: '/admin/analytics', icon: BarChart3, roles: ['Super Admin', 'Project Manager'] },
           { name: 'Reviews', path: '/admin/reviews', icon: Star, roles: ['Super Admin', 'Marketing Manager'] },
           { name: 'Reports', path: '/admin/reports', icon: FileText, roles: ['Super Admin', 'Order Manager', 'Project Manager'] },

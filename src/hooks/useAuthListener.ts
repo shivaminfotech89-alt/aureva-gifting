@@ -40,7 +40,8 @@ export function useAuthListener() {
             } else {
               currentProfile = {
                 uid: user.uid,
-                email: user.email,
+                email: user.email || '',
+                phone: user.phoneNumber || '',
                 name: user.displayName || '',
                 role: 'customer',
                 createdAt: Date.now(),
