@@ -38,11 +38,15 @@ type Prepared = { id: string; data: Record<string, unknown> };
 
 const SLUG_MAX = 100;
 
+/** The document id a product code maps to. Exported so other screens agree. */
+export function idForSku(sku: string): string {
+  return String(sku || '').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, SLUG_MAX);
+}
+
 /** Stable, readable document id, so re-importing updates rather than duplicates. */
 function makeId(row: ImportRow): string {
-  const basis = String(row.sku || row.name || '').toLowerCase();
-  const slug = basis.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, SLUG_MAX);
-  return slug || `product-${Math.random().toString(36).slice(2, 10)}`;
+  return idForSku(String(row.sku || row.name || '')) || `product-${Math.random().toString(36).slice(2, 10)}`;
 }
 
 export function validateRows(rows: unknown, publish = false): { ok: Prepared[]; errors: string[] } {
@@ -136,10 +140,40 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
   const [progress, setProgress] = useState(0);
   const [publish, setPublish] = useState(false);
   const [parsedRaw, setParsedRaw] = useState<unknown>(null);
+  const [existingIds, setExistingIds] = useState<Set<string> | null>(null);
+  const [removeSuperseded, setRemoveSuperseded] = useState(true);
 
   const unpriced = rows.filter(r => Number(r.data.basePrice) === 0).length;
 
-  const reset = () => { setRows([]); setErrors([]); setFileName(''); setProgress(0); setPublish(false); };
+  /**
+   * Products already in the inventory that this file turns into colour options
+   * of another product.
+   *
+   * Grouping three colourways into one product keeps the first colour's code as
+   * the document id, so the other two stay behind as separate products and the
+   * shop shows the same briefcase four times. They are the same items, not new
+   * ones, so importing should retire them.
+   */
+  const supersededIds = React.useMemo(() => {
+    if (!existingIds) return [] as string[];
+    const out = new Set<string>();
+    for (const row of rows) {
+      const variants = (row.data.variants as { sku?: string }[]) || [];
+      for (const v of variants) {
+        const id = idForSku(v.sku || '');
+        if (id && id !== row.id && existingIds.has(id)) out.add(id);
+      }
+    }
+    return [...out];
+  }, [rows, existingIds]);
+
+  const updating = existingIds ? rows.filter(r => existingIds.has(r.id)).length : 0;
+  const creating = rows.length - updating;
+
+  const reset = () => {
+    setRows([]); setErrors([]); setFileName(''); setProgress(0);
+    setPublish(false); setExistingIds(null); setRemoveSuperseded(true);
+  };
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -151,6 +185,13 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
       setParsedRaw(parsed);
       setRows(result.ok);
       setErrors(result.errors);
+      try {
+        const snap = await getDocs(collection(db, 'products'));
+        setExistingIds(new Set(snap.docs.map(d => d.id)));
+      } catch {
+        // Without this the counts are unknown, not wrong. Import still works.
+        setExistingIds(null);
+      }
     } catch {
       setRows([]);
       setErrors(['That file is not valid JSON. Export it again, or open it in a text editor to check.']);
@@ -182,7 +223,19 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
         await batch.commit();
         setProgress(Math.min(i + slice.length, rows.length));
       }
-      toast.success(`Imported ${rows.length} product${rows.length === 1 ? '' : 's'}.`);
+      let removed = 0;
+      if (removeSuperseded && supersededIds.length > 0) {
+        for (let i = 0; i < supersededIds.length; i += CHUNK) {
+          const batch = writeBatch(db);
+          for (const id of supersededIds.slice(i, i + CHUNK)) batch.delete(doc(db, 'products', id));
+          await batch.commit();
+        }
+        removed = supersededIds.length;
+      }
+      toast.success(
+        `Imported ${rows.length} product${rows.length === 1 ? '' : 's'}.` +
+        (removed ? ` Removed ${removed} that became color options.` : ''),
+      );
       onImported();
       setOpen(false);
       reset();
@@ -192,12 +245,6 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
       setBusy(false);
     }
   };
-
-  const existingWarning = async () => {
-    const snap = await getDocs(collection(db, 'products'));
-    return snap.size;
-  };
-  void existingWarning;
 
   return (
     <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) reset(); }}>
@@ -240,8 +287,35 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
           {rows.length > 0 && (
             <div className="flex items-start gap-2 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800">
               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
-              <span><strong>{rows.length}</strong> product{rows.length === 1 ? '' : 's'} ready to import.</span>
+              <span>
+                <strong>{rows.length}</strong> product{rows.length === 1 ? '' : 's'} ready to import.
+                {existingIds && (
+                  <span className="mt-0.5 block text-emerald-700">
+                    {creating} new, {updating} already in your inventory and will be updated rather than duplicated.
+                  </span>
+                )}
+              </span>
             </div>
+          )}
+
+          {supersededIds.length > 0 && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-3">
+              <input
+                type="checkbox"
+                checked={removeSuperseded}
+                onChange={(e) => setRemoveSuperseded(e.target.checked)}
+                className="mt-0.5 h-4 w-4 accent-[var(--gold-500)]"
+              />
+              <span className="text-sm text-amber-900">
+                <strong>Remove {supersededIds.length} duplicate product{supersededIds.length === 1 ? '' : 's'}</strong>
+                <span className="mt-0.5 block text-amber-800">
+                  {supersededIds.length === 1 ? 'This product is' : 'These products are'} already in your inventory
+                  on {supersededIds.length === 1 ? 'its' : 'their'} own, and this file turns
+                  {supersededIds.length === 1 ? ' it' : ' them'} into a color option of another product.
+                  Leaving {supersededIds.length === 1 ? 'it' : 'them'} would show the same item twice in the shop.
+                </span>
+              </span>
+            </label>
           )}
 
           {publish && unpriced > 0 && (

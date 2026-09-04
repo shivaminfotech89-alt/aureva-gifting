@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ArrowLeft, Plus, Edit, Trash2, Image as ImageIcon, Database, Search, Download, Lock } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { toast } from 'sonner';
-import { ProductImportDialog } from '../../components/admin/ProductImportDialog';
+import { ProductImportDialog, idForSku } from '../../components/admin/ProductImportDialog';
 import { Link } from 'react-router-dom';
 
 import { generateCatalogPDF } from '../../lib/catalogGenerator';
@@ -205,8 +205,54 @@ export default function AdminProducts() {
     }
   };
 
+  /**
+   * The same item entered twice is two products in the shop and two answers to
+   * "how many do we have". Adding by hand always minted a fresh id, so nothing
+   * stopped it. Match on the product code first, since that is the dealer's own
+   * identifier, then on the name.
+   */
+  const duplicateOf = (): ProductData | null => {
+    const sku = formData.sku.trim().toLowerCase();
+    const name = formData.name.trim().toLowerCase();
+    for (const p of products) {
+      if (p.id === editingId) continue;
+      if (sku && (p.sku || '').trim().toLowerCase() === sku) return p;
+      if (sku && variantsOf(p).some(v => (v.sku || '').trim().toLowerCase() === sku)) return p;
+      if (!sku && name && p.name.trim().toLowerCase() === name) return p;
+    }
+    return null;
+  };
+
+  /**
+   * Extra copies already sitting in the inventory: products sharing a dealer
+   * code, or sharing a name when they have no code. The first of each group is
+   * kept, the rest are the copies. Nothing is deleted here — this only selects
+   * them, so they can be looked at before the bulk delete.
+   */
+  const duplicateIds = React.useMemo(() => {
+    const firstSeen = new Map<string, string>();
+    const extras: string[] = [];
+    for (const p of products) {
+      const key = (p.sku || '').trim().toLowerCase() || `name:${p.name.trim().toLowerCase()}`;
+      if (key === 'name:') continue;
+      if (firstSeen.has(key)) extras.push(p.id);
+      else firstSeen.set(key, p.id);
+    }
+    return extras;
+  }, [products]);
+
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const clash = duplicateOf();
+    if (clash) {
+      const why = formData.sku.trim()
+        ? `Product code "${formData.sku.trim()}" already belongs to "${clash.name}".`
+        : `A product named "${clash.name}" already exists.`;
+      toast.error(`${why} Edit that product instead of adding it again.`);
+      return;
+    }
+
     try {
       const productPayload = {
         name: formData.name,
@@ -251,7 +297,12 @@ export default function AdminProducts() {
         updatedAt: serverTimestamp(),
       };
 
-      const productId = editingId || `prod-${Date.now()}`;
+      // Give a hand-added product the same id an import would give it, so the
+      // two paths agree on identity and importing the dealer's file later
+      // updates this product rather than adding a second copy of it.
+      const fromSku = idForSku(formData.sku);
+      const productId = editingId
+        || (fromSku && !products.some(p => p.id === fromSku) ? fromSku : `prod-${Date.now()}`);
       if (editingId) {
         await updateDoc(doc(db, 'products', productId), {
           ...productPayload,
@@ -740,6 +791,20 @@ export default function AdminProducts() {
 
       <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
         <div className="overflow-x-auto">
+          {duplicateIds.length > 0 && selectedIds.size === 0 && (
+            <div className="flex flex-wrap items-center gap-3 border-b border-amber-200 bg-amber-50 px-6 py-3">
+              <span className="text-sm text-amber-900">
+                <strong>{duplicateIds.length} possible duplicate{duplicateIds.length === 1 ? '' : 's'}</strong>
+                {' '}— more than one product shares the same product code or name.
+              </span>
+              <button
+                onClick={() => setSelectedIds(new Set(duplicateIds))}
+                className="rounded-lg border border-amber-300 bg-white px-3 py-1.5 text-xs font-bold text-amber-900 hover:bg-amber-100"
+              >
+                Select them
+              </button>
+            </div>
+          )}
           {selectedIds.size > 0 && (
             <div className="flex flex-wrap items-center gap-3 border-b border-slate-200 bg-[#d4af37]/10 px-6 py-3">
               <span className="text-sm font-bold text-[#0F172A]">
