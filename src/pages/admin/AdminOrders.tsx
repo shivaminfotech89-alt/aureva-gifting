@@ -74,6 +74,10 @@ export default function AdminOrders() {
   
   // Use a ref to track if this is the initial load vs a real-time update
   const isInitialLoad = useRef(true);
+  // Compared against the previous snapshot to spot a new order. It has to be a
+  // ref: reading orders.length from the effect's closure meant the effect had
+  // to depend on it, and re-subscribe every time it changed.
+  const lastCount = useRef(0);
 
   // Sync initial query parameter if it changes
   useEffect(() => {
@@ -91,7 +95,7 @@ export default function AdminOrders() {
       const ordersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Order[];
       
       // Look for new orders
-      if (!isInitialLoad.current && orders.length > 0 && ordersData.length > orders.length) {
+      if (!isInitialLoad.current && lastCount.current > 0 && ordersData.length > lastCount.current) {
         toast.success("New order received!", {
           description: "The order list has been updated automatically."
         });
@@ -108,6 +112,7 @@ export default function AdminOrders() {
         return ordersData.find(o => o.id === current.id) || current;
       });
       
+      lastCount.current = ordersData.length;
       setLoading(false);
       isInitialLoad.current = false;
     }, (error) => {
@@ -116,7 +121,10 @@ export default function AdminOrders() {
     });
 
     return () => unsubscribe();
-  }, [orders.length]);
+    // Subscribe once. Depending on orders.length tore the listener down and
+    // rebuilt it on every order that arrived, re-reading the whole collection
+    // each time — the opposite of what a live listener is for.
+  }, []);
 
   const updateOrderStatus = async (id: string, newStatus: string) => {
     try {

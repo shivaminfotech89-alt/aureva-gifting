@@ -13,7 +13,7 @@ import {
 } from '@firebase/rules-unit-testing';
 import {
   doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection,
-  serverTimestamp, increment, getDocs, query, where,
+  serverTimestamp, increment, getDocs, getCountFromServer, query, where,
 } from 'firebase/firestore';
 import { readFileSync } from 'node:fs';
 
@@ -311,6 +311,22 @@ await it('anonymous visitor cannot list supplier details', () =>
 
 await it('customer cannot write supplier details', () =>
   assertFails(setDoc(doc(asCustomer(), 'product_private', 'p-ok'), { supplierName: 'x' })));
+
+// The dashboard counts on the server rather than downloading a collection to
+// call .size on it. A count runs under the same list permission as the query.
+await it('admin counts products', () =>
+  assertSucceeds(getCountFromServer(collection(asStaffAdmin(), 'products'))));
+
+await it('admin counts customers', () =>
+  assertSucceeds(getCountFromServer(
+    query(collection(asStaffAdmin(), 'users'), where('role', '==', 'customer')))));
+
+await it('a customer cannot count the user list', () =>
+  assertFails(getCountFromServer(
+    query(collection(asCustomer(), 'users'), where('role', '==', 'customer')))));
+
+await it('an anonymous visitor cannot count the user list', () =>
+  assertFails(getCountFromServer(collection(asAnon(), 'users'))));
 
 await it('customer cannot read the media library', () =>
   assertFails(getDocs(collection(asCustomer(), 'mediaLibrary'))));

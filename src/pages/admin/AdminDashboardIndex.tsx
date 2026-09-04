@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, query, where, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { collection, getCountFromServer, getDocs, query, where, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { formatCurrency } from '../../lib/utils';
 import { 
@@ -44,30 +44,31 @@ export default function AdminDashboardIndex() {
 
   useEffect(() => {
     let unsubscribeOrders: any;
-    let unsubscribeProducts: any;
-    let unsubscribeCustomers: any;
     let unsubscribeLowStock: any;
 
     async function setupListeners() {
       try {
         setLoading(true);
         
-        // Products listener for totalProducts count
-        unsubscribeProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
-           setStats(prev => ({ ...prev, totalProducts: snapshot.size }));
-        });
+        // Counts come from the server as a number. Streaming both collections
+        // to read snapshot.size downloaded every product and every customer on
+        // every dashboard visit, and again on every edit, purely to count them.
+        const customersQuery = query(collection(db, 'users'), where('role', '==', 'customer'));
+        const [productCount, customerCount] = await Promise.all([
+          getCountFromServer(collection(db, 'products')),
+          getCountFromServer(customersQuery),
+        ]);
+        setStats(prev => ({
+          ...prev,
+          totalProducts: productCount.data().count,
+          customers: customerCount.data().count,
+        }));
 
-        // Customers listener for totalCustomers count & recent customers
-        unsubscribeCustomers = onSnapshot(query(collection(db, 'users'), where('role', '==', 'customer')), (snapshot) => {
-           const rCustomers: any[] = [];
-           let i = 0;
-           snapshot.forEach(doc => {
-             if (i < 5) rCustomers.push({ id: doc.id, ...doc.data() });
-             i++;
-           });
-           setRecentCustomers(rCustomers);
-           setStats(prev => ({ ...prev, customers: snapshot.size }));
-        });
+        // Only the five the panel shows. Unordered, as before: users created
+        // before the field existed have no createdAt, and ordering by it would
+        // drop them from the list entirely.
+        const recentCustomersSnap = await getDocs(query(customersQuery, limit(5)));
+        setRecentCustomers(recentCustomersSnap.docs.map(d => ({ id: d.id, ...d.data() })));
 
         // Low stock listener
         const lowStockQuery = query(
@@ -185,8 +186,6 @@ export default function AdminDashboardIndex() {
 
     return () => {
       if (unsubscribeOrders) unsubscribeOrders();
-      if (unsubscribeProducts) unsubscribeProducts();
-      if (unsubscribeCustomers) unsubscribeCustomers();
       if (unsubscribeLowStock) unsubscribeLowStock();
     };
   }, []);
