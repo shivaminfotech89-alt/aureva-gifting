@@ -440,7 +440,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="pincode">Pincode</Label>
-                  <Input id="pincode" name="pincode" required placeholder="380058" value={addressDetails.pincode} onChange={e => setAddressDetails({ ...addressDetails, pincode: e.target.value })} />
+                  <Input id="pincode" name="pincode" required placeholder="380015" value={addressDetails.pincode} onChange={e => setAddressDetails({ ...addressDetails, pincode: e.target.value })} />
                 </div>
               </div>
             </CardContent>

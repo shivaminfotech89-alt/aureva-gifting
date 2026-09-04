@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { BUSINESS } from './business';
 import { ProductData } from '../components/shop/ProductCard';
 import { formatCurrency } from './utils';
 
@@ -164,7 +165,18 @@ export const generateCatalogPDF = async (
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   doc.text("Email: aurevagifts@gmail.com   |   WhatsApp: +91 7990878248", pageWidth / 2, startY + 8, { align: 'center' });
-  doc.text("Headquarters: Ahmedabad, Gujarat, India", pageWidth / 2, startY + 16, { align: 'center' });
+  doc.text(
+    `${BUSINESS.registeredAddress.locality}, ${BUSINESS.registeredAddress.city}, ` +
+    `${BUSINESS.registeredAddress.state} ${BUSINESS.registeredAddress.pin}, ${BUSINESS.registeredAddress.country}`,
+    pageWidth / 2, startY + 16, { align: 'center' },
+  );
+  // Smaller than the lines above it: this sits just under the notice box and
+  // is the longest line on the cover.
+  doc.setFontSize(8);
+  doc.text(
+    `${BUSINESS.brand} is a brand of ${BUSINESS.tradeName}   |   GSTIN: ${BUSINESS.gstin}`,
+    pageWidth / 2, startY + 22, { align: 'center' },
+  );
   
   doc.setFillColor(15, 30, 55); 
   doc.rect(20, startY + 26, pageWidth - 40, 18, 'F');
