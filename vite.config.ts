@@ -6,7 +6,11 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: './',
+    // Absolute, not './'. Relative asset URLs resolve against the current
+    // path, so on a two-level route like /admin/products or /product/<id> the
+    // browser asked for /admin/assets/index.js, got a 404 and rendered
+    // nothing. The app is served from the domain root.
+    base: '/',
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
