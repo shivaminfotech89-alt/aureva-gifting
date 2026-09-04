@@ -10,6 +10,7 @@ import { Label } from '../../components/ui/label';
 import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag, RefreshCw, XCircle, Plus, Edit2, Trash2, Smartphone } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { upiPayLink, upiQrImageUrl } from '../../lib/upi';
+import { BUSINESS, registeredAddressLines, splitGst } from '../../lib/business';
 import { auth } from '../../lib/firebase';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialog';
 import { Link } from 'react-router-dom';
@@ -229,6 +230,15 @@ export default function CustomerDashboard() {
       </tr>
     `).join('');
 
+    const placeOfSupply = order.deliveryDetails?.state || '';
+    const tax = splitGst(Number(order.gstTotal) || 0, placeOfSupply);
+    const money = (n: number) => `₹${n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const taxRow = (label: string, amount: number) =>
+      `<div class="totals-row"><span>${label}</span><span>${money(amount)}</span></div>`;
+    const taxLinesHtml = tax.intraState
+      ? taxRow('CGST (9%)', tax.cgst) + taxRow('SGST (9%)', tax.sgst)
+      : taxRow('IGST (18%)', tax.igst);
+
     const invoiceHtml = `
       <!DOCTYPE html>
       <html>
@@ -267,13 +277,20 @@ export default function CustomerDashboard() {
                   <span class="logo-sub">Corporate Gifting</span>
                 </div>
               </div>
-              <p style="color: #64748b; font-size: 14px; margin-top: 20px; line-height: 1.5;">Ahmedabad, Gujarat<br>380058, India<br>aurevagifts@gmail.com</p>
+              <p style="color: #64748b; font-size: 13px; margin-top: 20px; line-height: 1.6;">
+                <strong style="color:#27272a;">${BUSINESS.tradeName}</strong><br>
+                <span style="color:#71717a;">Proprietor: ${BUSINESS.legalName}</span><br>
+                ${registeredAddressLines().join('<br>')}<br>
+                <strong style="color:#27272a;">GSTIN: ${BUSINESS.gstin}</strong><br>
+                aurevagifts@gmail.com
+              </p>
             </div>
             <div class="invoice-details">
               <h1 style="margin:0; font-size: 32px; font-weight: 800; color: var(--navy-800); letter-spacing: 0.05em; font-family: serif;">TAX INVOICE</h1>
               <p style="color: #71717a; font-size: 14px; margin-top: 16px;">
                 <strong>Order ID:</strong> #${order.id.slice(-8).toUpperCase()}<br>
-                <strong>Date:</strong> ${order.createdAt?.toDate ? order.createdAt.toDate().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}</p>
+                <strong>Date:</strong> ${order.createdAt?.toDate ? order.createdAt.toDate().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}
+                ${placeOfSupply ? `<br><strong>Place of Supply:</strong> ${placeOfSupply}` : ''}</p>
             </div>
           </div>
           
@@ -310,10 +327,7 @@ export default function CustomerDashboard() {
               <span>Subtotal</span>
               <span>₹${order.subTotal}</span>
             </div>
-            <div class="totals-row">
-              <span>GST (18%)</span>
-              <span>₹${order.gstTotal}</span>
-            </div>
+            ${taxLinesHtml}
             <div class="totals-row">
               <span>Shipping</span>
               <span style="color: #10b981; font-weight: 500;">Free</span>
@@ -325,7 +339,8 @@ export default function CustomerDashboard() {
           </div>
           
           <div style="margin-top: 80px; font-size: 14px; color: #a1a1aa; text-align: center; border-top: 1px dashed #e4e4e7; padding-top: 32px;">
-            Thank you for choosing Aureva Corporate Gifting. We appreciate your business. <br/>
+            Thank you for choosing ${BUSINESS.brand}. We appreciate your business.<br/>
+            ${BUSINESS.brand} is a brand of ${BUSINESS.tradeName}, GSTIN ${BUSINESS.gstin}.<br/>
             This is a computer-generated invoice and requires no signature.
           </div>
         </div>

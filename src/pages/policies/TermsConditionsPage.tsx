@@ -1,4 +1,5 @@
 import React from 'react';
+import { BUSINESS, registeredAddressLines } from '../../lib/business';
 
 export default function TermsConditionsPage() {
   return (
@@ -9,6 +10,23 @@ export default function TermsConditionsPage() {
         <p className="lead text-lg mb-8">
           Welcome to AUREVA Corporate Gifting. These terms and conditions outline the rules and regulations for the use of our enterprise B2B website and our bulk-order sourcing model.
         </p>
+
+        {/* Who the customer is actually contracting with, and who invoices them. */}
+        <div className="not-prose mb-10 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm leading-relaxed text-slate-600">
+          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Business details</p>
+          <p className="m-0">
+            <strong className="text-slate-800">{BUSINESS.brand}</strong> is a brand of{' '}
+            <strong className="text-slate-800">{BUSINESS.tradeName}</strong>, a {BUSINESS.constitution.toLowerCase()}{' '}
+            (Proprietor: {BUSINESS.legalName}). All orders are supplied and invoiced by {BUSINESS.tradeName}.
+          </p>
+          <p className="mt-3 mb-0">
+            <strong className="text-slate-800">GSTIN:</strong> {BUSINESS.gstin}
+          </p>
+          <p className="mt-3 mb-0">
+            <strong className="text-slate-800">Registered address:</strong><br />
+            {registeredAddressLines().map(line => <React.Fragment key={line}>{line}<br /></React.Fragment>)}
+          </p>
+        </div>
 
         <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl mb-10 flex items-start gap-3">
            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600 shrink-0 mt-0.5"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
@@ -48,7 +66,8 @@ export default function TermsConditionsPage() {
         </ul>
 
         <h2 className="text-2xl font-bold mt-10 mb-4 text-foreground">5. Governing Law</h2>
-        <p>These terms and conditions are governed by and construed in accordance with the laws of India, and you irrevocably submit to the exclusive jurisdiction of the courts in Ahmedabad, Gujarat.</p>
+        <p>These terms and conditions are governed by and construed in accordance with the laws of India, and you irrevocably submit to the exclusive jurisdiction of the courts in Ahmedabad, Gujarat, being the
+          place of business of {BUSINESS.tradeName}.</p>
       </div>
     </div>
   );
