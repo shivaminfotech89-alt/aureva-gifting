@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore, SavedAddress } from '../../store/authStore';
 import { collection, query, where, getDocs, orderBy, onSnapshot, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { toast } from 'sonner';
@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../..
 import { Button, buttonVariants } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
-import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag, RefreshCw, XCircle, Plus, Edit2, Trash2 } from 'lucide-react';
+import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag, RefreshCw, XCircle, Plus, Edit2, Trash2, Smartphone } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { auth } from '../../lib/firebase';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialog';
@@ -26,18 +26,9 @@ interface Order {
   dispatchDetails?: any;
 }
 
-interface Address {
-  id: string;
-  firstName: string;
-  lastName: string;
-  address: string;
-  city: string;
-  state: string;
-  pincode: string;
-  phone: string;
-  email: string;
-  isDefault: boolean;
-}
+// Address shape lives in the auth store so the checkout page and this page
+// cannot drift apart.
+type Address = SavedAddress;
 
 const CUSTOMER_ORDER_STATUSES = [
   { id: 'inquiry_received', label: 'Inquiry Received', icon: Clock },
@@ -61,7 +52,7 @@ export default function CustomerDashboard() {
   const { user, profile } = useAuthStore();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
-  const [adminSettings, setAdminSettings] = useState<{adminWhatsApp?: string} | null>(null);
+  const [adminSettings, setAdminSettings] = useState<{adminWhatsApp?: string; upiId?: string; upiName?: string; qrCodeUrl?: string} | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [paymentOrder, setPaymentOrder] = useState<Order | null>(null);
   const [screenshotFile, setScreenshotFile] = useState<File | null>(null);

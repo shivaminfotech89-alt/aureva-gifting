@@ -51,6 +51,9 @@ interface Order {
   grandTotal: number;
   paymentMethod: string;
   paymentUtr?: string;
+  utrNumber?: string;
+  paymentScreenshotUrl?: string;
+  paymentSubmittedAt?: any;
   status: string;
   createdAt: any;
   deliveryDetails: any;

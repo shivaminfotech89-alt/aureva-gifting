@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { ArrowLeft, Shield, Globe, Receipt, Building, Bell, Image as ImageIcon, Plus, Edit2, Trash2, Mail, Smartphone, AlertCircle, Palette, Key, Eye } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { isSuperAdminEmail } from '../../lib/constants';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Textarea } from '../../components/ui/textarea';
@@ -27,7 +28,7 @@ interface AdminUser {
 }
 
 export default function AdminSettings() {
-  const { user } = useAuthStore();
+  const { user, profile } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -72,12 +73,7 @@ export default function AdminSettings() {
 
   const [authorizedAdmins, setAuthorizedAdmins] = useState<AdminUser[]>([]);
   const [loadingAdmins, setLoadingAdmins] = useState(false);
-  const isSuperAdmin = user?.email === 'shivaminfotech89@gmail.com' || user?.email === 'aurevagifts@gmail.com' || (useAuthStore.getState().profile?.adminRole === 'Super Admin') || (useAuthStore.getState().profile?.adminRole === 'admin');
-
-  // Route Protection for Settings
-  if (!isSuperAdmin && !loading) {
-     return <div className="p-8 flex justify-center items-center h-screen"><div className="text-xl font-bold text-red-500">Access Denied</div></div>;
-  }
+  const isSuperAdmin = isSuperAdminEmail(user?.email) || profile?.adminRole === 'Super Admin' || profile?.adminRole === 'admin';
 
   // Add Admin Modal State
   const [isAddAdminOpen, setIsAddAdminOpen] = useState(false);
@@ -295,6 +291,12 @@ export default function AdminSettings() {
 
   if (loading) {
     return <div className="p-8 flex justify-center text-slate-500">Loading system configurations...</div>;
+  }
+
+  // Route Protection for Settings. Must stay below every hook call so the
+  // hook order is identical on every render (see Rules of Hooks).
+  if (!isSuperAdmin) {
+    return <div className="p-8 flex justify-center items-center h-screen"><div className="text-xl font-bold text-red-500">Access Denied</div></div>;
   }
 
   return (

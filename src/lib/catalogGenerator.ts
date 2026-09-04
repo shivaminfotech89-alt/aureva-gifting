@@ -398,7 +398,7 @@ export const generateCatalogPDF = async (
   doc.setFont("helvetica", "normal");
   doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
 
-  doc.setPage(doc.internal.getNumberOfPages()); 
+  doc.setPage(doc.getNumberOfPages()); 
 
   const filename = title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
   doc.save(`${filename}.pdf`);
