@@ -122,7 +122,7 @@ export default function AdminLayout() {
        const isCustomerDetails = currentPath.match(/^\/admin\/customers\/[^/]+$/);
 
        if (currentPath !== '/admin') {
-          // Normalise path (if it's /admin/orders/123 -> check if /admin/orders is allowed)
+          // Normalize path (if it's /admin/orders/123 -> check if /admin/orders is allowed)
           let categoryPath = currentPath;
           if (isOrderDetails) categoryPath = '/admin/orders';
           else if (isCustomerDetails) categoryPath = '/admin/customers';

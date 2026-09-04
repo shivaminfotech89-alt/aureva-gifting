@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingCart, Heart, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSettingsStore } from '../../store/settingsStore';
-import { openWhatsApp, productEnquiryMessage } from '../../lib/whatsapp';
+import { openWhatsApp, productInquiryMessage } from '../../lib/whatsapp';
 
 export interface ProductData {
   id: string;
@@ -70,12 +70,12 @@ export function ProductCard({ product }: { product: ProductData }) {
     toast.success(`${product.name} added to cart`);
   };
 
-  const handleWhatsAppEnquiry = (e: React.MouseEvent) => {
+  const handleWhatsAppInquiry = (e: React.MouseEvent) => {
     // The card is wrapped in a Link; without this the router navigates and the
     // popup is lost.
     e.preventDefault();
     e.stopPropagation();
-    openWhatsApp(settings?.adminWhatsApp, productEnquiryMessage({
+    openWhatsApp(settings?.adminWhatsApp, productInquiryMessage({
       name: product.name,
       price: discountedPrice,
       minOrderQuantity: product.minOrderQuantity,
@@ -153,15 +153,15 @@ export function ProductCard({ product }: { product: ProductData }) {
             </div>
           </div>
 
-          {/* Enquire without leaving the listing. Most corporate buyers want a
+          {/* Inquire without leaving the listing. Most corporate buyers want a
               conversation before a cart. */}
           <div className="mt-3.5 flex gap-2">
             <button
-              onClick={handleWhatsAppEnquiry}
+              onClick={handleWhatsAppInquiry}
               className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#25D366] px-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[#1eb457]"
             >
               <MessageCircle className="h-3.5 w-3.5" strokeWidth={2} />
-              Enquire
+              Inquire
             </button>
             <Button
               size="icon"

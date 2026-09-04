@@ -20,8 +20,8 @@ export function openWhatsApp(adminWhatsApp: string | null | undefined, message: 
   window.open(url, '_blank', 'noopener,noreferrer');
 }
 
-/** The enquiry a customer sends from a product card or product page. */
-export function productEnquiryMessage(product: {
+/** The inquiry a customer sends from a product card or product page. */
+export function productInquiryMessage(product: {
   name: string;
   price?: number;
   minOrderQuantity?: number;
@@ -32,7 +32,7 @@ export function productEnquiryMessage(product: {
   const lines = [
     'Hi Aureva,',
     '',
-    'I would like to enquire about this product:',
+    'I would like to inquire about this product:',
     '',
     `*${product.name}*`,
   ];

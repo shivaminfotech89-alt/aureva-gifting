@@ -112,7 +112,7 @@ export default function Footer() {
         </div>
 
         <p className="mt-10 border-t border-white/10 pt-6 text-[12px] leading-relaxed text-white/35">
-          Aureva specialises in bulk corporate gifting. Product availability, pricing and customisation are subject to
+          Aureva specializes in bulk corporate gifting. Product availability, pricing and customization are subject to
           stock confirmation and minimum order quantity requirements.
         </p>
 

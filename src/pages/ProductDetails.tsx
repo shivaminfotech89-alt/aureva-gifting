@@ -8,7 +8,7 @@ import { useWishlistStore } from '../store/wishlistStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { Button } from '../components/ui/button';
 import { formatCurrency, calculateGST } from '../lib/utils';
-import { openWhatsApp, productEnquiryMessage } from '../lib/whatsapp';
+import { openWhatsApp, productInquiryMessage } from '../lib/whatsapp';
 import { toast } from 'sonner';
 import { ShieldCheck, Truck, ArrowLeft, Star, Heart, Upload, X as XIcon, Edit3, AlertCircle } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
@@ -532,13 +532,13 @@ export default function ProductDetails() {
               size="lg"
               variant="outline"
               className="w-full mt-3 h-11 rounded-lg font-semibold uppercase tracking-[0.12em] text-[13px] bg-[#25D366] text-white border-transparent hover:bg-[#1eb457] transition-colors"
-              onClick={() => openWhatsApp(settings?.adminWhatsApp, productEnquiryMessage({
+              onClick={() => openWhatsApp(settings?.adminWhatsApp, productInquiryMessage({
                 name: product.name,
                 price: priceWithGst,
                 minOrderQuantity: product.minOrderQuantity,
               }))}
             >
-              Enquire on WhatsApp
+              Inquire on WhatsApp
             </Button>
 
             <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-slate-200">

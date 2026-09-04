@@ -133,6 +133,12 @@ export default function HomePage() {
 
   const openCatalog = () => window.dispatchEvent(new Event('openCatalogModal'));
 
+  // Values saved before this section stopped using dangerouslySetInnerHTML may
+  // still contain markup; render the text, not the tags.
+  const brandingHeading = String(brandingSection?.heading || '')
+    .replace(/<[^>]*>/g, '')
+    .trim();
+
   return (
     <div className="w-full bg-white">
 
@@ -382,7 +388,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Personalisation */}
+      {/* Personalization */}
       <section className="bg-[var(--navy-800)]">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="relative order-2 min-h-[16rem] lg:order-1 lg:min-h-full">
@@ -402,12 +408,12 @@ export default function HomePage() {
           </div>
 
           <div className="order-1 px-5 py-12 sm:px-8 lg:order-2 lg:px-14 lg:py-16">
-            <Eyebrow tone="light">{brandingSection?.subTitle || 'Personalisation'}</Eyebrow>
+            <Eyebrow tone="light">{brandingSection?.subTitle || 'Personalization'}</Eyebrow>
             {/* Plain text: the previous version pushed admin-authored HTML through
                 dangerouslySetInnerHTML, which both defeated the styling and made
                 the homepage an injection point. */}
             <h2 className="font-display mt-5 text-[1.75rem] leading-[1.15] tracking-[-0.015em] text-white md:text-[2.125rem]">
-              {brandingSection?.headingText || (
+              {brandingHeading || (
                 <>Make it truly <span className="italic text-[var(--gold-500)]">yours.</span></>
               )}
             </h2>
