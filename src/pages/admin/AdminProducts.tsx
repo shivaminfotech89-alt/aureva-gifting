@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs, doc, deleteDoc, updateDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, updateDoc, setDoc, serverTimestamp, writeBatch } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { ProductData } from '../../components/shop/ProductCard';
 import { Button } from '../../components/ui/button';
@@ -20,6 +20,8 @@ export default function AdminProducts() {
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
   const [isGeneratingCatalog, setIsGeneratingCatalog] = useState(false);
   const [formData, setFormData] = useState({
     name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '',
@@ -44,8 +46,9 @@ export default function AdminProducts() {
     try {
       const snapshot = await getDocs(collection(db, 'products'));
       setProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ProductData)));
-    } catch (error) {
-      handleFirestoreError(error, OperationType.LIST, 'products');
+    } catch (error: any) {
+      toast.error(`Could not load products: ${error?.message || 'unknown error'}`);
+      console.error('product load failed', error);
     } finally {
       setLoading(false);
     }
@@ -97,6 +100,48 @@ export default function AdminProducts() {
     URL.revokeObjectURL(url);
   };
 
+  const toggleSelected = (id: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  /**
+   * Bulk publish, hide or delete. Writes go in batches of 400, under
+   * Firestore's 500-per-batch limit, so a large selection cannot half-apply.
+   */
+  const applyBulk = async (action: 'publish' | 'hide' | 'delete') => {
+    const ids = [...selectedIds];
+    if (ids.length === 0) return;
+    if (action === 'delete' && !window.confirm(
+      `Delete ${ids.length} product${ids.length === 1 ? '' : 's'}? This cannot be undone.`)) return;
+
+    setBulkBusy(true);
+    try {
+      const CHUNK = 400;
+      for (let i = 0; i < ids.length; i += CHUNK) {
+        const batch = writeBatch(db);
+        for (const id of ids.slice(i, i + CHUNK)) {
+          const ref = doc(db, 'products', id);
+          if (action === 'delete') batch.delete(ref);
+          else batch.update(ref, { enabled: action === 'publish', updatedAt: serverTimestamp() });
+        }
+        await batch.commit();
+      }
+      const verb = action === 'delete' ? 'Deleted' : action === 'publish' ? 'Published' : 'Hidden';
+      toast.success(`${verb} ${ids.length} product${ids.length === 1 ? '' : 's'}.`);
+      setSelectedIds(new Set());
+      loadProducts();
+    } catch (error: any) {
+      toast.error(`Bulk ${action} failed: ${error?.message || 'unknown error'}`);
+      console.error('bulk action failed', error);
+    } finally {
+      setBulkBusy(false);
+    }
+  };
+
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -146,8 +191,14 @@ export default function AdminProducts() {
       setEditingId(null);
       setIsDialogOpen(false);
       loadProducts();
-    } catch (error) {
-      handleFirestoreError(error, editingId ? OperationType.UPDATE : OperationType.CREATE, 'products');
+    } catch (error: any) {
+      // Surface the reason. handleFirestoreError throws, so calling it bare
+      // from a catch block loses the error entirely.
+      const why = error?.code === 'permission-denied'
+        ? 'You do not have permission, or a field failed validation. Check that name, price, GST and stock are filled in.'
+        : (error?.message || 'Unknown error');
+      toast.error(`Could not save the product: ${why}`);
+      console.error('product save failed', error);
     }
   };
 
@@ -494,9 +545,48 @@ export default function AdminProducts() {
 
       <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
         <div className="overflow-x-auto">
+          {selectedIds.size > 0 && (
+            <div className="flex flex-wrap items-center gap-3 border-b border-slate-200 bg-[#d4af37]/10 px-6 py-3">
+              <span className="text-sm font-bold text-[#0F172A]">
+                {selectedIds.size} selected
+              </span>
+              <button
+                onClick={() => setSelectedIds(new Set())}
+                className="text-xs font-semibold text-slate-500 underline hover:text-[#0F172A]"
+              >
+                Clear
+              </button>
+              <div className="ml-auto flex flex-wrap gap-2">
+                <Button size="sm" variant="outline" disabled={bulkBusy}
+                  onClick={() => applyBulk('publish')}
+                  className="rounded-lg border-slate-300 bg-white font-semibold">
+                  Show in shop
+                </Button>
+                <Button size="sm" variant="outline" disabled={bulkBusy}
+                  onClick={() => applyBulk('hide')}
+                  className="rounded-lg border-slate-300 bg-white font-semibold">
+                  Hide
+                </Button>
+                <Button size="sm" variant="outline" disabled={bulkBusy}
+                  onClick={() => applyBulk('delete')}
+                  className="rounded-lg border-red-200 bg-white font-semibold text-red-600 hover:bg-red-50">
+                  {bulkBusy ? 'Working...' : 'Delete'}
+                </Button>
+              </div>
+            </div>
+          )}
           <table className="w-full text-sm text-left">
             <thead className="text-[11px] font-bold text-slate-500 uppercase tracking-wider bg-[#F8FAFC] border-b border-slate-100">
               <tr>
+                <th className="px-4 py-5 w-10">
+                  <input
+                    type="checkbox"
+                    aria-label="Select all products shown"
+                    className="h-4 w-4 accent-[#d4af37] cursor-pointer"
+                    checked={filteredProducts.length > 0 && filteredProducts.every(p => selectedIds.has(p.id))}
+                    onChange={(e) => setSelectedIds(e.target.checked ? new Set(filteredProducts.map(p => p.id)) : new Set())}
+                  />
+                </th>
                 <th className="px-6 py-5 font-medium">Product</th>
                 <th className="px-6 py-5 font-medium">Category</th>
                 <th className="px-6 py-5 font-medium">Base Price</th>
@@ -507,12 +597,21 @@ export default function AdminProducts() {
             </thead>
             <tbody className="divide-y divide-slate-50">
               {loading ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500">Loading products...</td></tr>
+                <tr><td colSpan={7} className="px-6 py-8 text-center text-slate-500">Loading products...</td></tr>
               ) : filteredProducts.length === 0 ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500">No products found.</td></tr>
+                <tr><td colSpan={7} className="px-6 py-8 text-center text-slate-500">No products found.</td></tr>
               ) : (
                 filteredProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={product.id} className={`transition-colors ${selectedIds.has(product.id) ? 'bg-[#d4af37]/5' : 'hover:bg-slate-50/80'}`}>
+                    <td className="px-4 py-5">
+                      <input
+                        type="checkbox"
+                        aria-label={`Select ${product.name}`}
+                        className="h-4 w-4 accent-[#d4af37] cursor-pointer"
+                        checked={selectedIds.has(product.id)}
+                        onChange={() => toggleSelected(product.id)}
+                      />
+                    </td>
                     <td className="px-6 py-5">
                       <div className="flex items-center gap-4">
                         <div className="h-12 w-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
@@ -543,7 +642,7 @@ export default function AdminProducts() {
                     </td>
                     <td className="px-6 py-5">
                        <button onClick={() => toggleEnabled(product.id, product.enabled)} className={`px-3 py-1.5 rounded-md border shadow-sm text-xs font-bold tracking-wider uppercase transition-colors ${product.enabled ? 'bg-[#d4af37]/10 text-[#b49124] border-[#d4af37]/20 hover:bg-[#d4af37]/20' : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'}`}>
-                        {product.enabled ? 'Active' : 'Draft'}
+                        {product.enabled ? 'Visible in shop' : 'Hidden'}
                       </button>
                     </td>
                     <td className="px-6 py-5 text-right">
