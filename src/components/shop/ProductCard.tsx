@@ -17,7 +17,10 @@ export interface ProductData {
   id: string;
   name: string;
   description: string;
+  /** What Aureva charges. */
   basePrice: number;
+  /** Printed list price, shown struck through when higher than basePrice. */
+  mrp?: number;
   discountPercent?: number;
   gstPercent: number;
   stock: number;
@@ -54,9 +57,23 @@ export function ProductCard({ product }: { product: ProductData }) {
   
   const isWishlisted = hasItem(product.id);
 
-  const discountedPrice = product.discountPercent 
-    ? product.basePrice * (1 - product.discountPercent / 100) 
+  const discountedPrice = product.discountPercent
+    ? product.basePrice * (1 - product.discountPercent / 100)
     : product.basePrice;
+
+  // Prefer MRP as the struck-through figure; fall back to the pre-discount
+  // base price so existing products keep behaving as they did.
+  const strikeThrough =
+    typeof product.mrp === 'number' && product.mrp > discountedPrice
+      ? product.mrp
+      : (product.discountPercent ?? 0) > 0
+        ? product.basePrice
+        : null;
+
+  const savingPercent =
+    strikeThrough && strikeThrough > discountedPrice
+      ? Math.round(((strikeThrough - discountedPrice) / strikeThrough) * 100)
+      : null;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -142,14 +159,15 @@ export function ProductCard({ product }: { product: ProductData }) {
           <div className="mt-4 flex items-end justify-between border-t border-slate-100 pt-3.5">
             <div>
               <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--gold-600)]">Corporate price</p>
-              {product.discountPercent && product.discountPercent > 0 ? (
-                <div className="mt-0.5 flex items-baseline gap-2">
-                  <p className="text-lg font-semibold text-[var(--navy-800)]">{formatCurrency(discountedPrice)}</p>
-                  <p className="text-xs text-slate-400 line-through">{formatCurrency(product.basePrice)}</p>
-                </div>
-              ) : (
-                <p className="mt-0.5 text-lg font-semibold text-[var(--navy-800)]">{formatCurrency(product.basePrice)}</p>
-              )}
+              <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2">
+                <p className="text-lg font-semibold text-[var(--navy-800)]">{formatCurrency(discountedPrice)}</p>
+                {strikeThrough !== null && (
+                  <p className="text-xs text-slate-400 line-through">{formatCurrency(strikeThrough)}</p>
+                )}
+                {savingPercent !== null && (
+                  <p className="text-[11px] font-semibold text-emerald-700">{savingPercent}% off</p>
+                )}
+              </div>
               {product.minOrderQuantity && product.minOrderQuantity > 1 && (
                 <p className="mt-0.5 text-[11px] text-slate-400">Min. {product.minOrderQuantity} units</p>
               )}

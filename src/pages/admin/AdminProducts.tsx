@@ -24,7 +24,7 @@ export default function AdminProducts() {
   const [bulkBusy, setBulkBusy] = useState(false);
   const [isGeneratingCatalog, setIsGeneratingCatalog] = useState(false);
   const [formData, setFormData] = useState({
-    name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '',
+    name: '', description: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '',
     smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '',
     nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '',
     minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready',
@@ -149,6 +149,7 @@ export default function AdminProducts() {
         name: formData.name,
         description: formData.description,
         basePrice: Number(formData.basePrice),
+        mrp: formData.mrp ? Number(formData.mrp) : 0,
         discountPercent: formData.discountPercent ? Number(formData.discountPercent) : 0,
         gstPercent: Number(formData.gstPercent),
         stock: Number(formData.stock),
@@ -187,7 +188,7 @@ export default function AdminProducts() {
         toast.success('Product created successfully');
       }
       
-      setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '', minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready', supplierName: '', supplierContact: '', supplierNotes: '' });
+      setFormData({ name: '', description: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '', minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready', supplierName: '', supplierContact: '', supplierNotes: '' });
       setEditingId(null);
       setIsDialogOpen(false);
       loadProducts();
@@ -208,6 +209,7 @@ export default function AdminProducts() {
       name: product.name,
       description: product.description,
       basePrice: product.basePrice.toString(),
+      mrp: product.mrp ? product.mrp.toString() : '',
       discountPercent: product.discountPercent ? product.discountPercent.toString() : '',
       gstPercent: product.gstPercent.toString(),
       stock: product.stock.toString(),
@@ -358,7 +360,7 @@ export default function AdminProducts() {
             setIsDialogOpen(open);
             if (!open) {
               setEditingId(null);
-              setFormData({ name: '', description: '', basePrice: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '', minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready', supplierName: '', supplierContact: '', supplierNotes: '' });
+              setFormData({ name: '', description: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '', minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready', supplierName: '', supplierContact: '', supplierNotes: '' });
             }
           }}>
             <DialogTrigger render={<Button className="gap-2 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] font-bold rounded-xl h-10 shadow-sm" />}>
@@ -383,8 +385,14 @@ export default function AdminProducts() {
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="basePrice">Base Price (₹)</Label>
+                    <Label htmlFor="basePrice">Corporate Price (₹)</Label>
                     <Input id="basePrice" type="number" min="0" value={formData.basePrice} onChange={e => setFormData({...formData, basePrice: e.target.value})} required />
+                    <p className="text-[11px] text-slate-500">What you charge. This is the price customers pay.</p>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="mrp">MRP (₹)</Label>
+                    <Input id="mrp" type="number" min="0" value={formData.mrp} onChange={e => setFormData({...formData, mrp: e.target.value})} />
+                    <p className="text-[11px] text-slate-500">Printed list price. Shown struck through when higher than the corporate price. Leave blank to hide it.</p>
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="discountPercent">Discount (%)</Label>
