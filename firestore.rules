@@ -76,15 +76,11 @@ service cloud.firestore {
              data.isActive is bool;
     }
 
-    // Mirrors ORDER_STATUS_IDS in src/lib/constants.ts. The trailing entries are
-    // legacy values still present in documents written by earlier builds.
-    function orderStatuses() {
-      return ['inquiry_received', 'pending_supplier_confirmation', 'supplier_confirmed',
-              'pending', 'awaiting_payment', 'payment_verification_pending', 'paid',
-              'processing', 'dispatched', 'out_for_delivery', 'delivered', 'cancelled',
-              'confirmed', 'shipped', 'payment_verified', 'payment_failed'];
-    }
-
+    // The full lifecycle lives in ORDER_STATUS_IDS in src/lib/constants.ts.
+    // It is deliberately not enforced on the admin update path: an order left
+    // in an unrecognised status by an older build would otherwise be
+    // un-editable by the very people who need to correct it.
+    //
     // Statuses a customer may still act on. Past these, only an admin moves an order.
     function customerMutableStatuses() {
       return ['inquiry_received', 'pending', 'awaiting_payment'];
