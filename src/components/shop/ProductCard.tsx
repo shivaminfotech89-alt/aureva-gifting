@@ -11,6 +11,7 @@ import { ShoppingCart, Heart, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSettingsStore } from '../../store/settingsStore';
 import { openWhatsApp, productInquiryMessage } from '../../lib/whatsapp';
+import { productImage, PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
 
 export interface ProductData {
   id: string;
@@ -24,6 +25,8 @@ export interface ProductData {
   categoryId?: string;
   /** Dealer catalog code, e.g. "E 395". Used when reordering from the supplier. */
   sku?: string;
+  /** Firestore Timestamp, or a number for locally-seeded data. Used to sort newest first. */
+  createdAt?: any;
   images: string[];
   smallLogoCharge?: number;
   mediumLogoCharge?: number;
@@ -43,8 +46,6 @@ export interface ProductData {
     lastPrice?: number;
   };
 }
-
-const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400';
 
 export function ProductCard({ product }: { product: ProductData }) {
   const addItem = useCartStore(state => state.addItem);
@@ -67,7 +68,7 @@ export function ProductCard({ product }: { product: ProductData }) {
       gstPercent: product.gstPercent,
       quantity: product.minOrderQuantity || 1,
       minOrderQuantity: product.minOrderQuantity || 1,
-      image: product.images?.[0] || FALLBACK_IMAGE
+      image: productImage(product.images)
     });
     toast.success(`${product.name} added to cart`);
   };
@@ -100,12 +101,12 @@ export function ProductCard({ product }: { product: ProductData }) {
       <Card className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-none transition-shadow duration-300 hover:shadow-[0_8px_24px_-12px_rgba(15,23,42,0.18)]">
         <div className="relative flex h-44 items-center justify-center overflow-hidden bg-[#FAFAF8] p-4 md:h-52">
           <img
-            src={product.images?.[0] || FALLBACK_IMAGE}
+            src={productImage(product.images)}
             alt={product.name}
             loading="lazy"
             decoding="async"
             className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-            onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_IMAGE; }}
+            onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
           />
 
           {product.stock <= 0 && (

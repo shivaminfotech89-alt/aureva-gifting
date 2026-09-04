@@ -65,6 +65,9 @@ export default function ShopPage() {
   const selectedCategory = searchParams.get('category') || 'All';
   const selectedBudget = searchParams.get('budget') || 'All';
   const [sortBy, setSortBy] = useState<string>('featured');
+  // How many cards are on screen. 544 products at once is a lot of DOM.
+  const PAGE_SIZE = 24;
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isSortOpen, setIsSortOpen] = useState(false);
 
   // Filter Panel Mobile State
@@ -126,6 +129,8 @@ export default function ShopPage() {
     return ['All', ...Array.from(cats)].sort();
   }, [products]);
 
+  useEffect(() => { setVisibleCount(PAGE_SIZE); }, [searchQuery, selectedCategory, selectedBudget, sortBy]);
+
   const budgetRanges = [
     { label: 'All Budgets', value: 'All' },
     { label: 'Under ₹100', value: '0-100' },
@@ -158,6 +163,15 @@ export default function ShopPage() {
       return matchesSearch && matchesCategory && matchesBudget;
     });
 
+    const createdMs = (p: any) => {
+      const c = p.createdAt;
+      if (!c) return 0;
+      if (typeof c.toMillis === 'function') return c.toMillis();
+      if (typeof c.seconds === 'number') return c.seconds * 1000;
+      const n = Number(c);
+      return Number.isFinite(n) ? n : 0;
+    };
+
     switch(sortBy) {
       case 'price_asc':
         result.sort((a, b) => a.basePrice - b.basePrice);
@@ -169,7 +183,10 @@ export default function ShopPage() {
         result.sort((a, b) => a.name.localeCompare(b.name));
         break;
       default:
-        // KEEP original order or fallback
+        // Newest first. Firestore returns documents in document-id order, so
+        // without this a newly added product lands wherever its id happens to
+        // sort - which with a large catalog means it is never seen.
+        result.sort((a, b) => createdMs(b) - createdMs(a));
         break;
     }
 
@@ -376,18 +393,26 @@ export default function ShopPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredProducts.map(product => (
+                {filteredProducts.slice(0, visibleCount).map(product => (
                     <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             )}
             
-            {/* Optional pagination could go here */}
             {!loading && filteredProducts.length > 0 && (
-              <div className="mt-16 flex justify-center">
-                <Button variant="outline" className="text-[var(--navy-800)] border-slate-200 hover:bg-slate-50 hover:border-slate-300 px-8 py-6 rounded-xl font-bold shadow-sm">
-                  Load More Products
-                </Button>
+              <div className="mt-12 flex flex-col items-center gap-3">
+                <p className="text-sm text-slate-500">
+                  Showing {Math.min(visibleCount, filteredProducts.length)} of {filteredProducts.length} products
+                </p>
+                {visibleCount < filteredProducts.length && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setVisibleCount(c => c + PAGE_SIZE)}
+                    className="rounded-xl border-slate-200 px-8 py-6 font-bold text-[var(--navy-800)] shadow-sm hover:border-slate-300 hover:bg-slate-50"
+                  >
+                    Load more products
+                  </Button>
+                )}
               </div>
             )}
           </div>
