@@ -61,7 +61,10 @@ service cloud.firestore {
              (!('mrp' in data) || (data.mrp is number && data.mrp >= 0)) &&
              data.gstPercent is number && data.gstPercent >= 0 &&
              data.stock is number &&
-             data.enabled is bool;
+             data.enabled is bool &&
+             // Dealer name, contact and cost belong in product_private, which
+             // only admins can read. Products are public.
+             !('supplierInfo' in data);
     }
 
     function isValidCategory(data) {
@@ -129,6 +132,13 @@ service cloud.firestore {
       allow create: if isAdmin() && isValidId(productId) && isValidProduct(incoming());
       allow update: if isAdmin() && isValidId(productId) && isValidProduct(incoming());
       allow delete: if isAdmin() && isValidId(productId);
+    }
+
+    // Who Aureva buys from, and at what price. A product document is world
+    // readable, so this cannot live on it — see isValidProduct, which refuses
+    // any product carrying supplierInfo. Same document id as the product.
+    match /product_private/{productId} {
+      allow read, write: if isAdmin() && isValidId(productId);
     }
 
     match /categories/{categoryId} {

@@ -20,11 +20,35 @@ export function openWhatsApp(adminWhatsApp: string | null | undefined, message: 
   window.open(url, '_blank', 'noopener,noreferrer');
 }
 
+/**
+ * An absolute, shareable URL for a product photo.
+ *
+ * The placeholder is an inline data URI: pasting one into a chat produces
+ * several kilobytes of gibberish and no picture, so image-less products send
+ * no image line at all. Relative paths are resolved against the site so the
+ * link works inside WhatsApp.
+ */
+export function shareableImageUrl(images?: string[] | null): string | null {
+  const first = Array.isArray(images)
+    ? images.find(u => typeof u === 'string' && u.trim() !== '' && !u.startsWith('data:'))
+    : undefined;
+  if (!first) return null;
+  try {
+    return new URL(first, window.location.origin).href;
+  } catch {
+    return null;
+  }
+}
+
 /** The inquiry a customer sends from a product card or product page. */
 export function productInquiryMessage(product: {
   name: string;
+  /** Dealer catalog code. The sales team reorders by this, so it leads. */
+  sku?: string;
   price?: number;
   minOrderQuantity?: number;
+  /** Product photo, so the enquiry arrives with a picture rather than a name. */
+  images?: string[] | null;
   /** Product page path, e.g. "/product/abc123". Lets the sales team open the
       exact item instead of guessing from the name. */
   path?: string;
@@ -36,10 +60,15 @@ export function productInquiryMessage(product: {
     '',
     `*${product.name}*`,
   ];
+  if (product.sku && product.sku.trim() !== '') lines.push(`Product code: ${product.sku.trim()}`);
   if (typeof product.price === 'number') lines.push(`Price: ${formatCurrency(product.price)}`);
   if (product.minOrderQuantity && product.minOrderQuantity > 1) {
     lines.push(`Minimum order: ${product.minOrderQuantity} units`);
   }
-  lines.push('', `Link: ${window.location.origin}${product.path ?? window.location.pathname}`);
+
+  const image = shareableImageUrl(product.images);
+  lines.push('');
+  if (image) lines.push(`Photo: ${image}`);
+  lines.push(`Link: ${window.location.origin}${product.path ?? window.location.pathname}`);
   return lines.join('\n');
 }

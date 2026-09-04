@@ -252,6 +252,45 @@ await it('a product with a negative price is rejected', () =>
     name: 'Mug', basePrice: -5, gstPercent: 18, stock: 10, enabled: true,
   })));
 
+// Dealer names and buying costs. Products are world-readable, so these must
+// not be reachable from a product document at all.
+await it('a product carrying supplierInfo is rejected', () =>
+  assertFails(setDoc(doc(asStaffAdmin(), 'products', 'p-leak'), {
+    name: 'Wallet', basePrice: 1999, gstPercent: 18, stock: 10, enabled: true,
+    supplierInfo: { supplierName: 'Nexon Gifts', notes: 'cost 450' },
+  })));
+
+await it('an update that leaves supplierInfo in place is rejected', async () => {
+  await testEnv.withSecurityRulesDisabled(async ctx => {
+    await setDoc(doc(ctx.firestore(), 'products', 'p-legacy'), {
+      name: 'Wallet', basePrice: 1999, gstPercent: 18, stock: 10, enabled: true,
+      supplierInfo: { supplierName: 'Nexon Gifts' },
+    });
+  });
+  // A merging update that does not clear the field keeps it on the document.
+  await assertFails(updateDoc(doc(asStaffAdmin(), 'products', 'p-legacy'), { enabled: false }));
+});
+
+await it('admin writes supplier details to product_private', () =>
+  assertSucceeds(setDoc(doc(asStaffAdmin(), 'product_private', 'p-ok'), {
+    supplierName: 'Nexon Gifts', contact: '+91 99999 99999', notes: 'B2B cost 1400',
+  })));
+
+await it('admin reads supplier details back', () =>
+  assertSucceeds(getDoc(doc(asStaffAdmin(), 'product_private', 'p-ok'))));
+
+await it('customer cannot read supplier details', () =>
+  assertFails(getDoc(doc(asCustomer(), 'product_private', 'p-ok'))));
+
+await it('anonymous visitor cannot read supplier details', () =>
+  assertFails(getDoc(doc(asAnon(), 'product_private', 'p-ok'))));
+
+await it('anonymous visitor cannot list supplier details', () =>
+  assertFails(getDocs(collection(asAnon(), 'product_private'))));
+
+await it('customer cannot write supplier details', () =>
+  assertFails(setDoc(doc(asCustomer(), 'product_private', 'p-ok'), { supplierName: 'x' })));
+
 await it('customer cannot read the media library', () =>
   assertFails(getDocs(collection(asCustomer(), 'mediaLibrary'))));
 
