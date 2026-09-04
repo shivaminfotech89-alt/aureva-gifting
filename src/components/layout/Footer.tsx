@@ -4,6 +4,7 @@ import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Youtube } from 'luc
 import { useSettingsStore } from '../../store/settingsStore';
 import { AurevaLogo } from '../ui/AurevaLogo';
 import { CONTAINER } from '../ui/section';
+import { BUSINESS } from '../../lib/business';
 
 const QUICK_LINKS = [
   ['/shop', 'Shop All'],
@@ -112,14 +113,15 @@ export default function Footer() {
         </div>
 
         <p className="mt-10 border-t border-white/10 pt-6 text-[12px] leading-relaxed text-white/35">
+          {BUSINESS.brand} is a brand of <span className="text-white/50">{BUSINESS.tradeName}</span>.
           Aureva specializes in bulk corporate gifting. Product availability, pricing and customization are subject to
           stock confirmation and minimum order quantity requirements.
         </p>
 
         <div className="mt-6 flex flex-col gap-3 text-[11px] text-white/35 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Aureva Corporate Gifting. All rights reserved.</p>
-          <div className="flex gap-5">
-            <span>GST Registered</span>
+          <div className="flex flex-wrap gap-x-5 gap-y-1">
+            <span>GSTIN {BUSINESS.gstin}</span>
             <span>Secure Checkout</span>
           </div>
         </div>
