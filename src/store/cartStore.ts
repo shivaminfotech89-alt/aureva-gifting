@@ -9,6 +9,10 @@ export interface CartItem {
   quantity: number;
   minOrderQuantity?: number;
   image: string;
+  /** Chosen colour option, when the product has any. */
+  variantColor?: string;
+  /** The dealer code for that colour, so the order names what to reorder. */
+  variantSku?: string;
   customization?: {
     enabled: boolean;
     logoUrl?: string;
@@ -41,9 +45,12 @@ export const useCartStore = create<CartState>()(
       setCoupon: (coupon) => set({ appliedCoupon: coupon }),
       addItem: (item) => {
         set((state) => {
-          const cartItemId = item.customization?.enabled 
-             ? `${item.productId}-custom-${Math.random().toString(36).substring(7)}` 
-             : item.productId;
+          // Two colours of the same product are two lines, not one, so the
+          // colour is part of the key.
+          const base = item.variantColor ? `${item.productId}--${item.variantColor}` : item.productId;
+          const cartItemId = item.customization?.enabled
+             ? `${base}-custom-${Math.random().toString(36).substring(7)}`
+             : base;
           
           item.productId = cartItemId;
 

@@ -252,6 +252,27 @@ await it('a product with a negative price is rejected', () =>
     name: 'Mug', basePrice: -5, gstPercent: 18, stock: 10, enabled: true,
   })));
 
+await it('admin writes a product with color options', () =>
+  assertSucceeds(setDoc(doc(asStaffAdmin(), 'products', 'p-variants'), {
+    name: 'Walmer Briefcase', basePrice: 6499, gstPercent: 18, stock: 565, enabled: true,
+    variants: [
+      { color: 'Black', sku: 'ACP14435759-1', stock: 275, image: '/products/nexon/a.jpg' },
+      { color: 'Navy', sku: 'ACP14435759-5', stock: 285, image: '/products/nexon/b.jpg' },
+    ],
+  })));
+
+await it('a product cannot carry an unbounded variant list', () =>
+  assertFails(setDoc(doc(asStaffAdmin(), 'products', 'p-manyvariants'), {
+    name: 'Overflow', basePrice: 10, gstPercent: 18, stock: 1, enabled: true,
+    variants: Array.from({ length: 41 }, (_, i) => ({ color: `c${i}` })),
+  })));
+
+await it('variants must be a list, not a string', () =>
+  assertFails(setDoc(doc(asStaffAdmin(), 'products', 'p-badvariants'), {
+    name: 'Bad', basePrice: 10, gstPercent: 18, stock: 1, enabled: true,
+    variants: 'Black, Navy',
+  })));
+
 // Dealer names and buying costs. Products are world-readable, so these must
 // not be reachable from a product document at all.
 await it('a product carrying supplierInfo is rejected', () =>

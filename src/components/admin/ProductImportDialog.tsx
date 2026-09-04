@@ -31,6 +31,7 @@ export interface ImportRow {
   minOrderQuantity?: unknown;
   availabilityStatus?: unknown;
   images?: unknown;
+  variants?: unknown;
 }
 
 type Prepared = { id: string; data: Record<string, unknown> };
@@ -82,6 +83,22 @@ export function validateRows(rows: unknown, publish = false): { ok: Prepared[]; 
 
     const images = Array.isArray(row.images) ? row.images.filter(u => typeof u === 'string' && u.trim() !== '') : [];
 
+    // Colour options. A variant with no colour name cannot be chosen, so it is
+    // dropped rather than written as an unlabelled button.
+    const variants = Array.isArray(row.variants)
+      ? row.variants
+          .filter((v: any) => v && typeof v.color === 'string' && v.color.trim() !== '')
+          .map((v: any) => ({
+            color: String(v.color).trim(),
+            sku: typeof v.sku === 'string' ? v.sku : '',
+            stock: Number.isFinite(Number(v.stock)) ? Number(v.stock) : 0,
+            image: typeof v.image === 'string' ? v.image : '',
+          }))
+      : [];
+    if (Array.isArray(row.variants) && variants.length !== row.variants.length) {
+      errors.push(`${label} (${name}): ${row.variants.length - variants.length} color option(s) had no color name and were skipped.`);
+    }
+
     ok.push({
       id,
       data: {
@@ -102,6 +119,7 @@ export function validateRows(rows: unknown, publish = false): { ok: Prepared[]; 
         minOrderQuantity: Number.isFinite(Number(row.minOrderQuantity)) ? Number(row.minOrderQuantity) : 1,
         availabilityStatus: typeof row.availabilityStatus === 'string' ? row.availabilityStatus : 'available_on_request',
         images,
+        variants,
       },
     });
   });

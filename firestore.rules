@@ -62,6 +62,9 @@ service cloud.firestore {
              data.gstPercent is number && data.gstPercent >= 0 &&
              data.stock is number &&
              data.enabled is bool &&
+             // Colour options. The contents are shaped by the client; the cap
+             // is here so a product cannot be used to store an unbounded list.
+             (!('variants' in data) || (data.variants is list && data.variants.size() <= 40)) &&
              // Dealer name, contact and cost belong in product_private, which
              // only admins can read. Products are public.
              !('supplierInfo' in data);

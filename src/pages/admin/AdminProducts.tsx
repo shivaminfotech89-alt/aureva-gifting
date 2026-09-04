@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 
 import { generateCatalogPDF } from '../../lib/catalogGenerator';
 import { PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
+import { ProductVariant, variantsOf, swatchColor, totalStock } from '../../lib/variants';
 
 const EMPTY_FORM = {
   name: '', description: '', sku: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18',
@@ -36,6 +37,10 @@ export default function AdminProducts() {
   const [formData, setFormData] = useState(EMPTY_FORM);
 
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [variants, setVariants] = useState<ProductVariant[]>([]);
+
+  const setVariant = (i: number, patch: Partial<ProductVariant>) =>
+    setVariants(vs => vs.map((v, n) => (n === i ? { ...v, ...patch } : v)));
 
   useEffect(() => {
     loadProducts();
@@ -224,6 +229,16 @@ export default function AdminProducts() {
         minOrderQuantity: formData.minOrderQuantity ? Number(formData.minOrderQuantity) : 1,
         availabilityStatus: formData.availabilityStatus || 'in_stock',
         estimatedProcurementTime: formData.estimatedProcurementTime || 'ready',
+        // Colour options. Blank rows are dropped rather than saved as
+        // unlabelled buttons in the shop.
+        variants: variants
+          .filter(v => v.color.trim() !== '')
+          .map(v => ({
+            color: v.color.trim(),
+            sku: (v.sku || '').trim(),
+            stock: Number(v.stock) || 0,
+            image: (v.image || '').trim(),
+          })),
         // Who we buy from and at what price is deliberately absent: products
         // are readable by anyone. It goes to product_private below.
         enabled: true,
@@ -262,6 +277,7 @@ export default function AdminProducts() {
       toast.success(editingId ? 'Product updated successfully' : 'Product created successfully');
       
       setFormData(EMPTY_FORM);
+      setVariants([]);
       setEditingId(null);
       setIsDialogOpen(false);
       loadProducts();
@@ -301,6 +317,7 @@ export default function AdminProducts() {
       estimatedProcurementTime: product.estimatedProcurementTime || 'ready',
       supplierName: '', supplierContact: '', supplierNotes: '',
     });
+    setVariants(variantsOf(product).map(v => ({ ...v })));
     setIsDialogOpen(true);
 
     // Supplier details live in a collection customers cannot read, so they
@@ -449,6 +466,7 @@ export default function AdminProducts() {
             if (!open) {
               setEditingId(null);
               setFormData(EMPTY_FORM);
+              setVariants([]);
             }
           }}>
             <DialogTrigger render={<Button className="gap-2 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] font-bold rounded-xl h-10 shadow-sm" />}>
@@ -537,6 +555,76 @@ export default function AdminProducts() {
                     <Label htmlFor="customMessageCharge">Custom Message (₹)</Label>
                     <Input id="customMessageCharge" type="number" min="0" placeholder="e.g. 20" value={formData.customMessageCharge} onChange={e => setFormData({...formData, customMessageCharge: e.target.value})} />
                   </div>
+                </div>
+
+                <Label className="mt-2 text-sm font-semibold border-b pb-1">Color Options</Label>
+                <div className="rounded-lg border bg-muted/30 p-3">
+                  <p className="text-[11px] text-slate-500">
+                    Use these when the same item comes in several colors. Customers see one product
+                    and pick a color; each color keeps its own dealer code, stock and photo.
+                    Leave empty for a single-color product.
+                  </p>
+                  {variants.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {variants.map((v, i) => (
+                        <div key={i} className="grid grid-cols-[auto_1fr_1fr_90px_auto] items-center gap-2">
+                          <span
+                            className="h-6 w-6 shrink-0 rounded-full border border-slate-300"
+                            style={{ backgroundColor: swatchColor(v.color || '') }}
+                            title={v.color || 'No color name'}
+                          />
+                          <Input
+                            aria-label={`Color name ${i + 1}`}
+                            placeholder="Color, e.g. Navy Blue"
+                            value={v.color}
+                            onChange={e => setVariant(i, { color: e.target.value })}
+                          />
+                          <Input
+                            aria-label={`Product code for color ${i + 1}`}
+                            placeholder="Product code"
+                            value={v.sku || ''}
+                            onChange={e => setVariant(i, { sku: e.target.value })}
+                          />
+                          <Input
+                            aria-label={`Stock for color ${i + 1}`}
+                            type="number"
+                            min="0"
+                            placeholder="Stock"
+                            value={v.stock ?? 0}
+                            onChange={e => setVariant(i, { stock: Number(e.target.value) })}
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            aria-label={`Remove color ${v.color || i + 1}`}
+                            className="h-9 w-9 text-red-500 hover:bg-red-50"
+                            onClick={() => setVariants(vs => vs.filter((_, n) => n !== i))}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                          <span />
+                          <Input
+                            aria-label={`Photo for color ${i + 1}`}
+                            className="col-span-3"
+                            placeholder="Photo URL for this color, e.g. /products/nexon/code.jpg"
+                            value={v.image || ''}
+                            onChange={e => setVariant(i, { image: e.target.value })}
+                          />
+                          <span />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="mt-3 gap-1.5"
+                    onClick={() => setVariants(vs => [...vs, { color: '', sku: '', stock: 0, image: '' }])}
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Add a color
+                  </Button>
                 </div>
 
                 <Label className="mt-2 text-sm font-semibold border-b pb-1">Supplier &amp; MOQ Settings</Label>
@@ -742,6 +830,21 @@ export default function AdminProducts() {
                           {product.sku && (
                             <div className="mt-0.5 text-[11px] text-slate-500">Code {product.sku}</div>
                           )}
+                          {variantsOf(product).length > 1 && (
+                            <div className="mt-1 flex items-center gap-1">
+                              {variantsOf(product).slice(0, 5).map(v => (
+                                <span
+                                  key={v.color}
+                                  title={v.color}
+                                  className="h-2.5 w-2.5 rounded-full border border-slate-300"
+                                  style={{ backgroundColor: swatchColor(v.color) }}
+                                />
+                              ))}
+                              <span className="ml-0.5 text-[10px] text-slate-500">
+                                {variantsOf(product).length} colors
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </td>
@@ -750,9 +853,15 @@ export default function AdminProducts() {
                     </td>
                     <td className="px-6 py-5 whitespace-nowrap font-bold text-[#0F172A]">{formatCurrency(product.basePrice)}</td>
                     <td className="px-6 py-5">
-                      <span className={`px-3 py-1.5 rounded-md text-xs font-bold border shadow-sm ${product.stock > 10 ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' : product.stock > 0 ? 'bg-amber-100/50 text-amber-700 border-amber-200' : 'bg-red-500/10 text-red-600 border-red-200'}`}>
-                        {product.stock} in stock
-                      </span>
+                      {(() => {
+                        // With colours, the row shows the total across them.
+                        const s = totalStock(product);
+                        return (
+                          <span className={`px-3 py-1.5 rounded-md text-xs font-bold border shadow-sm ${s > 10 ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' : s > 0 ? 'bg-amber-100/50 text-amber-700 border-amber-200' : 'bg-red-500/10 text-red-600 border-red-200'}`}>
+                            {s} in stock
+                          </span>
+                        );
+                      })()}
                     </td>
                     <td className="px-6 py-5">
                        <button onClick={() => toggleEnabled(product.id, product.enabled)} className={`px-3 py-1.5 rounded-md border shadow-sm text-xs font-bold tracking-wider uppercase transition-colors ${product.enabled ? 'bg-[#d4af37]/10 text-[#b49124] border-[#d4af37]/20 hover:bg-[#d4af37]/20' : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'}`}>

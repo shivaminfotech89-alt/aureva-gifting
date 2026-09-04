@@ -9,6 +9,8 @@ import { useSettingsStore } from '../store/settingsStore';
 import { Button } from '../components/ui/button';
 import { formatCurrency, calculateGST } from '../lib/utils';
 import { openWhatsApp, productInquiryMessage } from '../lib/whatsapp';
+import { variantsOf, galleryImages, swatchColor, totalStock } from '../lib/variants';
+import { productImage, PRODUCT_IMAGE_PLACEHOLDER } from '../lib/productImage';
 import { toast } from 'sonner';
 import { ShieldCheck, Truck, ArrowLeft, Star, Heart, Upload, X as XIcon, Edit3, AlertCircle } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
@@ -28,6 +30,8 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [activeImage, setActiveImage] = useState(0);
+  /** Index into variantsOf(product); -1 when the product has no colours. */
+  const [colorIndex, setColorIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore(state => state.addItem);
@@ -46,7 +50,7 @@ export default function ProductDetails() {
     if (product.availabilityStatus === 'temporarily_unavailable') {
       return;
     }
-    if (product.availabilityStatus === 'in_stock' && quantity > product.stock) {
+    if (product.availabilityStatus === 'in_stock' && quantity > availableStock) {
       toast.error('Requested quantity exceeds available stock.');
       return;
     }
@@ -186,7 +190,7 @@ export default function ProductDetails() {
       toast.error(`This product requires minimum order quantity of ${moq} units.`);
       return;
     }
-    if (product.availabilityStatus !== 'temporarily_unavailable' && quantity > product.stock) {
+    if (product.availabilityStatus !== 'temporarily_unavailable' && quantity > availableStock) {
        // Only block if we truly track stock, else this might be pre-order. 
        // We can just warn, but allow it for inquiry based. Actually, it's an inquiry, so stock limit can be bypassed or just warned. 
        // Let's keep it but change logic for inquiry. The stock constraint could be removed if it's an inquiry, but let's keep it and let user know. 
@@ -197,7 +201,7 @@ export default function ProductDetails() {
       return;
     }
 
-    if (quantity > product.stock && product.availabilityStatus === 'in_stock') {
+    if (quantity > availableStock && product.availabilityStatus === 'in_stock') {
       toast.error('Requested quantity exceeds available stock.');
       return;
     }
@@ -209,7 +213,9 @@ export default function ProductDetails() {
       gstPercent: product.gstPercent,
       quantity: quantity,
       minOrderQuantity: product.minOrderQuantity || 1,
-      image: product.images?.[0] || 'https://images.unsplash.com/photo-1581417478175-a9ef18abf5af?auto=format&fit=crop&q=80&w=600',
+      image: shownImage,
+      variantColor: selected?.color,
+      variantSku: shownSku,
       customization: customizationEnabled ? {
         enabled: true,
         logoUrl: customizationLogo || undefined,
@@ -221,7 +227,14 @@ export default function ProductDetails() {
     toast.success(`${product.name} added to cart`);
   };
 
-  const images = product.images && product.images.length > 0 ? product.images : ['https://images.unsplash.com/photo-1581417478175-a9ef18abf5af?auto=format&fit=crop&q=80&w=600'];
+  const variants = variantsOf(product);
+  const selected = variants[colorIndex];
+  const gallery = galleryImages(product);
+  const images = gallery.length > 0 ? gallery : [productImage(product.images)];
+  // With colours, each option is one photo, so picking a colour picks its image.
+  const shownImage = images[Math.min(activeImage, images.length - 1)];
+  const shownSku = selected?.sku || product.sku;
+  const availableStock = variants.length > 0 ? Number(selected?.stock ?? 0) : product.stock;
 
   return (
     <div className="bg-slate-50 py-8 md:py-12 min-h-[calc(100vh-4rem)]">
@@ -237,18 +250,16 @@ export default function ProductDetails() {
           {/* Image Gallery */}
           <div className="flex flex-col gap-6">
             <div className="rounded-xl overflow-hidden bg-white aspect-square border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative group">
-              {(product.discountPercent ?? 0) > 0 && product.stock > 0 && (
+              {(product.discountPercent ?? 0) > 0 && totalStock(product) > 0 && (
                 <div className="absolute top-4 left-4 bg-[var(--navy-800)] text-white px-5 py-2.5 font-bold tracking-widest uppercase text-xs rounded-xl shadow-lg z-10 border border-[var(--navy-800)]/80">
                   {product.discountPercent}% OFF
                 </div>
               )}
-              <img 
-                src={images[activeImage]} 
-                alt={product.name} 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581417478175-a9ef18abf5af?auto=format&fit=crop&q=80&w=600';
-                }}
+              <img
+                src={shownImage}
+                alt={selected ? `${product.name} in ${selected.color}` : product.name}
+                className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
               />
             </div>
             
@@ -257,7 +268,11 @@ export default function ProductDetails() {
                 {images.map((img, idx) => (
                   <button 
                     key={idx}
-                    onClick={() => setActiveImage(idx)}
+                    onClick={() => {
+                      setActiveImage(idx);
+                      // Thumbnails are the colour photos, so the two stay in step.
+                      if (idx < variants.length) setColorIndex(idx);
+                    }}
                     className={`w-24 h-24 rounded-xl overflow-hidden border bg-white shadow-sm flex-shrink-0 transition-all ${
                       activeImage === idx ? 'border-[var(--gold-500)] ring-2 ring-[var(--gold-500)] ring-offset-2 opacity-100' : 'border-slate-200 opacity-60 hover:opacity-100 hover:border-[var(--gold-500)]/50'
                     }`}
@@ -266,9 +281,7 @@ export default function ProductDetails() {
                       src={img} 
                       alt={`Thumbnail ${idx}`} 
                       className="w-full h-full object-cover" 
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581417478175-a9ef18abf5af?auto=format&fit=crop&q=80&w=600';
-                      }}
+                      onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
                     />
                   </button>
                 ))}
@@ -283,10 +296,44 @@ export default function ProductDetails() {
             )}
             <h1 className="text-[1.75rem] md:text-[2rem] font-bold font-display text-[var(--navy-800)] tracking-tight mb-2 leading-tight">{product.name}</h1>
             {/* Buyers quote this code back to us, so it belongs on the page. */}
-            {product.sku && (
+            {shownSku && (
               <p className="mb-4 text-[12px] uppercase tracking-[0.14em] text-slate-400">
-                Product code <span className="font-semibold text-slate-600">{product.sku}</span>
+                Product code <span className="font-semibold text-slate-600">{shownSku}</span>
               </p>
+            )}
+
+            {variants.length > 0 && (
+              <div className="mb-6">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Color: <span className="text-[var(--navy-800)]">{selected?.color}</span>
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2.5">
+                  {variants.map((v, idx) => {
+                    const isSelected = idx === colorIndex;
+                    const soldOut = Number(v.stock ?? 0) <= 0;
+                    return (
+                      <button
+                        key={v.color}
+                        type="button"
+                        aria-pressed={isSelected}
+                        onClick={() => { setColorIndex(idx); setActiveImage(idx); }}
+                        className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-[13px] transition-colors ${
+                          isSelected
+                            ? 'border-[var(--gold-500)] bg-[var(--gold-500)]/10 text-[var(--navy-800)]'
+                            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                        }`}
+                      >
+                        <span
+                          className="h-4 w-4 rounded-full border border-slate-300"
+                          style={{ backgroundColor: swatchColor(v.color) }}
+                        />
+                        <span className="font-medium">{v.color}</span>
+                        {soldOut && <span className="text-[11px] text-slate-400">(out of stock)</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             )}
             
             <div className="flex items-center gap-4 mb-6 text-sm text-slate-500 font-medium">
@@ -469,7 +516,7 @@ export default function ProductDetails() {
                      product.availabilityStatus === 'bulk_only' ? 'Bulk Order Only' : 
                      product.availabilityStatus === 'custom_production' ? 'Custom Production' : 
                      product.availabilityStatus === 'temporarily_unavailable' ? 'Temporarily Unavailable' :
-                     product.stock > 0 ? `${product.stock} IN STOCK` : 'OUT OF STOCK'}
+                     availableStock > 0 ? `${availableStock} IN STOCK` : 'OUT OF STOCK'}
                   </span>
                 </div>
                 
@@ -506,7 +553,7 @@ export default function ProductDetails() {
                     <button 
                       className="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-600 font-bold transition-colors rounded-r-xl text-lg hover:text-[var(--navy-800)]"
                       onClick={() => {
-                        if (product.availabilityStatus === 'in_stock' && quantity >= product.stock) {
+                        if (product.availabilityStatus === 'in_stock' && quantity >= availableStock) {
                           toast.error('Requested quantity exceeds available stock.');
                         } else {
                           setQuantity(quantity + 1);
@@ -547,10 +594,11 @@ export default function ProductDetails() {
               className="w-full mt-3 h-11 rounded-lg font-semibold uppercase tracking-[0.12em] text-[13px] bg-[#25D366] text-white border-transparent hover:bg-[#1eb457] transition-colors"
               onClick={() => openWhatsApp(settings?.adminWhatsApp, productInquiryMessage({
                 name: product.name,
-                sku: product.sku,
+                sku: shownSku,
+                color: selected?.color,
                 price: priceWithGst,
                 minOrderQuantity: product.minOrderQuantity,
-                images: product.images,
+                images: [shownImage],
               }))}
             >
               Inquire on WhatsApp
