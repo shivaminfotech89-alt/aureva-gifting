@@ -179,9 +179,9 @@ export default function ShopPage() {
   return (
     <div className="bg-slate-50 min-h-screen pb-20">
       {/* Premium Hero Banner */}
-      <div className="bg-[#0F172A] text-white relative overflow-hidden">
+      <div className="bg-[var(--navy-800)] text-white relative overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/90 to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--navy-800)] via-[var(--navy-800)]/90 to-transparent z-10" />
           <img 
             src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2640&auto=format&fit=crop" 
             alt="Premium Gifts" 
@@ -191,17 +191,17 @@ export default function ShopPage() {
             }}
           />
         </div>
-        <div className="container mx-auto px-4 py-20 md:py-28 max-w-7xl relative z-10">
+        <div className="container relative z-10 mx-auto max-w-[80rem] px-4 pb-12 pt-28 md:pb-14 md:pt-32">
           <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <h1 className="text-4xl md:text-6xl font-bold font-serif mb-6 text-white leading-tight">
-              Curated Corporate <br/><span className="text-[#d4af37] italic">Collections</span>
+            <h1 className="text-[1.75rem] md:text-[2.25rem] font-bold font-display mb-6 text-white leading-tight">
+              Curated Corporate <br/><span className="text-[var(--gold-500)] italic">Collections</span>
             </h1>
             <p className="text-slate-300 text-lg md:text-xl max-w-xl font-light mb-8">
               Explore our range of premium gifting collections. Designed to impress, built to last, and customized to perfection.
             </p>
             <button 
               onClick={startCatalogDownloadProcess} 
-              className="inline-flex items-center justify-center font-bold tracking-wide text-sm md:text-base px-6 py-3 rounded-md bg-[#d4af37] text-[#0F172A] hover:bg-[#F4C542] transition-all duration-300 gap-2 shadow-lg"
+              className="inline-flex items-center justify-center font-bold tracking-wide text-sm md:text-base px-6 py-3 rounded-md bg-[var(--gold-500)] text-[var(--navy-800)] hover:bg-[var(--gold-400)] transition-all duration-300 gap-2 shadow-lg"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               Download Catalog
@@ -214,15 +214,15 @@ export default function ShopPage() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className="w-full lg:w-72 flex-shrink-0">
-            <div className="bg-white p-4 lg:p-6 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-24">
+            <div className="bg-white p-4 lg:p-6 rounded-xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-24">
               
               {/* Mobile Toggle */}
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="w-full flex items-center justify-between lg:hidden font-serif font-bold text-lg text-[#0F172A]"
+                className="w-full flex items-center justify-between lg:hidden font-display font-bold text-lg text-[var(--navy-800)]"
               >
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="w-5 h-5 text-[#d4af37]" />
+                  <SlidersHorizontal className="w-5 h-5 text-[var(--gold-500)]" />
                   Filters & Categories
                 </div>
                 <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
@@ -231,20 +231,20 @@ export default function ShopPage() {
               {/* Filter Content */}
               <div className={`mt-6 space-y-8 lg:block ${isFilterOpen ? 'block' : 'hidden'}`}>
                 <div className="space-y-4">
-                  <h3 className="font-serif font-bold text-lg text-[#0F172A] flex items-center gap-2 border-b border-slate-100 pb-2">
-                    <Search className="w-4 h-4 text-[#d4af37]" /> Find Gifts
+                  <h3 className="font-display font-bold text-lg text-[var(--navy-800)] flex items-center gap-2 border-b border-slate-100 pb-2">
+                    <Search className="w-4 h-4 text-[var(--gold-500)]" /> Find Gifts
                   </h3>
                   <Input 
                     placeholder="Search collections..." 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-slate-50 border-slate-200 focus-visible:ring-[#d4af37] rounded-xl"
+                    className="w-full bg-slate-50 border-slate-200 focus-visible:ring-[var(--gold-500)] rounded-xl"
                   />
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="font-serif font-bold text-lg text-[#0F172A] flex items-center gap-2 border-b border-slate-100 pb-2">
-                    <SlidersHorizontal className="w-4 h-4 text-[#d4af37]" /> Categories
+                  <h3 className="font-display font-bold text-lg text-[var(--navy-800)] flex items-center gap-2 border-b border-slate-100 pb-2">
+                    <SlidersHorizontal className="w-4 h-4 text-[var(--gold-500)]" /> Categories
                   </h3>
                   <div className="space-y-1.5 flex flex-col">
                     {categories.map(cat => (
@@ -256,19 +256,19 @@ export default function ShopPage() {
                         }}
                         className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between group ${
                           selectedCategory === cat 
-                            ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold border border-[#d4af37]/20 shadow-sm' 
-                            : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A] border border-transparent'
+                            ? 'bg-[var(--gold-500)]/10 text-[var(--navy-800)] font-bold border border-[var(--gold-500)]/20 shadow-sm' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-[var(--navy-800)] border border-transparent'
                         }`}
                       >
                         <span>{cat}</span>
-                        {selectedCategory === cat && <Check className="w-4 h-4 text-[#d4af37]" />}
+                        {selectedCategory === cat && <Check className="w-4 h-4 text-[var(--gold-500)]" />}
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="font-serif font-bold text-lg text-[#0F172A] border-b border-slate-100 pb-2">Budget Range</h3>
+                  <h3 className="font-display font-bold text-lg text-[var(--navy-800)] border-b border-slate-100 pb-2">Budget Range</h3>
                   <div className="space-y-1.5 flex flex-col">
                     {budgetRanges.map(range => (
                       <button
@@ -279,12 +279,12 @@ export default function ShopPage() {
                         }}
                         className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between ${
                           selectedBudget === range.value 
-                            ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold border border-[#d4af37]/20 shadow-sm' 
-                            : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A] border border-transparent'
+                            ? 'bg-[var(--gold-500)]/10 text-[var(--navy-800)] font-bold border border-[var(--gold-500)]/20 shadow-sm' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-[var(--navy-800)] border border-transparent'
                         }`}
                       >
                         <span>{range.label}</span>
-                        {selectedBudget === range.value && <Check className="w-4 h-4 text-[#d4af37]" />}
+                        {selectedBudget === range.value && <Check className="w-4 h-4 text-[var(--gold-500)]" />}
                       </button>
                     ))}
                   </div>
@@ -294,7 +294,7 @@ export default function ShopPage() {
                   <div className="pt-4 border-t border-slate-100">
                     <Button 
                       variant="outline" 
-                      className="w-full rounded-xl border-slate-200 text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 shadow-sm h-11 font-bold"
+                      className="w-full rounded-xl border-slate-200 text-slate-600 hover:text-[var(--navy-800)] hover:bg-slate-50 shadow-sm h-11 font-bold"
                       onClick={() => {
                         setSelectedCategory('All');
                         setSelectedBudget('All');
@@ -311,9 +311,9 @@ export default function ShopPage() {
 
           {/* Product Grid Area */}
           <div className="flex-1">
-            <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
               <p className="text-sm text-slate-500 font-medium">
-                Showing <span className="text-[#0F172A] font-bold">{filteredProducts.length}</span> {filteredProducts.length === 1 ? 'result' : 'results'}
+                Showing <span className="text-[var(--navy-800)] font-bold">{filteredProducts.length}</span> {filteredProducts.length === 1 ? 'result' : 'results'}
               </p>
               
               <div className="relative">
@@ -321,7 +321,7 @@ export default function ShopPage() {
                   <span className="text-sm text-slate-500 font-medium tracking-wide">Sort by:</span>
                   <button 
                     onClick={() => setIsSortOpen(!isSortOpen)}
-                    className="flex items-center gap-2 text-sm font-bold text-[#0F172A] bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-200 shadow-sm hover:border-[#d4af37] focus:ring-2 focus:ring-[#d4af37]/20 outline-none transition-all"
+                    className="flex items-center gap-2 text-sm font-bold text-[var(--navy-800)] bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-200 shadow-sm hover:border-[var(--gold-500)] focus:ring-2 focus:ring-[var(--gold-500)]/20 outline-none transition-all"
                   >
                     {sortOptions.find(o => o.value === sortBy)?.label}
                     <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${isSortOpen ? 'rotate-180' : ''}`} />
@@ -329,7 +329,7 @@ export default function ShopPage() {
                 </div>
                 
                 {isSortOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 py-2 z-20 animate-in fade-in slide-in-from-top-2 p-1">
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 py-2 z-20 animate-in fade-in slide-in-from-top-2 p-1">
                     {sortOptions.map(option => (
                       <button
                         key={option.value}
@@ -338,7 +338,7 @@ export default function ShopPage() {
                           setIsSortOpen(false);
                         }}
                         className={`w-full text-left px-4 py-2.5 text-sm rounded-xl transition-all font-medium ${
-                          sortBy === option.value ? 'bg-[#d4af37]/10 text-[#0F172A] font-bold' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F172A]'
+                          sortBy === option.value ? 'bg-[var(--gold-500)]/10 text-[var(--navy-800)] font-bold' : 'text-slate-600 hover:bg-slate-50 hover:text-[var(--navy-800)]'
                         }`}
                       >
                         {option.label}
@@ -352,18 +352,18 @@ export default function ShopPage() {
             {loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {[1,2,3,4,5,6,7,8].map(n => (
-                  <div key={n} className="h-[400px] rounded-2xl bg-slate-100 animate-pulse border border-slate-200"></div>
+                  <div key={n} className="h-[400px] rounded-xl bg-slate-100 animate-pulse border border-slate-200"></div>
                 ))}
               </div>
             ) : filteredProducts.length === 0 ? (
-              <div className="text-center py-32 bg-white/50 backdrop-blur-sm rounded-3xl border border-dashed border-slate-300 flex flex-col items-center">
-                <div className="bg-slate-50 p-6 rounded-2xl mb-6 border border-slate-100 shadow-sm">
+              <div className="text-center py-16 bg-white/50 backdrop-blur-sm rounded-xl border border-dashed border-slate-300 flex flex-col items-center">
+                <div className="bg-slate-50 p-6 rounded-xl mb-6 border border-slate-100 shadow-sm">
                   <Search className="w-10 h-10 text-slate-300" />
                 </div>
-                <h2 className="text-2xl font-serif font-bold mb-3 text-[#0F172A]">No products found</h2>
+                <h2 className="text-2xl font-display font-bold mb-3 text-[var(--navy-800)]">No products found</h2>
                 <p className="text-slate-500 max-w-md text-lg">Try adjusting your filters or search query to find what you're looking for.</p>
                 <Button 
-                  className="mt-8 bg-[#0F172A] text-white hover:bg-slate-800 rounded-xl h-12 px-8 font-bold shadow-md"
+                  className="mt-8 bg-[var(--navy-800)] text-white hover:bg-slate-800 rounded-xl h-12 px-8 font-bold shadow-md"
                   size="lg"
                   onClick={() => {
                     setSelectedCategory('All');
@@ -385,7 +385,7 @@ export default function ShopPage() {
             {/* Optional pagination could go here */}
             {!loading && filteredProducts.length > 0 && (
               <div className="mt-16 flex justify-center">
-                <Button variant="outline" className="text-[#0F172A] border-slate-200 hover:bg-slate-50 hover:border-slate-300 px-8 py-6 rounded-xl font-bold shadow-sm">
+                <Button variant="outline" className="text-[var(--navy-800)] border-slate-200 hover:bg-slate-50 hover:border-slate-300 px-8 py-6 rounded-xl font-bold shadow-sm">
                   Load More Products
                 </Button>
               </div>

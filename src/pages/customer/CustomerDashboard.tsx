@@ -127,7 +127,7 @@ export default function CustomerDashboard() {
   if (!user) {
     return (
       <div className="container mx-auto p-12 text-center h-screen flex flex-col items-center justify-center gap-4">
-        <div className="font-serif text-2xl text-zinc-500">Please login to view your account.</div>
+        <div className="font-display text-2xl text-zinc-500">Please login to view your account.</div>
         <Link to="/account/login">
            <Button className="bg-[#0a192f] hover:bg-[#0a192f]/90 text-white font-bold h-12 px-8 rounded-xl">
              Go to Login Page
@@ -238,8 +238,8 @@ export default function CustomerDashboard() {
           .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 50px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); border: 1px solid #f4f4f5; }
           .header { display: flex; justify-content: space-between; margin-bottom: 50px; border-bottom: 2px solid #e4e4e7; padding-bottom: 30px; }
           .logo-container { display: flex; align-items: center; gap: 12px; }
-          .logo { font-size: 26px; font-weight: 900; color: #0f172a; letter-spacing: 0.15em; text-transform: uppercase; font-family: serif; line-height: 1; margin-bottom: 4px; }
-          .logo-sub { color: #d4af37; font-size: 10px; letter-spacing: 0.3em; display: block; font-weight: 700; text-transform: uppercase; font-family: sans-serif; }
+          .logo { font-size: 26px; font-weight: 900; color: var(--navy-800); letter-spacing: 0.15em; text-transform: uppercase; font-family: serif; line-height: 1; margin-bottom: 4px; }
+          .logo-sub { color: var(--gold-500); font-size: 10px; letter-spacing: 0.3em; display: block; font-weight: 700; text-transform: uppercase; font-family: sans-serif; }
           .invoice-details { text-align: right; }
           .section-title { font-weight: 600; text-transform: uppercase; font-size: 11px; color: #71717a; letter-spacing: 0.05em; margin-bottom: 12px; }
           .addresses { display: flex; justify-content: space-between; margin-bottom: 40px; background: #f8fafc; padding: 24px; border-radius: 8px; border: 1px solid #f1f5f9; }
@@ -248,7 +248,7 @@ export default function CustomerDashboard() {
           td { padding: 16px; border-bottom: 1px solid #f1f5f9; color: #334155; }
           .totals { margin-left: auto; width: 320px; background: #f8fafc; padding: 24px; border-radius: 8px; border: 1px solid #f1f5f9;}
           .totals-row { display: flex; justify-content: space-between; padding: 10px 0; color: #475569; font-size: 14px; }
-          .totals-row.grand { font-weight: 700; color: #0f172a; font-size: 1.25em; border-top: 2px solid #e2e8f0; padding-top: 16px; margin-top: 8px; }
+          .totals-row.grand { font-weight: 700; color: var(--navy-800); font-size: 1.25em; border-top: 2px solid #e2e8f0; padding-top: 16px; margin-top: 8px; }
         </style>
       </head>
       <body>
@@ -257,9 +257,9 @@ export default function CustomerDashboard() {
             <div>
               <div class="logo-container">
                 <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 2L6 16L16 30L26 16L16 2Z" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M16 8L10 16L16 24L22 16L16 8Z" stroke="#d4af37" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M16 13L13.5 16L16 19L18.5 16L16 13Z" fill="#d4af37"/>
+                  <path d="M16 2L6 16L16 30L26 16L16 2Z" stroke="var(--gold-500)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M16 8L10 16L16 24L22 16L16 8Z" stroke="var(--gold-500)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M16 13L13.5 16L16 19L18.5 16L16 13Z" fill="var(--gold-500)"/>
                 </svg>
                 <div>
                   <div class="logo">AUREVA</div>
@@ -269,7 +269,7 @@ export default function CustomerDashboard() {
               <p style="color: #64748b; font-size: 14px; margin-top: 20px; line-height: 1.5;">Ahmedabad, Gujarat<br>380058, India<br>aurevagifts@gmail.com</p>
             </div>
             <div class="invoice-details">
-              <h1 style="margin:0; font-size: 32px; font-weight: 800; color: #0f172a; letter-spacing: 0.05em; font-family: serif;">TAX INVOICE</h1>
+              <h1 style="margin:0; font-size: 32px; font-weight: 800; color: var(--navy-800); letter-spacing: 0.05em; font-family: serif;">TAX INVOICE</h1>
               <p style="color: #71717a; font-size: 14px; margin-top: 16px;">
                 <strong>Order ID:</strong> #${order.id.slice(-8).toUpperCase()}<br>
                 <strong>Date:</strong> ${order.createdAt?.toDate ? order.createdAt.toDate().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}</p>
@@ -343,16 +343,16 @@ export default function CustomerDashboard() {
     <div className="bg-zinc-50 min-h-screen pb-24">
       {/* Premium Header */}
       <div className="bg-zinc-950 text-white pt-24 pb-32">
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="container mx-auto px-4 max-w-[80rem]">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-6">
-              <div className="h-20 w-20 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center shadow-xl border border-amber-300 transform rotate-3">
-                 <div className="bg-zinc-950 w-full h-full rounded-2xl flex items-center justify-center transform -rotate-3 text-amber-500 font-serif text-3xl font-bold">
+              <div className="h-20 w-20 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center shadow-xl border border-amber-300 transform rotate-3">
+                 <div className="bg-zinc-950 w-full h-full rounded-xl flex items-center justify-center transform -rotate-3 text-amber-500 font-display text-3xl font-bold">
                     {profile?.name ? profile.name.charAt(0).toUpperCase() : user.email ? user.email.charAt(0).toUpperCase() : user.phoneNumber?.slice(-1) || 'C'}
                  </div>
               </div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold font-serif">{profile?.name || 'Customer Dashboard'}</h1>
+                <h1 className="text-3xl md:text-[1.75rem] font-bold font-display">{profile?.name || 'Customer Dashboard'}</h1>
                 <p className="text-zinc-400 text-lg">{user.email || user.phoneNumber}</p>
               </div>
             </div>
@@ -365,12 +365,12 @@ export default function CustomerDashboard() {
         </div>
       </div>
       
-      <div className="container mx-auto px-4 max-w-7xl -mt-20 relative z-10">
+      <div className="container mx-auto px-4 max-w-[80rem] -mt-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Navigation Sidebar */}
           <div className="lg:col-span-3">
-            <Card className="border-0 shadow-xl overflow-hidden rounded-2xl bg-white sticky top-24">
+            <Card className="border-0 shadow-xl overflow-hidden rounded-xl bg-white sticky top-24">
               <div className="p-2">
                  <button 
                   onClick={() => setActiveTab('orders')}
@@ -417,7 +417,7 @@ export default function CustomerDashboard() {
             {activeTab === 'orders' && (
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold font-serif text-zinc-900">Recent Orders</h2>
+                  <h2 className="text-2xl font-bold font-display text-zinc-900">Recent Orders</h2>
                   <Link to="/shop" className="text-sm font-bold text-amber-600 flex items-center gap-1 hover:text-amber-700 transition-colors uppercase tracking-wider">
                      Browse Shop <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -426,15 +426,15 @@ export default function CustomerDashboard() {
                 {loadingOrders ? (
                   <div className="space-y-4">
                     {[1, 2, 3].map(i => (
-                       <div key={i} className="h-48 bg-zinc-200/50 animate-pulse rounded-2xl"></div>
+                       <div key={i} className="h-48 bg-zinc-200/50 animate-pulse rounded-xl"></div>
                     ))}
                   </div>
                 ) : orders.length === 0 ? (
-                  <Card className="bg-white border-0 shadow-lg text-center p-16 rounded-2xl">
+                  <Card className="bg-white border-0 shadow-lg text-center p-16 rounded-xl">
                     <div className="w-24 h-24 bg-zinc-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-100">
                        <Package className="h-10 w-10 text-zinc-400" />
                     </div>
-                    <h3 className="text-2xl font-serif font-bold mb-3 text-zinc-900">No Orders Yet</h3>
+                    <h3 className="text-2xl font-display font-bold mb-3 text-zinc-900">No Orders Yet</h3>
                     <p className="text-zinc-500 mb-8 max-w-md mx-auto">Discover our collection of premium corporate gifts and place your first order today.</p>
                     <Link to="/shop">
                        <Button className="h-12 px-8 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-base font-bold shadow-md">
@@ -445,7 +445,7 @@ export default function CustomerDashboard() {
                 ) : (
                   <div className="space-y-6">
                     {orders.map(order => (
-                      <Card key={order.id} className="overflow-hidden border-0 shadow-lg rounded-2xl bg-white hover:shadow-xl transition-shadow duration-300">
+                      <Card key={order.id} className="overflow-hidden border-0 shadow-lg rounded-xl bg-white hover:shadow-xl transition-shadow duration-300">
                         {/* Order Header */}
                         <div className="bg-zinc-50 px-6 py-5 border-b border-zinc-100 flex flex-col sm:flex-row gap-5 justify-between sm:items-center">
                           <div className="flex flex-wrap gap-8 text-sm">
@@ -512,7 +512,7 @@ export default function CustomerDashboard() {
                         {/* Order Actions */}
                         <div className="bg-white px-6 py-4 border-t border-zinc-100 flex justify-end gap-3 flex-wrap">
                             {getCustomerStatus(order.status) === 'awaiting_payment' && (
-                               <Button size="sm" onClick={() => setPaymentOrder(order)} className="h-10 px-4 rounded-lg font-bold bg-[#d4af37] text-[#0F172A] hover:bg-[#F4C542] shadow-sm">
+                               <Button size="sm" onClick={() => setPaymentOrder(order)} className="h-10 px-4 rounded-lg font-bold bg-[var(--gold-500)] text-[var(--navy-800)] hover:bg-[var(--gold-400)] shadow-sm">
                                  Pay Now
                                </Button>
                             )}
@@ -554,7 +554,7 @@ export default function CustomerDashboard() {
             {activeTab === 'addresses' && (
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold font-serif text-zinc-900">Saved Addresses</h2>
+                  <h2 className="text-2xl font-bold font-display text-zinc-900">Saved Addresses</h2>
                   <Button 
                     onClick={() => {
                       setEditingAddressId(null);
@@ -568,7 +568,7 @@ export default function CustomerDashboard() {
                 </div>
                 
                 {addresses.length === 0 ? (
-                  <Card className="bg-white border-0 shadow-sm text-center p-12 rounded-2xl">
+                  <Card className="bg-white border-0 shadow-sm text-center p-12 rounded-xl">
                     <MapPin className="w-12 h-12 text-zinc-300 mx-auto mb-4" />
                     <h3 className="text-lg font-bold text-zinc-700 mb-2">No Saved Addresses</h3>
                     <p className="text-zinc-500 text-sm">Add addresses here to save time during checkout.</p>
@@ -616,8 +616,8 @@ export default function CustomerDashboard() {
 
             {activeTab === 'profile' && (
                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <h2 className="text-2xl font-bold font-serif text-zinc-900 mb-6">Account Settings</h2>
-                  <Card className="border-0 shadow-lg rounded-2xl p-8 bg-white">
+                  <h2 className="text-2xl font-bold font-display text-zinc-900 mb-6">Account Settings</h2>
+                  <Card className="border-0 shadow-lg rounded-xl p-8 bg-white">
                      <div className="max-w-md space-y-6">
                         <div className="bg-amber-50 p-6 rounded-xl border border-amber-100 text-amber-800">
                            <h4 className="font-bold mb-2 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-amber-600" /> Secure Account</h4>
@@ -646,7 +646,7 @@ export default function CustomerDashboard() {
       <Dialog open={isAddressModalOpen} onOpenChange={setIsAddressModalOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle className="text-xl font-serif">{editingAddressId ? 'Edit Address' : 'Add New Address'}</DialogTitle>
+            <DialogTitle className="text-xl font-display">{editingAddressId ? 'Edit Address' : 'Add New Address'}</DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 mt-4">
             <div className="space-y-2">
@@ -727,13 +727,13 @@ export default function CustomerDashboard() {
 
       {/* Track Order Dialog - Premium Redesign */}
       <Dialog open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>
-        <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto p-0 border-0 rounded-3xl overflow-hidden [&>button]:hidden">
+        <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto p-0 border-0 rounded-xl overflow-hidden [&>button]:hidden">
           <DialogHeader className="bg-zinc-950 p-8 text-white relative">
             <button onClick={() => setSelectedOrder(null)} className="absolute top-6 right-6 text-zinc-400 hover:text-white transition-colors bg-zinc-900/50 hover:bg-zinc-900 p-2 rounded-full">
                <X className="w-5 h-5" />
             </button>
             <span className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-2 block">Order Tracking</span>
-            <DialogTitle className="text-2xl font-serif font-bold text-white">Order #{selectedOrder?.id?.slice(-8).toUpperCase()}</DialogTitle>
+            <DialogTitle className="text-2xl font-display font-bold text-white">Order #{selectedOrder?.id?.slice(-8).toUpperCase()}</DialogTitle>
           </DialogHeader>
 
           {selectedOrder && (
@@ -807,7 +807,7 @@ export default function CustomerDashboard() {
           toast.error('Payment not completed.');
         }
       }}>
-        <DialogContent showCloseButton={false} className="w-[95vw] sm:max-w-[550px] md:max-w-[600px] text-center p-0 rounded-2xl border-0 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden !fixed !top-1/2 !left-1/2 !-translate-y-1/2 !-translate-x-1/2 z-[100]">
+        <DialogContent showCloseButton={false} className="w-[95vw] sm:max-w-[550px] md:max-w-[600px] text-center p-0 rounded-xl border-0 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden !fixed !top-1/2 !left-1/2 !-translate-y-1/2 !-translate-x-1/2 z-[100]">
           
           <div className="flex-1 overflow-y-auto w-full relative bg-white">
             <button 
@@ -829,7 +829,7 @@ export default function CustomerDashboard() {
               </DialogTitle>
             </DialogHeader>
             <div className="mt-4 flex flex-col items-center">
-               <span className="text-3xl font-bold font-serif mb-1">
+               <span className="text-3xl font-bold font-display mb-1">
                  {paymentOrder && formatCurrency(paymentOrder.grandTotal)}
                </span>
                <span className="text-xs uppercase tracking-widest text-green-100 font-semibold">Order Amount</span>
@@ -880,7 +880,7 @@ export default function CustomerDashboard() {
           </div>
           
           <div className="bg-white p-4 border-t z-20 w-full flex-shrink-0">
-            <Button size="lg" disabled={isUploadingPayment} className="w-full text-base font-bold bg-[#0F172A] hover:bg-black disabled:opacity-70 text-white h-14 rounded-xl shadow-md" onClick={() => {
+            <Button size="lg" disabled={isUploadingPayment} className="w-full text-base font-bold bg-[var(--navy-800)] hover:bg-black disabled:opacity-70 text-white h-11 rounded-xl shadow-md" onClick={() => {
               const utrInput = document.getElementById('utr') as HTMLInputElement;
               const utr = utrInput?.value?.trim();
               if (!utr) {

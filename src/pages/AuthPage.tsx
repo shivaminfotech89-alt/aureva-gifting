@@ -60,7 +60,7 @@ export default function AuthPage() {
           <div className="mx-auto flex items-center justify-center mb-4">
             <AurevaLogo variant="dark" />
           </div>
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Welcome Back</CardTitle>
+          <CardTitle className="font-display text-[1.75rem] tracking-[-0.015em] text-[var(--navy-800)]">Welcome Back</CardTitle>
           <CardDescription className="text-base">
             Sign in securely using your Google account to access your orders and saved items.
           </CardDescription>
@@ -69,7 +69,7 @@ export default function AuthPage() {
           <Button 
             size="lg" 
             variant="outline" 
-            className="w-full flex items-center justify-center gap-3 font-medium h-14 text-lg border-2 hover:bg-muted/50 transition-colors bg-background"
+            className="w-full flex items-center justify-center gap-3 font-medium h-11 text-lg border-2 hover:bg-muted/50 transition-colors bg-background"
             onClick={handleGoogleLogin}
             disabled={isLoading}
           >

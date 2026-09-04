@@ -54,7 +54,7 @@ export default function CorporateBulkPage() {
   return (
     <div className="bg-zinc-50 min-h-screen">
       {/* Premium Hero Section */}
-      <div className="bg-zinc-950 text-white relative py-24 md:py-32 overflow-hidden border-b border-amber-500/20">
+      <div className="bg-zinc-950 text-white relative pb-12 pt-24 md:pt-28 md:py-16 overflow-hidden border-b border-amber-500/20">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-900/90 to-transparent z-10" />
           <img 
@@ -63,10 +63,10 @@ export default function CorporateBulkPage() {
             className="w-full h-full object-cover opacity-30 mix-blend-luminosity"
           />
         </div>
-        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+        <div className="container mx-auto px-4 max-w-[80rem] relative z-10">
           <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-700">
             <span className="text-amber-500 font-bold tracking-widest uppercase text-sm mb-4 block">B2B Solutions</span>
-            <h1 className="text-4xl md:text-6xl font-bold font-serif mb-6 text-white leading-tight">
+            <h1 className="text-[1.75rem] md:text-[2.25rem] font-bold font-display mb-6 text-white leading-tight">
               Corporate & <br/><span className="text-zinc-400 italic">Bulk Gifting</span>
             </h1>
             <p className="text-zinc-300 text-lg md:text-xl font-light leading-relaxed">
@@ -76,7 +76,7 @@ export default function CorporateBulkPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-16 md:py-24 max-w-7xl -mt-16 relative z-20">
+      <div className="container mx-auto px-4 py-16 md:py-12 max-w-[80rem] -mt-16 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Information Side (Left) */}
@@ -88,8 +88,8 @@ export default function CorporateBulkPage() {
                </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 border border-zinc-200 shadow-sm">
-               <h3 className="text-2xl font-serif font-bold text-zinc-900 mb-6 flex items-center gap-3">
+            <div className="bg-white rounded-xl p-8 border border-zinc-200 shadow-sm">
+               <h3 className="text-2xl font-display font-bold text-zinc-900 mb-6 flex items-center gap-3">
                   <Briefcase className="w-6 h-6 text-amber-500" />
                   Why Choose Aureva?
                </h3>
@@ -114,11 +114,11 @@ export default function CorporateBulkPage() {
                </ul>
             </div>
             
-            <div className="bg-zinc-900 p-8 rounded-2xl text-white shadow-xl relative overflow-hidden">
+            <div className="bg-zinc-900 p-8 rounded-xl text-white shadow-xl relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                  <Building2 className="w-32 h-32" />
               </div>
-              <h3 className="font-serif font-bold text-2xl mb-3 text-amber-400 relative z-10">Direct Connect</h3>
+              <h3 className="font-display font-bold text-2xl mb-3 text-amber-400 relative z-10">Direct Connect</h3>
               <p className="text-zinc-400 mb-6 relative z-10 text-sm">Have urgent requirements? Reach out to our corporate sales team directly.</p>
               <div className="flex flex-col gap-4 relative z-10">
                 <a href={`mailto:${salesEmail}`} className="bg-zinc-800 hover:bg-zinc-700 text-white py-3 px-4 rounded-xl flex items-center gap-3 transition-colors text-sm font-medium border border-zinc-700">
@@ -133,13 +133,13 @@ export default function CorporateBulkPage() {
 
           {/* Inquiry Form (Right) */}
           <div className="lg:col-span-7">
-            <Card className="shadow-2xl border-0 rounded-3xl overflow-hidden bg-white">
+            <Card className="shadow-2xl border-0 rounded-xl overflow-hidden bg-white">
               <div className="h-2 w-full bg-gradient-to-r from-amber-400 to-amber-600" />
               <CardHeader className="bg-zinc-50/50 border-b border-zinc-100 pb-8 px-8 pt-10">
-                <div className="bg-amber-100 w-12 h-12 rounded-2xl flex items-center justify-center mb-6">
+                <div className="bg-amber-100 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
                    <Handshake className="w-6 h-6 text-amber-600" />
                 </div>
-                <CardTitle className="text-3xl font-serif font-bold text-zinc-900">Request a Custom Quote</CardTitle>
+                <CardTitle className="text-3xl font-display font-bold text-zinc-900">Request a Custom Quote</CardTitle>
                 <CardDescription className="text-base text-zinc-500 mt-2">Fill out the form below. A dedicated corporate manager will get back to you within 24 hours.</CardDescription>
               </CardHeader>
               <CardContent className="p-8">
@@ -192,7 +192,7 @@ export default function CorporateBulkPage() {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full text-lg font-bold h-14 bg-zinc-900 text-white hover:bg-zinc-800 rounded-xl mt-4" disabled={loading}>
+                  <Button type="submit" size="lg" className="w-full text-lg font-bold h-11 bg-zinc-900 text-white hover:bg-zinc-800 rounded-xl mt-4" disabled={loading}>
                     {loading ? (
                        <div className="flex items-center gap-2">
                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -210,30 +210,30 @@ export default function CorporateBulkPage() {
       </div>
 
       <div className="container mx-auto px-4 py-16 max-w-4xl relative z-20">
-         <h2 className="text-3xl font-serif font-bold text-zinc-900 mb-10 text-center">Frequently Asked Questions</h2>
+         <h2 className="text-3xl font-display font-bold text-zinc-900 mb-10 text-center">Frequently Asked Questions</h2>
          <div className="space-y-6">
            {/* FAQ 1 */}
-           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+           <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
              <h4 className="text-lg font-bold text-zinc-900 mb-2">What is the Minimum Order Quantity (MOQ)?</h4>
              <p className="text-zinc-600 text-sm">AUREVA specializes strictly in bulk corporate gifting. Our MOQ depends on the specific product, typically ranging from 30 to 50 units per item. Custom branding usually requires fulfilling the MOQ.</p>
            </div>
            {/* FAQ 2 */}
-           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+           <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
              <h4 className="text-lg font-bold text-zinc-900 mb-2">How does the supplier-based model work?</h4>
              <p className="text-zinc-600 text-sm">When you place an order request on our website, it serves as an inquiry. Our operations team verifies stock availability and customization feasibility with our manufacturing partners before confirming your order.</p>
            </div>
            {/* FAQ 3 */}
-           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+           <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
              <h4 className="text-lg font-bold text-zinc-900 mb-2">When do I make the payment?</h4>
              <p className="text-zinc-600 text-sm">Payment is requested ONLY after our administration team manually confirms stock and timeline. Once confirmed, you will be prompted to make the payment via UPI or Bank Transfer.</p>
            </div>
            {/* FAQ 4 */}
-           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+           <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
              <h4 className="text-lg font-bold text-zinc-900 mb-2">When do I receive the Tax Invoice?</h4>
              <p className="text-zinc-600 text-sm">To ensure compliance, formal GST Tax Invoices are generated and shared specifically after successful manual payment verification of your submitted UTR or transaction ID.</p>
            </div>
            {/* FAQ 5 */}
-           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+           <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
              <h4 className="text-lg font-bold text-zinc-900 mb-2">Can I download the product catalog?</h4>
              <p className="text-zinc-600 text-sm">Yes, you can visit our Shop page and instantly generate a real-time smart PDF catalog containing all current products to share with your management team.</p>
            </div>

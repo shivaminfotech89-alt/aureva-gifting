@@ -650,8 +650,8 @@ export default function AdminHomepageContent() {
                         </div>
                         <div className="space-y-2">
                            <Label className="text-sm font-semibold text-slate-700">Headline</Label>
-                           <p className="text-xs text-slate-500 mb-2">Use <code className="bg-slate-100 text-pink-600 px-1 py-0.5 rounded">&lt;span className="text-[#d4af37] italic"&gt;...&lt;/span&gt;</code> for golden italic text.</p>
-                           <Input name="heading" defaultValue={brandingSection?.heading || 'Make it truly <span className="text-[#d4af37] italic">yours.</span>'} className="h-12 rounded-xl border-slate-200 bg-slate-50 focus:bg-white transition-colors" />
+                           <p className="text-xs text-slate-500 mb-2">Plain text only. HTML tags are no longer rendered and will appear as written.</p>
+                           <Input name="heading" defaultValue={brandingSection?.heading || 'Make it truly yours.'} className="h-12 rounded-xl border-slate-200 bg-slate-50 focus:bg-white transition-colors" />
                         </div>
                         <div className="space-y-2">
                            <Label className="text-sm font-semibold text-slate-700">Body Text</Label>

@@ -8,6 +8,7 @@ import { useWishlistStore } from '../store/wishlistStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { Button } from '../components/ui/button';
 import { formatCurrency, calculateGST } from '../lib/utils';
+import { openWhatsApp, productInquiryMessage } from '../lib/whatsapp';
 import { toast } from 'sonner';
 import { ShieldCheck, Truck, ArrowLeft, Star, Heart, Upload, X as XIcon, Edit3, AlertCircle } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
@@ -109,7 +110,7 @@ export default function ProductDetails() {
   if (!product) {
     return (
       <div className="container flex flex-col items-center justify-center p-20 min-h-[60vh] text-center">
-        <h1 className="text-4xl font-bold mb-4 font-sans tracking-tight">Product Not Found</h1>
+        <h1 className="text-[1.75rem] font-bold mb-4 font-sans tracking-tight">Product Not Found</h1>
         <p className="text-muted-foreground mb-8">The product you are looking for might have been removed or is temporarily unavailable.</p>
         <Button size="lg" onClick={() => navigate('/shop')}>Explore Collections</Button>
       </div>
@@ -217,10 +218,10 @@ export default function ProductDetails() {
 
   return (
     <div className="bg-slate-50 py-8 md:py-12 min-h-[calc(100vh-4rem)]">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+      <div className="container mx-auto px-4 md:px-8 max-w-[80rem]">
         <button 
           onClick={() => navigate('/shop')} 
-          className="flex items-center text-sm font-bold text-slate-500 hover:text-[#0F172A] transition-colors mb-8 group tracking-wide"
+          className="flex items-center text-sm font-bold text-slate-500 hover:text-[var(--navy-800)] transition-colors mb-8 group tracking-wide"
         >
           <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Shop
         </button>
@@ -228,9 +229,9 @@ export default function ProductDetails() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
           {/* Image Gallery */}
           <div className="flex flex-col gap-6">
-            <div className="rounded-3xl overflow-hidden bg-white aspect-square border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative group">
+            <div className="rounded-xl overflow-hidden bg-white aspect-square border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative group">
               {(product.discountPercent ?? 0) > 0 && product.stock > 0 && (
-                <div className="absolute top-4 left-4 bg-[#0F172A] text-white px-5 py-2.5 font-bold tracking-widest uppercase text-xs rounded-xl shadow-lg z-10 border border-[#0F172A]/80">
+                <div className="absolute top-4 left-4 bg-[var(--navy-800)] text-white px-5 py-2.5 font-bold tracking-widest uppercase text-xs rounded-xl shadow-lg z-10 border border-[var(--navy-800)]/80">
                   {product.discountPercent}% OFF
                 </div>
               )}
@@ -250,8 +251,8 @@ export default function ProductDetails() {
                   <button 
                     key={idx}
                     onClick={() => setActiveImage(idx)}
-                    className={`w-24 h-24 rounded-2xl overflow-hidden border bg-white shadow-sm flex-shrink-0 transition-all ${
-                      activeImage === idx ? 'border-[#d4af37] ring-2 ring-[#d4af37] ring-offset-2 opacity-100' : 'border-slate-200 opacity-60 hover:opacity-100 hover:border-[#d4af37]/50'
+                    className={`w-24 h-24 rounded-xl overflow-hidden border bg-white shadow-sm flex-shrink-0 transition-all ${
+                      activeImage === idx ? 'border-[var(--gold-500)] ring-2 ring-[var(--gold-500)] ring-offset-2 opacity-100' : 'border-slate-200 opacity-60 hover:opacity-100 hover:border-[var(--gold-500)]/50'
                     }`}
                   >
                     <img 
@@ -273,10 +274,10 @@ export default function ProductDetails() {
             {product.categoryId && (
               <Badge variant="outline" className="w-fit mb-4 bg-slate-100/50 text-slate-600 border-slate-200">{product.categoryId}</Badge>
             )}
-            <h1 className="text-4xl md:text-5xl font-bold font-serif text-[#0F172A] tracking-tight mb-4 leading-tight">{product.name}</h1>
+            <h1 className="text-[1.75rem] md:text-[2rem] font-bold font-display text-[var(--navy-800)] tracking-tight mb-4 leading-tight">{product.name}</h1>
             
             <div className="flex items-center gap-4 mb-6 text-sm text-slate-500 font-medium">
-               <div className="flex text-[#d4af37]">
+               <div className="flex text-[var(--gold-500)]">
                  <Star className="w-4 h-4 fill-current" />
                  <Star className="w-4 h-4 fill-current" />
                  <Star className="w-4 h-4 fill-current" />
@@ -286,14 +287,14 @@ export default function ProductDetails() {
                <span>(12+ Reviews)</span>
             </div>
 
-            <div className="flex flex-col mb-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <div className="flex flex-col mb-8 p-6 bg-white rounded-xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
               {(product.discountPercent ?? 0) > 0 && (
                 <span className="text-lg text-slate-400 line-through decoration-red-500 decoration-2 mb-1">
                   MRP {formatCurrency(product.basePrice + calculateGST(product.basePrice, product.gstPercent))}
                 </span>
               )}
               <div className="flex items-baseline gap-2">
-                <p className="text-4xl font-bold text-[#d4af37]">{formatCurrency(priceWithGst)}</p>
+                <p className="text-[1.75rem] font-bold text-[var(--gold-500)]">{formatCurrency(priceWithGst)}</p>
                 <span className="text-sm text-slate-500 font-bold tracking-wide uppercase">incl. taxes</span>
               </div>
               <p className="text-xs font-medium text-slate-500 mt-3 bg-slate-50 px-3 py-1.5 rounded-lg w-fit border border-slate-100">
@@ -306,7 +307,7 @@ export default function ProductDetails() {
             </div>
             
             {/* Customization Section */}
-            <div className={`mb-8 bg-white rounded-3xl overflow-hidden transition-all duration-300 border ${customizationEnabled ? 'ring-2 ring-[#d4af37] border-transparent shadow-[0_8px_30px_rgba(212,175,55,0.15)]' : 'border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]'}`}>
+            <div className={`mb-8 bg-white rounded-xl overflow-hidden transition-all duration-300 border ${customizationEnabled ? 'ring-2 ring-[var(--gold-500)] border-transparent shadow-[0_8px_30px_rgba(212,175,55,0.15)]' : 'border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]'}`}>
               <div 
                 className="p-5 bg-slate-50 flex items-center justify-between cursor-pointer hover:bg-slate-100 transition-colors"
                 onClick={() => setCustomizationEnabled(!customizationEnabled)}
@@ -317,13 +318,13 @@ export default function ProductDetails() {
                     checked={customizationEnabled} 
                     onCheckedChange={(c) => setCustomizationEnabled(!!c)} 
                     onClick={(e) => e.stopPropagation()} 
-                    className="w-5 h-5 border-slate-300 data-[state=checked]:bg-[#d4af37] data-[state=checked]:border-[#d4af37]"
+                    className="w-5 h-5 border-slate-300 data-[state=checked]:bg-[var(--gold-500)] data-[state=checked]:border-[var(--gold-500)]"
                   />
-                  <Label htmlFor="enable-customization" className="font-bold text-[#0F172A] text-base cursor-pointer">
+                  <Label htmlFor="enable-customization" className="font-bold text-[var(--navy-800)] text-base cursor-pointer">
                     Add Logo / Name Customization
                   </Label>
                 </div>
-                <Badge variant={customizationEnabled ? "default" : "outline"} className={customizationEnabled ? "bg-[#0F172A] hover:bg-slate-800 text-white border-transparent" : "text-slate-500 border-slate-200 bg-white"}>
+                <Badge variant={customizationEnabled ? "default" : "outline"} className={customizationEnabled ? "bg-[var(--navy-800)] hover:bg-slate-800 text-white border-transparent" : "text-slate-500 border-slate-200 bg-white"}>
                   Personalize
                 </Badge>
               </div>
@@ -339,19 +340,19 @@ export default function ProductDetails() {
                       
                       {!customizationLogo ? (
                         <div 
-                          className="border-2 border-dashed border-slate-200 rounded-2xl p-6 flex flex-col items-center justify-center text-center hover:border-[#d4af37] bg-slate-50 hover:bg-slate-50/50 transition-all cursor-pointer group"
+                          className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:border-[var(--gold-500)] bg-slate-50 hover:bg-slate-50/50 transition-all cursor-pointer group"
                           onClick={() => fileInputRef.current?.click()}
                         >
-                          <div className="bg-[#d4af37]/10 p-3 rounded-xl mb-3 group-hover:scale-110 group-hover:bg-[#d4af37]/20 transition-all">
-                            <Upload className="w-6 h-6 text-[#d4af37]" />
+                          <div className="bg-[var(--gold-500)]/10 p-3 rounded-xl mb-3 group-hover:scale-110 group-hover:bg-[var(--gold-500)]/20 transition-all">
+                            <Upload className="w-6 h-6 text-[var(--gold-500)]" />
                           </div>
                           <span className="text-sm font-bold text-slate-700">Click to upload logo</span>
                           <span className="text-xs text-slate-500 mt-1">PNG, JPG, SVG or PDF (Max. 1MB)</span>
                         </div>
                       ) : (
-                        <div className="border border-slate-200 rounded-2xl p-5 flex flex-col gap-4 bg-slate-50">
+                        <div className="border border-slate-200 rounded-xl p-5 flex flex-col gap-4 bg-slate-50">
                           <div className="flex items-center gap-4">
-                            <div className="w-16 h-16 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
+                            <div className="w-16 h-12 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
                               {customizationLogo.startsWith('data:image/') || customizationLogo.startsWith('http') ? (
                                 <img src={customizationLogo} alt="Logo" className="w-full h-full object-contain p-1" />
                               ) : (
@@ -359,8 +360,8 @@ export default function ProductDetails() {
                               )}
                             </div>
                             <div className="flex-1 truncate">
-                              <p className="text-sm font-bold text-[#0F172A] truncate">{customizationLogoName || 'Uploaded Logo'}</p>
-                              <p className="text-[10px] uppercase tracking-wider text-[#d4af37] font-bold mt-1">Ready for print</p>
+                              <p className="text-sm font-bold text-[var(--navy-800)] truncate">{customizationLogoName || 'Uploaded Logo'}</p>
+                              <p className="text-[10px] uppercase tracking-wider text-[var(--gold-500)] font-bold mt-1">Ready for print</p>
                             </div>
                             <Button variant="ghost" size="icon" className="shrink-0 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-xl bg-white border shadow-sm border-slate-200" onClick={() => { setCustomizationLogo(null); setCustomizationLogoName(null); }}>
                                <XIcon className="w-4 h-4" />
@@ -370,19 +371,19 @@ export default function ProductDetails() {
                           <div className="border-t border-slate-200 pt-4">
                             <Label className="mb-3 block font-bold text-slate-700">Logo Print Size</Label>
                             <div className="grid grid-cols-2 gap-3 text-sm">
-                              <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'small' ? 'bg-[#d4af37]/10 border-[#d4af37] font-bold text-[#0F172A]' : 'bg-white border-slate-200 hover:border-[#d4af37]/50 font-medium text-slate-600'}`}>
+                              <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'small' ? 'bg-[var(--gold-500)]/10 border-[var(--gold-500)] font-bold text-[var(--navy-800)]' : 'bg-white border-slate-200 hover:border-[var(--gold-500)]/50 font-medium text-slate-600'}`}>
                                 <input type="radio" className="hidden" name="logosize" checked={logoSize === 'small'} onChange={() => setLogoSize('small')} />
                                 Small (+₹{pSmallLogo})
                               </label>
-                              <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'medium' ? 'bg-[#d4af37]/10 border-[#d4af37] font-bold text-[#0F172A]' : 'bg-white border-slate-200 hover:border-[#d4af37]/50 font-medium text-slate-600'}`}>
+                              <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'medium' ? 'bg-[var(--gold-500)]/10 border-[var(--gold-500)] font-bold text-[var(--navy-800)]' : 'bg-white border-slate-200 hover:border-[var(--gold-500)]/50 font-medium text-slate-600'}`}>
                                 <input type="radio" className="hidden" name="logosize" checked={logoSize === 'medium'} onChange={() => setLogoSize('medium')} />
                                 Medium (+₹{pMedLogo})
                               </label>
-                              <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'large' ? 'bg-[#d4af37]/10 border-[#d4af37] font-bold text-[#0F172A]' : 'bg-white border-slate-200 hover:border-[#d4af37]/50 font-medium text-slate-600'}`}>
+                              <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'large' ? 'bg-[var(--gold-500)]/10 border-[var(--gold-500)] font-bold text-[var(--navy-800)]' : 'bg-white border-slate-200 hover:border-[var(--gold-500)]/50 font-medium text-slate-600'}`}>
                                 <input type="radio" className="hidden" name="logosize" checked={logoSize === 'large'} onChange={() => setLogoSize('large')} />
                                 Large (+₹{pLargeLogo})
                               </label>
-                              <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'full' ? 'bg-[#d4af37]/10 border-[#d4af37] font-bold text-[#0F172A]' : 'bg-white border-slate-200 hover:border-[#d4af37]/50 font-medium text-slate-600'}`}>
+                              <label className={`cursor-pointer border-2 rounded-xl p-3 text-center transition-colors ${logoSize === 'full' ? 'bg-[var(--gold-500)]/10 border-[var(--gold-500)] font-bold text-[var(--navy-800)]' : 'bg-white border-slate-200 hover:border-[var(--gold-500)]/50 font-medium text-slate-600'}`}>
                                 <input type="radio" className="hidden" name="logosize" checked={logoSize === 'full'} onChange={() => setLogoSize('full')} />
                                 Full Wrap (+₹{pFullWrap})
                               </label>
@@ -404,7 +405,7 @@ export default function ProductDetails() {
                     <div className="space-y-3 flex flex-col justify-start">
                       <Label htmlFor="custom-text" className="flex justify-between font-bold text-slate-700">
                         <span>Custom Text / Employee Name</span>
-                        <span className="text-xs text-[#d4af37] font-bold">+₹{pTextPrint}</span>
+                        <span className="text-xs text-[var(--gold-500)] font-bold">+₹{pTextPrint}</span>
                       </Label>
                       <div className="relative">
                         <Edit3 className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
@@ -413,13 +414,13 @@ export default function ProductDetails() {
                           placeholder="e.g. John Doe / Best Employee" 
                           value={customizationText}
                           onChange={(e) => setCustomizationText(e.target.value)}
-                          className="pl-12 h-12 rounded-xl border-slate-200 focus-visible:ring-[#d4af37] text-base"
+                          className="pl-12 h-12 rounded-xl border-slate-200 focus-visible:ring-[var(--gold-500)] text-base"
                         />
                       </div>
                       <p className="text-[11px] uppercase tracking-wider text-slate-500 font-bold mt-1">Will be engraved or printed cleanly on the product.</p>
                       
                       {currentCustomizationCharge > 0 && (
-                        <div className="mt-6 p-4 bg-[#0F172A] rounded-xl border border-[#0F172A] flex justify-between items-center text-sm font-bold text-[#d4af37] shadow-xl">
+                        <div className="mt-6 p-4 bg-[var(--navy-800)] rounded-xl border border-[var(--navy-800)] flex justify-between items-center text-sm font-bold text-[var(--gold-500)] shadow-xl">
                           <span>Customization Total:</span>
                           <span>+ {formatCurrency(currentCustomizationCharge)}</span>
                         </div>
@@ -446,9 +447,9 @@ export default function ProductDetails() {
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-slate-700 w-32 tracking-wide uppercase text-[11px]">Availability:</span>
                   <span className={
-                    product.availabilityStatus === 'in_stock' ? "text-[#10B981] font-bold px-3 py-1.5 bg-[#10B981]/10 border border-[#10B981]/20 rounded-md uppercase tracking-wider text-[10px]" : 
+                    product.availabilityStatus === 'in_stock' ? "text-emerald-700 font-semibold px-2.5 py-1 bg-emerald-50 border border-emerald-200 rounded-md uppercase tracking-[0.12em] text-[10px]" : 
                     product.availabilityStatus === 'temporarily_unavailable' ? "text-red-600 font-bold px-3 py-1 bg-red-500/10 border border-red-200 rounded-md uppercase tracking-wider text-[10px]" : 
-                    "text-[#0F172A] font-bold px-3 py-1.5 bg-slate-200/50 border border-slate-300 rounded-md uppercase tracking-wider text-[10px]"
+                    "text-[var(--navy-800)] font-bold px-3 py-1.5 bg-slate-200/50 border border-slate-300 rounded-md uppercase tracking-wider text-[10px]"
                   }>
                     {product.availabilityStatus === 'in_stock' ? 'In Stock (Check Details)' : 
                      product.availabilityStatus === 'available_on_request' ? 'Available on Request' : 
@@ -472,7 +473,7 @@ export default function ProductDetails() {
                 {product.minOrderQuantity && product.minOrderQuantity > 1 && (
                   <div className="flex items-center gap-2 mt-1">
                     <span className="font-bold text-slate-700 w-32 tracking-wide uppercase text-[11px]">Min Order:</span>
-                    <span className="text-[#d4af37] font-bold text-[11px] bg-[#d4af37]/10 px-2.5 py-1 rounded-md uppercase tracking-wider">
+                    <span className="text-[var(--gold-500)] font-bold text-[11px] bg-[var(--gold-500)]/10 px-2.5 py-1 rounded-md uppercase tracking-wider">
                       {product.minOrderQuantity} Units Required
                     </span>
                   </div>
@@ -482,15 +483,15 @@ export default function ProductDetails() {
               {product.availabilityStatus !== 'temporarily_unavailable' && (
                 <div className="flex items-center gap-2 text-sm mt-6">
                   <span className="font-bold text-slate-700 w-32 tracking-wide uppercase text-[11px]">Quantity:</span>
-                  <div className="flex items-center border border-slate-200 bg-white rounded-xl h-12 w-32 shadow-sm focus-within:ring-2 focus-within:ring-[#d4af37]/20 focus-within:border-[#d4af37] transition-all">
+                  <div className="flex items-center border border-slate-200 bg-white rounded-xl h-12 w-32 shadow-sm focus-within:ring-2 focus-within:ring-[var(--gold-500)]/20 focus-within:border-[var(--gold-500)] transition-all">
                     <button 
-                      className="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-600 font-bold transition-colors rounded-l-xl text-lg hover:text-[#0F172A]"
+                      className="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-600 font-bold transition-colors rounded-l-xl text-lg hover:text-[var(--navy-800)]"
                       onClick={() => setQuantity(Math.max(product.minOrderQuantity || 1, quantity - 1))}
                       disabled={quantity <= (product.minOrderQuantity || 1)}
                     >-</button>
-                    <span className="flex-1 text-center font-bold text-[#0F172A] text-lg">{quantity}</span>
+                    <span className="flex-1 text-center font-bold text-[var(--navy-800)] text-lg">{quantity}</span>
                     <button 
-                      className="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-600 font-bold transition-colors rounded-r-xl text-lg hover:text-[#0F172A]"
+                      className="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-600 font-bold transition-colors rounded-r-xl text-lg hover:text-[var(--navy-800)]"
                       onClick={() => {
                         if (product.availabilityStatus === 'in_stock' && quantity >= product.stock) {
                           toast.error('Requested quantity exceeds available stock.');
@@ -508,7 +509,7 @@ export default function ProductDetails() {
                <Button 
                 size="lg" 
                 variant="outline"
-                className="flex-1 text-[15px] font-bold rounded-xl h-14 text-slate-700 transition-all uppercase tracking-widest bg-white border-slate-200 shadow-sm" 
+                className="flex-1 text-[15px] font-bold rounded-xl h-11 text-slate-700 transition-all uppercase tracking-widest bg-white border-slate-200 shadow-sm" 
                 onClick={handleAddToCart} 
                 disabled={product.availabilityStatus === 'temporarily_unavailable'}
                >
@@ -516,13 +517,13 @@ export default function ProductDetails() {
                </Button>
                <Button 
                 size="lg" 
-                className="flex-1 text-[15px] font-bold rounded-xl h-14 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] shadow-sm transition-all uppercase tracking-widest" 
+                className="flex-1 text-[15px] font-bold rounded-xl h-11 bg-[var(--gold-500)] hover:bg-[var(--gold-400)] text-[var(--navy-800)] shadow-sm transition-all uppercase tracking-widest" 
                 onClick={handleBuyNow} 
                 disabled={product.availabilityStatus === 'temporarily_unavailable'}
                >
                  Request Order
                </Button>
-               <Button size="icon" variant="outline" className={`w-14 h-14 shrink-0 rounded-xl border-slate-200 bg-white shadow-sm hover:border-red-200 hover:bg-red-50 transition-colors ${isWishlisted ? 'border-red-200 bg-red-50 shadow-inner' : ''}`} onClick={handleToggleWishlist}>
+               <Button size="icon" variant="outline" className={`w-14 h-11 shrink-0 rounded-xl border-slate-200 bg-white shadow-sm hover:border-red-200 hover:bg-red-50 transition-colors ${isWishlisted ? 'border-red-200 bg-red-50 shadow-inner' : ''}`} onClick={handleToggleWishlist}>
                  <Heart className={`w-6 h-6 transition-colors ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-slate-400 hover:text-red-500'}`} />
                </Button>
             </div>
@@ -530,15 +531,14 @@ export default function ProductDetails() {
             <Button
               size="lg"
               variant="outline"
-              className="w-full mt-4 h-14 rounded-xl font-bold uppercase tracking-widest text-[#10B981] border-[#10B981] hover:bg-[#10B981] hover:text-white transition-colors shadow-sm"
-              onClick={() => {
-                const message = encodeURIComponent(`Hi Aureva,\n\nI want to order this product:\n\n*${product.name}*\nPrice: ${formatCurrency(priceWithGst)}\nLink: ${window.location.href}`);
-                const whatsappNumber = settings?.adminWhatsApp || '919825622421';
-                const cleanNumber = String(whatsappNumber).replace(/[^0-9]/g, '');
-                window.open(`https://wa.me/${cleanNumber}?text=${message}`, '_blank');
-              }}
+              className="w-full mt-3 h-11 rounded-lg font-semibold uppercase tracking-[0.12em] text-[13px] bg-[#25D366] text-white border-transparent hover:bg-[#1eb457] transition-colors"
+              onClick={() => openWhatsApp(settings?.adminWhatsApp, productInquiryMessage({
+                name: product.name,
+                price: priceWithGst,
+                minOrderQuantity: product.minOrderQuantity,
+              }))}
             >
-              Order via WhatsApp
+              Inquire on WhatsApp
             </Button>
 
             <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-slate-200">
@@ -547,7 +547,7 @@ export default function ProductDetails() {
                     <Truck className="w-6 h-6" />
                  </div>
                  <div>
-                   <h4 className="font-bold text-[#0F172A] tracking-tight">Free Delivery</h4>
+                   <h4 className="font-bold text-[var(--navy-800)] tracking-tight">Free Delivery</h4>
                    <p className="text-[12px] font-medium text-slate-500 mt-0.5">On orders over ₹5000</p>
                  </div>
                </div>
@@ -556,7 +556,7 @@ export default function ProductDetails() {
                     <ShieldCheck className="w-6 h-6" />
                  </div>
                  <div>
-                   <h4 className="font-bold text-[#0F172A] tracking-tight">Secure Payment</h4>
+                   <h4 className="font-bold text-[var(--navy-800)] tracking-tight">Secure Payment</h4>
                    <p className="text-[12px] font-medium text-slate-500 mt-0.5">100% safe transaction</p>
                  </div>
                </div>
