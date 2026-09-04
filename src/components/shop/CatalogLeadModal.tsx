@@ -8,7 +8,6 @@ import { toast } from 'sonner';
 import { addDoc, collection, serverTimestamp, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { AurevaLogo } from '../ui/AurevaLogo';
-import { generateCatalogPDF } from '../../lib/catalogGenerator';
 import { useAuthStore } from '../../store/authStore';
 
 interface CatalogLeadModalProps {
@@ -140,7 +139,10 @@ export function CatalogLeadModal({ isOpen, onClose }: CatalogLeadModalProps) {
       await addDoc(collection(db, 'catalogLeads'), leadData);
       localStorage.setItem('lastCatalogRequest', Date.now().toString());
 
-      // Generate PDF
+      // Fetched only when someone actually asks for the catalog. This modal is
+      // mounted on every page, so a static import put the whole PDF library
+      // (~380 KB) into the first load for every visitor.
+      const { generateCatalogPDF } = await import('../../lib/catalogGenerator');
       await generateCatalogPDF(products, "AUREVA Corporate Gifting", catalogType, specificCategory);
 
       setStep('success');

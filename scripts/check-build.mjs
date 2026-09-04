@@ -8,7 +8,7 @@
  *
  * Runs on the build output, so it needs no browser and cannot flake.
  */
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const DIST = 'dist';
@@ -34,6 +34,17 @@ for (const ref of refs) {
 }
 check('every referenced asset exists',
       refs.every(r => existsSync(join(DIST, r.replace(/^\//, '').split('?')[0]))));
+
+// Admin-only libraries must not be in the first load. Naming a chunk in
+// manualChunks puts it in the entry's preload set, which is how 720 KB of
+// charting and PDF code ended up on the homepage.
+const preloaded = [...html.matchAll(/<link rel="modulepreload"[^>]*href="([^"]+)"/g)].map(m => m[1]);
+const entryBytes = [...new Set([...refs, ...preloaded])]
+  .map(r => join(DIST, r.replace(/^\//, '').split('?')[0]))
+  .filter(existsSync)
+  .reduce((n, f) => n + statSync(f).size, 0);
+check(`first visit stays under 1.6 MB (currently ${Math.round(entryBytes / 1024)} KB)`,
+      entryBytes < 1.6 * 1024 * 1024);
 
 // The product photos are served as plain files, so a missing folder means every
 // imported product silently falls back to the placeholder.
