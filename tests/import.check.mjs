@@ -16,6 +16,7 @@ const files = readdirSync('imports')
   .filter(f => f.endsWith('.json') && f !== 'powerplus-ALL.json')
   .sort();
 let total = 0;
+const partCounts = new Map();
 const skus = new Map();
 
 for (const f of files) {
@@ -30,6 +31,7 @@ for (const f of files) {
       name: r.name, description: r.description || '', sku: r.sku || '', categoryId: r.categoryId || '',
       basePrice: Number(r.basePrice ?? 0), gstPercent: Number(r.gstPercent ?? 18),
       stock: Number(r.stock ?? 0), enabled: r.enabled === true,
+      mrp: Number(r.mrp ?? 0),
       minOrderQuantity: Number(r.minOrderQuantity ?? 1),
       availabilityStatus: r.availabilityStatus || 'available_on_request',
       images: r.images || [], createdAt: serverTimestamp(),
@@ -37,16 +39,21 @@ for (const f of files) {
   }
   await assertSucceeds(batch.commit());
   total += rows.length;
+  partCounts.set(f, rows.length);
   console.log(`  ${f}: ${rows.length} products`);
 }
 
 // The aggregate must equal the sum of the parts, or an import of ALL would
 // silently ship something different from the files that were checked.
+// Only the powerplus-* parts make up the aggregate; other suppliers import
+// from their own file and must not be counted into it.
 const combined = JSON.parse(readFileSync('imports/powerplus-ALL.json', 'utf8'));
+const parts = files.filter(f => f.startsWith('powerplus-'));
+const partTotal = parts.reduce((n, f) => n + partCounts.get(f), 0);
 const partSkus = new Set();
-for (const f of files) JSON.parse(readFileSync(`imports/${f}`, 'utf8')).forEach(r => partSkus.add(r.sku));
+for (const f of parts) JSON.parse(readFileSync(`imports/${f}`, 'utf8')).forEach(r => partSkus.add(r.sku));
 const combinedSkus = new Set(combined.map(r => r.sku));
-if (combined.length !== total) throw new Error(`powerplus-ALL.json has ${combined.length} rows, the parts have ${total}`);
+if (combined.length !== partTotal) throw new Error(`powerplus-ALL.json has ${combined.length} rows, the parts have ${partTotal}`);
 for (const sku of partSkus) if (!combinedSkus.has(sku)) throw new Error(`powerplus-ALL.json is missing sku ${sku}`);
 console.log(`\npowerplus-ALL.json matches the parts: ${combined.length} rows, ${combinedSkus.size} distinct skus`);
 

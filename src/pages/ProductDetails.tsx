@@ -281,7 +281,13 @@ export default function ProductDetails() {
             {product.categoryId && (
               <Badge variant="outline" className="w-fit mb-4 bg-slate-100/50 text-slate-600 border-slate-200">{product.categoryId}</Badge>
             )}
-            <h1 className="text-[1.75rem] md:text-[2rem] font-bold font-display text-[var(--navy-800)] tracking-tight mb-4 leading-tight">{product.name}</h1>
+            <h1 className="text-[1.75rem] md:text-[2rem] font-bold font-display text-[var(--navy-800)] tracking-tight mb-2 leading-tight">{product.name}</h1>
+            {/* Buyers quote this code back to us, so it belongs on the page. */}
+            {product.sku && (
+              <p className="mb-4 text-[12px] uppercase tracking-[0.14em] text-slate-400">
+                Product code <span className="font-semibold text-slate-600">{product.sku}</span>
+              </p>
+            )}
             
             <div className="flex items-center gap-4 mb-6 text-sm text-slate-500 font-medium">
                <div className="flex text-[var(--gold-500)]">
@@ -541,8 +547,10 @@ export default function ProductDetails() {
               className="w-full mt-3 h-11 rounded-lg font-semibold uppercase tracking-[0.12em] text-[13px] bg-[#25D366] text-white border-transparent hover:bg-[#1eb457] transition-colors"
               onClick={() => openWhatsApp(settings?.adminWhatsApp, productInquiryMessage({
                 name: product.name,
+                sku: product.sku,
                 price: priceWithGst,
                 minOrderQuantity: product.minOrderQuantity,
+                images: product.images,
               }))}
             >
               Inquire on WhatsApp

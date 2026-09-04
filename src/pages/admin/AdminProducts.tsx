@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs, doc, deleteDoc, updateDoc, setDoc, serverTimestamp, writeBatch } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, deleteDoc, updateDoc, setDoc, deleteField, serverTimestamp, writeBatch } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { ProductData } from '../../components/shop/ProductCard';
 import { Button } from '../../components/ui/button';
@@ -7,13 +7,23 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/dialog';
-import { ArrowLeft, Plus, Edit, Trash2, Image as ImageIcon, Database, Search, Download } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Trash2, Image as ImageIcon, Database, Search, Download, Lock } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { toast } from 'sonner';
 import { ProductImportDialog } from '../../components/admin/ProductImportDialog';
 import { Link } from 'react-router-dom';
 
 import { generateCatalogPDF } from '../../lib/catalogGenerator';
+import { PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
+
+const EMPTY_FORM = {
+  name: '', description: '', sku: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18',
+  stock: '', imageUrl: '', categoryId: '',
+  smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '',
+  nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '',
+  minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready',
+  supplierName: '', supplierContact: '', supplierNotes: '',
+};
 
 export default function AdminProducts() {
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -23,13 +33,7 @@ export default function AdminProducts() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkBusy, setBulkBusy] = useState(false);
   const [isGeneratingCatalog, setIsGeneratingCatalog] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '', description: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '',
-    smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '',
-    nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '',
-    minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready',
-    supplierName: '', supplierContact: '', supplierNotes: ''
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
 
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -45,12 +49,53 @@ export default function AdminProducts() {
     setLoading(true);
     try {
       const snapshot = await getDocs(collection(db, 'products'));
-      setProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ProductData)));
+      await moveSupplierDetailsOffPublicProducts(snapshot.docs);
+      setProducts(snapshot.docs.map(d => {
+        // The snapshot predates the migration above, so drop the field here
+        // too rather than holding supplier data in the page's state.
+        const { supplierInfo, ...rest } = d.data() as Record<string, unknown>;
+        void supplierInfo;
+        return { id: d.id, ...rest } as ProductData;
+      }));
     } catch (error: any) {
       toast.error(`Could not load products: ${error?.message || 'unknown error'}`);
       console.error('product load failed', error);
     } finally {
       setLoading(false);
+    }
+  }
+
+  /**
+   * Earlier versions of this form wrote supplierInfo onto the product itself,
+   * and products are readable by anyone — so dealer names and costs were
+   * public. Move any that remain into product_private the first time an admin
+   * opens this page. Products no longer accept the field, so leaving one in
+   * place would also make that product un-editable.
+   */
+  async function moveSupplierDetailsOffPublicProducts(docs: any[]) {
+    const stale = docs.filter(d => d.data().supplierInfo);
+    if (stale.length === 0) return;
+    try {
+      const CHUNK = 200; // two writes per product, and a batch caps at 500.
+      for (let i = 0; i < stale.length; i += CHUNK) {
+        const batch = writeBatch(db);
+        for (const d of stale.slice(i, i + CHUNK)) {
+          const info = d.data().supplierInfo || {};
+          batch.set(doc(db, 'product_private', d.id), {
+            supplierName: info.supplierName || '',
+            contact: info.contact || '',
+            notes: info.notes || '',
+            lastPrice: typeof info.lastPrice === 'number' ? info.lastPrice : null,
+            updatedAt: serverTimestamp(),
+          }, { merge: true });
+          batch.update(doc(db, 'products', d.id), { supplierInfo: deleteField() });
+        }
+        await batch.commit();
+      }
+      toast.success(`Supplier details for ${stale.length} product${stale.length === 1 ? '' : 's'} are now admin-only.`);
+    } catch (error: any) {
+      toast.error(`Could not secure supplier details: ${error?.message || 'unknown error'}`);
+      console.error('supplier migration failed', error);
     }
   }
 
@@ -148,6 +193,7 @@ export default function AdminProducts() {
       const productPayload = {
         name: formData.name,
         description: formData.description,
+        sku: formData.sku.trim(),
         basePrice: Number(formData.basePrice),
         mrp: formData.mrp ? Number(formData.mrp) : 0,
         discountPercent: formData.discountPercent ? Number(formData.discountPercent) : 0,
@@ -165,30 +211,38 @@ export default function AdminProducts() {
         minOrderQuantity: formData.minOrderQuantity ? Number(formData.minOrderQuantity) : 1,
         availabilityStatus: formData.availabilityStatus || 'in_stock',
         estimatedProcurementTime: formData.estimatedProcurementTime || 'ready',
-        supplierInfo: {
-          supplierName: formData.supplierName,
-          contact: formData.supplierContact,
-          notes: formData.supplierNotes
-        },
+        // Who we buy from and at what price is deliberately absent: products
+        // are readable by anyone. It goes to product_private below.
         enabled: true,
       };
 
+      const supplierPayload = {
+        supplierName: formData.supplierName.trim(),
+        contact: formData.supplierContact.trim(),
+        notes: formData.supplierNotes.trim(),
+        updatedAt: serverTimestamp(),
+      };
+
+      const productId = editingId || `prod-${Date.now()}`;
       if (editingId) {
-        await updateDoc(doc(db, 'products', editingId), { 
-          ...productPayload, 
-          updatedAt: serverTimestamp() 
+        await updateDoc(doc(db, 'products', productId), {
+          ...productPayload,
+          // Clears the copy older versions of this form wrote onto the public
+          // document. deleteField needs update or a merging set, so it cannot
+          // sit in the payload the create path uses.
+          supplierInfo: deleteField(),
+          updatedAt: serverTimestamp(),
         });
-        toast.success('Product updated successfully');
       } else {
-        const newId = `prod-${Date.now()}`;
-        await setDoc(doc(db, 'products', newId), {
+        await setDoc(doc(db, 'products', productId), {
           ...productPayload,
           createdAt: serverTimestamp(),
         });
-        toast.success('Product created successfully');
       }
+      await setDoc(doc(db, 'product_private', productId), supplierPayload, { merge: true });
+      toast.success(editingId ? 'Product updated successfully' : 'Product created successfully');
       
-      setFormData({ name: '', description: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '', minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready', supplierName: '', supplierContact: '', supplierNotes: '' });
+      setFormData(EMPTY_FORM);
       setEditingId(null);
       setIsDialogOpen(false);
       loadProducts();
@@ -203,11 +257,12 @@ export default function AdminProducts() {
     }
   };
 
-  const openEditDialog = (product: ProductData) => {
+  const openEditDialog = async (product: ProductData) => {
     setEditingId(product.id);
     setFormData({
       name: product.name,
       description: product.description,
+      sku: product.sku || '',
       basePrice: product.basePrice.toString(),
       mrp: product.mrp ? product.mrp.toString() : '',
       discountPercent: product.discountPercent ? product.discountPercent.toString() : '',
@@ -225,11 +280,25 @@ export default function AdminProducts() {
       minOrderQuantity: product.minOrderQuantity ? product.minOrderQuantity.toString() : '',
       availabilityStatus: product.availabilityStatus || 'in_stock',
       estimatedProcurementTime: product.estimatedProcurementTime || 'ready',
-      supplierName: product.supplierInfo?.supplierName || '',
-      supplierContact: product.supplierInfo?.contact || '',
-      supplierNotes: product.supplierInfo?.notes || ''
+      supplierName: '', supplierContact: '', supplierNotes: '',
     });
     setIsDialogOpen(true);
+
+    // Supplier details live in a collection customers cannot read, so they
+    // arrive a moment after the rest of the form.
+    try {
+      const snap = await getDoc(doc(db, 'product_private', product.id));
+      if (!snap.exists()) return;
+      const info = snap.data() as { supplierName?: string; contact?: string; notes?: string };
+      setFormData(current => ({
+        ...current,
+        supplierName: info.supplierName || '',
+        supplierContact: info.contact || '',
+        supplierNotes: info.notes || '',
+      }));
+    } catch (error: any) {
+      toast.error(`Could not load supplier details: ${error?.message || 'unknown error'}`);
+    }
   };
 
 
@@ -360,7 +429,7 @@ export default function AdminProducts() {
             setIsDialogOpen(open);
             if (!open) {
               setEditingId(null);
-              setFormData({ name: '', description: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18', stock: '', imageUrl: '', categoryId: '', smallLogoCharge: '', mediumLogoCharge: '', largeLogoCharge: '', fullWrapCharge: '', nameEngravingCharge: '', textPrintingCharge: '', customMessageCharge: '', minOrderQuantity: '', availabilityStatus: 'in_stock', estimatedProcurementTime: 'ready', supplierName: '', supplierContact: '', supplierNotes: '' });
+              setFormData(EMPTY_FORM);
             }
           }}>
             <DialogTrigger render={<Button className="gap-2 bg-[#d4af37] hover:bg-[#F4C542] text-[#0F172A] font-bold rounded-xl h-10 shadow-sm" />}>
@@ -382,6 +451,13 @@ export default function AdminProducts() {
                 <div className="grid gap-2">
                   <Label htmlFor="description">Description</Label>
                   <Textarea id="description" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} required />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="sku">Product Code</Label>
+                  <Input id="sku" placeholder="e.g. AC15948121-1" value={formData.sku} onChange={e => setFormData({...formData, sku: e.target.value})} />
+                  <p className="text-[11px] text-slate-500">
+                    The dealer's catalog code. Shown to customers and included in every WhatsApp inquiry.
+                  </p>
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="grid gap-2">
@@ -444,7 +520,11 @@ export default function AdminProducts() {
                   </div>
                 </div>
 
-                <Label className="mt-2 text-sm font-semibold border-b pb-1">Supplier & MOQ Settings</Label>
+                <Label className="mt-2 text-sm font-semibold border-b pb-1">Supplier &amp; MOQ Settings</Label>
+                <p className="-mt-2 flex items-center gap-1.5 text-[11px] text-slate-500">
+                  <Lock className="h-3 w-3" />
+                  Dealer name, contact and notes are visible to admins only. Customers never see them.
+                </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/30 p-3 rounded-lg border">
                   <div className="grid gap-2">
                     <Label htmlFor="minOrderQuantity">Min Order Quantity</Label>
@@ -470,8 +550,8 @@ export default function AdminProducts() {
                     </select>
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="supplierName">Supplier Name</Label>
-                    <Input id="supplierName" placeholder="Supplier" value={formData.supplierName} onChange={e => setFormData({...formData, supplierName: e.target.value})} />
+                    <Label htmlFor="supplierName">Dealer / Supplier Name</Label>
+                    <Input id="supplierName" placeholder="e.g. Nexon Gifts" value={formData.supplierName} onChange={e => setFormData({...formData, supplierName: e.target.value})} />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="supplierContact">Supplier Contact</Label>
@@ -479,7 +559,7 @@ export default function AdminProducts() {
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="supplierNotes">Procurement Notes</Label>
-                    <Input id="supplierNotes" placeholder="Cost, backup supplier..." value={formData.supplierNotes} onChange={e => setFormData({...formData, supplierNotes: e.target.value})} />
+                    <Input id="supplierNotes" placeholder="Your buying cost, backup dealer..." value={formData.supplierNotes} onChange={e => setFormData({...formData, supplierNotes: e.target.value})} />
                   </div>
                 </div>
 
@@ -629,14 +709,21 @@ export default function AdminProducts() {
                               alt={product.name} 
                               className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" 
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400';
+                                // Falling back to a stock photo made a broken
+                                // image look like a real product.
+                                (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER;
                               }}
                             />
                           ) : (
                             <ImageIcon className="h-5 w-5 text-slate-400" />
                           )}
                         </div>
-                        <div className="font-bold text-[#0F172A] line-clamp-2 max-w-[200px] leading-snug">{product.name}</div>
+                        <div className="max-w-[200px]">
+                          <div className="font-bold text-[#0F172A] line-clamp-2 leading-snug">{product.name}</div>
+                          {product.sku && (
+                            <div className="mt-0.5 text-[11px] text-slate-500">Code {product.sku}</div>
+                          )}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-5">

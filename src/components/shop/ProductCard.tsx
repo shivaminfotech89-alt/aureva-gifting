@@ -41,13 +41,6 @@ export interface ProductData {
   minOrderQuantity?: number;
   availabilityStatus?: 'in_stock' | 'available_on_request' | 'bulk_only' | 'custom_production' | 'temporarily_unavailable';
   estimatedProcurementTime?: 'ready' | '2_3_days' | '5_7_days' | '7_10_days';
-  supplierInfo?: {
-    supplierName?: string;
-    contact?: string;
-    backupSupplier?: string;
-    notes?: string;
-    lastPrice?: number;
-  };
 }
 
 export function ProductCard({ product }: { product: ProductData }) {
@@ -97,8 +90,10 @@ export function ProductCard({ product }: { product: ProductData }) {
     e.stopPropagation();
     openWhatsApp(settings?.adminWhatsApp, productInquiryMessage({
       name: product.name,
+      sku: product.sku,
       price: discountedPrice,
       minOrderQuantity: product.minOrderQuantity,
+      images: product.images,
       path: `/product/${product.id}`,
     }));
   };
@@ -154,6 +149,9 @@ export function ProductCard({ product }: { product: ProductData }) {
           <h3 className="font-display line-clamp-2 text-[15px] leading-snug text-[var(--navy-800)] transition-colors group-hover:text-[var(--gold-600)]">
             {product.name}
           </h3>
+          {product.sku && (
+            <p className="mt-1 text-[10.5px] uppercase tracking-[0.1em] text-slate-400">Code {product.sku}</p>
+          )}
           <p className="mt-1.5 line-clamp-2 text-[12.5px] leading-relaxed text-slate-500">{product.description}</p>
 
           <div className="mt-4 flex items-end justify-between border-t border-slate-100 pt-3.5">
