@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -10,6 +10,9 @@
   --color-foreground: var(--foreground);
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  /* Display face for redesigned pages. font-serif above is kept as-is so
+     pages not yet redesigned render exactly as before. */
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-mono: var(--font-mono);
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -63,6 +66,14 @@
   --input: #e2e8f0;
   --ring: #d4af37;
   --radius: 0.5rem;
+
+  /* Brand palette. Navy and gold only - no third accent colour. */
+  --navy-900: #0b1220;
+  --navy-800: #0f172a;
+  --navy-700: #16213b;
+  --gold-400: #e5c869;
+  --gold-500: #d4af37;
+  --gold-600: #b5952f;
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 }
 
