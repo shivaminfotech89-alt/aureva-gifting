@@ -1,0 +1,546 @@
+[
+ {
+  "sku": "A 133",
+  "name": "See Thru Clock with Temperature",
+  "categoryId": "Clocks",
+  "description": "See through clock with large branding area. LCD display of time, month, date, day and temperature. 100 year calendar. Can be used as a wall or table clock.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 86",
+  "name": "See Thru Table Clock",
+  "categoryId": "Clocks",
+  "description": "See through table clock. LCD display of time, month, date, day and temperature. 100 year calendar, alarm with snooze, temperature in Celsius and Fahrenheit.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 151",
+  "name": "TimeWave Nano Capsule Style Clock with Bluetooth Speaker",
+  "categoryId": "Clocks",
+  "description": "Capsule style clock with Bluetooth speaker, mirror finish display, FM and TF card reader. 1200 mAh rechargeable battery, auto set time via Bluetooth.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "A 153",
+  "name": "TimeWave Plus Square Display Clock with Bluetooth Speaker and RGB Lights",
+  "categoryId": "Clocks",
+  "description": "Square display clock with Bluetooth speaker, RGB multi-colour light, mirror finish display, FM radio and TF card reader. 1200 mAh rechargeable battery.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "A 155",
+  "name": "TimeWave Ultra Large Clock with Bluetooth Speaker and Mobile Stand",
+  "categoryId": "Clocks",
+  "description": "Large clock with dual Bluetooth speakers, mobile stand, RGB lights, mirror finish display, FM and TF card reader. 1200 mAh rechargeable battery.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "A 125",
+  "name": "Night Lamp Clock with Alarm and Super Sweep Movement",
+  "categoryId": "Clocks",
+  "description": "Analogue clock with alarm, super sweep movement and 3 level backlight night lamp. 1200 mAh rechargeable battery included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 81",
+  "name": "Backlit Table Clock",
+  "categoryId": "Clocks",
+  "description": "Backlit table clock. LCD display of time, month, date, day and temperature. 100 year calendar, alarm with snooze, count-down timer and 8 music options for alarm.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 146",
+  "name": "Omni Zippered Work Folder",
+  "categoryId": "Organizers",
+  "description": "Zippered work folder with cable slot, pen holder, notebook, mobile pocket, card pockets and a currency and documents pocket.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "B 185",
+  "name": "Premium Organizer Notebook with Card Slots",
+  "categoryId": "Organizers",
+  "description": "Hard bound organizer notebook with card slots. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 110",
+  "name": "3 Fold Eco Notebook",
+  "categoryId": "Organizers",
+  "description": "Three fold eco notebook in kappa board material with sticky notes, ruler and pen. 100 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 145",
+  "name": "Compact Stationery Kit",
+  "categoryId": "Organizers",
+  "description": "Compact stationery kit in kappa board material with ruler, pen, pencil and highlighter. 100 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 143",
+  "name": "Folding Writing Pad with Pen Loop",
+  "categoryId": "Organizers",
+  "description": "Eco friendly folding writing pad with pen loop, mobile stand and coloured sticky strips. 110 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 144",
+  "name": "Eco Notebook with Sticky Notes and Pen",
+  "categoryId": "Organizers",
+  "description": "Kappa board eco notebook with coloured sticky notes and pen. 100 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 107",
+  "name": "Cork Eco Friendly A5 Notebook with Hard Bound Cover",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 notebook in cork material. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 124A",
+  "name": "Hard Bound Cork A5 Notebook with 16 GB Pen Drive",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 cork notebook supplied with a 16 GB USB drive. Higher capacity available on request. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "B 203",
+  "name": "Cork Duomag A5 Cork Notebook with Magnetic Flap Closure",
+  "categoryId": "Eco Notebooks",
+  "description": "A5 cork notebook with magnetic flap closure and a slant design flap made of coffee cork material. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 180",
+  "name": "Cork A5 Notebook with Hard Pen Slot",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 cork notebook with a hard pen slot. The cover also serves as a phone stand. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 154",
+  "name": "A5 Size Notebook with Sticky Notes and Eco Pen",
+  "categoryId": "Eco Notebooks",
+  "description": "Wiro bound A5 notebook with sticky notes and an eco pen. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 150A",
+  "name": "Cork Magnetic Envelope Style Notebook with Recycled Pages",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound envelope style notebook in cork and PU material with recycled pages.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 132",
+  "name": "Cork A5 Notebook with Mobile Pocket and Card Holder",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 cork notebook with mobile pocket, card holder pocket and pen loop. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 126",
+  "name": "D Style Bamboo Notebook with Phone Stand",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound bamboo notebook with phone stand and elastic fastener. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 109A",
+  "name": "Cork Eco Friendly A5 Notebook",
+  "categoryId": "Eco Notebooks",
+  "description": "Soft bound A5 cork notebook with rounded edges for a refined look and extra durability. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 100",
+  "name": "Eco Friendly Sticky Pad Notebook with Clear Cover and Pen",
+  "categoryId": "Eco Notebooks",
+  "description": "Wiro bound eco notebook with clear cover, coloured sticky pads and pen. 140 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 50",
+  "name": "Eco Notebook with Pen and Sticky Pads",
+  "categoryId": "Eco Notebooks",
+  "description": "Wiro bound recycled eco notebook with pen and sticky pads. 120 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 108",
+  "name": "Bamboo A5 Size Notebook in Natural Finish",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 notebook in natural bamboo finish. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 152",
+  "name": "PU Cork Notebook with Elastic Fastener",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound PU and cork notebook with elastic fastener. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 163",
+  "name": "Cork Wiro Notebook",
+  "categoryId": "Eco Notebooks",
+  "description": "Wiro bound cork notebook with card slots and sticky notes. 160 writing pages, 70 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 153",
+  "name": "EcoFelt Notebook with Bookmark Ribbon",
+  "categoryId": "Eco Notebooks",
+  "description": "Soft bound notebook in eco friendly felt material with bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 97",
+  "name": "Smiley Cork Notepad with Sticky Notepad",
+  "categoryId": "Eco Notebooks",
+  "description": "Notepad made of biodegradable and sustainable cork material, with coloured sticky notepads.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 115",
+  "name": "Double Side Folding Notebook with Elastic Fastener",
+  "categoryId": "Notebooks",
+  "description": "Double side folding PU notebook with elastic fastener. 240 inner pages, 80 GSM. Available in blue and grey or red and black.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 199",
+  "name": "FoldBook Mail A5 Notebook with Magnetic Flap Closure",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook in envelope design with magnetic flap closure. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 200",
+  "name": "FoldBook Prime A5 Notebook with Magnetic Flap Closure and Metal Plate",
+  "categoryId": "Notebooks",
+  "description": "A5 notebook with magnetic flap closure and metal plate. 192 inner pages, 80 GSM. Available in gray, black, blue and brown.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 201",
+  "name": "FoldBook Nook A5 Notebook with Magnetic Flap Closure",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with magnetic flap closure. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 202",
+  "name": "FoldBook Stash A5 Notebook with Pockets and Pen Slot",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with magnetic flap closure, pockets and pen slot on the flap. 192 inner pages, 80 GSM. Available in gray, brown and olive.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 127",
+  "name": "Ribbon A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "A5 notebook in PU material. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 122",
+  "name": "Colorful Laser Engrave Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound PU notebook suited to colour laser engraving. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 166",
+  "name": "Leaf A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook with embossed leaf design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 186",
+  "name": "Keyboard Notebook with Metal Bookmark",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with keyboard texture and metal bookmark. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 190",
+  "name": "CityLife PU Notebook with Memorandum and Bookmark Ribbon",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with memorandum pages and bookmark ribbon. 192 inner pages, 80 GSM. Available in red, black and blue.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 189",
+  "name": "Constella PU Notebook",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with geometric line design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 147",
+  "name": "Prime Soft Feel PU Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound soft feel PU notebook. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 157",
+  "name": "Wooden Texture PU Notebook",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with wooden texture finish and pen. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 160",
+  "name": "Pyramid 3 Fold Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound three fold notebook with metal buckle. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 162",
+  "name": "Stealth 3 Fold Notebook with Long Metal Edge",
+  "categoryId": "Notebooks",
+  "description": "Three fold PU notebook with a long metal edge. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 210",
+  "name": "Foldable Writing Pad with Phone and Pen Stand",
+  "categoryId": "Notebooks",
+  "description": "Foldable writing pad with phone stand, pen stand and coloured sticky strips.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 197",
+  "name": "Classic PU Notebook with Pen Slot",
+  "categoryId": "Notebooks",
+  "description": "Classic PU notebook with pen slot. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 173",
+  "name": "Victor A5 Notebook with V Strap Closure",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with V strap closure and double bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 170",
+  "name": "A5 Notebook with Hard Pen Slot",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with hard pen slot. The cover also serves as a phone stand. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 205",
+  "name": "PenDeck Tilt Dual Tone A5 Notebook with Pen Slot and Card Slots",
+  "categoryId": "Notebooks",
+  "description": "Hard bound dual tone A5 notebook with hard pen slot and card slots. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 184",
+  "name": "Pen Loop Notebook with Stitching Design",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with pen loop and stitching design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 204",
+  "name": "Pen Loop Notebook with Vertical Stitching Design",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with pen loop and vertical stitching design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 123",
+  "name": "Ambience A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook in PU material. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 175",
+  "name": "Timeless A5 Notebook with Textured Cover",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook with textured cover. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 158",
+  "name": "Checkered 2 Tone Notebook with Bookmark Ribbon",
+  "categoryId": "Notebooks",
+  "description": "Soft bound two tone checkered notebook with bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 171",
+  "name": "Two Tone Notebook with D Flap Buckle",
+  "categoryId": "Notebooks",
+  "description": "Two tone notebook with D flap buckle and double bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 188",
+  "name": "Wave White Hard Bound Notebook with Rose Gold Leafing",
+  "categoryId": "Notebooks",
+  "description": "Hard bound notebook with wave design and rose gold leafing. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 129",
+  "name": "Dune A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook in PU material with dune texture. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 165",
+  "name": "Cloud A5 Notebook with Pen Holder Slot",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook with pen holder slot. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 128",
+  "name": "Diamond A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook in PU material with diamond texture. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 125",
+  "name": "A5 Notebook with Phone Stand and Card Pocket",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with phone stand, card pocket, mobile pocket and pen loop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 92",
+  "name": "A5 Notebook with Mobile Pocket and Card Holder",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with mobile pocket, card holder pocket and pen loop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 113",
+  "name": "Soft Gray A5 Notebook with Mobile Pocket",
+  "categoryId": "Notebooks",
+  "description": "A5 PU notebook with mobile pocket and pen loop. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 130",
+  "name": "Alpha A5 Notebook with Pen Slot",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 PU notebook with pen slot. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 142",
+  "name": "Classic A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook in imported PU material. 192 inner pages, 80 GSM. Available in 3 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 169",
+  "name": "Majestic Slant Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound notebook with slant two tone design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 137",
+  "name": "Double Strip A6 Size PU Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A6 PU notebook with double strip design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 179",
+  "name": "Slant A5 Notebook with Memorandum and Bookmark Ribbon",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with slant design, memorandum pages and bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 131",
+  "name": "Optima Two Tone A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound two tone A5 notebook. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ }
+]

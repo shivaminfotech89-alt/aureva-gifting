@@ -1,0 +1,410 @@
+[
+ {
+  "sku": "C 220",
+  "name": "PowerGlow DockPad Cork 3 Fold Mousepad with Backlit USB Hub",
+  "categoryId": "Tech Accessories",
+  "description": "Cork three fold mousepad with backlit USB hub, bamboo cable organizer and stationery organizer tray. 3 USB output and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 222",
+  "name": "PowerGlow DeskHub Bamboo Table Top with Perpetual Calendar",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with backlit USB hub, perpetual calendar, double writing pad, pen holders and stationery holder. 3 USB output and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 224",
+  "name": "PowerGlow ChargeBeat Bamboo Table Top with Bluetooth Speaker",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with Bluetooth speaker, backlit 15W fast wireless charger, mobile stand, visiting card holder, stationery holder and pen stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 229",
+  "name": "ZenCharge Time Bamboo Pen Stand with Clock",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo pen stand with digital clock, 15W wireless charger, mobile stand and pen holder.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 225",
+  "name": "PowerGlow GlowDesk Bamboo Table Top with LED Lamp",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with 3 light mode LED lamp, 15W wireless charger, pen holders, double decision dice and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 226",
+  "name": "WorkBeat Eco Bamboo Table Top with Bluetooth Speaker",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with Bluetooth speaker, perpetual calendar, mobile stand, writing pad, pen stand, stationery holder and visiting card holder that holds 30-35 cards.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 227",
+  "name": "EcoBeats Bamboo Bluetooth Speaker",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo Bluetooth speaker.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 50",
+  "name": "Glow in the Dark Dual Car Charger",
+  "categoryId": "Phone Chargers",
+  "description": "Dual USB car charger that can charge 2 devices simultaneously, with a prominent glowing imprint area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 117",
+  "name": "Wall and Car Charger Dual USB",
+  "categoryId": "Phone Chargers",
+  "description": "AC/DC dual USB charger with circuit level protection. Two devices can be charged at the same time.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 123",
+  "name": "Dual USB Fast Charger with Night Lamp",
+  "categoryId": "Phone Chargers",
+  "description": "Dual USB 3.4A fast charger with a soft LED night lamp and touch control.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 154",
+  "name": "Fast Car Charger with 4 USB Ports",
+  "categoryId": "Phone Chargers",
+  "description": "Car charger with 3 USB ports (green) at 12W fast output, short circuit and over charge protection, and a large branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 215",
+  "name": "SnapCharge Duo Car Charger with Double Retractable Wires",
+  "categoryId": "Phone Chargers",
+  "description": "Car charger with 1 USB A and 2 Type C charging ports, built-in Type C and Lightning cables and a voltage display. Supports simultaneous multi device charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 199",
+  "name": "TidyCord Retractable Fast Charging Cable with Data Function",
+  "categoryId": "Charging Cables",
+  "description": "Retractable fast charging cable with data function and 3 output heads. Super fast 60W output with dual input.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 49",
+  "name": "2 Side Cable for Android and iPhone with Light",
+  "categoryId": "Charging Cables",
+  "description": "Two in one cable for Android and iPhone with a light at the end to connect your phone in the dark. Charges as well as syncs data.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 74",
+  "name": "Magnetic 3 in 1 Charging Cable with Keychain",
+  "categoryId": "Charging Cables",
+  "description": "Magnetic three in one charging cable with keychain that transfers pictures, music and video through USB.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 81",
+  "name": "Car Charger with Keychain and Charging Cable",
+  "categoryId": "Charging Cables",
+  "description": "Car charger with keychain and dual side iOS and Android charging cable. The charger detaches to reveal the charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 82",
+  "name": "All in 1 Charging Cable with Travel Case and Keychain",
+  "categoryId": "Charging Cables",
+  "description": "All in one charging cable with travel case and keychain. Input ports USB A and USB C; output ports Micro USB, Lightning and USB Type C.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 77",
+  "name": "Lanyard Charging Cable with Lightning and Micro USB Port",
+  "categoryId": "Charging Cables",
+  "description": "Lanyard charging cable with a swivel clip so you can add keys or an ID badge. Works as a lanyard and a charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 201",
+  "name": "ZenCharge Cord Bamboo Long Fast Charging Cable with Light up Logo",
+  "categoryId": "Charging Cables",
+  "description": "Bamboo long fast charging cable with universal ports and a branding area that glows when plugged in. Dual input.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 78A",
+  "name": "Round Charging Cable with Light Up Logo",
+  "categoryId": "Charging Cables",
+  "description": "Round 60W fast charging cable with lightning port, Type C, Micro USB and USB connectors and a glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 219",
+  "name": "BamBox Charge Travel Cable Box with 15W Wireless Charger",
+  "categoryId": "Charging Cables",
+  "description": "Travel cable box with 15W wireless charger, universal connectors and ejector pin in a magnetic bamboo case. 3A fast charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 195",
+  "name": "WoodCharge Bamboo Fast Charging Cable with Universal Ports",
+  "categoryId": "Charging Cables",
+  "description": "Bamboo fast charging cable with universal ports in wheat straw material.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 203",
+  "name": "TidyCord Zen Retractable Fast Charging Cable in Wheat Straw",
+  "categoryId": "Charging Cables",
+  "description": "Retractable fast charging cable with data function in wheat straw material with a bamboo plate. Dual input.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 217",
+  "name": "BamBox Round Travel Cable Box with Universal Connectors",
+  "categoryId": "Charging Cables",
+  "description": "Round travel cable box with universal connectors and ejector pin in a magnetic bamboo case. 3A fast charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 218",
+  "name": "BamBox Square Travel Cable Box with Universal Connectors",
+  "categoryId": "Charging Cables",
+  "description": "Square travel cable box with universal connectors and ejector pin in a magnetic bamboo case. 3A fast charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 202",
+  "name": "TidyCord Pure Retractable Fast Charging Cable in Wheat Straw",
+  "categoryId": "Charging Cables",
+  "description": "Retractable fast charging cable with data function in wheat straw material. Dual input.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 233",
+  "name": "PebbleCord Retractable Type C to C Cable with Magnetic Ends",
+  "categoryId": "Charging Cables",
+  "description": "Retractable Type C to C cable with magnetic ends and 240W fast charging. Supports data function.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 234",
+  "name": "CordStand Braided Type C to C Cable with Fold Out Stand",
+  "categoryId": "Charging Cables",
+  "description": "Braided Type C to C cable with 60W fast charging. Metal arms fold out so the cable functions as a stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 194A",
+  "name": "TidyCord Box Retractable Fast Charging Cable with Sim Card Slots",
+  "categoryId": "Charging Cables",
+  "description": "Retractable fast charging cable with sim card slots in a compact case.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 230",
+  "name": "Flux 10 10,000 mAh Power Bank with Strips Design",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh high capacity power bank with 12.5W quick charging and strips design.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 231",
+  "name": "Orbit X 10 10,000 mAh Magnetic Power Bank with Wireless Charger",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh magnetic power bank with wireless charger and 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 191",
+  "name": "VoltX 10 10,000 mAh Power Bank with Display",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with digital display and 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 192",
+  "name": "ZapX 10 10,000 mAh Power Bank with Display and Built-In Cables",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with display and in-built cables. 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 232",
+  "name": "CamCharge 10 10,000 mAh Camera Style Power Bank",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh camera style power bank with integrated cables.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 193",
+  "name": "ZapX 10 Mini 10,000 mAh Power Bank with Display and Built-In Cables",
+  "categoryId": "Power Banks",
+  "description": "Compact 10,000 mAh power bank with display and in-built cables. 22.5W fast charging. Size 115 mm x 70 mm.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 211",
+  "name": "SwiftCharge 10 10,000 mAh Power Bank with Black Display Panel",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with black display panel and integrated cables. 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 213",
+  "name": "VoltDot 20 20,000 mAh Mini Power Bank with Pinstripe Design",
+  "categoryId": "Power Banks",
+  "description": "Super capacity 20,000 mAh mini power bank with pinstripe design and 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 212",
+  "name": "PowerLink 10 10,000 mAh Power Bank with Clear Display Area",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with clear display area and 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 214",
+  "name": "MagKick 10 10,000 mAh Mini Magnetic Power Bank with Kickstand",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh mini magnetic power bank with 15W wireless charger and magnetic kickstand. 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 190",
+  "name": "Strix 10 10,000 mAh Power Bank with Strips Design",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with 12.5W quick charging and strips design.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 44",
+  "name": "Power Glow Family Power Bank Set of 3 with Triple USB Ports",
+  "categoryId": "Power Banks",
+  "description": "Set of 3 power banks of 9,000 mAh with triple USB ports and a glowing logo dock.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "B 53",
+  "name": "Gel Highlighter with Keyboard Brush and Screen Cleaner",
+  "categoryId": "Workplace Utility",
+  "description": "Three in one lipstick style gel highlighter with a keyboard brush to wipe dust from your PC or laptop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 186",
+  "name": "Folding Compact Scissors",
+  "categoryId": "Workplace Utility",
+  "description": "Ultra compact scissors that fit in the space of a pen and open automatically when the cap is opened.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 151",
+  "name": "Stainless Steel Magnetic Visiting Card Holder in Cork Material",
+  "categoryId": "Workplace Utility",
+  "description": "Stainless steel visiting card holder made of sustainable and eco friendly cork material.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "T 13",
+  "name": "Solar Calculator with 3 Pen Set",
+  "categoryId": "Workplace Utility",
+  "description": "Set of 3 colour pens with an 8 digit solar calculator. No batteries needed and a large branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 138",
+  "name": "Stainless Steel Magnetic Visiting Card Holder Tan",
+  "categoryId": "Workplace Utility",
+  "description": "Stainless steel visiting card holder with metal plates for extra branding area. Holds 20-25 cards and closes magnetically in a snap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 139",
+  "name": "Stainless Steel Magnetic Visiting Card Holder Gray",
+  "categoryId": "Workplace Utility",
+  "description": "Stainless steel visiting card holder with metal plates for extra branding area. Holds 20-25 cards.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 141",
+  "name": "Stainless Steel Magnetic Visiting Card Holder Black",
+  "categoryId": "Workplace Utility",
+  "description": "Stainless steel visiting card holder with metal plates for extra branding area. Holds 20-25 cards.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 182",
+  "name": "Stainless Steel Magnetic Visiting Card Holder",
+  "categoryId": "Workplace Utility",
+  "description": "Stylish stainless steel magnetic holder for your name cards.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 12",
+  "name": "Hanging Visiting Card Holder",
+  "categoryId": "Workplace Utility",
+  "description": "Hanging visiting card holder that holds up to 20 cards at a time, with a large branding space on both sides. Excellent for events and exhibitions.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 156",
+  "name": "Stainless Steel Magnetic Visiting Card Holder with Rectangle Plate",
+  "categoryId": "Workplace Utility",
+  "description": "Stylish stainless steel magnetic card holder with a rectangle branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ }
+]

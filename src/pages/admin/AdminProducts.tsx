@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ArrowLeft, Plus, Edit, Trash2, Image as ImageIcon, Database, Search, Download } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { toast } from 'sonner';
+import { ProductImportDialog } from '../../components/admin/ProductImportDialog';
 import { Link } from 'react-router-dom';
 
 import { generateCatalogPDF } from '../../lib/catalogGenerator';
@@ -298,6 +299,7 @@ export default function AdminProducts() {
             )}
             Download PDF
           </Button>
+          <ProductImportDialog onImported={loadProducts} />
           <Button variant="outline" onClick={seedProducts} className="gap-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#0F172A] rounded-xl h-10 shadow-sm">
             <Database className="h-4 w-4" /> Seed Products
           </Button>

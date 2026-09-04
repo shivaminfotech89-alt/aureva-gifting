@@ -22,6 +22,8 @@ export interface ProductData {
   stock: number;
   enabled: boolean;
   categoryId?: string;
+  /** Dealer catalog code, e.g. "E 395". Used when reordering from the supplier. */
+  sku?: string;
   images: string[];
   smallLogoCharge?: number;
   mediumLogoCharge?: number;
