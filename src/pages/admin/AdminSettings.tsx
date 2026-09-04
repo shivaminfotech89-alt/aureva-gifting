@@ -74,11 +74,6 @@ export default function AdminSettings() {
   const [loadingAdmins, setLoadingAdmins] = useState(false);
   const isSuperAdmin = user?.email === 'shivaminfotech89@gmail.com' || user?.email === 'aurevagifts@gmail.com' || (useAuthStore.getState().profile?.adminRole === 'Super Admin') || (useAuthStore.getState().profile?.adminRole === 'admin');
 
-  // Route Protection for Settings
-  if (!isSuperAdmin && !loading) {
-     return <div className="p-8 flex justify-center items-center h-screen"><div className="text-xl font-bold text-red-500">Access Denied</div></div>;
-  }
-
   // Add Admin Modal State
   const [isAddAdminOpen, setIsAddAdminOpen] = useState(false);
   const [isEditAdminOpen, setIsEditAdminOpen] = useState(false);
@@ -295,6 +290,12 @@ export default function AdminSettings() {
 
   if (loading) {
     return <div className="p-8 flex justify-center text-slate-500">Loading system configurations...</div>;
+  }
+
+  // Route Protection for Settings. Must stay below every hook call so the
+  // hook order is identical on every render (see Rules of Hooks).
+  if (!isSuperAdmin) {
+    return <div className="p-8 flex justify-center items-center h-screen"><div className="text-xl font-bold text-red-500">Access Denied</div></div>;
   }
 
   return (

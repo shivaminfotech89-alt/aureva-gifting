@@ -60,13 +60,18 @@
     </div>
     <div id="root"></div>
     <script>
-      window.addEventListener('load', () => {
+      // The overlay sits at z-index 99999 and swallows every click, so it must
+      // come down as soon as the app is interactive. 'load' alone is not safe:
+      // it waits on remote fonts and images, which may be slow or blocked.
+      // main.tsx calls this as soon as React mounts; the rest are backstops.
+      window.__hideLoader = () => {
         const loader = document.getElementById('initial-loader');
-        if (loader) {
-          loader.style.opacity = '0';
-          setTimeout(() => loader.remove(), 500);
-        }
-      });
+        if (!loader) return;
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 500);
+      };
+      window.addEventListener('load', () => window.__hideLoader());
+      setTimeout(() => window.__hideLoader(), 5000);
     </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>

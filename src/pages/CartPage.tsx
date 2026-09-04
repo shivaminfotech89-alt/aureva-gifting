@@ -4,6 +4,7 @@ import { Button, buttonVariants } from '../components/ui/button';
 import { formatCurrency, calculateGST } from '../lib/utils';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getSubTotal, getGstTotal, getGrandTotal } = useCartStore();

@@ -8,3 +8,7 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 );
+
+// Take the splash overlay down now that React owns the page, rather than
+// waiting on window 'load' (which blocks on remote fonts and images).
+window.__hideLoader?.();
