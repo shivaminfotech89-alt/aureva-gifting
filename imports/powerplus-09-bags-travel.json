@@ -1,0 +1,362 @@
+[
+ {
+  "sku": "S 72",
+  "name": "Croc Duffel Executive Weekender Bag",
+  "categoryId": "Bags & Backpacks",
+  "description": "Executive weekender duffel in crocodile textured PU with contrast straps and a metal branding plate. 19 inch length.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 73",
+  "name": "Matrix Duffel Executive Weekender Duffel",
+  "categoryId": "Bags & Backpacks",
+  "description": "Executive weekender duffel in embossed micro-grid PU. 19 inch length.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 55",
+  "name": "Nomad Premium Travel Sling Bag with Side Lock",
+  "categoryId": "Bags & Backpacks",
+  "description": "Water resistant travel sling bag with 4 pockets, lockable zipper on the main compartment, spacious front pocket and a comfortable handle. Compact and easy to carry.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 75",
+  "name": "Nomad Blu Premium Travel Sling Bag with Side Lock",
+  "categoryId": "Bags & Backpacks",
+  "description": "Waterproof travel sling bag with 3 pockets, lockable zipper on the main compartment, a quick access front zipper pocket and spacious zipper pocket. Light weight and compact.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 77",
+  "name": "Matrix Crossbody Professional Daily Sling Bag",
+  "categoryId": "Bags & Backpacks",
+  "description": "Professional daily sling bag in embossed micro-grid PU with a super premium finish and metal branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 71",
+  "name": "Weekender Dual Function Large Duffel Bag with Backpack Function",
+  "categoryId": "Bags & Backpacks",
+  "description": "Large duffel bag in water resistant fabric that can be used as an overnighter or a backpack. Laptop pocket holds up to a 15 inch laptop, with spacious outside pockets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 54",
+  "name": "Venture High Function Backpack with Multifunction Side Pockets",
+  "categoryId": "Bags & Backpacks",
+  "description": "Backpack that holds a full 15 inch laptop safely, with multifunction side pockets that hold a water bottle, quick access front zipper pockets and a stroller carry strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 60",
+  "name": "Summit Lite Classic Backpack with Spacious Construction",
+  "categoryId": "Bags & Backpacks",
+  "description": "Classic backpack with 4 zipper pockets and 2 side mesh pockets. Two main compartments with a padded 15 inch laptop compartment and stroller carry strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 51",
+  "name": "Wanderer Tall Backpack With Top Belts",
+  "categoryId": "Bags & Backpacks",
+  "description": "Tall backpack with quick access front pockets in a cool urban design. Holds a full 15 inch laptop, two quick access zipper pockets, a side bottle holder pocket and a secure back zipper pocket for documents.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 40A",
+  "name": "Checkers Premium Travel Duffel Bag with Separate Laptop Compartment",
+  "categoryId": "Bags & Backpacks",
+  "description": "Premium travel duffel with separate laptop compartment and shoe and utility pockets on the sides. Checkered design with dual tone finish and spacious construction with outside pockets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 52",
+  "name": "Full PU Elegant Backpack",
+  "categoryId": "Bags & Backpacks",
+  "description": "Elegant full PU backpack with two main compartments, a padded 15 inch laptop compartment and quick access zipper pockets in front.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 23",
+  "name": "Flow 3 Pocket Designer Laptop Bag With Double Bottle Pocket",
+  "categoryId": "Bags & Backpacks",
+  "description": "Designer backpack with two main compartments, quick access pocket and padded 15 inch laptop compartment. Ergonomic design with ventilated back padding, dual mesh bottle holders and a secret bottom pocket containing a rain cover. Size 18 x 14 x 6 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 53",
+  "name": "William Travel Duffel Bag with Garment Cover for Suits",
+  "categoryId": "Bags & Backpacks",
+  "description": "Two in one travel duffel with garment cover, fully openable design and separate shoe compartment. Concealed pocket for shoes and laundry, opens flat to hold blazers and suits, with wheels and handle. Perfect for business trips.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 50",
+  "name": "Jordan Stylish Backpack With High Performance Fabric",
+  "categoryId": "Bags & Backpacks",
+  "description": "Stylish backpack with padded 15 inch laptop compartment, ventilated back padding and shoulder strap, two quick access front zipper pockets, mesh bottle holders and stroller carry strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 26",
+  "name": "Overnighter Bag With Laptop Storage Convertible To Backpack",
+  "categoryId": "Bags & Backpacks",
+  "description": "Cabin size dual function overnighter with backpack function. Folds open completely to store clothes for 2-3 days, with a spacious front pocket. Laptop slides in sideways from the back.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 41",
+  "name": "Coco Convertible Sling Laptop Bag",
+  "categoryId": "Bags & Backpacks",
+  "description": "Two in one laptop bag with 2 compartments and a padded 15 inch laptop compartment. Converts to a backpack by fastening the carry straps; usable as a backpack, sling or laptop bag. Dual tone finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 22",
+  "name": "Multipurpose Sling Duffle Bag Convertible To Backpack",
+  "categoryId": "Bags & Backpacks",
+  "description": "Two in one sling, duffle or backpack in dual tone finish with a separate laptop space that holds up to a 15 inch laptop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 57",
+  "name": "Large Travel Sling Bag for 13 inch Tablet",
+  "categoryId": "Bags & Backpacks",
+  "description": "Large travel sling bag with space for a 13 inch tablet. Perfect for a large iPad.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 56",
+  "name": "Mini Travel Sling Bag for 11 inch Tablet",
+  "categoryId": "Bags & Backpacks",
+  "description": "Mini travel sling bag with space for an 11 inch tablet. Perfect for an iPad Mini.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 27",
+  "name": "Buddy 2 Tone Laptop Bag With Double Bottle Pocket",
+  "categoryId": "Bags & Backpacks",
+  "description": "Spacious two tone padded backpack with two main compartments, a padded 15 inch laptop compartment, front organizer compartment, two quick access zipper pockets and dual mesh bottle holders.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 06",
+  "name": "Slimz Black Backpack With Double Front Pocket",
+  "categoryId": "Bags & Backpacks",
+  "description": "Ultra modern sleek backpack in high quality material with one main compartment and a double front zipper pocket for quick access. Ergonomic design with padded shoulder straps and mesh bottle holders.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 21",
+  "name": "Durable Folding Travel Bag Flight Cabin Size Compliant",
+  "categoryId": "Bags & Backpacks",
+  "description": "Folding travel bag that opens with a zip into a spacious travel bag. Two carrying handles and a detachable adjustable shoulder strap, with a key and coin pocket inside.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 25",
+  "name": "Folding Shopping Bag With Zippered Pocket",
+  "categoryId": "Bags & Backpacks",
+  "description": "Ultra compact folding shopping bag that opens with a zip into a spacious shopping bag. Two carrying handles and a phone or wallet pocket outside.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 74",
+  "name": "Matrix Folio Slim Corporate Laptop Sleeve",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Slim corporate laptop sleeve in embossed micro-grid PU with a super premium finish and stroller carry strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 49",
+  "name": "Graphite Elegant Laptop Bag",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop bag with one main compartment and a padded 15 inch laptop compartment. Outside zipper pocket for everyday essentials, attaches to trolleys, and includes a detachable string to use as a sling bag.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 48",
+  "name": "Minimalistic Sling Laptop Bag with Brown Highlights",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Lightweight sling laptop bag designed for modern professionals, with one main compartment and a padded 15 inch laptop compartment. Brown highlights add a refined touch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 29",
+  "name": "Laptop Sleeve With Soft Inner Lining",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop sleeve with 6 outside spacious pockets and soft touch fabric for gadget protection. Holds a full 15 inch laptop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 61",
+  "name": "Teal Water Resistant Laptop Sleeve",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Water resistant laptop sleeve with soft inner lining and 3 outside spacious pockets. Holds up to a 15 inch laptop, with 2 outside zipper pockets and an outside back pocket.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 16",
+  "name": "Eco-Friendly Cork Laptop Bag With 2 Tone Finish",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Slim compact cork laptop case for laptops up to 15 inches. Made of biodegradable and sustainable cork with high quality carabiner and accessories.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 17",
+  "name": "Eco-Friendly Cork Sling Laptop Bag With 2 Tone Finish",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Cork sling bag that stores a 10 inch tablet or iPad easily. Made of biodegradable and sustainable cork with an adjustable shoulder strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 36",
+  "name": "Laptop Sleeve With Pull Out Handle",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop sleeve with 2 outside zipper pockets that holds a full 17 inch laptop. Retractable handle merges flat with the body when not in use.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 28",
+  "name": "Mini Laptop Bag and Laptop Sleeve Convertible To Sling Bag",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Mini laptop bag or sleeve holding a full 15 inch laptop in a padded compartment. Minimalistic design, convertible to a sling bag, with an outside easy access pocket.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 59",
+  "name": "Laptop Sleeve with Outside Pocket and Stroller Carry Strap",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop sleeve holding a full 15 inch laptop in a padded compartment, with an outside easy access pocket.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 43",
+  "name": "Y Style Laptop Bag With PU Highlight",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop bag with a Y style design made from durable imported fabric. Convertible to a sling bag and holds up to a 15 inch laptop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S-E 122",
+  "name": "4 Layer Toiletry Kit",
+  "categoryId": "Travel Accessories",
+  "description": "Four layer toiletry kit with a great branding area and a special detachable pocket for medicine.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 44",
+  "name": "4 Layer Toiletry Kit with Back Pocket",
+  "categoryId": "Travel Accessories",
+  "description": "Four layer toiletry kit with an extra pocket at the back for easy access to products.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 76",
+  "name": "Handy Tech Gadget Organizer with Carry Strap",
+  "categoryId": "Travel Accessories",
+  "description": "Tech gadget organizer with thoughtful inner construction, outer pockets and stretchable mesh pockets with a strong zipper. Holds cables, chargers, power banks, pen drives and hard disks.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "E 385",
+  "name": "Hard Shell Travel Organizer",
+  "categoryId": "Travel Accessories",
+  "description": "Travel organizer with an unbreakable hard shell and elastic fasteners. Light weight and easy to carry. Organizes gadgets, cosmetics, keys and toiletries.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 62",
+  "name": "DriftMate Travel Neck Rest Pillow",
+  "categoryId": "Travel Comfort",
+  "description": "Travel neck rest pillow with 3 second bounce back memory foam.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 66",
+  "name": "Sitwell Neckpad Car Cervical Support Pillow",
+  "categoryId": "Travel Comfort",
+  "description": "Car cervical support pillow with 3 second bounce back memory foam and a high quality buckle.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 63",
+  "name": "DriftMate Jumbo Hump Shaped Travel Neck Pillow",
+  "categoryId": "Travel Comfort",
+  "description": "Hump shaped travel neck pillow with 3 second bounce back memory foam.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 64",
+  "name": "DriftMate Travel Kit",
+  "categoryId": "Travel Comfort",
+  "description": "Travel kit containing a neck rest pillow with bounce back memory foam, an eye mask with stretchable elastic strap, ear plugs and a drawstring travel bag.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 65",
+  "name": "Car Head Rest Cushion Pillow Bow Shaped",
+  "categoryId": "Travel Comfort",
+  "description": "Bow shaped head rest cushion with poly filling, for cars and office chairs. The attached elastic strap keeps the pillow in place. Excellent branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 67",
+  "name": "Sitwell Spine Lumbar Support Cushion",
+  "categoryId": "Travel Comfort",
+  "description": "Lumbar support cushion with 3 second bounce back memory foam, for use with a car seat or office chair.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 69",
+  "name": "Sitwell Caddy PU Car Back Seat Organizer",
+  "categoryId": "Travel Comfort",
+  "description": "PU car back seat organizer with iPad bag, two mobile phone bags, two water bottle holders, tissue box and umbrella holder.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ }
+]

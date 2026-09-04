@@ -1,0 +1,546 @@
+[
+ {
+  "sku": "E 401",
+  "name": "EcoLens UV Protection Sunglasses in Wheat Straw Material",
+  "categoryId": "Lifestyle Products",
+  "description": "UV protection sunglasses in wheat straw material, packed in a drawstring pouch with a microfiber cloth.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 166",
+  "name": "Mini Lint Remover",
+  "categoryId": "Lifestyle Products",
+  "description": "Reusable mini lint remover, effective up to 50 times. Available in red, blue and white.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 386",
+  "name": "Squash Dual Mode Mosquito Racket with Stand",
+  "categoryId": "Lifestyle Products",
+  "description": "Dual mode mosquito racket with stand, UV light insect killer and fly swatter. Rechargeable battery, Type C charging, charging cable included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 235",
+  "name": "Measured Liquor and Whiskey Pourer",
+  "categoryId": "Lifestyle Products",
+  "description": "Leak-proof pourer that fits any standard mouth liquor bottle and pours a perfect 30 ml shot every time.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 233",
+  "name": "Power Glow Coaster with Logo Highlight",
+  "categoryId": "Lifestyle Products",
+  "description": "Coaster with a pressure sensitive surface that highlights your brand whenever a drink is placed on it. Detachable plate for easy printing. Batteries included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 303",
+  "name": "Power Glow Coaster with Reverse Logo Highlight and Black Plate",
+  "categoryId": "Lifestyle Products",
+  "description": "Coaster with pressure sensitive surface and reverse branding plate that highlights your brand further. Batteries included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 173",
+  "name": "Shoe Shiner with Shoe Horn",
+  "categoryId": "Lifestyle Products",
+  "description": "Easy anytime shoe shiner suitable for all colour shoes, with a shoe horn at the back.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 17",
+  "name": "Wine Opener and Bottle Opener with Foil Cutter",
+  "categoryId": "Lifestyle Products",
+  "description": "High quality wine opener with bottle opener and foil cutter. Magnetic outer cover folds to save space.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 60",
+  "name": "Power Plus Universal Battery Tester",
+  "categoryId": "Lifestyle Products",
+  "description": "Universal battery tester for AA, AAA, 9V and all kinds of button cells.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 209",
+  "name": "PinSpin 360 Degree Rotating Stapler",
+  "categoryId": "Lifestyle Products",
+  "description": "360 degree rotating stapler for large 26/6 size pins with 8 position locking. Includes spare pins.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "P 10",
+  "name": "Rubik Cube 2 x 2 inch",
+  "categoryId": "Lifestyle Products",
+  "description": "2 x 2 inch Rubik cube. Builds logical thinking, responsiveness, observational skills, spatial awareness, motor skills and inferential capability.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "P 10A",
+  "name": "Promo Cube 2 x 2 inch Blank Rubik Cube",
+  "categoryId": "Lifestyle Products",
+  "description": "2 x 2 inch blank Rubik cube for promotions, fully brandable on all faces.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 351",
+  "name": "PU Luggage Tag with Hidden Info Card",
+  "categoryId": "Lifestyle Products",
+  "description": "Luggage tag made of imported PU material with hidden info card and double back pasting.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 129",
+  "name": "Easy Toothpaste Squeezer",
+  "categoryId": "Lifestyle Products",
+  "description": "Toothpaste squeezer made of PS material. Gets the last drop from tubes by squeezing.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 205",
+  "name": "Car Trash Holder Dustbin",
+  "categoryId": "Lifestyle Products",
+  "description": "Car dustbin that fits in a car cup or bottle holder.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 336",
+  "name": "Cork Luggage Tag",
+  "categoryId": "Lifestyle Products",
+  "description": "Eco friendly cork travel luggage tag with info card.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "G 19",
+  "name": "6 in 1 Keychain with Glass Window Breaker and LED Torch",
+  "categoryId": "Unique Toolkits",
+  "description": "Six in one keychain with glass window breaker and LED torch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 27",
+  "name": "6 in 1 Military Key Chain with Toolkit and Torch",
+  "categoryId": "Unique Toolkits",
+  "description": "Six in one military key chain including emergency torch, fold-out whistle, glass window breaker, seat belt cutter, folding knife, screwdriver and key ring.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "T 15",
+  "name": "BitCase Heavy Duty Screwdriver Toolkit",
+  "categoryId": "Unique Toolkits",
+  "description": "Heavy duty screwdriver toolkit containing a screwdriver handle with 24 attachments in a folding storage box.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "T 16",
+  "name": "TaskForce 19 Piece Multi Use Toolkit",
+  "categoryId": "Unique Toolkits",
+  "description": "Multi use toolkit containing a screwdriver with 15 attachments, needle-nose pliers, measuring tape and precision hammer in a folding storage box.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "N 19",
+  "name": "Folding Double Emery Board Nail Filer with Nail Protector",
+  "categoryId": "Ladies Utility",
+  "description": "Double side emery board with coarse and smooth finish and nail protector. Works up to 10,000 times. Made in Taiwan.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "N 18",
+  "name": "Folding Mirror with Sewing Kit",
+  "categoryId": "Ladies Utility",
+  "description": "Folding mirror with an emergency sewing kit.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 334",
+  "name": "Pure Air Loop Gel Based Room Freshener",
+  "categoryId": "Air Fresheners",
+  "description": "Gel based room freshener for home, office and car. 100 g net. Vegan product. Fragrances available: jasmine, squash, pink petal, iris navy, musk and lime.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 304",
+  "name": "Pure Air Gel Based Air Freshener",
+  "categoryId": "Air Fresheners",
+  "description": "Gel based air freshener for home, office and car. 100 g net. Vegan and water based. Fragrances available: fresh lemon, citrus twist, very berry, iris navy, pink petal and catmint jade.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "F 11",
+  "name": "Winner Cup Desk Trophy with Stand and Black Plate",
+  "categoryId": "Table Trophy",
+  "description": "Winner cup desk trophy with stand and black branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "F 11A",
+  "name": "Winner Cup Desk Trophy with Shiny Chrome Cup",
+  "categoryId": "Table Trophy",
+  "description": "Winner cup desk trophy with stand, shiny chrome cup and black plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "E 350",
+  "name": "Power Glow Rechargeable Magnifier",
+  "categoryId": "Magnifiers",
+  "description": "Rechargeable magnifier with 15 ultra bright white LEDs, 5X magnification and a 67 mm lens diameter. Type C charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 350A",
+  "name": "Rechargeable Magnifier with 2 Lighting Modes",
+  "categoryId": "Magnifiers",
+  "description": "Rechargeable magnifier with 3 lighting modes, glowing logo plate for personalisation and Type C charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 148",
+  "name": "Mini Magnifier with Torch",
+  "categoryId": "Magnifiers",
+  "description": "Mini magnifier with built in LED illuminator for reading in low light conditions.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 388",
+  "name": "Octagon Paperweight Magnifier with 3X Zoom",
+  "categoryId": "Magnifiers",
+  "description": "Paperweight magnifier that magnifies up to 3 times, easy to read without spectacles.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 193",
+  "name": "Monarch Brass Metal Pen with Twist Open Refill",
+  "categoryId": "Pens & Highlighters",
+  "description": "Brass metal pen with twist open refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 175",
+  "name": "Loop Metal Pen with Double Rings",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with attractive double ring design and smooth refill. Laser engraving comes out in a silver finish. Available in red, blue and black.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 153",
+  "name": "Prism Grip Metal Body Pen with Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal body pen with stylus and soft touch body. The prism grip makes the pen stand out.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 145",
+  "name": "6 in 1 Pen with Phone Stand",
+  "categoryId": "Pens & Highlighters",
+  "description": "Six in one plastic pen with phone stand, cleaner, ruler, tools and stylus.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 195",
+  "name": "Talisman Metal Pen with Turkish Evil Eye Amulet",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with a Turkish evil eye amulet, believed to protect against the evil eye and a symbol of protection.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 190",
+  "name": "Anti Gravity Magic Pen with Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with stylus and magic upside down function: the refill goes back inside when upside down and comes out while writing.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 184",
+  "name": "Luster Matte Metal Pen with Golden Parts",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with golden parts, ultra smooth refill and luster matte finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 187",
+  "name": "Metal Pen with Twist Open Action",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with twist open action.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 176",
+  "name": "Groove Brass Pen with Stripes",
+  "categoryId": "Pens & Highlighters",
+  "description": "Brass pen with stripes and a smooth refill. Laser engraving comes out in a beautiful silver finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 177",
+  "name": "Luster Classy Metal Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with ultra smooth refill and matte finish for a classy look.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 158",
+  "name": "Matt Black Pen with Chrome Parts",
+  "categoryId": "Pens & Highlighters",
+  "description": "Matt black metal pen with chrome parts and stylus.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 194",
+  "name": "Zesto Sleek Matte Finish Pen in Bold Colors",
+  "categoryId": "Pens & Highlighters",
+  "description": "Sleek matte finish pen in bold colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 189",
+  "name": "Logo Glow Pen with Phone Stand",
+  "categoryId": "Pens & Highlighters",
+  "description": "Pen with glowing logo and phone stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 188",
+  "name": "Sand Timer Pen with Soft Grip",
+  "categoryId": "Pens & Highlighters",
+  "description": "Pen with soft grip and a 15 second sand timer.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 121",
+  "name": "Pen with Safety Cutter and Letter Opener",
+  "categoryId": "Pens & Highlighters",
+  "description": "Twist open plastic pen with a small knife at the back. The cutter goes back when released for increased safety.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 186",
+  "name": "Metal Pen with Twist Open Action Rose Gold Finish",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with twist open action, ultra smooth refill, matte finish and rose gold parts.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 185",
+  "name": "Metal Pen with Bamboo Pusher and Fidget Ball",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with bamboo pusher, ultra smooth refill and a fidget ball attachment at the clip top. Matte finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 46",
+  "name": "Pen With 2 Way Screwdriver",
+  "categoryId": "Pens & Highlighters",
+  "description": "Plastic pen with a two way screwdriver.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 144",
+  "name": "6 In 1 Military Pen with Compass",
+  "categoryId": "Pens & Highlighters",
+  "description": "Six in one plastic military pen with compass, emergency torch below the compass, tools, phone stand and stylus.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 106",
+  "name": "Handy Paper Clip Pen 2 in 1",
+  "categoryId": "Pens & Highlighters",
+  "description": "Two in one plastic pen that doubles as a paper clip.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 97",
+  "name": "Write in the Dark Auto Pen with Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "Brass body pen with stylus at the back that enables you to write in the dark and also acts as a torch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 02",
+  "name": "Bottle Shape Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Folding bottle shape plastic pen that can be opened to make a pen. Great for promotion of products that come in a bottle.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 119",
+  "name": "Mini Pen with Bookmark",
+  "categoryId": "Pens & Highlighters",
+  "description": "Handy plastic bookmark with a built-in mini pen. Clips onto any page and does not fall off.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 104",
+  "name": "Single Piece Gel Highlighter",
+  "categoryId": "Pens & Highlighters",
+  "description": "Single piece gel highlighter. Rotate the bottom ring to bring the highlighter out. Two colours: pink and yellow.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 92",
+  "name": "Mr and Ms Combi-Pen Set with Mechanical Pencil",
+  "categoryId": "Pens & Highlighters",
+  "description": "Set of pen with 0.7 mm mechanical pencil in a gift box.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "L 167",
+  "name": "Gel Pen with Paper Clip",
+  "categoryId": "Pens & Highlighters",
+  "description": "Smooth gel pen with German ink. The pen clip can be used as a paper clip.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 192",
+  "name": "3 in 1 Pen with Stylus and Mobile Stand",
+  "categoryId": "Pens & Highlighters",
+  "description": "Three in one pen with hidden stylus and detachable phone stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 191",
+  "name": "FlatLine Square Body Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Square body plastic pen with super smooth refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 202",
+  "name": "Compakt Folding Metal Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Compact folding metal pen.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 91",
+  "name": "Twisty 3 Refill Pen With Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "Ultra sleek three refill pen. Twist to change refill colour, stylus at the back. Refill colours black, red and blue.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 138",
+  "name": "Mini Clip Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Mini clip pen that hangs easily to bags and belts.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 154",
+  "name": "Matte Metal Pen With Colored Highlights",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal body pen with coloured highlights and matte finish. Laser engraving comes out in a beautiful silver finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 65",
+  "name": "4 In 1 Laser Pointer Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Exclusive four in one mini clip pen with laser pointer and carabiner function, hangs easily to bags and loops.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 135",
+  "name": "Daniel Metal Stylus Pen With Torch",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal stylus pen with torch in a chrome finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 134",
+  "name": "3 in 1 Pen with Stylus and Mobile Stand",
+  "categoryId": "Pens & Highlighters",
+  "description": "Three in one pen with stylus and a phone stand at the back of the pen.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 35",
+  "name": "Metal Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal bodied pen with coloured grip.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 64",
+  "name": "String Pen with Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "String pen with a touch screen stylus. Suited to offices, conferences, exhibitions and expos.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 24",
+  "name": "Triangular Plastic Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Triangular plastic pen that allows a perfect grip, with a super smooth German ink refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ }
+]

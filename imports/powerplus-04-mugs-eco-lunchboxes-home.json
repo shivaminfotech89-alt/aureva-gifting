@@ -1,0 +1,530 @@
+[
+ {
+  "sku": "H 397",
+  "name": "DuraMug Scout Mid Size Double Wall Coffee Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Mid size double wall stainless steel coffee mug with lid. Capacity 250 ml approx. Available in white and black. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 400",
+  "name": "Vertex Stainless Steel Double Wall Mug with Ridge Base",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel mug with unique ridge base and flip top lid. Capacity 350 ml approx. Available in pink, black, blue and white.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 237",
+  "name": "Shiny Steel Coffee Mug with Handle",
+  "categoryId": "Steel Mugs",
+  "description": "Shiny finish steel coffee mug with handle and lid. Capacity 225 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 223",
+  "name": "Tall Sipper Mug",
+  "categoryId": "Steel Mugs",
+  "description": "304 steel tall sipper mug. Capacity 375 ml approx. Available in red, blue and white.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 226",
+  "name": "Foggy Stainless Steel Coffee Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug with sliding lid, microwave safe. Capacity 350 ml approx. Available in white, red and blue.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 234A",
+  "name": "Hexa Tall Sipper Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Tall sipper mug with lid, microwave safe. Capacity 375 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 317",
+  "name": "DuraMug Grip Lite Large Steel Mug with Flip Top Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Large steel mug with flip top lid. Capacity 350 ml approx. Available in 2 colours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 228",
+  "name": "Oxford Stainless Steel Double Wall Coffee Mug with Round Handle",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug with round handle and lid. Capacity 460 ml approx. Available in 2 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 312",
+  "name": "CurveSip Mini Steel Mug with Convex Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall mini steel mug with convex lid. Capacity 200 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 127",
+  "name": "Colorful Steel Coffee Mug with Box",
+  "categoryId": "Steel Mugs",
+  "description": "Colourful steel coffee mug supplied with a box. Capacity 225 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 279",
+  "name": "Sunset Stainless Steel Mug with Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Stainless steel mug with lid. Capacity 360 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 300",
+  "name": "Ceramix Ceramic Look Mug with Stainless Steel Inside",
+  "categoryId": "Steel Mugs",
+  "description": "Ceramic look mug with stainless steel inside and lid. Capacity 300 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 316",
+  "name": "DuraMug Grip Large Spill Proof Steel Suction Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Large spill proof steel suction mug with flip top lid. Capacity 350 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 280",
+  "name": "Sunset Plus Magic Suction Mug with Stainless Steel Inside",
+  "categoryId": "Steel Mugs",
+  "description": "Spill proof magic suction mug with stainless steel inside. Capacity 360 ml approx. BPA free. Available in 2 colours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 301",
+  "name": "DuraMug Spill Proof Suction Mug with Oval Handle",
+  "categoryId": "Spill Proof Mugs",
+  "description": "Double wall spill proof suction mug with oval handle. Capacity 350 ml approx. BPA free and leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 289",
+  "name": "Sunset Eco Bamboo Fiber Steel Mug",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Double wall bamboo fiber eco friendly mug with stainless steel inside. Capacity 360 ml approx. Leak proof, upcycled. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 266",
+  "name": "EcoMug Wheat Straw Eco Friendly Mug with Handle",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Wheat straw eco friendly mug with handle and tilt dry design. Capacity 400 ml approx. Upcycled and microwave safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 336",
+  "name": "EcoWave Mini Stainless Steel Double Wall Coffee Mug",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Wheat fiber double wall coffee mug with wooden lid. Capacity 220 ml approx. Available in 2 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 187",
+  "name": "EcoMug Eco Friendly Coffee Mug with Steel Inside",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Eco friendly coffee mug made with wheat fiber and stainless steel inside. Capacity 225 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 337",
+  "name": "EcoWave Stainless Steel Double Wall Coffee Mug",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Wheat fiber double wall stainless steel coffee mug with lid. Capacity 425 ml approx. Available in 2 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 247",
+  "name": "Dumbbell Eco 750 Dumbbell Shape Water Bottle",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Dumbbell shape water bottle made of wheat fiber. Capacity 750 ml approx. 100 percent recyclable, BPA free, upcycled and food safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 224A",
+  "name": "Insulated Straight Steel Bottle with Rice Husk Outer Body",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Insulated steel bottle with rice husk outer body. Capacity 500 ml approx. Keeps hot or cold 4-5 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 334",
+  "name": "Square II Eco Friendly Insulated Steel Bottle",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Double wall eco friendly insulated steel bottle with rice husk and wheat fiber finish. Capacity 750 ml approx. Leak proof and BPA free.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 288A",
+  "name": "EcoBrew Mug with Bamboo Lid",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Coffee fiber eco friendly mug with bamboo lid. Capacity 300 ml approx. Microwave safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 288",
+  "name": "EcoBrew Mug Coffee Fiber Eco Friendly Mug with Handle",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Coffee fiber eco friendly mug with handle, made using crop waste. Capacity 300 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 188",
+  "name": "EcoCup Elite Eco Friendly Glasses",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Glasses made of eco friendly wheat fiber with an outer body of responsibly sourced wheat fiber. Capacity 300 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 222A",
+  "name": "Bamboo Dark Coffee Mug with Flip Top Lid",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Eco friendly mug with flip top cap and silicon grip. Capacity 250 ml approx. Crop waste used.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 222",
+  "name": "Bamboo Coffee Mug Eco Friendly Mug with Flip Top Lid",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Eco friendly bamboo mug with flip top lid and silicon grip. Crop waste used and upcycled.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 275",
+  "name": "Tall Bamboo Coffee Mug with Flip Top Lid",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Tall eco friendly bamboo mug with flip top lid and silicon grip. Capacity 500 ml approx. Upcycled, crop waste used.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 189",
+  "name": "EcoCup Bold Eco Friendly Glasses",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Set of 4 eco friendly glasses in a white gift box. Capacity 300 ml each approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 401",
+  "name": "Signature Chai Cups Set of 4 Cutting Chai Mugs",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Set of 4 cutting chai mugs in wheat straw material. Capacity 100 ml each approx. Crop waste used and upcycled.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 196",
+  "name": "Octomeal Eco 3 Container Lunch Box with Spoon",
+  "categoryId": "Lunch Boxes",
+  "description": "Three container eco friendly lunch box with spoon. BPA free and non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 364",
+  "name": "Zippy Trio Lunch Bag with 3 Containers and Cutlery",
+  "categoryId": "Lunch Boxes",
+  "description": "Lunch bag with 2 stainless steel round containers, 1 stainless steel long container, spoon, fork and tablemat.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 363",
+  "name": "Zippy Go Lunch Bag with 2 Round Containers",
+  "categoryId": "Lunch Boxes",
+  "description": "Lunch bag with 2 stainless steel round containers.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 340",
+  "name": "Pik-Kit Joy All in 1 Lunch Box",
+  "categoryId": "Lunch Boxes",
+  "description": "All in one lunch box with 3 square stainless steel containers with air tight lids, steel bottle, spoon, fork and table mat.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 341",
+  "name": "Zippy Nova Lunch Box Bag with Fork, Spoon and Table Mat",
+  "categoryId": "Lunch Boxes",
+  "description": "Lunch box bag with 3 stainless steel containers, fork, spoon and table mat.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 342",
+  "name": "Zippy Square Lunch Box Bag with Fork, Spoon and Table Mat",
+  "categoryId": "Lunch Boxes",
+  "description": "Square lunch box bag with 3 stainless steel containers, fork, spoon and table mat.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 154A",
+  "name": "Bento Travel Lunch Box with 3 Steel Containers and Lifter",
+  "categoryId": "Lunch Boxes",
+  "description": "Travel lunch box with 3 stainless steel containers and lifter.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 154",
+  "name": "Bento Travel Lunch Box with 3 Plastic Containers",
+  "categoryId": "Lunch Boxes",
+  "description": "Travel lunch box with 3 microwave safe containers using a press lock mechanism.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 87",
+  "name": "Octomeal Lunch Box 3 Containers Steel",
+  "categoryId": "Lunch Boxes",
+  "description": "Three container steel lunch box with spoon included in the cap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 35",
+  "name": "Power Plus Mega Lunch Box 3 Box Microwaveable",
+  "categoryId": "Lunch Boxes",
+  "description": "Three box lunch box, leak proof, with microwave safe containers and air tight locking lids.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 225",
+  "name": "Power Plus Mega Steel Lunch Box with 3 Containers and Lifter",
+  "categoryId": "Lunch Boxes",
+  "description": "Lunch box with 3 stainless steel containers and lifter.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 86",
+  "name": "Octomeal Lunch Box 3 Containers Plastic",
+  "categoryId": "Lunch Boxes",
+  "description": "Three container plastic lunch box with microwave safe containers, air tight locking lids and spoon included in the cap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 357",
+  "name": "TokuBox Split Slim Lunch Box with Steel Inside",
+  "categoryId": "Lunch Boxes",
+  "description": "Slim lunch box with stainless steel inside and PU filling that keeps food hot. Two partitions with silicon seal. Spoon included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 358",
+  "name": "TokuBox Trio Slim Lunch Box with Steel Inside",
+  "categoryId": "Lunch Boxes",
+  "description": "Slim lunch box with stainless steel inside and PU filling that keeps food hot. Three partitions with silicon seal.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 359",
+  "name": "TokuBox Stack Slim Lunch Box with Detachable Containers",
+  "categoryId": "Lunch Boxes",
+  "description": "Slim lunch box with stainless steel inside and PU filling that keeps food hot. Three removable containers that can be used separately.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 399",
+  "name": "Omni-Meal Multi-Compartment Insulated Steel Lunch Box",
+  "categoryId": "Lunch Boxes",
+  "description": "Multi-compartment insulated steel lunch box with integrated carry handle. Capacity 700 ml plus 225 ml. Available in green and brown.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 286",
+  "name": "Mini Lunch Box Bag with 2 Containers and Cutlery",
+  "categoryId": "Lunch Boxes",
+  "description": "Mini lunch box bag with 2 microwave safe containers, spoon, fork and tablemat. Air tight locking lids and leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 183",
+  "name": "Electro Steel 3 Container Electric Steel Lunch Box",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric steel lunch box with 3 containers and auto cut function.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 338",
+  "name": "ThermoBite Slim Electric Lunch Box with 2 Steel Containers",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric lunch box with 2 stainless steel containers, cable and carry bag included. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 06",
+  "name": "Power Plus Electra Lunch Box Plastic 3 Container",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric lunch box with 3 microwave safe containers.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 328",
+  "name": "ThermoBite Electric Lunch Box with 4 Steel Containers",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric lunch box with 4 stainless steel containers and auto cut-off. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 07",
+  "name": "Power Plus Electra Lunch Box Steel 3 Container",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric steel lunch box with 3 containers and air tight locking lids.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 290",
+  "name": "Coffee Warmer and Stainless Steel Mug Set with Lid",
+  "categoryId": "Electric Kettles",
+  "description": "Set of coffee warmer and stainless steel mug with lid. Auto cut off function and 2 heat modes.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 195",
+  "name": "Sleek Glass Kettle with LED Illumination",
+  "categoryId": "Electric Kettles",
+  "description": "Cordless glass kettle with LED illumination. 1.8 L capacity with boil dry protection.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "E 91",
+  "name": "Egg Shape Salt and Pepper Shaker Set with Stand",
+  "categoryId": "Home & Kitchen",
+  "description": "Egg shaped salt and pepper shaker set with stand. Compact, space saver set for the table.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "Z 39",
+  "name": "Divine Pooja Thali 4 Piece Set",
+  "categoryId": "Home & Kitchen",
+  "description": "Pooja thali set containing pooja plate, bell, diya and prasad or roli plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "Z 40",
+  "name": "Divine Mini Pooja Thali Set",
+  "categoryId": "Home & Kitchen",
+  "description": "Mini pooja thali set containing pooja plate, agarbatti stand, diya and prasad or roli plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 90",
+  "name": "Birdies on a Tree Fruit Fork Set",
+  "categoryId": "Home & Kitchen",
+  "description": "Party set of 6 little birdie fruit forks with a stand designed like a branch. Available in 5 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 177",
+  "name": "Stainless Steel Serving Bowl with Suction Base",
+  "categoryId": "Home & Kitchen",
+  "description": "Stainless steel serving bowl with an anti-slip suction base.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 165",
+  "name": "Window and Kitchen Slab Cleaner with Spray Bottle",
+  "categoryId": "Home & Kitchen",
+  "description": "Cleaner with easy remove spray bottle that sprays and wipes simultaneously.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 204",
+  "name": "Folding Plastic Hanger with Extendable Arms",
+  "categoryId": "Lifestyle Products",
+  "description": "Folding plastic hanger with extendable arms for bigger clothes.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 10",
+  "name": "Landline Phone Extension Wire with Retractable Cord",
+  "categoryId": "Lifestyle Products",
+  "description": "Retractable extension cord for landline phones, 3 metres, with an auto retractable slide button.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 171",
+  "name": "Hot and Cold Pack",
+  "categoryId": "Lifestyle Products",
+  "description": "Reusable hot and cold pack. For cold use keep in the freezer 30-60 minutes; for hot use keep in boiling water 3 minutes or microwave on medium 30 seconds.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "P 05",
+  "name": "Easy Bottle Holder",
+  "categoryId": "Lifestyle Products",
+  "description": "Bottle holder for bottles up to 1.6 L capacity. Can be hung on a belt, pocket, bag or handbag.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 54",
+  "name": "Folding Wonder Vase",
+  "categoryId": "Lifestyle Products",
+  "description": "Unbreakable, leakproof folding vase that is easy to carry.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ }
+]

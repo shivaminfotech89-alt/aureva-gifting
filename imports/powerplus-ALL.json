@@ -1,0 +1,4354 @@
+[
+ {
+  "sku": "E 395",
+  "name": "DuneLume Rechargeable Metal Table Lamp",
+  "description": "Rechargeable metal table lamp with 1800 mAh battery and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 393",
+  "name": "LumiBloc Rechargeable Metal Table Lamp",
+  "description": "Rechargeable metal table lamp with 1800 mAh battery and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 394",
+  "name": "ZigLume Rechargeable Metal Table Lamp",
+  "description": "Rechargeable metal table lamp with 1800 mAh battery and Type C charging. Available in white and black.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 387",
+  "name": "TapLite Dome Rechargeable LED Lamp",
+  "description": "Rechargeable LED lamp with 1200 mAh battery and Type C charging. Made in India.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 396",
+  "name": "Brighto Square Rechargeable LED Lamp with Mobile Stand",
+  "description": "Rechargeable LED lamp with integrated mobile stand. 2400 mAh battery, Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 397",
+  "name": "TapLite Clippy Rechargeable LED Lamp with Clip Base",
+  "description": "Rechargeable LED lamp with clip-on base. 1200 mAh battery, Type C charging, spectrum eye protection IR 99 LED.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 398",
+  "name": "Metalix Rechargeable Sleek Metal Neck LED Lamp",
+  "description": "Sleek metal neck rechargeable LED lamp. 2400 mAh battery, Type C charging, spectrum eye protection IR 99 LED.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 353",
+  "name": "Brighto 2.0 Rechargeable LED Lamp",
+  "description": "Rechargeable LED lamp with 1200 mAh battery and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 405",
+  "name": "Gleam Soft Touch Rechargeable Night Lamp",
+  "description": "Soft touch rechargeable night lamp with 3 colour light options and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 356",
+  "name": "Brighto Shine Rechargeable LED Lamp",
+  "description": "Rechargeable LED lamp with 1200 mAh battery and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 354",
+  "name": "TapLite Rechargeable LED Lamp",
+  "description": "Rechargeable LED lamp with 1200 mAh battery and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 400",
+  "name": "Luxora Large Rechargeable Folding LED Lamp",
+  "description": "Large folding LED lamp with timer and brightness adjustment. 2400 mAh long lasting battery, 3 colour light options, spectrum eye protection IR 99 LED, 45 minute timer. Magnetic mounting plates included.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 332",
+  "name": "Large Folding Metal Lamp",
+  "description": "Large folding metal lamp with adjustable neck, warm and white light options and a large touch sensor. Made in India.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 189",
+  "name": "RetroVibe Station Dimmer LED Lamp with Bluetooth Speaker",
+  "description": "Dimmer LED lamp with Bluetooth speaker, 5W sound output and 15W wireless charger. Made in India.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 160",
+  "name": "Power Glow Table Lamp",
+  "description": "Table lamp with pen stand and 4 side logo highlight. Logo lights up when the USB hub is used. Made in India.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 404",
+  "name": "PenZen Trio Rechargeable LED Lamp with Pen Stand",
+  "description": "Rechargeable LED lamp with pen stand and mobile stand. 1200 mAh battery, 32 LED.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 382",
+  "name": "PenZen Sphere Rechargeable Lamp with Pen Stand",
+  "description": "Rechargeable lamp with pen stand. Available with 1200 mAh or 2400 mAh battery, Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 335",
+  "name": "Rechargeable Torch with Folding Lamp",
+  "description": "Foldable rechargeable torch with lamp. 1200 mAh rechargeable battery, lithium-ion. Made in India.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 403",
+  "name": "PenZen Time Rechargeable LED Lamp with Clock",
+  "description": "Rechargeable LED lamp with electronic clock, pen stand and mobile stand. 2400 mAh battery.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 361",
+  "name": "Power Glow Wooden 3 Step Dimmer Lamp",
+  "description": "Wooden 3 step dimmer lamp with mobile stand, 1200 mAh rechargeable battery and a glowing branding plate. Made in India.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 422",
+  "name": "Podium Ring XL Rechargeable LED Lamp with Wireless Bell",
+  "description": "Rechargeable LED lamp with 100 feet wireless bell function, 360 degree flexible neck, mobile stand and 1200 mAh battery. Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 333",
+  "name": "Rechargeable Wardrobe Light with Type C Port",
+  "description": "Rechargeable wardrobe light with 3 step feather touch button and a battery life of more than 500 cycles.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 383",
+  "name": "VersaBeam Prism 6 in 1 Rechargeable Torch",
+  "description": "6 in 1 rechargeable torch with emergency lamp, red light and blinker. Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 365",
+  "name": "VersaBeam Mini Rechargeable Torch with Clip",
+  "description": "Compact rechargeable torch with clip and Type C charging. Available in yellow, white and blue.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 392",
+  "name": "Atom Rechargeable Torch",
+  "description": "Rechargeable torch with Type C charging and 4 hour working time on a single charge.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 392 R",
+  "name": "Atom Radium Rechargeable Torch with Glow in the Dark",
+  "description": "Rechargeable torch with glow in the dark function.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 150",
+  "name": "Hexa Torch with Magnetic Lamp",
+  "description": "Torch with magnetic lamp. Available in red, blue and yellow.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 208s",
+  "name": "Magnetic 720 Degree Sensor Light with Motion Sensor",
+  "description": "720 degree sensor light with motion sensor, strong magnet and light sensor.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 344",
+  "name": "Acrylic Glow Lamp",
+  "description": "Acrylic glow lamp, customisable with your artwork. 1200 mAh rechargeable battery.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 364",
+  "name": "VersaBeam Tesser Rechargeable Torch with Emergency Lamp",
+  "description": "Rechargeable torch with emergency lamp and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 368",
+  "name": "HandyBeam Tango Rechargeable Torch with Side Lamp",
+  "description": "Rechargeable torch with side lamp and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 366",
+  "name": "HandyBeam Sonic Rechargeable Torch with Side Lamp",
+  "description": "Rechargeable torch with side lamp. Charging cable included.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 367",
+  "name": "HandyBeam Rechargeable Torch with Side Lamp",
+  "description": "Rechargeable torch with side lamp and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 363",
+  "name": "VersaBeam Focus Rechargeable Focus Torch",
+  "description": "Rechargeable torch with light focus function. Available in 5 colours.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 369",
+  "name": "HandyBeam Groove Rechargeable Torch with Side Lamp",
+  "description": "Rechargeable torch with side lamp and Type C charging.",
+  "categoryId": "Lamps & Torches",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 144",
+  "name": "Axis See Thru Clock with Temperature",
+  "description": "See through desk clock with temperature display.",
+  "categoryId": "Clocks",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 145",
+  "name": "Screentime TV Style Clock",
+  "description": "TV style clock with calendar, temperature and humidity function, and sound control backlight.",
+  "categoryId": "Clocks",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "W 14",
+  "name": "ChronoGear Thick Bezel Wall Clock with Chrome Plated Moving Gears",
+  "description": "Large 14 inch wall clock, dial size 275mm, with chrome plated moving gears.",
+  "categoryId": "Clocks",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "W 14 C",
+  "name": "ChronoGear Canvas Thick Bezel Wall Clock with Customizable Gears",
+  "description": "Large 14 inch wall clock, dial size 275mm, with 6 customizable moving gears.",
+  "categoryId": "Clocks",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "A 92",
+  "name": "Tumbler with Digital Clock and Temperature",
+  "description": "Pen tumbler with digital clock, inbuilt alarm and temperature display.",
+  "categoryId": "Clocks",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 137",
+  "name": "Multifunction Magic Table Clock with Tumbler",
+  "description": "Multifunction table clock with pen tumbler and colour changing display, shown only when the front plate is attached. Full size branding area on 3 sides and logo space on the front plate.",
+  "categoryId": "Clocks",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 101",
+  "name": "Bubble Clock with Photo Frame",
+  "description": "Desk clock with integrated photo frame.",
+  "categoryId": "Clocks",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 191",
+  "name": "Floral PU Notebook with Bookmark Ribbon",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 164",
+  "name": "A5 Business Notebook with Golden Cursive Design",
+  "categoryId": "Notebooks",
+  "description": "A5 soft bound business notebook in PU material with golden cursive design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 181",
+  "name": "Garden A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "A5 soft bound cover notebook. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 206",
+  "name": "Dual Tone Cork Fabric Notebook with Elastic Fastener and Cork Pen",
+  "categoryId": "Notebooks",
+  "description": "Hard bound dual tone cork fabric notebook with elastic fastener and a 4 refill cork pen.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 176A",
+  "name": "Cork Fabric Notebook with Cork Pen",
+  "categoryId": "Notebooks",
+  "description": "Hard bound cork fabric notebook supplied with a cork pen. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 114",
+  "name": "Flexible Pocket Notebook with Ruled and Checked Pages",
+  "categoryId": "Notebooks",
+  "description": "Flexible PU pocket notebook, 3.5 x 5.75 inch, with ruled and checked pages. 200 inner pages, 70 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 164",
+  "name": "Ultima Premium Revolving Flask",
+  "categoryId": "Vacuum Flasks",
+  "description": "Premium revolving vacuum flask. Capacity 2 L approx. Keeps hot or cold 12-14 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 161",
+  "name": "Wilson Stainless Steel Flask",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum flask. Capacity 500 ml approx. Keeps hot or cold 8-12 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 305",
+  "name": "EcoVault 700 Vacuum Flask with Bamboo Lid",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum flask with bamboo lid. Capacity 700 ml approx. Keeps hot or cold 18-24 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 165",
+  "name": "Pearl Double Cap Vacuum Bottle with Carry Loop",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel double cap vacuum bottle in metallic finish with carry loop. Capacity 750 ml approx. Keeps hot or cold 5-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 191A",
+  "name": "Bamboo Vacuum Flask with Tea Strainer",
+  "categoryId": "Vacuum Flasks",
+  "description": "Stainless steel bamboo vacuum flask with tea strainer. Capacity 400 ml approx. Keeps hot or cold 8-10 hours. 304 steel.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 310",
+  "name": "Cola Vacuum Flask in Steel Finish 1000 ml",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel cola shape vacuum flask. Capacity 1000 ml approx. Keeps hot or cold 18-24 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 308",
+  "name": "Cola Vacuum Flask in Steel Finish 500 ml",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel cola shape vacuum flask. Capacity 500 ml approx. Keeps hot or cold 18-24 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 393",
+  "name": "HeatVault Mag 700 Vacuum Flask with Magnet Phone Stand",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum flask with magnetic phone stand and tripod function. Capacity 700 ml approx. Keeps hot or cold 18 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 395",
+  "name": "Quest 700 Vacuum Insulated Flask with Carry Strap",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum insulated flask with carry strap. Capacity 700 ml approx. Keeps hot or cold 18 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 396",
+  "name": "HeatVault Zod Vacuum Flask with Sipper and Carry Handle",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum flask with sipper function and carry handle. Capacity 900 ml approx. Keeps hot or cold 18 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 248A",
+  "name": "Candy Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Insulated steel bottle, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 319",
+  "name": "Hexa Edge Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Double wall leak proof insulated steel bottle. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 224",
+  "name": "SwiftSip Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Insulated steel bottle with steel inside. Capacity 500 ml approx. Keeps hot or cold 4-5 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 268",
+  "name": "Square Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Insulated steel bottle, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 318",
+  "name": "Square II Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Insulated steel bottle, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 361",
+  "name": "Ribd Insulated Steel Bottle with Flip Top Lid",
+  "categoryId": "Insulated Bottles",
+  "description": "Ribbed insulated steel bottle with flip top lid, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 362",
+  "name": "Ribd Copper Insulated Copper Bottle with Flip Top Lid",
+  "categoryId": "Insulated Bottles",
+  "description": "Copper bottle with PU insulated outer body and flip top lid, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 282",
+  "name": "Flora Steel Bottle Colored",
+  "categoryId": "Water Bottles",
+  "description": "Single wall stainless steel bottle. Capacity 1 L approx. Leak proof and light weight. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 281",
+  "name": "Flora Steel Bottle Natural",
+  "categoryId": "Water Bottles",
+  "description": "Single wall stainless steel bottle. Capacity 1 L approx. Leak proof and light weight. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 240A",
+  "name": "Long Cola Stainless Steel Bottle Natural",
+  "categoryId": "Water Bottles",
+  "description": "Stainless steel bottle. Capacity 900 ml approx. Leak proof, light weight, wide mouth, BPA free. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 241A",
+  "name": "Long Cola Stainless Steel Bottle Colored",
+  "categoryId": "Water Bottles",
+  "description": "Stainless steel bottle in four colours. Capacity 900 ml approx. Leak proof and light weight.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 306A",
+  "name": "Bolt 750 Stainless Steel Single Wall Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Single wall stainless steel bottle. Capacity 750 ml approx. Leak proof, light weight, wide mouth, BPA free. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 307A",
+  "name": "Bolt 750 Colored Stainless Steel Single Wall Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Single wall stainless steel bottle in black, blue and white. Capacity 750 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 320",
+  "name": "Cola Single Wall Steel Bottle Natural 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Single wall steel bottle. Capacity 1 L approx. Leak proof, BPA free, light weight, wide mouth. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 322",
+  "name": "Cola Single Wall Steel Bottle Natural 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Single wall steel bottle. Capacity 750 ml approx. Leak proof, BPA free, light weight, wide mouth. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 321",
+  "name": "Cola Single Wall Steel Bottle Colored 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Single wall steel bottle in colour finish. Capacity 1 L approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 323",
+  "name": "Cola Single Wall Steel Bottle Colored 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Single wall steel bottle in colour finish. Capacity 750 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 231",
+  "name": "Curvy Steel Bottle Colored 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Curved steel bottle with sipper cap. Capacity 1 L approx. Light weight. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 233",
+  "name": "Curvy Steel Bottle Colored 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Curved steel bottle with sipper cap. Capacity 750 ml approx. Light weight. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 230",
+  "name": "Curvy Steel Bottle Natural 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Curved steel bottle. Capacity 1 L approx. Leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 232",
+  "name": "Curvy Steel Bottle Natural 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Curved steel bottle. Capacity 750 ml approx. Leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 324",
+  "name": "Aqua Mini Single Wall Steel Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Compact single wall steel bottle with easy sip and easy pour cap. Capacity 500 ml approx. Leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 200",
+  "name": "Straight Steel Bottle Natural 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Straight stainless steel bottle. Capacity 1 L approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 201",
+  "name": "Straight Steel Bottle Colored 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Straight stainless steel bottle in blue, black and red. Capacity 1 L approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 202",
+  "name": "Straight Steel Bottle Natural 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Straight stainless steel bottle. Capacity 750 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 203",
+  "name": "Straight Steel Bottle Colored 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Straight stainless steel bottle in red, blue and black. Capacity 750 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 373",
+  "name": "ClearSip Pop Double Wall Borosilicate Bottle with Infuser",
+  "categoryId": "Water Bottles",
+  "description": "Double wall borosilicate bottle with stainless steel infuser net and single button lid release. Capacity 325 ml approx. Dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 372",
+  "name": "ClearSip Duo Double Wall Borosilicate Infuser Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Double wall borosilicate infuser bottle with stainless steel infuser net. Capacity 325 ml approx. BPA free, lead free, non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 350",
+  "name": "ClearSip EcoFuse Double Wall Infuser Glass Bottle with Bamboo Lid",
+  "categoryId": "Water Bottles",
+  "description": "Double wall infuser glass bottle with bamboo lid and stainless steel infuser basket. Capacity 450 ml approx. High temperature resistant, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 325",
+  "name": "ClearSip 1000 Borosilicate Glass Bottle with Steel Cap",
+  "categoryId": "Water Bottles",
+  "description": "Borosilicate glass bottle with steel cap. Capacity 1000 ml approx. Microwave and dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 352",
+  "name": "ClearSip EcoWrap Borosilicate Bottle with Bamboo Cap and Cork Sleeve",
+  "categoryId": "Water Bottles",
+  "description": "Borosilicate bottle with bamboo cap and cork sleeve. Capacity 600 ml approx. BPA free, lead free, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 351",
+  "name": "ClearSip Wrap Borosilicate Bottle with Bamboo Cap and Silicon Sleeve",
+  "categoryId": "Water Bottles",
+  "description": "Borosilicate bottle with bamboo cap and silicon sleeve. Capacity 600 ml approx. BPA free, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 327",
+  "name": "ClearSip Brew 500 Borosilicate Glass Bottle with Steel Infuser",
+  "categoryId": "Water Bottles",
+  "description": "Borosilicate glass bottle with steel infuser. Capacity 500 ml approx. High temperature resistant, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 347",
+  "name": "SafeSip Tilt Glass Bottle with Easy Carry Handle",
+  "categoryId": "Water Bottles",
+  "description": "Glass bottle with easy carry handle. Capacity 400 ml approx. BPA free, lead free.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 374",
+  "name": "ClearSip Spin Double Wall Borosilicate Infuser Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Double wall borosilicate infuser bottle with magnetic stainless steel infuser basket and rolling detach mechanism. Capacity 425 ml approx. BPA free, non toxic, lead free.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 349",
+  "name": "SafeSip Eco II Glass Bottle with Wheat Straw Body",
+  "categoryId": "Water Bottles",
+  "description": "Glass bottle with wheat straw outer body. Capacity 350 ml approx. BPA free, lead free, non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 348",
+  "name": "SafeSip Glass Bottle with Outer Plastic Body and Metal Plate Cap",
+  "categoryId": "Water Bottles",
+  "description": "Glass bottle with outer plastic body and metal plate cap. Capacity 350 ml approx. BPA free, non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 371",
+  "name": "ClearSip Fold Double Wall Borosilicate Bottle with Infuser Net",
+  "categoryId": "Water Bottles",
+  "description": "Double wall borosilicate bottle with stainless steel infuser net and folding handle. High quality borosilicate glass, BPA free, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 344",
+  "name": "DuoSip Glass Sipper Mug with Outer Plastic Body",
+  "categoryId": "Mugs",
+  "description": "Glass sipper mug with outer plastic body and two drinking options, flip top lid and straw. Capacity 450 ml approx. BPA free, lead free, non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 256",
+  "name": "Premia II Glass Mug with Full Silicon Sleeve and Lid",
+  "categoryId": "Mugs",
+  "description": "Glass mug with full silicon sleeve and lid. Capacity 350 ml approx. Non toxic and leak proof. The sleeve protects the mug from small falls and your hands from hot liquids.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 242",
+  "name": "Folding Silicon Cup with Cap",
+  "categoryId": "Mugs",
+  "description": "Collapsible folding silicon cup with cap. Capacity 200 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 274",
+  "name": "Cafe Buddy Stainless Steel Vacuum Coffee Mug with Silicon Grip",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Stainless steel vacuum coffee mug with silicon grip. Capacity 510 ml approx. Keeps hot or cold 6-8 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 331",
+  "name": "Plum 450 Double Wall Insulated Mug",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Double wall insulated mug. Capacity 450 ml approx. Keeps hot or cold 4-6 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 254",
+  "name": "Hexa Insulated Tall Sipper Mug with Temperature Retention",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Tall insulated sipper mug. Capacity 375 ml approx. Keeps hot or cold 4-6 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 394",
+  "name": "Cafe Cup Double Wall Steel Mug with Flip Top Lid",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "304 steel double wall mug with flip top lid. Capacity 400 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 365",
+  "name": "Cafe Buddy Pro Vacuum Coffee Mug with Temperature Display",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Stainless steel vacuum coffee mug with silicon grip and temperature display. Capacity 510 ml approx. Keeps hot or cold 6-8 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 278",
+  "name": "Cafe Mate Pro Vacuum Coffee Mug with Temperature Display",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Stainless steel vacuum coffee mug with temperature display. Capacity 510 ml approx. Keeps hot or cold 6-8 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 330",
+  "name": "MaxSip Car and Desktop Vacuumized Mug",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Vacuumized travel mug with flip top and straw options. Capacity 890 ml approx. Keeps drinks hot for up to 8 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 249",
+  "name": "Lincoln Lite 2 Tone Stainless Steel Mug with Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Two tone stainless steel mug with lid. Capacity 300 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 252",
+  "name": "Foggy Plus Stainless Steel Coffee Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug. Capacity 250 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 227",
+  "name": "Oscar Stainless Steel Coffee Mug with Handle",
+  "categoryId": "Steel Mugs",
+  "description": "Stainless steel coffee mug with handle and lid, microwave safe. Capacity 350 ml approx. Available in white, red and blue.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 392",
+  "name": "Cafe Serve Double Wall Steel Mug with Handle and Lid",
+  "categoryId": "Steel Mugs",
+  "description": "304 steel double wall mug with handle and lid.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 356",
+  "name": "Hexa Flip Stainless Steel Mug with Flip Top Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Stainless steel mug with flip top lid. Capacity 400 ml approx. Available in 2 colours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 229",
+  "name": "Noble Stainless Steel Double Wall Coffee Mug Large",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug with pointy handle and lid. Capacity 460 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 302",
+  "name": "Noble Stainless Steel Double Wall Coffee Mug Medium",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug with pointy handle and lid. Capacity 250 ml approx. Available in 2 colours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 133",
+  "name": "See Thru Clock with Temperature",
+  "categoryId": "Clocks",
+  "description": "See through clock with large branding area. LCD display of time, month, date, day and temperature. 100 year calendar. Can be used as a wall or table clock.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 86",
+  "name": "See Thru Table Clock",
+  "categoryId": "Clocks",
+  "description": "See through table clock. LCD display of time, month, date, day and temperature. 100 year calendar, alarm with snooze, temperature in Celsius and Fahrenheit.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 151",
+  "name": "TimeWave Nano Capsule Style Clock with Bluetooth Speaker",
+  "categoryId": "Clocks",
+  "description": "Capsule style clock with Bluetooth speaker, mirror finish display, FM and TF card reader. 1200 mAh rechargeable battery, auto set time via Bluetooth.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "A 153",
+  "name": "TimeWave Plus Square Display Clock with Bluetooth Speaker and RGB Lights",
+  "categoryId": "Clocks",
+  "description": "Square display clock with Bluetooth speaker, RGB multi-colour light, mirror finish display, FM radio and TF card reader. 1200 mAh rechargeable battery.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "A 155",
+  "name": "TimeWave Ultra Large Clock with Bluetooth Speaker and Mobile Stand",
+  "categoryId": "Clocks",
+  "description": "Large clock with dual Bluetooth speakers, mobile stand, RGB lights, mirror finish display, FM and TF card reader. 1200 mAh rechargeable battery.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "A 125",
+  "name": "Night Lamp Clock with Alarm and Super Sweep Movement",
+  "categoryId": "Clocks",
+  "description": "Analogue clock with alarm, super sweep movement and 3 level backlight night lamp. 1200 mAh rechargeable battery included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 81",
+  "name": "Backlit Table Clock",
+  "categoryId": "Clocks",
+  "description": "Backlit table clock. LCD display of time, month, date, day and temperature. 100 year calendar, alarm with snooze, count-down timer and 8 music options for alarm.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 146",
+  "name": "Omni Zippered Work Folder",
+  "categoryId": "Organizers",
+  "description": "Zippered work folder with cable slot, pen holder, notebook, mobile pocket, card pockets and a currency and documents pocket.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "B 185",
+  "name": "Premium Organizer Notebook with Card Slots",
+  "categoryId": "Organizers",
+  "description": "Hard bound organizer notebook with card slots. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 110",
+  "name": "3 Fold Eco Notebook",
+  "categoryId": "Organizers",
+  "description": "Three fold eco notebook in kappa board material with sticky notes, ruler and pen. 100 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 145",
+  "name": "Compact Stationery Kit",
+  "categoryId": "Organizers",
+  "description": "Compact stationery kit in kappa board material with ruler, pen, pencil and highlighter. 100 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 143",
+  "name": "Folding Writing Pad with Pen Loop",
+  "categoryId": "Organizers",
+  "description": "Eco friendly folding writing pad with pen loop, mobile stand and coloured sticky strips. 110 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 144",
+  "name": "Eco Notebook with Sticky Notes and Pen",
+  "categoryId": "Organizers",
+  "description": "Kappa board eco notebook with coloured sticky notes and pen. 100 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 107",
+  "name": "Cork Eco Friendly A5 Notebook with Hard Bound Cover",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 notebook in cork material. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 124A",
+  "name": "Hard Bound Cork A5 Notebook with 16 GB Pen Drive",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 cork notebook supplied with a 16 GB USB drive. Higher capacity available on request. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "B 203",
+  "name": "Cork Duomag A5 Cork Notebook with Magnetic Flap Closure",
+  "categoryId": "Eco Notebooks",
+  "description": "A5 cork notebook with magnetic flap closure and a slant design flap made of coffee cork material. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 180",
+  "name": "Cork A5 Notebook with Hard Pen Slot",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 cork notebook with a hard pen slot. The cover also serves as a phone stand. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 154",
+  "name": "A5 Size Notebook with Sticky Notes and Eco Pen",
+  "categoryId": "Eco Notebooks",
+  "description": "Wiro bound A5 notebook with sticky notes and an eco pen. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 150A",
+  "name": "Cork Magnetic Envelope Style Notebook with Recycled Pages",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound envelope style notebook in cork and PU material with recycled pages.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 132",
+  "name": "Cork A5 Notebook with Mobile Pocket and Card Holder",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 cork notebook with mobile pocket, card holder pocket and pen loop. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 126",
+  "name": "D Style Bamboo Notebook with Phone Stand",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound bamboo notebook with phone stand and elastic fastener. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 109A",
+  "name": "Cork Eco Friendly A5 Notebook",
+  "categoryId": "Eco Notebooks",
+  "description": "Soft bound A5 cork notebook with rounded edges for a refined look and extra durability. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 100",
+  "name": "Eco Friendly Sticky Pad Notebook with Clear Cover and Pen",
+  "categoryId": "Eco Notebooks",
+  "description": "Wiro bound eco notebook with clear cover, coloured sticky pads and pen. 140 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 50",
+  "name": "Eco Notebook with Pen and Sticky Pads",
+  "categoryId": "Eco Notebooks",
+  "description": "Wiro bound recycled eco notebook with pen and sticky pads. 120 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 108",
+  "name": "Bamboo A5 Size Notebook in Natural Finish",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound A5 notebook in natural bamboo finish. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 152",
+  "name": "PU Cork Notebook with Elastic Fastener",
+  "categoryId": "Eco Notebooks",
+  "description": "Hard bound PU and cork notebook with elastic fastener. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 163",
+  "name": "Cork Wiro Notebook",
+  "categoryId": "Eco Notebooks",
+  "description": "Wiro bound cork notebook with card slots and sticky notes. 160 writing pages, 70 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 153",
+  "name": "EcoFelt Notebook with Bookmark Ribbon",
+  "categoryId": "Eco Notebooks",
+  "description": "Soft bound notebook in eco friendly felt material with bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 97",
+  "name": "Smiley Cork Notepad with Sticky Notepad",
+  "categoryId": "Eco Notebooks",
+  "description": "Notepad made of biodegradable and sustainable cork material, with coloured sticky notepads.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 115",
+  "name": "Double Side Folding Notebook with Elastic Fastener",
+  "categoryId": "Notebooks",
+  "description": "Double side folding PU notebook with elastic fastener. 240 inner pages, 80 GSM. Available in blue and grey or red and black.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 199",
+  "name": "FoldBook Mail A5 Notebook with Magnetic Flap Closure",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook in envelope design with magnetic flap closure. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 200",
+  "name": "FoldBook Prime A5 Notebook with Magnetic Flap Closure and Metal Plate",
+  "categoryId": "Notebooks",
+  "description": "A5 notebook with magnetic flap closure and metal plate. 192 inner pages, 80 GSM. Available in gray, black, blue and brown.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 201",
+  "name": "FoldBook Nook A5 Notebook with Magnetic Flap Closure",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with magnetic flap closure. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 202",
+  "name": "FoldBook Stash A5 Notebook with Pockets and Pen Slot",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with magnetic flap closure, pockets and pen slot on the flap. 192 inner pages, 80 GSM. Available in gray, brown and olive.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 127",
+  "name": "Ribbon A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "A5 notebook in PU material. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 122",
+  "name": "Colorful Laser Engrave Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound PU notebook suited to colour laser engraving. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 166",
+  "name": "Leaf A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook with embossed leaf design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 186",
+  "name": "Keyboard Notebook with Metal Bookmark",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with keyboard texture and metal bookmark. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 190",
+  "name": "CityLife PU Notebook with Memorandum and Bookmark Ribbon",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with memorandum pages and bookmark ribbon. 192 inner pages, 80 GSM. Available in red, black and blue.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 189",
+  "name": "Constella PU Notebook",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with geometric line design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 147",
+  "name": "Prime Soft Feel PU Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound soft feel PU notebook. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 157",
+  "name": "Wooden Texture PU Notebook",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with wooden texture finish and pen. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 160",
+  "name": "Pyramid 3 Fold Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound three fold notebook with metal buckle. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 162",
+  "name": "Stealth 3 Fold Notebook with Long Metal Edge",
+  "categoryId": "Notebooks",
+  "description": "Three fold PU notebook with a long metal edge. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 210",
+  "name": "Foldable Writing Pad with Phone and Pen Stand",
+  "categoryId": "Notebooks",
+  "description": "Foldable writing pad with phone stand, pen stand and coloured sticky strips.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 197",
+  "name": "Classic PU Notebook with Pen Slot",
+  "categoryId": "Notebooks",
+  "description": "Classic PU notebook with pen slot. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 173",
+  "name": "Victor A5 Notebook with V Strap Closure",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with V strap closure and double bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 170",
+  "name": "A5 Notebook with Hard Pen Slot",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with hard pen slot. The cover also serves as a phone stand. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 205",
+  "name": "PenDeck Tilt Dual Tone A5 Notebook with Pen Slot and Card Slots",
+  "categoryId": "Notebooks",
+  "description": "Hard bound dual tone A5 notebook with hard pen slot and card slots. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 184",
+  "name": "Pen Loop Notebook with Stitching Design",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with pen loop and stitching design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 204",
+  "name": "Pen Loop Notebook with Vertical Stitching Design",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with pen loop and vertical stitching design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 123",
+  "name": "Ambience A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook in PU material. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 175",
+  "name": "Timeless A5 Notebook with Textured Cover",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook with textured cover. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 158",
+  "name": "Checkered 2 Tone Notebook with Bookmark Ribbon",
+  "categoryId": "Notebooks",
+  "description": "Soft bound two tone checkered notebook with bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 171",
+  "name": "Two Tone Notebook with D Flap Buckle",
+  "categoryId": "Notebooks",
+  "description": "Two tone notebook with D flap buckle and double bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 188",
+  "name": "Wave White Hard Bound Notebook with Rose Gold Leafing",
+  "categoryId": "Notebooks",
+  "description": "Hard bound notebook with wave design and rose gold leafing. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 129",
+  "name": "Dune A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook in PU material with dune texture. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 165",
+  "name": "Cloud A5 Notebook with Pen Holder Slot",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook with pen holder slot. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 128",
+  "name": "Diamond A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A5 notebook in PU material with diamond texture. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 125",
+  "name": "A5 Notebook with Phone Stand and Card Pocket",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with phone stand, card pocket, mobile pocket and pen loop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 92",
+  "name": "A5 Notebook with Mobile Pocket and Card Holder",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with mobile pocket, card holder pocket and pen loop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 113",
+  "name": "Soft Gray A5 Notebook with Mobile Pocket",
+  "categoryId": "Notebooks",
+  "description": "A5 PU notebook with mobile pocket and pen loop. 160 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 130",
+  "name": "Alpha A5 Notebook with Pen Slot",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 PU notebook with pen slot. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 142",
+  "name": "Classic A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook in imported PU material. 192 inner pages, 80 GSM. Available in 3 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 169",
+  "name": "Majestic Slant Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound notebook with slant two tone design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 137",
+  "name": "Double Strip A6 Size PU Notebook",
+  "categoryId": "Notebooks",
+  "description": "Soft bound A6 PU notebook with double strip design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 179",
+  "name": "Slant A5 Notebook with Memorandum and Bookmark Ribbon",
+  "categoryId": "Notebooks",
+  "description": "Hard bound A5 notebook with slant design, memorandum pages and bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 131",
+  "name": "Optima Two Tone A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "Hard bound two tone A5 notebook. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 397",
+  "name": "DuraMug Scout Mid Size Double Wall Coffee Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Mid size double wall stainless steel coffee mug with lid. Capacity 250 ml approx. Available in white and black. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 400",
+  "name": "Vertex Stainless Steel Double Wall Mug with Ridge Base",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel mug with unique ridge base and flip top lid. Capacity 350 ml approx. Available in pink, black, blue and white.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 237",
+  "name": "Shiny Steel Coffee Mug with Handle",
+  "categoryId": "Steel Mugs",
+  "description": "Shiny finish steel coffee mug with handle and lid. Capacity 225 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 223",
+  "name": "Tall Sipper Mug",
+  "categoryId": "Steel Mugs",
+  "description": "304 steel tall sipper mug. Capacity 375 ml approx. Available in red, blue and white.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 226",
+  "name": "Foggy Stainless Steel Coffee Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug with sliding lid, microwave safe. Capacity 350 ml approx. Available in white, red and blue.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 234A",
+  "name": "Hexa Tall Sipper Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Tall sipper mug with lid, microwave safe. Capacity 375 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 317",
+  "name": "DuraMug Grip Lite Large Steel Mug with Flip Top Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Large steel mug with flip top lid. Capacity 350 ml approx. Available in 2 colours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 228",
+  "name": "Oxford Stainless Steel Double Wall Coffee Mug with Round Handle",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug with round handle and lid. Capacity 460 ml approx. Available in 2 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 312",
+  "name": "CurveSip Mini Steel Mug with Convex Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall mini steel mug with convex lid. Capacity 200 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 127",
+  "name": "Colorful Steel Coffee Mug with Box",
+  "categoryId": "Steel Mugs",
+  "description": "Colourful steel coffee mug supplied with a box. Capacity 225 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 279",
+  "name": "Sunset Stainless Steel Mug with Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Stainless steel mug with lid. Capacity 360 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 300",
+  "name": "Ceramix Ceramic Look Mug with Stainless Steel Inside",
+  "categoryId": "Steel Mugs",
+  "description": "Ceramic look mug with stainless steel inside and lid. Capacity 300 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 316",
+  "name": "DuraMug Grip Large Spill Proof Steel Suction Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Large spill proof steel suction mug with flip top lid. Capacity 350 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 280",
+  "name": "Sunset Plus Magic Suction Mug with Stainless Steel Inside",
+  "categoryId": "Steel Mugs",
+  "description": "Spill proof magic suction mug with stainless steel inside. Capacity 360 ml approx. BPA free. Available in 2 colours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 301",
+  "name": "DuraMug Spill Proof Suction Mug with Oval Handle",
+  "categoryId": "Spill Proof Mugs",
+  "description": "Double wall spill proof suction mug with oval handle. Capacity 350 ml approx. BPA free and leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 289",
+  "name": "Sunset Eco Bamboo Fiber Steel Mug",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Double wall bamboo fiber eco friendly mug with stainless steel inside. Capacity 360 ml approx. Leak proof, upcycled. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 266",
+  "name": "EcoMug Wheat Straw Eco Friendly Mug with Handle",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Wheat straw eco friendly mug with handle and tilt dry design. Capacity 400 ml approx. Upcycled and microwave safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 336",
+  "name": "EcoWave Mini Stainless Steel Double Wall Coffee Mug",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Wheat fiber double wall coffee mug with wooden lid. Capacity 220 ml approx. Available in 2 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 187",
+  "name": "EcoMug Eco Friendly Coffee Mug with Steel Inside",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Eco friendly coffee mug made with wheat fiber and stainless steel inside. Capacity 225 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 337",
+  "name": "EcoWave Stainless Steel Double Wall Coffee Mug",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Wheat fiber double wall stainless steel coffee mug with lid. Capacity 425 ml approx. Available in 2 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 247",
+  "name": "Dumbbell Eco 750 Dumbbell Shape Water Bottle",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Dumbbell shape water bottle made of wheat fiber. Capacity 750 ml approx. 100 percent recyclable, BPA free, upcycled and food safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 224A",
+  "name": "Insulated Straight Steel Bottle with Rice Husk Outer Body",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Insulated steel bottle with rice husk outer body. Capacity 500 ml approx. Keeps hot or cold 4-5 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 334",
+  "name": "Square II Eco Friendly Insulated Steel Bottle",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Double wall eco friendly insulated steel bottle with rice husk and wheat fiber finish. Capacity 750 ml approx. Leak proof and BPA free.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 288A",
+  "name": "EcoBrew Mug with Bamboo Lid",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Coffee fiber eco friendly mug with bamboo lid. Capacity 300 ml approx. Microwave safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 288",
+  "name": "EcoBrew Mug Coffee Fiber Eco Friendly Mug with Handle",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Coffee fiber eco friendly mug with handle, made using crop waste. Capacity 300 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 188",
+  "name": "EcoCup Elite Eco Friendly Glasses",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Glasses made of eco friendly wheat fiber with an outer body of responsibly sourced wheat fiber. Capacity 300 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 222A",
+  "name": "Bamboo Dark Coffee Mug with Flip Top Lid",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Eco friendly mug with flip top cap and silicon grip. Capacity 250 ml approx. Crop waste used.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 222",
+  "name": "Bamboo Coffee Mug Eco Friendly Mug with Flip Top Lid",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Eco friendly bamboo mug with flip top lid and silicon grip. Crop waste used and upcycled.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 275",
+  "name": "Tall Bamboo Coffee Mug with Flip Top Lid",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Tall eco friendly bamboo mug with flip top lid and silicon grip. Capacity 500 ml approx. Upcycled, crop waste used.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 189",
+  "name": "EcoCup Bold Eco Friendly Glasses",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Set of 4 eco friendly glasses in a white gift box. Capacity 300 ml each approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 401",
+  "name": "Signature Chai Cups Set of 4 Cutting Chai Mugs",
+  "categoryId": "Bamboo & Wheat Fiber",
+  "description": "Set of 4 cutting chai mugs in wheat straw material. Capacity 100 ml each approx. Crop waste used and upcycled.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 196",
+  "name": "Octomeal Eco 3 Container Lunch Box with Spoon",
+  "categoryId": "Lunch Boxes",
+  "description": "Three container eco friendly lunch box with spoon. BPA free and non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 364",
+  "name": "Zippy Trio Lunch Bag with 3 Containers and Cutlery",
+  "categoryId": "Lunch Boxes",
+  "description": "Lunch bag with 2 stainless steel round containers, 1 stainless steel long container, spoon, fork and tablemat.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 363",
+  "name": "Zippy Go Lunch Bag with 2 Round Containers",
+  "categoryId": "Lunch Boxes",
+  "description": "Lunch bag with 2 stainless steel round containers.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 340",
+  "name": "Pik-Kit Joy All in 1 Lunch Box",
+  "categoryId": "Lunch Boxes",
+  "description": "All in one lunch box with 3 square stainless steel containers with air tight lids, steel bottle, spoon, fork and table mat.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 341",
+  "name": "Zippy Nova Lunch Box Bag with Fork, Spoon and Table Mat",
+  "categoryId": "Lunch Boxes",
+  "description": "Lunch box bag with 3 stainless steel containers, fork, spoon and table mat.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 342",
+  "name": "Zippy Square Lunch Box Bag with Fork, Spoon and Table Mat",
+  "categoryId": "Lunch Boxes",
+  "description": "Square lunch box bag with 3 stainless steel containers, fork, spoon and table mat.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 154A",
+  "name": "Bento Travel Lunch Box with 3 Steel Containers and Lifter",
+  "categoryId": "Lunch Boxes",
+  "description": "Travel lunch box with 3 stainless steel containers and lifter.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 154",
+  "name": "Bento Travel Lunch Box with 3 Plastic Containers",
+  "categoryId": "Lunch Boxes",
+  "description": "Travel lunch box with 3 microwave safe containers using a press lock mechanism.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 87",
+  "name": "Octomeal Lunch Box 3 Containers Steel",
+  "categoryId": "Lunch Boxes",
+  "description": "Three container steel lunch box with spoon included in the cap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 35",
+  "name": "Power Plus Mega Lunch Box 3 Box Microwaveable",
+  "categoryId": "Lunch Boxes",
+  "description": "Three box lunch box, leak proof, with microwave safe containers and air tight locking lids.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 225",
+  "name": "Power Plus Mega Steel Lunch Box with 3 Containers and Lifter",
+  "categoryId": "Lunch Boxes",
+  "description": "Lunch box with 3 stainless steel containers and lifter.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 86",
+  "name": "Octomeal Lunch Box 3 Containers Plastic",
+  "categoryId": "Lunch Boxes",
+  "description": "Three container plastic lunch box with microwave safe containers, air tight locking lids and spoon included in the cap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 357",
+  "name": "TokuBox Split Slim Lunch Box with Steel Inside",
+  "categoryId": "Lunch Boxes",
+  "description": "Slim lunch box with stainless steel inside and PU filling that keeps food hot. Two partitions with silicon seal. Spoon included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 358",
+  "name": "TokuBox Trio Slim Lunch Box with Steel Inside",
+  "categoryId": "Lunch Boxes",
+  "description": "Slim lunch box with stainless steel inside and PU filling that keeps food hot. Three partitions with silicon seal.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 359",
+  "name": "TokuBox Stack Slim Lunch Box with Detachable Containers",
+  "categoryId": "Lunch Boxes",
+  "description": "Slim lunch box with stainless steel inside and PU filling that keeps food hot. Three removable containers that can be used separately.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 399",
+  "name": "Omni-Meal Multi-Compartment Insulated Steel Lunch Box",
+  "categoryId": "Lunch Boxes",
+  "description": "Multi-compartment insulated steel lunch box with integrated carry handle. Capacity 700 ml plus 225 ml. Available in green and brown.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 286",
+  "name": "Mini Lunch Box Bag with 2 Containers and Cutlery",
+  "categoryId": "Lunch Boxes",
+  "description": "Mini lunch box bag with 2 microwave safe containers, spoon, fork and tablemat. Air tight locking lids and leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 183",
+  "name": "Electro Steel 3 Container Electric Steel Lunch Box",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric steel lunch box with 3 containers and auto cut function.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 338",
+  "name": "ThermoBite Slim Electric Lunch Box with 2 Steel Containers",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric lunch box with 2 stainless steel containers, cable and carry bag included. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 06",
+  "name": "Power Plus Electra Lunch Box Plastic 3 Container",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric lunch box with 3 microwave safe containers.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 328",
+  "name": "ThermoBite Electric Lunch Box with 4 Steel Containers",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric lunch box with 4 stainless steel containers and auto cut-off. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 07",
+  "name": "Power Plus Electra Lunch Box Steel 3 Container",
+  "categoryId": "Electric Lunch Boxes",
+  "description": "Electric steel lunch box with 3 containers and air tight locking lids.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 290",
+  "name": "Coffee Warmer and Stainless Steel Mug Set with Lid",
+  "categoryId": "Electric Kettles",
+  "description": "Set of coffee warmer and stainless steel mug with lid. Auto cut off function and 2 heat modes.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 195",
+  "name": "Sleek Glass Kettle with LED Illumination",
+  "categoryId": "Electric Kettles",
+  "description": "Cordless glass kettle with LED illumination. 1.8 L capacity with boil dry protection.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "E 91",
+  "name": "Egg Shape Salt and Pepper Shaker Set with Stand",
+  "categoryId": "Home & Kitchen",
+  "description": "Egg shaped salt and pepper shaker set with stand. Compact, space saver set for the table.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "Z 39",
+  "name": "Divine Pooja Thali 4 Piece Set",
+  "categoryId": "Home & Kitchen",
+  "description": "Pooja thali set containing pooja plate, bell, diya and prasad or roli plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "Z 40",
+  "name": "Divine Mini Pooja Thali Set",
+  "categoryId": "Home & Kitchen",
+  "description": "Mini pooja thali set containing pooja plate, agarbatti stand, diya and prasad or roli plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 90",
+  "name": "Birdies on a Tree Fruit Fork Set",
+  "categoryId": "Home & Kitchen",
+  "description": "Party set of 6 little birdie fruit forks with a stand designed like a branch. Available in 5 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 177",
+  "name": "Stainless Steel Serving Bowl with Suction Base",
+  "categoryId": "Home & Kitchen",
+  "description": "Stainless steel serving bowl with an anti-slip suction base.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 165",
+  "name": "Window and Kitchen Slab Cleaner with Spray Bottle",
+  "categoryId": "Home & Kitchen",
+  "description": "Cleaner with easy remove spray bottle that sprays and wipes simultaneously.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 204",
+  "name": "Folding Plastic Hanger with Extendable Arms",
+  "categoryId": "Lifestyle Products",
+  "description": "Folding plastic hanger with extendable arms for bigger clothes.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 10",
+  "name": "Landline Phone Extension Wire with Retractable Cord",
+  "categoryId": "Lifestyle Products",
+  "description": "Retractable extension cord for landline phones, 3 metres, with an auto retractable slide button.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 171",
+  "name": "Hot and Cold Pack",
+  "categoryId": "Lifestyle Products",
+  "description": "Reusable hot and cold pack. For cold use keep in the freezer 30-60 minutes; for hot use keep in boiling water 3 minutes or microwave on medium 30 seconds.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "P 05",
+  "name": "Easy Bottle Holder",
+  "categoryId": "Lifestyle Products",
+  "description": "Bottle holder for bottles up to 1.6 L capacity. Can be hung on a belt, pocket, bag or handbag.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 54",
+  "name": "Folding Wonder Vase",
+  "categoryId": "Lifestyle Products",
+  "description": "Unbreakable, leakproof folding vase that is easy to carry.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 401",
+  "name": "EcoLens UV Protection Sunglasses in Wheat Straw Material",
+  "categoryId": "Lifestyle Products",
+  "description": "UV protection sunglasses in wheat straw material, packed in a drawstring pouch with a microfiber cloth.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 166",
+  "name": "Mini Lint Remover",
+  "categoryId": "Lifestyle Products",
+  "description": "Reusable mini lint remover, effective up to 50 times. Available in red, blue and white.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 386",
+  "name": "Squash Dual Mode Mosquito Racket with Stand",
+  "categoryId": "Lifestyle Products",
+  "description": "Dual mode mosquito racket with stand, UV light insect killer and fly swatter. Rechargeable battery, Type C charging, charging cable included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 235",
+  "name": "Measured Liquor and Whiskey Pourer",
+  "categoryId": "Lifestyle Products",
+  "description": "Leak-proof pourer that fits any standard mouth liquor bottle and pours a perfect 30 ml shot every time.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 233",
+  "name": "Power Glow Coaster with Logo Highlight",
+  "categoryId": "Lifestyle Products",
+  "description": "Coaster with a pressure sensitive surface that highlights your brand whenever a drink is placed on it. Detachable plate for easy printing. Batteries included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 303",
+  "name": "Power Glow Coaster with Reverse Logo Highlight and Black Plate",
+  "categoryId": "Lifestyle Products",
+  "description": "Coaster with pressure sensitive surface and reverse branding plate that highlights your brand further. Batteries included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 173",
+  "name": "Shoe Shiner with Shoe Horn",
+  "categoryId": "Lifestyle Products",
+  "description": "Easy anytime shoe shiner suitable for all colour shoes, with a shoe horn at the back.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 17",
+  "name": "Wine Opener and Bottle Opener with Foil Cutter",
+  "categoryId": "Lifestyle Products",
+  "description": "High quality wine opener with bottle opener and foil cutter. Magnetic outer cover folds to save space.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 60",
+  "name": "Power Plus Universal Battery Tester",
+  "categoryId": "Lifestyle Products",
+  "description": "Universal battery tester for AA, AAA, 9V and all kinds of button cells.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 209",
+  "name": "PinSpin 360 Degree Rotating Stapler",
+  "categoryId": "Lifestyle Products",
+  "description": "360 degree rotating stapler for large 26/6 size pins with 8 position locking. Includes spare pins.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "P 10",
+  "name": "Rubik Cube 2 x 2 inch",
+  "categoryId": "Lifestyle Products",
+  "description": "2 x 2 inch Rubik cube. Builds logical thinking, responsiveness, observational skills, spatial awareness, motor skills and inferential capability.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "P 10A",
+  "name": "Promo Cube 2 x 2 inch Blank Rubik Cube",
+  "categoryId": "Lifestyle Products",
+  "description": "2 x 2 inch blank Rubik cube for promotions, fully brandable on all faces.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 351",
+  "name": "PU Luggage Tag with Hidden Info Card",
+  "categoryId": "Lifestyle Products",
+  "description": "Luggage tag made of imported PU material with hidden info card and double back pasting.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 129",
+  "name": "Easy Toothpaste Squeezer",
+  "categoryId": "Lifestyle Products",
+  "description": "Toothpaste squeezer made of PS material. Gets the last drop from tubes by squeezing.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 205",
+  "name": "Car Trash Holder Dustbin",
+  "categoryId": "Lifestyle Products",
+  "description": "Car dustbin that fits in a car cup or bottle holder.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 336",
+  "name": "Cork Luggage Tag",
+  "categoryId": "Lifestyle Products",
+  "description": "Eco friendly cork travel luggage tag with info card.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "G 19",
+  "name": "6 in 1 Keychain with Glass Window Breaker and LED Torch",
+  "categoryId": "Unique Toolkits",
+  "description": "Six in one keychain with glass window breaker and LED torch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 27",
+  "name": "6 in 1 Military Key Chain with Toolkit and Torch",
+  "categoryId": "Unique Toolkits",
+  "description": "Six in one military key chain including emergency torch, fold-out whistle, glass window breaker, seat belt cutter, folding knife, screwdriver and key ring.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "T 15",
+  "name": "BitCase Heavy Duty Screwdriver Toolkit",
+  "categoryId": "Unique Toolkits",
+  "description": "Heavy duty screwdriver toolkit containing a screwdriver handle with 24 attachments in a folding storage box.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "T 16",
+  "name": "TaskForce 19 Piece Multi Use Toolkit",
+  "categoryId": "Unique Toolkits",
+  "description": "Multi use toolkit containing a screwdriver with 15 attachments, needle-nose pliers, measuring tape and precision hammer in a folding storage box.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "N 19",
+  "name": "Folding Double Emery Board Nail Filer with Nail Protector",
+  "categoryId": "Ladies Utility",
+  "description": "Double side emery board with coarse and smooth finish and nail protector. Works up to 10,000 times. Made in Taiwan.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "N 18",
+  "name": "Folding Mirror with Sewing Kit",
+  "categoryId": "Ladies Utility",
+  "description": "Folding mirror with an emergency sewing kit.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 334",
+  "name": "Pure Air Loop Gel Based Room Freshener",
+  "categoryId": "Air Fresheners",
+  "description": "Gel based room freshener for home, office and car. 100 g net. Vegan product. Fragrances available: jasmine, squash, pink petal, iris navy, musk and lime.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 304",
+  "name": "Pure Air Gel Based Air Freshener",
+  "categoryId": "Air Fresheners",
+  "description": "Gel based air freshener for home, office and car. 100 g net. Vegan and water based. Fragrances available: fresh lemon, citrus twist, very berry, iris navy, pink petal and catmint jade.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "F 11",
+  "name": "Winner Cup Desk Trophy with Stand and Black Plate",
+  "categoryId": "Table Trophy",
+  "description": "Winner cup desk trophy with stand and black branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "F 11A",
+  "name": "Winner Cup Desk Trophy with Shiny Chrome Cup",
+  "categoryId": "Table Trophy",
+  "description": "Winner cup desk trophy with stand, shiny chrome cup and black plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "E 350",
+  "name": "Power Glow Rechargeable Magnifier",
+  "categoryId": "Magnifiers",
+  "description": "Rechargeable magnifier with 15 ultra bright white LEDs, 5X magnification and a 67 mm lens diameter. Type C charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 350A",
+  "name": "Rechargeable Magnifier with 2 Lighting Modes",
+  "categoryId": "Magnifiers",
+  "description": "Rechargeable magnifier with 3 lighting modes, glowing logo plate for personalisation and Type C charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 148",
+  "name": "Mini Magnifier with Torch",
+  "categoryId": "Magnifiers",
+  "description": "Mini magnifier with built in LED illuminator for reading in low light conditions.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 388",
+  "name": "Octagon Paperweight Magnifier with 3X Zoom",
+  "categoryId": "Magnifiers",
+  "description": "Paperweight magnifier that magnifies up to 3 times, easy to read without spectacles.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 193",
+  "name": "Monarch Brass Metal Pen with Twist Open Refill",
+  "categoryId": "Pens & Highlighters",
+  "description": "Brass metal pen with twist open refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 175",
+  "name": "Loop Metal Pen with Double Rings",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with attractive double ring design and smooth refill. Laser engraving comes out in a silver finish. Available in red, blue and black.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 153",
+  "name": "Prism Grip Metal Body Pen with Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal body pen with stylus and soft touch body. The prism grip makes the pen stand out.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 145",
+  "name": "6 in 1 Pen with Phone Stand",
+  "categoryId": "Pens & Highlighters",
+  "description": "Six in one plastic pen with phone stand, cleaner, ruler, tools and stylus.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 195",
+  "name": "Talisman Metal Pen with Turkish Evil Eye Amulet",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with a Turkish evil eye amulet, believed to protect against the evil eye and a symbol of protection.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 190",
+  "name": "Anti Gravity Magic Pen with Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with stylus and magic upside down function: the refill goes back inside when upside down and comes out while writing.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 184",
+  "name": "Luster Matte Metal Pen with Golden Parts",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with golden parts, ultra smooth refill and luster matte finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 187",
+  "name": "Metal Pen with Twist Open Action",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with twist open action.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 176",
+  "name": "Groove Brass Pen with Stripes",
+  "categoryId": "Pens & Highlighters",
+  "description": "Brass pen with stripes and a smooth refill. Laser engraving comes out in a beautiful silver finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 177",
+  "name": "Luster Classy Metal Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with ultra smooth refill and matte finish for a classy look.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 158",
+  "name": "Matt Black Pen with Chrome Parts",
+  "categoryId": "Pens & Highlighters",
+  "description": "Matt black metal pen with chrome parts and stylus.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 194",
+  "name": "Zesto Sleek Matte Finish Pen in Bold Colors",
+  "categoryId": "Pens & Highlighters",
+  "description": "Sleek matte finish pen in bold colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 189",
+  "name": "Logo Glow Pen with Phone Stand",
+  "categoryId": "Pens & Highlighters",
+  "description": "Pen with glowing logo and phone stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 188",
+  "name": "Sand Timer Pen with Soft Grip",
+  "categoryId": "Pens & Highlighters",
+  "description": "Pen with soft grip and a 15 second sand timer.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 121",
+  "name": "Pen with Safety Cutter and Letter Opener",
+  "categoryId": "Pens & Highlighters",
+  "description": "Twist open plastic pen with a small knife at the back. The cutter goes back when released for increased safety.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 186",
+  "name": "Metal Pen with Twist Open Action Rose Gold Finish",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with twist open action, ultra smooth refill, matte finish and rose gold parts.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 185",
+  "name": "Metal Pen with Bamboo Pusher and Fidget Ball",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal pen with bamboo pusher, ultra smooth refill and a fidget ball attachment at the clip top. Matte finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 46",
+  "name": "Pen With 2 Way Screwdriver",
+  "categoryId": "Pens & Highlighters",
+  "description": "Plastic pen with a two way screwdriver.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 144",
+  "name": "6 In 1 Military Pen with Compass",
+  "categoryId": "Pens & Highlighters",
+  "description": "Six in one plastic military pen with compass, emergency torch below the compass, tools, phone stand and stylus.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 106",
+  "name": "Handy Paper Clip Pen 2 in 1",
+  "categoryId": "Pens & Highlighters",
+  "description": "Two in one plastic pen that doubles as a paper clip.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 97",
+  "name": "Write in the Dark Auto Pen with Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "Brass body pen with stylus at the back that enables you to write in the dark and also acts as a torch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 02",
+  "name": "Bottle Shape Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Folding bottle shape plastic pen that can be opened to make a pen. Great for promotion of products that come in a bottle.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 119",
+  "name": "Mini Pen with Bookmark",
+  "categoryId": "Pens & Highlighters",
+  "description": "Handy plastic bookmark with a built-in mini pen. Clips onto any page and does not fall off.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 104",
+  "name": "Single Piece Gel Highlighter",
+  "categoryId": "Pens & Highlighters",
+  "description": "Single piece gel highlighter. Rotate the bottom ring to bring the highlighter out. Two colours: pink and yellow.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 92",
+  "name": "Mr and Ms Combi-Pen Set with Mechanical Pencil",
+  "categoryId": "Pens & Highlighters",
+  "description": "Set of pen with 0.7 mm mechanical pencil in a gift box.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "L 167",
+  "name": "Gel Pen with Paper Clip",
+  "categoryId": "Pens & Highlighters",
+  "description": "Smooth gel pen with German ink. The pen clip can be used as a paper clip.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 192",
+  "name": "3 in 1 Pen with Stylus and Mobile Stand",
+  "categoryId": "Pens & Highlighters",
+  "description": "Three in one pen with hidden stylus and detachable phone stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 191",
+  "name": "FlatLine Square Body Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Square body plastic pen with super smooth refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 202",
+  "name": "Compakt Folding Metal Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Compact folding metal pen.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 91",
+  "name": "Twisty 3 Refill Pen With Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "Ultra sleek three refill pen. Twist to change refill colour, stylus at the back. Refill colours black, red and blue.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 138",
+  "name": "Mini Clip Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Mini clip pen that hangs easily to bags and belts.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 154",
+  "name": "Matte Metal Pen With Colored Highlights",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal body pen with coloured highlights and matte finish. Laser engraving comes out in a beautiful silver finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 65",
+  "name": "4 In 1 Laser Pointer Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Exclusive four in one mini clip pen with laser pointer and carabiner function, hangs easily to bags and loops.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 135",
+  "name": "Daniel Metal Stylus Pen With Torch",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal stylus pen with torch in a chrome finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 134",
+  "name": "3 in 1 Pen with Stylus and Mobile Stand",
+  "categoryId": "Pens & Highlighters",
+  "description": "Three in one pen with stylus and a phone stand at the back of the pen.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 35",
+  "name": "Metal Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Metal bodied pen with coloured grip.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 64",
+  "name": "String Pen with Stylus",
+  "categoryId": "Pens & Highlighters",
+  "description": "String pen with a touch screen stylus. Suited to offices, conferences, exhibitions and expos.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 24",
+  "name": "Triangular Plastic Pen",
+  "categoryId": "Pens & Highlighters",
+  "description": "Triangular plastic pen that allows a perfect grip, with a super smooth German ink refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 137",
+  "name": "Table Stand Pen With Double Tape",
+  "categoryId": "Pens & Highlighters",
+  "description": "Table stand pen with attached pen, adhesive tape at the bottom to stick to tables, 180 degree adjustable cap and double side flat printing area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 196",
+  "name": "TablePen Square Large Size Table Stand Pen with Fixed Base",
+  "categoryId": "Pens & Highlighters",
+  "description": "Large size table stand pen with fixed square base.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 197",
+  "name": "TablePen Triangle Table Stand Pen with Fixed Base",
+  "categoryId": "Pens & Highlighters",
+  "description": "Table stand pen with fixed triangular base.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 198",
+  "name": "PrisMute No Sound Pen with Prism Style Grip",
+  "categoryId": "Pens & Highlighters",
+  "description": "Silent click plastic pen with prism style grip.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 199",
+  "name": "MarkMate Slide Out Folding Pen with Highlighter",
+  "categoryId": "Pens & Highlighters",
+  "description": "Plastic folding pen with a slide out highlighter.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 200",
+  "name": "Gravitas Premium Metal Pen with Fluted Design",
+  "categoryId": "Pens & Highlighters",
+  "description": "Premium metal pen with a fluted design.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 201",
+  "name": "EverGrain Eco Pen with Graphite Pencil",
+  "categoryId": "Eco Pens",
+  "description": "Wheat straw eco pen with a long life graphite pencil.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 165",
+  "name": "Cork 4 Refill Pen",
+  "categoryId": "Eco Pens",
+  "description": "Four refill eco friendly pen with a body made of wheat straw material. Refill colours black, red, blue and green.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 163",
+  "name": "Cork Barrel Pen",
+  "categoryId": "Eco Pens",
+  "description": "Cork barrel pen with smooth German ink refill for a comfortable writing experience. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 181",
+  "name": "Triangle Bamboo Pen With Stylus",
+  "categoryId": "Eco Pens",
+  "description": "Metal and bamboo pen with stylus for accurate typing. Eco friendly body made of natural bamboo; the triangle body gives more printing area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 151",
+  "name": "Bamboo Pen with Stylus",
+  "categoryId": "Eco Pens",
+  "description": "Bamboo pen with stylus at the back for working on your phone. Smooth German ink refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 182",
+  "name": "Bamboo Duo Pen With Stylus",
+  "categoryId": "Eco Pens",
+  "description": "Classy bamboo pen with metal parts and stylus at the back. Eco friendly body made of natural bamboo, smooth German ink refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 180",
+  "name": "Cork Eternal Pencil With Eraser",
+  "categoryId": "Eco Pens",
+  "description": "Eternal pencil with cork body and eraser. Writes up to 15,000 metres.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 160",
+  "name": "Bamboo Eternal Pencil With Rubber",
+  "categoryId": "Eco Pens",
+  "description": "Eternal pencil with bamboo body and rubber. Writes up to 15,000 metres.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 183",
+  "name": "Metal Body Pen With Bamboo Pusher",
+  "categoryId": "Eco Pens",
+  "description": "Metal body pen with bamboo highlight and pusher. Super smooth refill and premium looks.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 138",
+  "name": "Rectangle Rotating Key Chain With Double Side Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Rotating metal keychain with a branding area on both sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 141",
+  "name": "Cork Key Chain with Round Rotating Double Side Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with cork material strap and a gunmetal finish double side plate for an elegant look after engraving.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 137",
+  "name": "Keychain With Bottle Opener and Mobile Stand",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with built in bottle opener and mobile stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 58",
+  "name": "Easy Carry Keychain With Hook",
+  "categoryId": "Keychains",
+  "description": "Keychain with carabiner to attach to clothes or bag and a one foot long chain for easy usage of keys.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 145",
+  "name": "Keyglow RGB Acrylic LED Keychain with RGB Light",
+  "categoryId": "Keychains",
+  "description": "Acrylic LED keychain. The RGB light changes colour when the button is long pressed.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 144",
+  "name": "Keyglow White Acrylic LED Keychain with White Light",
+  "categoryId": "Keychains",
+  "description": "Acrylic LED keychain with white light.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 124",
+  "name": "Rectangle Hanging Metal Keychain With PU Strap",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with black PU strap. Pull and twist to hang anywhere; can be hung easily to bags and belts.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 84",
+  "name": "Universal Bottle And Can Opener For All Bottles",
+  "categoryId": "Keychains",
+  "description": "Opens water and soda bottles effortlessly, pops caps off bottles with the metal bottle opener, twists off screw caps and opens beverage and packaged food cans.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 126",
+  "name": "Hut Shape Metal Keychain In Black Finish",
+  "categoryId": "Keychains",
+  "description": "Hut shape metal keychain with double side laser engraving and a double side branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 130",
+  "name": "Power Glow Keychain With Torch And 4 Side Glowing Logo",
+  "categoryId": "Keychains",
+  "description": "Keychain with built-in torch for emergencies and four side branding. The logo glows when the torch is used. Easily replaceable button cells.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 136",
+  "name": "Power Glow Bottle Shape Keychain With Torch",
+  "categoryId": "Keychains",
+  "description": "Bottle shape keychain with torch and four side glowing multi-colour logo.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 131",
+  "name": "Pull Out Rectangle Metal PU Keychain",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with hanging loop that can be engraved and hung easily to bags.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 132",
+  "name": "Large Metal Keychain With Opener and Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Large metal keychain with built-in opener for bottle caps. Ideal promotional item for businesses.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 116a",
+  "name": "Rectangle Metal Keychain In Gold Finish",
+  "categoryId": "Keychains",
+  "description": "Rectangle metal keychain with gold finish on top and double side laser engraving. Shiny gold gives a royal look.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 146",
+  "name": "KeyPop Round Keychain with Opener",
+  "categoryId": "Keychains",
+  "description": "Round keychain with built-in opener for bottle caps. Ideal promotional item for businesses.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 116",
+  "name": "Rectangle Metal Keychain In Black Finish",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with gunmetal finish plate on top. Logo can be engraved on 2 sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 143",
+  "name": "Tyre Shape Rotating Keychain",
+  "categoryId": "Keychains",
+  "description": "Realistic design tyre shape rotating keychain with chrome finish. Alloy metal and soft PVC.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 127",
+  "name": "Tyre Shape Keychain With Chrome Finish",
+  "categoryId": "Keychains",
+  "description": "Realistic design tyre shape keychain with chrome finish and double side branding area. Alloy metal and soft PVC.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 123",
+  "name": "Round Metal Keychain With Black Plate",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with gunmetal finish plate on top. Logo can be engraved on 2 sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 134",
+  "name": "Round Rotating Key Chain With Double Side Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Round rotating keychain with double side gunmetal plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 135",
+  "name": "Round Rotating Key Chain In Rose Gold Finish",
+  "categoryId": "Keychains",
+  "description": "Round rotating keychain with double side gunmetal plate in a rose gold finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 147",
+  "name": "TapChain Square Customized MDF Keychain with NFC Tag",
+  "categoryId": "Keychains",
+  "description": "Square MDF keychain with NFC tag and both side branding area. Tap a phone to open a link, share a catalog, portfolio, website or social profile.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 148",
+  "name": "TapChain Round Customized MDF Keychain with NFC Tag",
+  "categoryId": "Keychains",
+  "description": "Round MDF keychain with NFC tag and both side branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 149",
+  "name": "Tapmate Customized MDF Keychain with Mobile Stand and NFC Tag",
+  "categoryId": "Keychains",
+  "description": "MDF keychain with mobile stand and NFC tag. Both side branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 88",
+  "name": "Heart Shape Keychain with Highlights",
+  "categoryId": "Keychains",
+  "description": "Unique heart shape keychain with red highlights and both side branding area. Gunmetal finish makes the logo stand out.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 140",
+  "name": "PU Key Chain With Round Rotating Double Side Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with black PU strap, round rotating plate and gunmetal finish for an elegant look after engraving.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 86",
+  "name": "Flash Tag With Whistle And Torch",
+  "categoryId": "Keychains",
+  "description": "Safety tag with whistle, torch and reflector. Catches attention while hung to bags or belt.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 150",
+  "name": "Hut Shape Metal Keychain with Carabiner and PU Strap",
+  "categoryId": "Keychains",
+  "description": "Hut shape metal keychain with durable PU leather strap and a strong metal key ring for secure key organisation.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 151",
+  "name": "Griplock Premium Keychain with Carabiner and Oval Branding Area",
+  "categoryId": "Keychains",
+  "description": "Premium keychain with carabiner and a double keyring setup for separate organisation of multiple key sets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 152",
+  "name": "Titan Premium Rectangular Keychain with Carabiner",
+  "categoryId": "Keychains",
+  "description": "Premium rectangular keychain with carabiner and double keyring setup.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 153",
+  "name": "Anchor Premium Double Finish Rectangular Keychain with Carabiner",
+  "categoryId": "Keychains",
+  "description": "Premium double finish rectangular keychain with carabiner and double keyring setup.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 120",
+  "name": "Rectangle Hanging Metal Keychain With Bottle Opener and PU Strap",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with gunmetal finish plate, bottle opener and PU strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 89",
+  "name": "Frozen Memories 3D Photo Frame Girl Shape Keychain",
+  "categoryId": "Keychains",
+  "description": "Girl shape keychain with red highlights and both side branding area. Gunmetal finish makes the logo stand out.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 122",
+  "name": "Two Tone Logo Highlight Keychain with Multicolor Backlight",
+  "categoryId": "Keychains",
+  "description": "Keychain that highlights your logo in pulsating colours. Press the button on top to light up the logo in multi colour.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 114",
+  "name": "Logo Highlight Keychain with White Backlight",
+  "categoryId": "Keychains",
+  "description": "Keychain with white backlight that highlights your glowing logo.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 128",
+  "name": "Round Hanging Metal Keychain With PU Strap",
+  "categoryId": "Keychains",
+  "description": "Round hanging metal keychain with PU strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 125",
+  "name": "Rectangle Hanging Metal Keychain",
+  "categoryId": "Keychains",
+  "description": "Eco friendly rectangle hanging metal keychain with cork strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 133",
+  "name": "Rectangle Hanging Metal Keychain With Bottle Opener and Cork Strap",
+  "categoryId": "Keychains",
+  "description": "Rectangle hanging metal keychain with built in bottle opener and cork strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 139",
+  "name": "Oval Keychain With Phone Stand",
+  "categoryId": "Keychains",
+  "description": "Oval keychain with phone stand and stylish gunmetal branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 43",
+  "name": "Flag Style Photo Frame with Pen Stand and Stationery Holder",
+  "categoryId": "Photo Frames",
+  "description": "Flag style photo frame with pen stand, stationery holder and separate space for paper clips and pins. Frame size 154 mm x 102 mm. Ideal table top and in-clinic product.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 46",
+  "name": "BoldFrame Customizable Photo Frame with Solid Frame Border",
+  "categoryId": "Photo Frames",
+  "description": "Customisable photo frame with solid frame border. Photo size 4 x 6 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 47",
+  "name": "ArcView Customizable Photo Frame with Decorative Side Arcs",
+  "categoryId": "Photo Frames",
+  "description": "Customisable photo frame with decorative side arcs. Photo size 4.25 x 5.5 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 45",
+  "name": "Tap Frame Customized High Gloss Photo Frame in MDF with NFC Tag",
+  "categoryId": "Photo Frames",
+  "description": "High gloss MDF photo frame with NFC tag, vertical. Photo size 4 x 6 inch. Tap a phone to open a link.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 44",
+  "name": "Tap Frame Customized High Gloss Photo Frame in MDF with NFC Tag Horizontal",
+  "categoryId": "Photo Frames",
+  "description": "High gloss MDF photo frame with NFC tag, horizontal. Photo size 4 x 6 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 25",
+  "name": "Frozen Memories 3D Photo Frame Large",
+  "categoryId": "Photo Frames",
+  "description": "3D photo frame. Frame size 7.5 x 9.5 inch, photo size 5 x 7 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 27",
+  "name": "Frozen Memories 3D Photo Frame Small",
+  "categoryId": "Photo Frames",
+  "description": "3D photo frame. Frame size 5.75 x 4.75 inch, photo size 3.5 x 2.25 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 420",
+  "name": "Zenstand Max Small Folding and Rotating Metal Mobile Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding and rotating metal mobile stand with bamboo base. Strong support, suitable for all mobile phones.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 427",
+  "name": "Zenstand Max II Folding and Rotating Metal Mobile Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding and rotating metal mobile stand with round bamboo base. Strong support, suitable for all mobile phones.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 428",
+  "name": "Zenstand Pure Folding and Rotating Clear Mobile Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding and rotating clear mobile stand with bamboo base. Folds completely to take minimal space.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 324",
+  "name": "Metal Mobile Stand With 4 Coasters",
+  "categoryId": "Mobile Stands",
+  "description": "Desktop utility product combining a phone stand with 4 metal coasters. Branding area on the stand and all 4 coasters.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 325",
+  "name": "Mini Folding Mobile And Tablet Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding mobile and tablet stand adjustable to any angle, 270 degree rotating, with anti-skid pads. Branding area on back and front. Holds all types of smartphones and tablets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 391",
+  "name": "TiltX Serve Large Size Adjustable Metal Mobile Stand with 4 Coasters",
+  "categoryId": "Mobile Stands",
+  "description": "Large adjustable metal mobile stand supplied with 4 metal coasters with soft foam base.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 227",
+  "name": "Folding Mobile Stand With Detachable Screen Cleaner",
+  "categoryId": "Mobile Stands",
+  "description": "Folding mobile stand that takes minimal space when stored, with a detachable cleaner at the back.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 321",
+  "name": "Metal Mobile Stand With Writing Pad Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Metal mobile stand with writing pad holder and 200 writing sheets. A hole at the back allows charging your device while using.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 322",
+  "name": "Metal Mobile Stand With Detachable Tumbler and Writing Pad Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Desktop utility combining phone stand with slip pad and a detachable pen stand. 200 writing sheets included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 323",
+  "name": "Metal Mobile Stand With Detachable Tumbler",
+  "categoryId": "Mobile Stands",
+  "description": "Desktop utility combining phone stand with detachable pen stand. Anti-skid pads let you take calls without lifting the phone.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 426",
+  "name": "Foldstand Folding and Rotating Metal Mobile Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding and rotating metal mobile stand with 360 degree rotation. Folds completely to take minimal space. Suitable for all mobile phones.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 425",
+  "name": "TapStand Craft Customized MDF 2 Part Mobile Stand with NFC Tag",
+  "categoryId": "Mobile Stands",
+  "description": "Customised MDF two part mobile stand with NFC tag and edges cut out as per your artwork. Tap a phone to open a link.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 424",
+  "name": "TapStand Customized MDF 2 Part Mobile Stand with NFC Tag",
+  "categoryId": "Mobile Stands",
+  "description": "Customised MDF two part mobile stand with NFC tag.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 341",
+  "name": "Metal Mobile Stand With Top Adjustable Neck and Oval Cable Slot",
+  "categoryId": "Mobile Stands",
+  "description": "Mobile stand with top adjustment neck and anti-skid pads to prevent slips and scratches.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 370",
+  "name": "Mini Phone Stand With Double Pen Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Mini phone stand with two slots to hold pens and branding area on all sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 301",
+  "name": "Metal Multi Mobile Stand With Visiting Card Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Mobile stand with built in visiting card holder, anti-skid pads and branding area on all sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 319A",
+  "name": "Flexo II Folding Metal Mobile Stand for Smartphones and Tabs",
+  "categoryId": "Mobile Stands",
+  "description": "Folding metal mobile stand with 2 level angle adjustment and free angle adjustment up to 270 degrees. Anti-skid pads and sturdy construction.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 331A",
+  "name": "Flexo Mini 2 Folding Metal Mobile Stand for Smartphones and Tabs",
+  "categoryId": "Mobile Stands",
+  "description": "Folding metal mobile stand with 2 level angle adjustment, up to 270 degrees. Folds fully to carry easily in pockets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 313",
+  "name": "Metal Multi Mobile Stand With Visiting Card Holder and Double Pen Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Mobile stand with visiting card holder and two pen holders. Holds all types of smartphones and tablets up to 7 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 362",
+  "name": "Mini Metal Folding Mobile and Tablet Stand With Mirror",
+  "categoryId": "Mobile Stands",
+  "description": "Folding mobile and tablet stand with mirror and anti-skid pads. Fully adjustable up to 270 degrees.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 314",
+  "name": "Heavy Duty Metal Mobile Stand With Angle Adjustment",
+  "categoryId": "Mobile Stands",
+  "description": "Heavy duty metal mobile stand with 180 degree view angle adjustment and sturdy construction.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 238",
+  "name": "Foldyflat Mobile Stand With 5 Angle Adjustment",
+  "categoryId": "Mobile Stands",
+  "description": "Compact mobile stand with 5 angle adjustment that folds flat to store. Can be used in landscape or portrait mode and with tablets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 389",
+  "name": "TiltX Large Size Adjustable Metal Mobile Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Premium large size adjustable mobile stand with free angle adjustment. Holds all types and sizes of smartphones and tablets. A hole at the back allows charging while in use.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 390",
+  "name": "TiltX Pad Large Size Adjustable Metal Mobile Stand With Writing Pad",
+  "categoryId": "Mobile Stands",
+  "description": "Large adjustable metal mobile stand with writing pad containing 200 writing pages and anti-skid pads.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 372",
+  "name": "Metal Phone Stand With Writing Pad and Spectacle Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Metal phone stand with spectacle holder and 200 writing sheets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 371",
+  "name": "Metal Phone Stand With Spectacle Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Metal phone stand with spectacle holder, suited to glasses and goggles.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 98",
+  "name": "Silicon Vacuum Mobile Stand With Earphone Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Compact silicon mobile stand with earphone holder that can be used in portrait and landscape mode. Available in 3 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 164",
+  "name": "Dilbert Style Mobile Holder For Table and Car Vent",
+  "categoryId": "Mobile Stands",
+  "description": "Versatile phone stand for table and car that can hold your phone horizontally or vertically.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 133",
+  "name": "Multi Mobile Band Multipurpose Removable Pocket",
+  "categoryId": "Mobile Accessories",
+  "description": "Removable phone pocket for cash, cards and slips that also protects your screen from all sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 79",
+  "name": "PowerPad Mouse Pad With USB Hub",
+  "categoryId": "USB Hubs",
+  "description": "Mouse pad with USB hub that converts a single USB port into three. USB cable included. Desktop accessory suited to all workstations.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 183",
+  "name": "USB Hub With 4 USB Outputs and Type C Output Port",
+  "categoryId": "USB Hubs",
+  "description": "Four port USB hub with large branding area, 3 regular A type USB ports and 1 USB C type port. 1 metre cable, future ready with Type C port.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 184",
+  "name": "Power Glow USB Hub With 4 USB Outputs and Double Side Logo Glow",
+  "categoryId": "USB Hubs",
+  "description": "Four port USB hub with 3 A type ports and 1 USB C type port. Logo can be applied on both sides and glows when the hub is plugged in. 1 metre cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 196",
+  "name": "WoodHub Bamboo USB Hub With Phone Stand",
+  "categoryId": "USB Hubs",
+  "description": "Bamboo four port USB hub with phone stand and large branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 101",
+  "name": "USB Hub With Detachable Cable and 3 USB Ports",
+  "categoryId": "USB Hubs",
+  "description": "Compact USB hub with detachable cable and separate Type C connector. Compatible with iOS, Micro and Type C.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 106",
+  "name": "Power Glow USB Hub With Tumbler and Logo Highlight",
+  "categoryId": "USB Hubs",
+  "description": "USB hub with a spacious tumbler, mobile stand and glowing logo highlight.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 131",
+  "name": "Wooden Lifetime Calendar With Pen and Mobile Holder",
+  "categoryId": "Table Tops",
+  "description": "Wooden table top with perpetual calendar, pen holder, mobile holder, card holder and writing pad holder. Rotating month dial and slider for date and day.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 19",
+  "name": "Mouse Shape 4 In 1 Table Top",
+  "categoryId": "Table Tops",
+  "description": "Mouse shape desktop set with pen holder, memo holder, paper clip holder and keyboard cleaning brush. Branding space on top.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 117",
+  "name": "Writing Pad With Tumbler and Calendar",
+  "categoryId": "Table Tops",
+  "description": "Desktop utility combining a tumbler and calendar with slip pad. Contains 200 writing sheets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 81",
+  "name": "Power Glow Mobile Stand With Paper Clip Holder and Tumbler",
+  "categoryId": "Table Tops",
+  "description": "Mobile stand with paper clip holder, visiting card holder and tumbler. Works on 2 AA batteries. Available in 4 colours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 55",
+  "name": "Grippo Mobile Holder With Angle Adjustment, Pen Stand and Notepad",
+  "categoryId": "Table Tops",
+  "description": "Mobile holder with angle adjustment, pen stand and notepad. Silicon ends protect your phone and give better grip, with a separate compartment for a microfibre cleaning cloth.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "A 132",
+  "name": "Wooden Table Top With Clock, Mobile Stand, Tumbler and Lifetime Calendar",
+  "categoryId": "Table Tops",
+  "description": "Wooden table top with analog clock, adjustable lifetime calendar and holders for mobile, pen and stationery.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 155",
+  "name": "Magnetic Pen Stand With Full Side Branding Area",
+  "categoryId": "Table Tops",
+  "description": "Magnetic pen stand with full side branding area for a company logo or message.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 207",
+  "name": "TapCube 3 Cube Stacking Calendar with Pen Stand and NFC",
+  "categoryId": "Table Tops",
+  "description": "Three cube stacking calendar with double pen stand and NFC tag. Tap with an NFC enabled phone to open a link.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 81a",
+  "name": "Power Glow Dark Plate Mobile Stand With Paper Clip and Card Holder",
+  "categoryId": "Table Tops",
+  "description": "Dark plate mobile stand with paper clip holder, visiting card holder and tumbler.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 211",
+  "name": "SpinCal Wooden Table Top with Rotating Pen Stand Tumbler",
+  "categoryId": "Table Tops",
+  "description": "Wooden table top with rotating pen stand tumbler, calendar and mobile stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 429",
+  "name": "Bonded Metal Pen Stand with Premium Build",
+  "categoryId": "Table Tops",
+  "description": "Metal pen holder with premium build and a four side branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 376",
+  "name": "Orbit Wave Round Wiro Tumbler with S Shape Partition",
+  "categoryId": "Table Tops",
+  "description": "Round wire mesh tumbler with S shape partition and separate round branding plate. Compact and sleek, high density wire mesh.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 373",
+  "name": "Orbit Round Wiro Tumbler with Round Branding Plate",
+  "categoryId": "Table Tops",
+  "description": "See-through wire mesh tumbler with a sleek high density design and separate plate for branding. Compact size for any desk or counter top.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 374",
+  "name": "Orbit Duo Round Wiro Double Tumbler with Branding Plate",
+  "categoryId": "Table Tops",
+  "description": "Compact and sleek double wire mesh tumbler with durable and stable construction.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 377",
+  "name": "Orbit Wave Cube Square Wiro Tumbler with S Shape Partition",
+  "categoryId": "Table Tops",
+  "description": "Square wire mesh tumbler with S shape partition and separate branding plate. High density wire mesh.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 340",
+  "name": "Round Wiro Tumbler With Slide-out Phone Stand",
+  "categoryId": "Table Tops",
+  "description": "See-through wire mesh tumbler with slide-out phone stand and a separate plate for branding.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 375",
+  "name": "Vibe Metal Paperweight with Magnetic Pen Stand",
+  "categoryId": "Table Tops",
+  "description": "Metal paperweight with magnetic pen stand made of sturdy metal. An integrated magnet sticks the pen holder to the base. Also works as a desktop fidget toy.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 183",
+  "name": "Folding Customized Pen Stand Table Top",
+  "categoryId": "Table Tops",
+  "description": "Pen stand that folds for transport or when not in use, with full side branding area on all 4 sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 378",
+  "name": "Orbit Snap Photo Frame With Round Wiro Tumbler",
+  "categoryId": "Table Tops",
+  "description": "Photo frame with round wire mesh tumbler and round branding plate. Sleek high density wire mesh design.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 235",
+  "name": "ThermoDock Metal Adjustable Laptop Stand with Cooling Fan",
+  "categoryId": "Tech Accessories",
+  "description": "Metal adjustable laptop stand with high speed cooling fan, anti slip pads and fast heat dissipation. Foldable and easy to carry.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 20",
+  "name": "Folding Laptop Stand Suitable For Travelling",
+  "categoryId": "Tech Accessories",
+  "description": "Folding laptop stand that fits all 13 to 18 inch laptops and raises screen level for better air circulation.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 40",
+  "name": "Pocket Mobile Fan for Anywhere Cooling",
+  "categoryId": "Tech Accessories",
+  "description": "Mini mobile fan that works from your phone or power bank. USB Type C adapter included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 167",
+  "name": "Power Board Multi Point Extension Board With USB Ports and Phone Stand",
+  "categoryId": "Tech Accessories",
+  "description": "Extension board with 3 USB ports, dual mobile stand and easy on/off button. Long 1.5 metre high power rated cord.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "E 237",
+  "name": "Sliding Privacy Guard Webcam Cover",
+  "categoryId": "Tech Accessories",
+  "description": "Sliding webcam cover that protects your privacy from hackers. Cover your webcam easily, open only when needed.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 37",
+  "name": "Folding Table USB Fan with Safety Blades and USB Cable",
+  "categoryId": "Tech Accessories",
+  "description": "Folding table fan with safety blades that takes little desk space. Works with laptops, PCs and power banks.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 197",
+  "name": "Zephyr Rechargeable Fan with 3 Level Speed Adjustment",
+  "categoryId": "Tech Accessories",
+  "description": "Rechargeable fan with 3 level speed adjustment, charging light indicator and 1200 mAh rechargeable battery.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 207",
+  "name": "ZenCharge Glow Bamboo Wireless Charger with Logo Highlight",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo 15W wireless charger with pen holder, mobile stand and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 204",
+  "name": "ZenCharge Slim Bamboo Wireless Charger with Phone Stand",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo 15W wireless charger with phone stand, double pen stand, stationery holder and mobile stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 206",
+  "name": "ZenCharge Bamboo Wireless Charger with Phone Stand and Triple Pen Stand",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo 15W wireless charger with phone stand, pen holder and triple pen stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 205",
+  "name": "GlowNest Bamboo Table Top with Wireless Charger and LED Lamp",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with 15W wireless charger, LED lamp, metal pen holder, phone stand and phone charging output.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 210",
+  "name": "GlowNest Pro Bamboo Table Top with Cup Warmer and LED Lamp",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with LED lamp, powerful 12 watt cup warmer, metal pen holder, phone stand and perpetual calendar.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 200",
+  "name": "BamBrew Bamboo Large Pen Stand with Cup Warmer",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo large pen stand with a powerful 12 watt cup warmer.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 209",
+  "name": "ZenCharge Core Bamboo Wireless Charger with Phone Stand and Clock",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo 15W wireless charger with phone stand, metal pen holder and clock.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 208",
+  "name": "Branchr Pad Bamboo USB Hub with Writing Pad and Phone Stand",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo 4 port USB hub with writing pad, pen holder and mobile stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 223",
+  "name": "PowerGlow SoundHub Bamboo Table Top with Bluetooth Speaker",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with Bluetooth speaker, USB hub with backlight, mobile stand, stationery holder and pen stand. 3 USB output and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 221",
+  "name": "PowerGlow ZenHub Mini Bamboo USB Hub with Backlight",
+  "categoryId": "Tech Accessories",
+  "description": "Mini bamboo USB hub with backlight, phone stand and double pen stand. 4 USB output and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 228",
+  "name": "ChronoDesk Eco Bamboo Table Top with Clock",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with clock, perpetual calendar, 15W fast wireless charger, mobile stand, pen holder and writing pad.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 220",
+  "name": "PowerGlow DockPad Cork 3 Fold Mousepad with Backlit USB Hub",
+  "categoryId": "Tech Accessories",
+  "description": "Cork three fold mousepad with backlit USB hub, bamboo cable organizer and stationery organizer tray. 3 USB output and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 222",
+  "name": "PowerGlow DeskHub Bamboo Table Top with Perpetual Calendar",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with backlit USB hub, perpetual calendar, double writing pad, pen holders and stationery holder. 3 USB output and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 224",
+  "name": "PowerGlow ChargeBeat Bamboo Table Top with Bluetooth Speaker",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with Bluetooth speaker, backlit 15W fast wireless charger, mobile stand, visiting card holder, stationery holder and pen stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 229",
+  "name": "ZenCharge Time Bamboo Pen Stand with Clock",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo pen stand with digital clock, 15W wireless charger, mobile stand and pen holder.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 225",
+  "name": "PowerGlow GlowDesk Bamboo Table Top with LED Lamp",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with 3 light mode LED lamp, 15W wireless charger, pen holders, double decision dice and glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 226",
+  "name": "WorkBeat Eco Bamboo Table Top with Bluetooth Speaker",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo table top with Bluetooth speaker, perpetual calendar, mobile stand, writing pad, pen stand, stationery holder and visiting card holder that holds 30-35 cards.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 227",
+  "name": "EcoBeats Bamboo Bluetooth Speaker",
+  "categoryId": "Tech Accessories",
+  "description": "Bamboo Bluetooth speaker.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 50",
+  "name": "Glow in the Dark Dual Car Charger",
+  "categoryId": "Phone Chargers",
+  "description": "Dual USB car charger that can charge 2 devices simultaneously, with a prominent glowing imprint area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 117",
+  "name": "Wall and Car Charger Dual USB",
+  "categoryId": "Phone Chargers",
+  "description": "AC/DC dual USB charger with circuit level protection. Two devices can be charged at the same time.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 123",
+  "name": "Dual USB Fast Charger with Night Lamp",
+  "categoryId": "Phone Chargers",
+  "description": "Dual USB 3.4A fast charger with a soft LED night lamp and touch control.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 154",
+  "name": "Fast Car Charger with 4 USB Ports",
+  "categoryId": "Phone Chargers",
+  "description": "Car charger with 3 USB ports (green) at 12W fast output, short circuit and over charge protection, and a large branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 215",
+  "name": "SnapCharge Duo Car Charger with Double Retractable Wires",
+  "categoryId": "Phone Chargers",
+  "description": "Car charger with 1 USB A and 2 Type C charging ports, built-in Type C and Lightning cables and a voltage display. Supports simultaneous multi device charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 199",
+  "name": "TidyCord Retractable Fast Charging Cable with Data Function",
+  "categoryId": "Charging Cables",
+  "description": "Retractable fast charging cable with data function and 3 output heads. Super fast 60W output with dual input.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 49",
+  "name": "2 Side Cable for Android and iPhone with Light",
+  "categoryId": "Charging Cables",
+  "description": "Two in one cable for Android and iPhone with a light at the end to connect your phone in the dark. Charges as well as syncs data.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 74",
+  "name": "Magnetic 3 in 1 Charging Cable with Keychain",
+  "categoryId": "Charging Cables",
+  "description": "Magnetic three in one charging cable with keychain that transfers pictures, music and video through USB.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 81",
+  "name": "Car Charger with Keychain and Charging Cable",
+  "categoryId": "Charging Cables",
+  "description": "Car charger with keychain and dual side iOS and Android charging cable. The charger detaches to reveal the charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 82",
+  "name": "All in 1 Charging Cable with Travel Case and Keychain",
+  "categoryId": "Charging Cables",
+  "description": "All in one charging cable with travel case and keychain. Input ports USB A and USB C; output ports Micro USB, Lightning and USB Type C.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 77",
+  "name": "Lanyard Charging Cable with Lightning and Micro USB Port",
+  "categoryId": "Charging Cables",
+  "description": "Lanyard charging cable with a swivel clip so you can add keys or an ID badge. Works as a lanyard and a charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 201",
+  "name": "ZenCharge Cord Bamboo Long Fast Charging Cable with Light up Logo",
+  "categoryId": "Charging Cables",
+  "description": "Bamboo long fast charging cable with universal ports and a branding area that glows when plugged in. Dual input.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 78A",
+  "name": "Round Charging Cable with Light Up Logo",
+  "categoryId": "Charging Cables",
+  "description": "Round 60W fast charging cable with lightning port, Type C, Micro USB and USB connectors and a glowing branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 219",
+  "name": "BamBox Charge Travel Cable Box with 15W Wireless Charger",
+  "categoryId": "Charging Cables",
+  "description": "Travel cable box with 15W wireless charger, universal connectors and ejector pin in a magnetic bamboo case. 3A fast charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 195",
+  "name": "WoodCharge Bamboo Fast Charging Cable with Universal Ports",
+  "categoryId": "Charging Cables",
+  "description": "Bamboo fast charging cable with universal ports in wheat straw material.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 203",
+  "name": "TidyCord Zen Retractable Fast Charging Cable in Wheat Straw",
+  "categoryId": "Charging Cables",
+  "description": "Retractable fast charging cable with data function in wheat straw material with a bamboo plate. Dual input.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 217",
+  "name": "BamBox Round Travel Cable Box with Universal Connectors",
+  "categoryId": "Charging Cables",
+  "description": "Round travel cable box with universal connectors and ejector pin in a magnetic bamboo case. 3A fast charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 218",
+  "name": "BamBox Square Travel Cable Box with Universal Connectors",
+  "categoryId": "Charging Cables",
+  "description": "Square travel cable box with universal connectors and ejector pin in a magnetic bamboo case. 3A fast charging cable.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 202",
+  "name": "TidyCord Pure Retractable Fast Charging Cable in Wheat Straw",
+  "categoryId": "Charging Cables",
+  "description": "Retractable fast charging cable with data function in wheat straw material. Dual input.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 233",
+  "name": "PebbleCord Retractable Type C to C Cable with Magnetic Ends",
+  "categoryId": "Charging Cables",
+  "description": "Retractable Type C to C cable with magnetic ends and 240W fast charging. Supports data function.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 234",
+  "name": "CordStand Braided Type C to C Cable with Fold Out Stand",
+  "categoryId": "Charging Cables",
+  "description": "Braided Type C to C cable with 60W fast charging. Metal arms fold out so the cable functions as a stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 194A",
+  "name": "TidyCord Box Retractable Fast Charging Cable with Sim Card Slots",
+  "categoryId": "Charging Cables",
+  "description": "Retractable fast charging cable with sim card slots in a compact case.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "C 230",
+  "name": "Flux 10 10,000 mAh Power Bank with Strips Design",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh high capacity power bank with 12.5W quick charging and strips design.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 231",
+  "name": "Orbit X 10 10,000 mAh Magnetic Power Bank with Wireless Charger",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh magnetic power bank with wireless charger and 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 191",
+  "name": "VoltX 10 10,000 mAh Power Bank with Display",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with digital display and 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 192",
+  "name": "ZapX 10 10,000 mAh Power Bank with Display and Built-In Cables",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with display and in-built cables. 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 232",
+  "name": "CamCharge 10 10,000 mAh Camera Style Power Bank",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh camera style power bank with integrated cables.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 193",
+  "name": "ZapX 10 Mini 10,000 mAh Power Bank with Display and Built-In Cables",
+  "categoryId": "Power Banks",
+  "description": "Compact 10,000 mAh power bank with display and in-built cables. 22.5W fast charging. Size 115 mm x 70 mm.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 211",
+  "name": "SwiftCharge 10 10,000 mAh Power Bank with Black Display Panel",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with black display panel and integrated cables. 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 213",
+  "name": "VoltDot 20 20,000 mAh Mini Power Bank with Pinstripe Design",
+  "categoryId": "Power Banks",
+  "description": "Super capacity 20,000 mAh mini power bank with pinstripe design and 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 212",
+  "name": "PowerLink 10 10,000 mAh Power Bank with Clear Display Area",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with clear display area and 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 214",
+  "name": "MagKick 10 10,000 mAh Mini Magnetic Power Bank with Kickstand",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh mini magnetic power bank with 15W wireless charger and magnetic kickstand. 22.5W fast charging.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 190",
+  "name": "Strix 10 10,000 mAh Power Bank with Strips Design",
+  "categoryId": "Power Banks",
+  "description": "10,000 mAh power bank with 12.5W quick charging and strips design.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "C 44",
+  "name": "Power Glow Family Power Bank Set of 3 with Triple USB Ports",
+  "categoryId": "Power Banks",
+  "description": "Set of 3 power banks of 9,000 mAh with triple USB ports and a glowing logo dock.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "B 53",
+  "name": "Gel Highlighter with Keyboard Brush and Screen Cleaner",
+  "categoryId": "Workplace Utility",
+  "description": "Three in one lipstick style gel highlighter with a keyboard brush to wipe dust from your PC or laptop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 186",
+  "name": "Folding Compact Scissors",
+  "categoryId": "Workplace Utility",
+  "description": "Ultra compact scissors that fit in the space of a pen and open automatically when the cap is opened.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 151",
+  "name": "Stainless Steel Magnetic Visiting Card Holder in Cork Material",
+  "categoryId": "Workplace Utility",
+  "description": "Stainless steel visiting card holder made of sustainable and eco friendly cork material.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "T 13",
+  "name": "Solar Calculator with 3 Pen Set",
+  "categoryId": "Workplace Utility",
+  "description": "Set of 3 colour pens with an 8 digit solar calculator. No batteries needed and a large branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 138",
+  "name": "Stainless Steel Magnetic Visiting Card Holder Tan",
+  "categoryId": "Workplace Utility",
+  "description": "Stainless steel visiting card holder with metal plates for extra branding area. Holds 20-25 cards and closes magnetically in a snap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 139",
+  "name": "Stainless Steel Magnetic Visiting Card Holder Gray",
+  "categoryId": "Workplace Utility",
+  "description": "Stainless steel visiting card holder with metal plates for extra branding area. Holds 20-25 cards.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 141",
+  "name": "Stainless Steel Magnetic Visiting Card Holder Black",
+  "categoryId": "Workplace Utility",
+  "description": "Stainless steel visiting card holder with metal plates for extra branding area. Holds 20-25 cards.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 182",
+  "name": "Stainless Steel Magnetic Visiting Card Holder",
+  "categoryId": "Workplace Utility",
+  "description": "Stylish stainless steel magnetic holder for your name cards.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 12",
+  "name": "Hanging Visiting Card Holder",
+  "categoryId": "Workplace Utility",
+  "description": "Hanging visiting card holder that holds up to 20 cards at a time, with a large branding space on both sides. Excellent for events and exhibitions.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 156",
+  "name": "Stainless Steel Magnetic Visiting Card Holder with Rectangle Plate",
+  "categoryId": "Workplace Utility",
+  "description": "Stylish stainless steel magnetic card holder with a rectangle branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "S 72",
+  "name": "Croc Duffel Executive Weekender Bag",
+  "categoryId": "Bags & Backpacks",
+  "description": "Executive weekender duffel in crocodile textured PU with contrast straps and a metal branding plate. 19 inch length.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 73",
+  "name": "Matrix Duffel Executive Weekender Duffel",
+  "categoryId": "Bags & Backpacks",
+  "description": "Executive weekender duffel in embossed micro-grid PU. 19 inch length.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 55",
+  "name": "Nomad Premium Travel Sling Bag with Side Lock",
+  "categoryId": "Bags & Backpacks",
+  "description": "Water resistant travel sling bag with 4 pockets, lockable zipper on the main compartment, spacious front pocket and a comfortable handle. Compact and easy to carry.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 75",
+  "name": "Nomad Blu Premium Travel Sling Bag with Side Lock",
+  "categoryId": "Bags & Backpacks",
+  "description": "Waterproof travel sling bag with 3 pockets, lockable zipper on the main compartment, a quick access front zipper pocket and spacious zipper pocket. Light weight and compact.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 77",
+  "name": "Matrix Crossbody Professional Daily Sling Bag",
+  "categoryId": "Bags & Backpacks",
+  "description": "Professional daily sling bag in embossed micro-grid PU with a super premium finish and metal branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 71",
+  "name": "Weekender Dual Function Large Duffel Bag with Backpack Function",
+  "categoryId": "Bags & Backpacks",
+  "description": "Large duffel bag in water resistant fabric that can be used as an overnighter or a backpack. Laptop pocket holds up to a 15 inch laptop, with spacious outside pockets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 54",
+  "name": "Venture High Function Backpack with Multifunction Side Pockets",
+  "categoryId": "Bags & Backpacks",
+  "description": "Backpack that holds a full 15 inch laptop safely, with multifunction side pockets that hold a water bottle, quick access front zipper pockets and a stroller carry strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 60",
+  "name": "Summit Lite Classic Backpack with Spacious Construction",
+  "categoryId": "Bags & Backpacks",
+  "description": "Classic backpack with 4 zipper pockets and 2 side mesh pockets. Two main compartments with a padded 15 inch laptop compartment and stroller carry strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 51",
+  "name": "Wanderer Tall Backpack With Top Belts",
+  "categoryId": "Bags & Backpacks",
+  "description": "Tall backpack with quick access front pockets in a cool urban design. Holds a full 15 inch laptop, two quick access zipper pockets, a side bottle holder pocket and a secure back zipper pocket for documents.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 40A",
+  "name": "Checkers Premium Travel Duffel Bag with Separate Laptop Compartment",
+  "categoryId": "Bags & Backpacks",
+  "description": "Premium travel duffel with separate laptop compartment and shoe and utility pockets on the sides. Checkered design with dual tone finish and spacious construction with outside pockets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 52",
+  "name": "Full PU Elegant Backpack",
+  "categoryId": "Bags & Backpacks",
+  "description": "Elegant full PU backpack with two main compartments, a padded 15 inch laptop compartment and quick access zipper pockets in front.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 23",
+  "name": "Flow 3 Pocket Designer Laptop Bag With Double Bottle Pocket",
+  "categoryId": "Bags & Backpacks",
+  "description": "Designer backpack with two main compartments, quick access pocket and padded 15 inch laptop compartment. Ergonomic design with ventilated back padding, dual mesh bottle holders and a secret bottom pocket containing a rain cover. Size 18 x 14 x 6 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 53",
+  "name": "William Travel Duffel Bag with Garment Cover for Suits",
+  "categoryId": "Bags & Backpacks",
+  "description": "Two in one travel duffel with garment cover, fully openable design and separate shoe compartment. Concealed pocket for shoes and laundry, opens flat to hold blazers and suits, with wheels and handle. Perfect for business trips.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 50",
+  "name": "Jordan Stylish Backpack With High Performance Fabric",
+  "categoryId": "Bags & Backpacks",
+  "description": "Stylish backpack with padded 15 inch laptop compartment, ventilated back padding and shoulder strap, two quick access front zipper pockets, mesh bottle holders and stroller carry strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 26",
+  "name": "Overnighter Bag With Laptop Storage Convertible To Backpack",
+  "categoryId": "Bags & Backpacks",
+  "description": "Cabin size dual function overnighter with backpack function. Folds open completely to store clothes for 2-3 days, with a spacious front pocket. Laptop slides in sideways from the back.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 41",
+  "name": "Coco Convertible Sling Laptop Bag",
+  "categoryId": "Bags & Backpacks",
+  "description": "Two in one laptop bag with 2 compartments and a padded 15 inch laptop compartment. Converts to a backpack by fastening the carry straps; usable as a backpack, sling or laptop bag. Dual tone finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 22",
+  "name": "Multipurpose Sling Duffle Bag Convertible To Backpack",
+  "categoryId": "Bags & Backpacks",
+  "description": "Two in one sling, duffle or backpack in dual tone finish with a separate laptop space that holds up to a 15 inch laptop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 57",
+  "name": "Large Travel Sling Bag for 13 inch Tablet",
+  "categoryId": "Bags & Backpacks",
+  "description": "Large travel sling bag with space for a 13 inch tablet. Perfect for a large iPad.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 56",
+  "name": "Mini Travel Sling Bag for 11 inch Tablet",
+  "categoryId": "Bags & Backpacks",
+  "description": "Mini travel sling bag with space for an 11 inch tablet. Perfect for an iPad Mini.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 27",
+  "name": "Buddy 2 Tone Laptop Bag With Double Bottle Pocket",
+  "categoryId": "Bags & Backpacks",
+  "description": "Spacious two tone padded backpack with two main compartments, a padded 15 inch laptop compartment, front organizer compartment, two quick access zipper pockets and dual mesh bottle holders.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 06",
+  "name": "Slimz Black Backpack With Double Front Pocket",
+  "categoryId": "Bags & Backpacks",
+  "description": "Ultra modern sleek backpack in high quality material with one main compartment and a double front zipper pocket for quick access. Ergonomic design with padded shoulder straps and mesh bottle holders.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 21",
+  "name": "Durable Folding Travel Bag Flight Cabin Size Compliant",
+  "categoryId": "Bags & Backpacks",
+  "description": "Folding travel bag that opens with a zip into a spacious travel bag. Two carrying handles and a detachable adjustable shoulder strap, with a key and coin pocket inside.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 25",
+  "name": "Folding Shopping Bag With Zippered Pocket",
+  "categoryId": "Bags & Backpacks",
+  "description": "Ultra compact folding shopping bag that opens with a zip into a spacious shopping bag. Two carrying handles and a phone or wallet pocket outside.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 74",
+  "name": "Matrix Folio Slim Corporate Laptop Sleeve",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Slim corporate laptop sleeve in embossed micro-grid PU with a super premium finish and stroller carry strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 49",
+  "name": "Graphite Elegant Laptop Bag",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop bag with one main compartment and a padded 15 inch laptop compartment. Outside zipper pocket for everyday essentials, attaches to trolleys, and includes a detachable string to use as a sling bag.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 48",
+  "name": "Minimalistic Sling Laptop Bag with Brown Highlights",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Lightweight sling laptop bag designed for modern professionals, with one main compartment and a padded 15 inch laptop compartment. Brown highlights add a refined touch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 29",
+  "name": "Laptop Sleeve With Soft Inner Lining",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop sleeve with 6 outside spacious pockets and soft touch fabric for gadget protection. Holds a full 15 inch laptop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 61",
+  "name": "Teal Water Resistant Laptop Sleeve",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Water resistant laptop sleeve with soft inner lining and 3 outside spacious pockets. Holds up to a 15 inch laptop, with 2 outside zipper pockets and an outside back pocket.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 16",
+  "name": "Eco-Friendly Cork Laptop Bag With 2 Tone Finish",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Slim compact cork laptop case for laptops up to 15 inches. Made of biodegradable and sustainable cork with high quality carabiner and accessories.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 17",
+  "name": "Eco-Friendly Cork Sling Laptop Bag With 2 Tone Finish",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Cork sling bag that stores a 10 inch tablet or iPad easily. Made of biodegradable and sustainable cork with an adjustable shoulder strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 36",
+  "name": "Laptop Sleeve With Pull Out Handle",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop sleeve with 2 outside zipper pockets that holds a full 17 inch laptop. Retractable handle merges flat with the body when not in use.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 28",
+  "name": "Mini Laptop Bag and Laptop Sleeve Convertible To Sling Bag",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Mini laptop bag or sleeve holding a full 15 inch laptop in a padded compartment. Minimalistic design, convertible to a sling bag, with an outside easy access pocket.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 59",
+  "name": "Laptop Sleeve with Outside Pocket and Stroller Carry Strap",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop sleeve holding a full 15 inch laptop in a padded compartment, with an outside easy access pocket.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 43",
+  "name": "Y Style Laptop Bag With PU Highlight",
+  "categoryId": "Laptop Bags & Sleeves",
+  "description": "Laptop bag with a Y style design made from durable imported fabric. Convertible to a sling bag and holds up to a 15 inch laptop.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S-E 122",
+  "name": "4 Layer Toiletry Kit",
+  "categoryId": "Travel Accessories",
+  "description": "Four layer toiletry kit with a great branding area and a special detachable pocket for medicine.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 44",
+  "name": "4 Layer Toiletry Kit with Back Pocket",
+  "categoryId": "Travel Accessories",
+  "description": "Four layer toiletry kit with an extra pocket at the back for easy access to products.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 76",
+  "name": "Handy Tech Gadget Organizer with Carry Strap",
+  "categoryId": "Travel Accessories",
+  "description": "Tech gadget organizer with thoughtful inner construction, outer pockets and stretchable mesh pockets with a strong zipper. Holds cables, chargers, power banks, pen drives and hard disks.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "E 385",
+  "name": "Hard Shell Travel Organizer",
+  "categoryId": "Travel Accessories",
+  "description": "Travel organizer with an unbreakable hard shell and elastic fasteners. Light weight and easy to carry. Organizes gadgets, cosmetics, keys and toiletries.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 62",
+  "name": "DriftMate Travel Neck Rest Pillow",
+  "categoryId": "Travel Comfort",
+  "description": "Travel neck rest pillow with 3 second bounce back memory foam.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 66",
+  "name": "Sitwell Neckpad Car Cervical Support Pillow",
+  "categoryId": "Travel Comfort",
+  "description": "Car cervical support pillow with 3 second bounce back memory foam and a high quality buckle.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 63",
+  "name": "DriftMate Jumbo Hump Shaped Travel Neck Pillow",
+  "categoryId": "Travel Comfort",
+  "description": "Hump shaped travel neck pillow with 3 second bounce back memory foam.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 64",
+  "name": "DriftMate Travel Kit",
+  "categoryId": "Travel Comfort",
+  "description": "Travel kit containing a neck rest pillow with bounce back memory foam, an eye mask with stretchable elastic strap, ear plugs and a drawstring travel bag.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 65",
+  "name": "Car Head Rest Cushion Pillow Bow Shaped",
+  "categoryId": "Travel Comfort",
+  "description": "Bow shaped head rest cushion with poly filling, for cars and office chairs. The attached elastic strap keeps the pillow in place. Excellent branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 67",
+  "name": "Sitwell Spine Lumbar Support Cushion",
+  "categoryId": "Travel Comfort",
+  "description": "Lumbar support cushion with 3 second bounce back memory foam, for use with a car seat or office chair.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "S 69",
+  "name": "Sitwell Caddy PU Car Back Seat Organizer",
+  "categoryId": "Travel Comfort",
+  "description": "PU car back seat organizer with iPad bag, two mobile phone bags, two water bottle holders, tissue box and umbrella holder.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ }
+]

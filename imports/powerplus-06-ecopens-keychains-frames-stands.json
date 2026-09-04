@@ -1,0 +1,570 @@
+[
+ {
+  "sku": "L 137",
+  "name": "Table Stand Pen With Double Tape",
+  "categoryId": "Pens & Highlighters",
+  "description": "Table stand pen with attached pen, adhesive tape at the bottom to stick to tables, 180 degree adjustable cap and double side flat printing area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 196",
+  "name": "TablePen Square Large Size Table Stand Pen with Fixed Base",
+  "categoryId": "Pens & Highlighters",
+  "description": "Large size table stand pen with fixed square base.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 197",
+  "name": "TablePen Triangle Table Stand Pen with Fixed Base",
+  "categoryId": "Pens & Highlighters",
+  "description": "Table stand pen with fixed triangular base.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 198",
+  "name": "PrisMute No Sound Pen with Prism Style Grip",
+  "categoryId": "Pens & Highlighters",
+  "description": "Silent click plastic pen with prism style grip.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 199",
+  "name": "MarkMate Slide Out Folding Pen with Highlighter",
+  "categoryId": "Pens & Highlighters",
+  "description": "Plastic folding pen with a slide out highlighter.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 200",
+  "name": "Gravitas Premium Metal Pen with Fluted Design",
+  "categoryId": "Pens & Highlighters",
+  "description": "Premium metal pen with a fluted design.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 201",
+  "name": "EverGrain Eco Pen with Graphite Pencil",
+  "categoryId": "Eco Pens",
+  "description": "Wheat straw eco pen with a long life graphite pencil.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 165",
+  "name": "Cork 4 Refill Pen",
+  "categoryId": "Eco Pens",
+  "description": "Four refill eco friendly pen with a body made of wheat straw material. Refill colours black, red, blue and green.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 163",
+  "name": "Cork Barrel Pen",
+  "categoryId": "Eco Pens",
+  "description": "Cork barrel pen with smooth German ink refill for a comfortable writing experience. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 181",
+  "name": "Triangle Bamboo Pen With Stylus",
+  "categoryId": "Eco Pens",
+  "description": "Metal and bamboo pen with stylus for accurate typing. Eco friendly body made of natural bamboo; the triangle body gives more printing area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 151",
+  "name": "Bamboo Pen with Stylus",
+  "categoryId": "Eco Pens",
+  "description": "Bamboo pen with stylus at the back for working on your phone. Smooth German ink refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 182",
+  "name": "Bamboo Duo Pen With Stylus",
+  "categoryId": "Eco Pens",
+  "description": "Classy bamboo pen with metal parts and stylus at the back. Eco friendly body made of natural bamboo, smooth German ink refill.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 180",
+  "name": "Cork Eternal Pencil With Eraser",
+  "categoryId": "Eco Pens",
+  "description": "Eternal pencil with cork body and eraser. Writes up to 15,000 metres.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 160",
+  "name": "Bamboo Eternal Pencil With Rubber",
+  "categoryId": "Eco Pens",
+  "description": "Eternal pencil with bamboo body and rubber. Writes up to 15,000 metres.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "L 183",
+  "name": "Metal Body Pen With Bamboo Pusher",
+  "categoryId": "Eco Pens",
+  "description": "Metal body pen with bamboo highlight and pusher. Super smooth refill and premium looks.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 138",
+  "name": "Rectangle Rotating Key Chain With Double Side Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Rotating metal keychain with a branding area on both sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 141",
+  "name": "Cork Key Chain with Round Rotating Double Side Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with cork material strap and a gunmetal finish double side plate for an elegant look after engraving.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 137",
+  "name": "Keychain With Bottle Opener and Mobile Stand",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with built in bottle opener and mobile stand.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 58",
+  "name": "Easy Carry Keychain With Hook",
+  "categoryId": "Keychains",
+  "description": "Keychain with carabiner to attach to clothes or bag and a one foot long chain for easy usage of keys.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 145",
+  "name": "Keyglow RGB Acrylic LED Keychain with RGB Light",
+  "categoryId": "Keychains",
+  "description": "Acrylic LED keychain. The RGB light changes colour when the button is long pressed.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 144",
+  "name": "Keyglow White Acrylic LED Keychain with White Light",
+  "categoryId": "Keychains",
+  "description": "Acrylic LED keychain with white light.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 124",
+  "name": "Rectangle Hanging Metal Keychain With PU Strap",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with black PU strap. Pull and twist to hang anywhere; can be hung easily to bags and belts.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 84",
+  "name": "Universal Bottle And Can Opener For All Bottles",
+  "categoryId": "Keychains",
+  "description": "Opens water and soda bottles effortlessly, pops caps off bottles with the metal bottle opener, twists off screw caps and opens beverage and packaged food cans.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 126",
+  "name": "Hut Shape Metal Keychain In Black Finish",
+  "categoryId": "Keychains",
+  "description": "Hut shape metal keychain with double side laser engraving and a double side branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 130",
+  "name": "Power Glow Keychain With Torch And 4 Side Glowing Logo",
+  "categoryId": "Keychains",
+  "description": "Keychain with built-in torch for emergencies and four side branding. The logo glows when the torch is used. Easily replaceable button cells.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 136",
+  "name": "Power Glow Bottle Shape Keychain With Torch",
+  "categoryId": "Keychains",
+  "description": "Bottle shape keychain with torch and four side glowing multi-colour logo.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 131",
+  "name": "Pull Out Rectangle Metal PU Keychain",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with hanging loop that can be engraved and hung easily to bags.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 132",
+  "name": "Large Metal Keychain With Opener and Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Large metal keychain with built-in opener for bottle caps. Ideal promotional item for businesses.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 116a",
+  "name": "Rectangle Metal Keychain In Gold Finish",
+  "categoryId": "Keychains",
+  "description": "Rectangle metal keychain with gold finish on top and double side laser engraving. Shiny gold gives a royal look.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 146",
+  "name": "KeyPop Round Keychain with Opener",
+  "categoryId": "Keychains",
+  "description": "Round keychain with built-in opener for bottle caps. Ideal promotional item for businesses.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 116",
+  "name": "Rectangle Metal Keychain In Black Finish",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with gunmetal finish plate on top. Logo can be engraved on 2 sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 143",
+  "name": "Tyre Shape Rotating Keychain",
+  "categoryId": "Keychains",
+  "description": "Realistic design tyre shape rotating keychain with chrome finish. Alloy metal and soft PVC.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 127",
+  "name": "Tyre Shape Keychain With Chrome Finish",
+  "categoryId": "Keychains",
+  "description": "Realistic design tyre shape keychain with chrome finish and double side branding area. Alloy metal and soft PVC.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 123",
+  "name": "Round Metal Keychain With Black Plate",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with gunmetal finish plate on top. Logo can be engraved on 2 sides.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 134",
+  "name": "Round Rotating Key Chain With Double Side Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Round rotating keychain with double side gunmetal plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 135",
+  "name": "Round Rotating Key Chain In Rose Gold Finish",
+  "categoryId": "Keychains",
+  "description": "Round rotating keychain with double side gunmetal plate in a rose gold finish.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 147",
+  "name": "TapChain Square Customized MDF Keychain with NFC Tag",
+  "categoryId": "Keychains",
+  "description": "Square MDF keychain with NFC tag and both side branding area. Tap a phone to open a link, share a catalog, portfolio, website or social profile.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 148",
+  "name": "TapChain Round Customized MDF Keychain with NFC Tag",
+  "categoryId": "Keychains",
+  "description": "Round MDF keychain with NFC tag and both side branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 149",
+  "name": "Tapmate Customized MDF Keychain with Mobile Stand and NFC Tag",
+  "categoryId": "Keychains",
+  "description": "MDF keychain with mobile stand and NFC tag. Both side branding area.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 88",
+  "name": "Heart Shape Keychain with Highlights",
+  "categoryId": "Keychains",
+  "description": "Unique heart shape keychain with red highlights and both side branding area. Gunmetal finish makes the logo stand out.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 140",
+  "name": "PU Key Chain With Round Rotating Double Side Gunmetal Plate",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with black PU strap, round rotating plate and gunmetal finish for an elegant look after engraving.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 86",
+  "name": "Flash Tag With Whistle And Torch",
+  "categoryId": "Keychains",
+  "description": "Safety tag with whistle, torch and reflector. Catches attention while hung to bags or belt.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 150",
+  "name": "Hut Shape Metal Keychain with Carabiner and PU Strap",
+  "categoryId": "Keychains",
+  "description": "Hut shape metal keychain with durable PU leather strap and a strong metal key ring for secure key organisation.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 151",
+  "name": "Griplock Premium Keychain with Carabiner and Oval Branding Area",
+  "categoryId": "Keychains",
+  "description": "Premium keychain with carabiner and a double keyring setup for separate organisation of multiple key sets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 152",
+  "name": "Titan Premium Rectangular Keychain with Carabiner",
+  "categoryId": "Keychains",
+  "description": "Premium rectangular keychain with carabiner and double keyring setup.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 153",
+  "name": "Anchor Premium Double Finish Rectangular Keychain with Carabiner",
+  "categoryId": "Keychains",
+  "description": "Premium double finish rectangular keychain with carabiner and double keyring setup.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 120",
+  "name": "Rectangle Hanging Metal Keychain With Bottle Opener and PU Strap",
+  "categoryId": "Keychains",
+  "description": "Metal keychain with gunmetal finish plate, bottle opener and PU strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 89",
+  "name": "Frozen Memories 3D Photo Frame Girl Shape Keychain",
+  "categoryId": "Keychains",
+  "description": "Girl shape keychain with red highlights and both side branding area. Gunmetal finish makes the logo stand out.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 122",
+  "name": "Two Tone Logo Highlight Keychain with Multicolor Backlight",
+  "categoryId": "Keychains",
+  "description": "Keychain that highlights your logo in pulsating colours. Press the button on top to light up the logo in multi colour.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 114",
+  "name": "Logo Highlight Keychain with White Backlight",
+  "categoryId": "Keychains",
+  "description": "Keychain with white backlight that highlights your glowing logo.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 128",
+  "name": "Round Hanging Metal Keychain With PU Strap",
+  "categoryId": "Keychains",
+  "description": "Round hanging metal keychain with PU strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 125",
+  "name": "Rectangle Hanging Metal Keychain",
+  "categoryId": "Keychains",
+  "description": "Eco friendly rectangle hanging metal keychain with cork strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 133",
+  "name": "Rectangle Hanging Metal Keychain With Bottle Opener and Cork Strap",
+  "categoryId": "Keychains",
+  "description": "Rectangle hanging metal keychain with built in bottle opener and cork strap.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "J 139",
+  "name": "Oval Keychain With Phone Stand",
+  "categoryId": "Keychains",
+  "description": "Oval keychain with phone stand and stylish gunmetal branding plate.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 43",
+  "name": "Flag Style Photo Frame with Pen Stand and Stationery Holder",
+  "categoryId": "Photo Frames",
+  "description": "Flag style photo frame with pen stand, stationery holder and separate space for paper clips and pins. Frame size 154 mm x 102 mm. Ideal table top and in-clinic product.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 46",
+  "name": "BoldFrame Customizable Photo Frame with Solid Frame Border",
+  "categoryId": "Photo Frames",
+  "description": "Customisable photo frame with solid frame border. Photo size 4 x 6 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 47",
+  "name": "ArcView Customizable Photo Frame with Decorative Side Arcs",
+  "categoryId": "Photo Frames",
+  "description": "Customisable photo frame with decorative side arcs. Photo size 4.25 x 5.5 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 45",
+  "name": "Tap Frame Customized High Gloss Photo Frame in MDF with NFC Tag",
+  "categoryId": "Photo Frames",
+  "description": "High gloss MDF photo frame with NFC tag, vertical. Photo size 4 x 6 inch. Tap a phone to open a link.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 44",
+  "name": "Tap Frame Customized High Gloss Photo Frame in MDF with NFC Tag Horizontal",
+  "categoryId": "Photo Frames",
+  "description": "High gloss MDF photo frame with NFC tag, horizontal. Photo size 4 x 6 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 25",
+  "name": "Frozen Memories 3D Photo Frame Large",
+  "categoryId": "Photo Frames",
+  "description": "3D photo frame. Frame size 7.5 x 9.5 inch, photo size 5 x 7 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "D 27",
+  "name": "Frozen Memories 3D Photo Frame Small",
+  "categoryId": "Photo Frames",
+  "description": "3D photo frame. Frame size 5.75 x 4.75 inch, photo size 3.5 x 2.25 inch.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 420",
+  "name": "Zenstand Max Small Folding and Rotating Metal Mobile Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding and rotating metal mobile stand with bamboo base. Strong support, suitable for all mobile phones.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 427",
+  "name": "Zenstand Max II Folding and Rotating Metal Mobile Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding and rotating metal mobile stand with round bamboo base. Strong support, suitable for all mobile phones.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 428",
+  "name": "Zenstand Pure Folding and Rotating Clear Mobile Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding and rotating clear mobile stand with bamboo base. Folds completely to take minimal space.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 324",
+  "name": "Metal Mobile Stand With 4 Coasters",
+  "categoryId": "Mobile Stands",
+  "description": "Desktop utility product combining a phone stand with 4 metal coasters. Branding area on the stand and all 4 coasters.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 325",
+  "name": "Mini Folding Mobile And Tablet Stand",
+  "categoryId": "Mobile Stands",
+  "description": "Folding mobile and tablet stand adjustable to any angle, 270 degree rotating, with anti-skid pads. Branding area on back and front. Holds all types of smartphones and tablets.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 391",
+  "name": "TiltX Serve Large Size Adjustable Metal Mobile Stand with 4 Coasters",
+  "categoryId": "Mobile Stands",
+  "description": "Large adjustable metal mobile stand supplied with 4 metal coasters with soft foam base.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 227",
+  "name": "Folding Mobile Stand With Detachable Screen Cleaner",
+  "categoryId": "Mobile Stands",
+  "description": "Folding mobile stand that takes minimal space when stored, with a detachable cleaner at the back.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 321",
+  "name": "Metal Mobile Stand With Writing Pad Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Metal mobile stand with writing pad holder and 200 writing sheets. A hole at the back allows charging your device while using.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 322",
+  "name": "Metal Mobile Stand With Detachable Tumbler and Writing Pad Holder",
+  "categoryId": "Mobile Stands",
+  "description": "Desktop utility combining phone stand with slip pad and a detachable pen stand. 200 writing sheets included.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 323",
+  "name": "Metal Mobile Stand With Detachable Tumbler",
+  "categoryId": "Mobile Stands",
+  "description": "Desktop utility combining phone stand with detachable pen stand. Anti-skid pads let you take calls without lifting the phone.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ }
+]

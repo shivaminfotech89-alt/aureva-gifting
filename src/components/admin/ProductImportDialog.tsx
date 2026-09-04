@@ -43,7 +43,7 @@ function makeId(row: ImportRow): string {
   return slug || `product-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-export function validateRows(rows: unknown): { ok: Prepared[]; errors: string[] } {
+export function validateRows(rows: unknown, publish = false): { ok: Prepared[]; errors: string[] } {
   const ok: Prepared[] = [];
   const errors: string[] = [];
 
@@ -89,8 +89,10 @@ export function validateRows(rows: unknown): { ok: Prepared[]; errors: string[] 
         basePrice,
         gstPercent,
         stock,
-        // Default to hidden: an unpriced product must not reach the shop.
-        enabled: row.enabled === true,
+        // The shop only lists enabled products, and categories are derived from
+        // what the shop can see, so importing hidden means nothing appears at
+        // all. The caller decides.
+        enabled: row.enabled === true || publish,
         minOrderQuantity: Number.isFinite(Number(row.minOrderQuantity)) ? Number(row.minOrderQuantity) : 1,
         availabilityStatus: typeof row.availabilityStatus === 'string' ? row.availabilityStatus : 'available_on_request',
         images,
@@ -108,8 +110,10 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
   const [fileName, setFileName] = useState('');
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [publish, setPublish] = useState(false);
+  const [parsedRaw, setParsedRaw] = useState<unknown>(null);
 
-  const reset = () => { setRows([]); setErrors([]); setFileName(''); setProgress(0); };
+  const reset = () => { setRows([]); setErrors([]); setFileName(''); setProgress(0); setPublish(false); };
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -117,12 +121,22 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
     setFileName(file.name);
     try {
       const parsed = JSON.parse(await file.text());
-      const result = validateRows(parsed);
+      const result = validateRows(parsed, publish);
+      setParsedRaw(parsed);
       setRows(result.ok);
       setErrors(result.errors);
     } catch {
       setRows([]);
       setErrors(['That file is not valid JSON. Export it again, or open it in a text editor to check.']);
+    }
+  };
+
+  const togglePublish = (next: boolean) => {
+    setPublish(next);
+    if (parsedRaw !== null) {
+      const result = validateRows(parsedRaw, next);
+      setRows(result.ok);
+      setErrors(result.errors);
     }
   };
 
@@ -171,10 +185,25 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
 
         <div className="space-y-4 py-2">
           <p className="text-sm text-slate-500">
-            Choose a <strong>.json</strong> file of products. Imported items are saved as
-            <strong> hidden</strong> so they do not appear in the shop until you add a price and enable them.
-            Importing the same file again updates those products rather than creating duplicates.
+            Choose a <strong>.json</strong> file of products. Importing the same file again updates those
+            products rather than creating duplicates.
           </p>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+            <input
+              type="checkbox"
+              checked={publish}
+              onChange={(e) => togglePublish(e.target.checked)}
+              className="mt-0.5 h-4 w-4 accent-[var(--gold-500)]"
+            />
+            <span className="text-sm">
+              <strong className="text-slate-800">Show these products in the shop straight away</strong>
+              <span className="mt-0.5 block text-slate-500">
+                Leave unticked to import them hidden, then add prices and publish them yourself.
+                Hidden products do not appear in the shop at all, so their categories will not appear either.
+              </span>
+            </span>
+          </label>
 
           <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center transition-colors hover:border-[var(--gold-500)]">
             <Upload className="h-6 w-6 text-slate-400" />
