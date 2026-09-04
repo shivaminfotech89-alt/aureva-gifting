@@ -10,7 +10,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test:rules": "firebase emulators:exec --only firestore --project aureva-rules-test \"node tests/firestore.rules.test.mjs\"",
     "test:imports": "firebase emulators:exec --only firestore --project aureva-import-check \"node tests/import.check.mjs\"",
-    "test:ui": "tsx tests/variants.test.tsx"
+    "test:ui": "tsx tests/variants.test.tsx",
+    "test:dupes": "tsx tests/duplicates.test.tsx"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
