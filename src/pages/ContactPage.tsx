@@ -1,3 +1,4 @@
+import { registeredAddressLines } from '../lib/business';
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -66,7 +67,11 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-xl text-zinc-900 mb-1">Our Office</h3>
-                  <p className="text-zinc-500 leading-relaxed text-sm">Ahmedabad, Gujarat<br/>380058, India</p>
+                  <p className="text-zinc-500 leading-relaxed text-sm">
+                    {registeredAddressLines().map(line => (
+                      <React.Fragment key={line}>{line}<br /></React.Fragment>
+                    ))}
+                  </p>
                 </div>
               </div>
 

@@ -6,7 +6,19 @@
  * the tax the way the place of supply requires, so these are asserted rather
  * than eyeballed.
  */
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import { BUSINESS, registeredAddressLines, isIntraState, splitGst } from '../src/lib/business';
+
+/** Every source file, so a stale address cannot be left behind in one page. */
+function sourceFiles(dir = 'src'): string[] {
+  return readdirSync(dir).flatMap(name => {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) return sourceFiles(full);
+    return /\.(ts|tsx)$/.test(name) ? [full] : [];
+  });
+}
+const sources = sourceFiles().map(f => ({ f, text: readFileSync(f, 'utf8') }));
 
 const paise = (n: number) => Math.round(n * 100);
 
@@ -21,6 +33,12 @@ const checks: [string, boolean][] = [
   // comparing two literals it can already tell apart.
   ['the brand and the registered name are distinct',
    (BUSINESS.brand as string) !== (BUSINESS.tradeName as string)],
+  // The PIN was 380058 on the footer, the contact page and the invoice while
+  // the certificate said 380057. One source of truth, checked.
+  ['no page still carries the old PIN',
+   sources.filter(s => s.text.includes('380058')).length === 0],
+  ['the address is not retyped outside lib/business',
+   sources.filter(s => s.text.includes('380057') && !s.f.endsWith('business.ts')).length === 0],
   ['invoices are issued in the registered name, not the brand',
    (BUSINESS.tradeName as string).length > 0 && (BUSINESS.legalName as string).length > 0],
 
