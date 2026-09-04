@@ -1,0 +1,570 @@
+[
+ {
+  "sku": "B 191",
+  "name": "Floral PU Notebook with Bookmark Ribbon",
+  "categoryId": "Notebooks",
+  "description": "PU notebook with bookmark ribbon. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 164",
+  "name": "A5 Business Notebook with Golden Cursive Design",
+  "categoryId": "Notebooks",
+  "description": "A5 soft bound business notebook in PU material with golden cursive design. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 181",
+  "name": "Garden A5 Notebook",
+  "categoryId": "Notebooks",
+  "description": "A5 soft bound cover notebook. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 206",
+  "name": "Dual Tone Cork Fabric Notebook with Elastic Fastener and Cork Pen",
+  "categoryId": "Notebooks",
+  "description": "Hard bound dual tone cork fabric notebook with elastic fastener and a 4 refill cork pen.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 176A",
+  "name": "Cork Fabric Notebook with Cork Pen",
+  "categoryId": "Notebooks",
+  "description": "Hard bound cork fabric notebook supplied with a cork pen. 192 inner pages, 80 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "B 114",
+  "name": "Flexible Pocket Notebook with Ruled and Checked Pages",
+  "categoryId": "Notebooks",
+  "description": "Flexible PU pocket notebook, 3.5 x 5.75 inch, with ruled and checked pages. 200 inner pages, 70 GSM.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 164",
+  "name": "Ultima Premium Revolving Flask",
+  "categoryId": "Vacuum Flasks",
+  "description": "Premium revolving vacuum flask. Capacity 2 L approx. Keeps hot or cold 12-14 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 25
+ },
+ {
+  "sku": "H 161",
+  "name": "Wilson Stainless Steel Flask",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum flask. Capacity 500 ml approx. Keeps hot or cold 8-12 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 305",
+  "name": "EcoVault 700 Vacuum Flask with Bamboo Lid",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum flask with bamboo lid. Capacity 700 ml approx. Keeps hot or cold 18-24 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 165",
+  "name": "Pearl Double Cap Vacuum Bottle with Carry Loop",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel double cap vacuum bottle in metallic finish with carry loop. Capacity 750 ml approx. Keeps hot or cold 5-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 191A",
+  "name": "Bamboo Vacuum Flask with Tea Strainer",
+  "categoryId": "Vacuum Flasks",
+  "description": "Stainless steel bamboo vacuum flask with tea strainer. Capacity 400 ml approx. Keeps hot or cold 8-10 hours. 304 steel.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 310",
+  "name": "Cola Vacuum Flask in Steel Finish 1000 ml",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel cola shape vacuum flask. Capacity 1000 ml approx. Keeps hot or cold 18-24 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 308",
+  "name": "Cola Vacuum Flask in Steel Finish 500 ml",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel cola shape vacuum flask. Capacity 500 ml approx. Keeps hot or cold 18-24 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 393",
+  "name": "HeatVault Mag 700 Vacuum Flask with Magnet Phone Stand",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum flask with magnetic phone stand and tripod function. Capacity 700 ml approx. Keeps hot or cold 18 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 395",
+  "name": "Quest 700 Vacuum Insulated Flask with Carry Strap",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum insulated flask with carry strap. Capacity 700 ml approx. Keeps hot or cold 18 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 396",
+  "name": "HeatVault Zod Vacuum Flask with Sipper and Carry Handle",
+  "categoryId": "Vacuum Flasks",
+  "description": "304 steel vacuum flask with sipper function and carry handle. Capacity 900 ml approx. Keeps hot or cold 18 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 248A",
+  "name": "Candy Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Insulated steel bottle, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 319",
+  "name": "Hexa Edge Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Double wall leak proof insulated steel bottle. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 224",
+  "name": "SwiftSip Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Insulated steel bottle with steel inside. Capacity 500 ml approx. Keeps hot or cold 4-5 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 268",
+  "name": "Square Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Insulated steel bottle, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 318",
+  "name": "Square II Insulated Steel Bottle",
+  "categoryId": "Insulated Bottles",
+  "description": "Insulated steel bottle, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 361",
+  "name": "Ribd Insulated Steel Bottle with Flip Top Lid",
+  "categoryId": "Insulated Bottles",
+  "description": "Ribbed insulated steel bottle with flip top lid, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 362",
+  "name": "Ribd Copper Insulated Copper Bottle with Flip Top Lid",
+  "categoryId": "Insulated Bottles",
+  "description": "Copper bottle with PU insulated outer body and flip top lid, spill and leak proof. Capacity 750 ml approx. Keeps hot or cold 4-6 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 282",
+  "name": "Flora Steel Bottle Colored",
+  "categoryId": "Water Bottles",
+  "description": "Single wall stainless steel bottle. Capacity 1 L approx. Leak proof and light weight. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 281",
+  "name": "Flora Steel Bottle Natural",
+  "categoryId": "Water Bottles",
+  "description": "Single wall stainless steel bottle. Capacity 1 L approx. Leak proof and light weight. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 240A",
+  "name": "Long Cola Stainless Steel Bottle Natural",
+  "categoryId": "Water Bottles",
+  "description": "Stainless steel bottle. Capacity 900 ml approx. Leak proof, light weight, wide mouth, BPA free. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 241A",
+  "name": "Long Cola Stainless Steel Bottle Colored",
+  "categoryId": "Water Bottles",
+  "description": "Stainless steel bottle in four colours. Capacity 900 ml approx. Leak proof and light weight.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 306A",
+  "name": "Bolt 750 Stainless Steel Single Wall Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Single wall stainless steel bottle. Capacity 750 ml approx. Leak proof, light weight, wide mouth, BPA free. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 307A",
+  "name": "Bolt 750 Colored Stainless Steel Single Wall Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Single wall stainless steel bottle in black, blue and white. Capacity 750 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 320",
+  "name": "Cola Single Wall Steel Bottle Natural 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Single wall steel bottle. Capacity 1 L approx. Leak proof, BPA free, light weight, wide mouth. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 322",
+  "name": "Cola Single Wall Steel Bottle Natural 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Single wall steel bottle. Capacity 750 ml approx. Leak proof, BPA free, light weight, wide mouth. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 321",
+  "name": "Cola Single Wall Steel Bottle Colored 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Single wall steel bottle in colour finish. Capacity 1 L approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 323",
+  "name": "Cola Single Wall Steel Bottle Colored 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Single wall steel bottle in colour finish. Capacity 750 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 231",
+  "name": "Curvy Steel Bottle Colored 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Curved steel bottle with sipper cap. Capacity 1 L approx. Light weight. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 233",
+  "name": "Curvy Steel Bottle Colored 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Curved steel bottle with sipper cap. Capacity 750 ml approx. Light weight. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 230",
+  "name": "Curvy Steel Bottle Natural 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Curved steel bottle. Capacity 1 L approx. Leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 232",
+  "name": "Curvy Steel Bottle Natural 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Curved steel bottle. Capacity 750 ml approx. Leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 324",
+  "name": "Aqua Mini Single Wall Steel Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Compact single wall steel bottle with easy sip and easy pour cap. Capacity 500 ml approx. Leak proof.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 200",
+  "name": "Straight Steel Bottle Natural 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Straight stainless steel bottle. Capacity 1 L approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 201",
+  "name": "Straight Steel Bottle Colored 1 L",
+  "categoryId": "Water Bottles",
+  "description": "Straight stainless steel bottle in blue, black and red. Capacity 1 L approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 202",
+  "name": "Straight Steel Bottle Natural 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Straight stainless steel bottle. Capacity 750 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 203",
+  "name": "Straight Steel Bottle Colored 750 ml",
+  "categoryId": "Water Bottles",
+  "description": "Straight stainless steel bottle in red, blue and black. Capacity 750 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 373",
+  "name": "ClearSip Pop Double Wall Borosilicate Bottle with Infuser",
+  "categoryId": "Water Bottles",
+  "description": "Double wall borosilicate bottle with stainless steel infuser net and single button lid release. Capacity 325 ml approx. Dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 372",
+  "name": "ClearSip Duo Double Wall Borosilicate Infuser Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Double wall borosilicate infuser bottle with stainless steel infuser net. Capacity 325 ml approx. BPA free, lead free, non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 350",
+  "name": "ClearSip EcoFuse Double Wall Infuser Glass Bottle with Bamboo Lid",
+  "categoryId": "Water Bottles",
+  "description": "Double wall infuser glass bottle with bamboo lid and stainless steel infuser basket. Capacity 450 ml approx. High temperature resistant, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 325",
+  "name": "ClearSip 1000 Borosilicate Glass Bottle with Steel Cap",
+  "categoryId": "Water Bottles",
+  "description": "Borosilicate glass bottle with steel cap. Capacity 1000 ml approx. Microwave and dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 352",
+  "name": "ClearSip EcoWrap Borosilicate Bottle with Bamboo Cap and Cork Sleeve",
+  "categoryId": "Water Bottles",
+  "description": "Borosilicate bottle with bamboo cap and cork sleeve. Capacity 600 ml approx. BPA free, lead free, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 351",
+  "name": "ClearSip Wrap Borosilicate Bottle with Bamboo Cap and Silicon Sleeve",
+  "categoryId": "Water Bottles",
+  "description": "Borosilicate bottle with bamboo cap and silicon sleeve. Capacity 600 ml approx. BPA free, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 327",
+  "name": "ClearSip Brew 500 Borosilicate Glass Bottle with Steel Infuser",
+  "categoryId": "Water Bottles",
+  "description": "Borosilicate glass bottle with steel infuser. Capacity 500 ml approx. High temperature resistant, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 347",
+  "name": "SafeSip Tilt Glass Bottle with Easy Carry Handle",
+  "categoryId": "Water Bottles",
+  "description": "Glass bottle with easy carry handle. Capacity 400 ml approx. BPA free, lead free.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 374",
+  "name": "ClearSip Spin Double Wall Borosilicate Infuser Bottle",
+  "categoryId": "Water Bottles",
+  "description": "Double wall borosilicate infuser bottle with magnetic stainless steel infuser basket and rolling detach mechanism. Capacity 425 ml approx. BPA free, non toxic, lead free.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 349",
+  "name": "SafeSip Eco II Glass Bottle with Wheat Straw Body",
+  "categoryId": "Water Bottles",
+  "description": "Glass bottle with wheat straw outer body. Capacity 350 ml approx. BPA free, lead free, non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 348",
+  "name": "SafeSip Glass Bottle with Outer Plastic Body and Metal Plate Cap",
+  "categoryId": "Water Bottles",
+  "description": "Glass bottle with outer plastic body and metal plate cap. Capacity 350 ml approx. BPA free, non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 371",
+  "name": "ClearSip Fold Double Wall Borosilicate Bottle with Infuser Net",
+  "categoryId": "Water Bottles",
+  "description": "Double wall borosilicate bottle with stainless steel infuser net and folding handle. High quality borosilicate glass, BPA free, dishwasher safe.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 344",
+  "name": "DuoSip Glass Sipper Mug with Outer Plastic Body",
+  "categoryId": "Mugs",
+  "description": "Glass sipper mug with outer plastic body and two drinking options, flip top lid and straw. Capacity 450 ml approx. BPA free, lead free, non toxic.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 256",
+  "name": "Premia II Glass Mug with Full Silicon Sleeve and Lid",
+  "categoryId": "Mugs",
+  "description": "Glass mug with full silicon sleeve and lid. Capacity 350 ml approx. Non toxic and leak proof. The sleeve protects the mug from small falls and your hands from hot liquids.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "E 242",
+  "name": "Folding Silicon Cup with Cap",
+  "categoryId": "Mugs",
+  "description": "Collapsible folding silicon cup with cap. Capacity 200 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 274",
+  "name": "Cafe Buddy Stainless Steel Vacuum Coffee Mug with Silicon Grip",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Stainless steel vacuum coffee mug with silicon grip. Capacity 510 ml approx. Keeps hot or cold 6-8 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 331",
+  "name": "Plum 450 Double Wall Insulated Mug",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Double wall insulated mug. Capacity 450 ml approx. Keeps hot or cold 4-6 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 254",
+  "name": "Hexa Insulated Tall Sipper Mug with Temperature Retention",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Tall insulated sipper mug. Capacity 375 ml approx. Keeps hot or cold 4-6 hours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 394",
+  "name": "Cafe Cup Double Wall Steel Mug with Flip Top Lid",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "304 steel double wall mug with flip top lid. Capacity 400 ml approx.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 365",
+  "name": "Cafe Buddy Pro Vacuum Coffee Mug with Temperature Display",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Stainless steel vacuum coffee mug with silicon grip and temperature display. Capacity 510 ml approx. Keeps hot or cold 6-8 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 278",
+  "name": "Cafe Mate Pro Vacuum Coffee Mug with Temperature Display",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Stainless steel vacuum coffee mug with temperature display. Capacity 510 ml approx. Keeps hot or cold 6-8 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 330",
+  "name": "MaxSip Car and Desktop Vacuumized Mug",
+  "categoryId": "Hot & Cold Mugs",
+  "description": "Vacuumized travel mug with flip top and straw options. Capacity 890 ml approx. Keeps drinks hot for up to 8 hours.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 249",
+  "name": "Lincoln Lite 2 Tone Stainless Steel Mug with Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Two tone stainless steel mug with lid. Capacity 300 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 252",
+  "name": "Foggy Plus Stainless Steel Coffee Mug",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug. Capacity 250 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 227",
+  "name": "Oscar Stainless Steel Coffee Mug with Handle",
+  "categoryId": "Steel Mugs",
+  "description": "Stainless steel coffee mug with handle and lid, microwave safe. Capacity 350 ml approx. Available in white, red and blue.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 392",
+  "name": "Cafe Serve Double Wall Steel Mug with Handle and Lid",
+  "categoryId": "Steel Mugs",
+  "description": "304 steel double wall mug with handle and lid.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 356",
+  "name": "Hexa Flip Stainless Steel Mug with Flip Top Lid",
+  "categoryId": "Steel Mugs",
+  "description": "Stainless steel mug with flip top lid. Capacity 400 ml approx. Available in 2 colours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 229",
+  "name": "Noble Stainless Steel Double Wall Coffee Mug Large",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug with pointy handle and lid. Capacity 460 ml approx. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ },
+ {
+  "sku": "H 302",
+  "name": "Noble Stainless Steel Double Wall Coffee Mug Medium",
+  "categoryId": "Steel Mugs",
+  "description": "Double wall stainless steel coffee mug with pointy handle and lid. Capacity 250 ml approx. Available in 2 colours. Made in India.",
+  "gstPercent": 18,
+  "minOrderQuantity": 50
+ }
+]
