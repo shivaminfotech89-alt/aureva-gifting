@@ -12,6 +12,20 @@ export default defineConfig(({mode}) => {
     // nothing. The app is served from the domain root.
     base: '/',
     plugins: [react(), tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          // Only what every visitor needs anyway. Naming a chunk here puts it
+          // in the entry's preload set, so listing recharts, jspdf and xlsx
+          // made the browser fetch 720 KB of admin-only libraries on the
+          // homepage. They are left to the automatic per-route splitting.
+          manualChunks: {
+            react: ['react', 'react-dom', 'react-router-dom'],
+            firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage'],
+          },
+        },
+      },
+    },
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },

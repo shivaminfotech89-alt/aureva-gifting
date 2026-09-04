@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 import { ProductImportDialog, idForSku } from '../../components/admin/ProductImportDialog';
 import { Link } from 'react-router-dom';
 
-import { generateCatalogPDF } from '../../lib/catalogGenerator';
 import { PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
 import { ProductVariant, variantsOf, swatchColor, totalStock } from '../../lib/variants';
 
@@ -144,6 +143,7 @@ export default function AdminProducts() {
     toast.info("Generating full catalog PDF...", { duration: 3000 });
     try {
       const activeProducts = products.filter(p => p.enabled);
+      const { generateCatalogPDF } = await import('../../lib/catalogGenerator');
       await generateCatalogPDF(activeProducts, "AUREVA CORPORATE CATALOG");
       toast.success("Catalog generated successfully!");
     } catch(e) {

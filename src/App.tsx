@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { useAuthListener } from './hooks/useAuthListener';
 import { Toaster } from './components/ui/sonner';
@@ -10,28 +10,28 @@ import { CatalogLeadModal } from './components/shop/CatalogLeadModal';
 // Pages
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
-import ProductDetails from './pages/ProductDetails';
-import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
-import AuthPage from './pages/AuthPage';
-import AboutPage from './pages/AboutPage';
-import CorporateBulkPage from './pages/CorporateBulkPage';
-import ContactPage from './pages/ContactPage';
-import WishlistPage from './pages/WishlistPage';
-import AdminLayout from './pages/admin/layout/AdminLayout';
-import AdminDashboardIndex from './pages/admin/AdminDashboardIndex';
-import AdminProducts from './pages/admin/AdminProducts';
-import AdminHomepageContent from './pages/admin/AdminHomepageContent';
-import AdminOrders from './pages/admin/AdminOrders';
-import AdminOrderDetails from './pages/admin/AdminOrderDetails';
-import AdminCustomers from './pages/admin/AdminCustomers';
-import AdminCustomerDetails from './pages/admin/AdminCustomerDetails';
-import AdminCatalogLeads from './pages/admin/AdminCatalogLeads';
-import AdminBudgetCatalogs from './pages/admin/AdminBudgetCatalogs';
-import AdminSettings from './pages/admin/AdminSettings';
-import AdminCoupons from './pages/admin/AdminCoupons';
-import AdminPlaceholderPage from './pages/admin/AdminPlaceholderPage';
-import CustomerDashboard from './pages/customer/CustomerDashboard';
+const ProductDetails = lazy(() => import('./pages/ProductDetails'));
+const CartPage = lazy(() => import('./pages/CartPage'));
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
+const AuthPage = lazy(() => import('./pages/AuthPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const CorporateBulkPage = lazy(() => import('./pages/CorporateBulkPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const WishlistPage = lazy(() => import('./pages/WishlistPage'));
+const AdminLayout = lazy(() => import('./pages/admin/layout/AdminLayout'));
+const AdminDashboardIndex = lazy(() => import('./pages/admin/AdminDashboardIndex'));
+const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'));
+const AdminHomepageContent = lazy(() => import('./pages/admin/AdminHomepageContent'));
+const AdminOrders = lazy(() => import('./pages/admin/AdminOrders'));
+const AdminOrderDetails = lazy(() => import('./pages/admin/AdminOrderDetails'));
+const AdminCustomers = lazy(() => import('./pages/admin/AdminCustomers'));
+const AdminCustomerDetails = lazy(() => import('./pages/admin/AdminCustomerDetails'));
+const AdminCatalogLeads = lazy(() => import('./pages/admin/AdminCatalogLeads'));
+const AdminBudgetCatalogs = lazy(() => import('./pages/admin/AdminBudgetCatalogs'));
+const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
+const AdminCoupons = lazy(() => import('./pages/admin/AdminCoupons'));
+const AdminPlaceholderPage = lazy(() => import('./pages/admin/AdminPlaceholderPage'));
+const CustomerDashboard = lazy(() => import('./pages/customer/CustomerDashboard'));
 import ProtectedRoute from './components/layout/ProtectedRoute';
 
 function Layout() {
@@ -76,11 +76,20 @@ function Layout() {
   );
 }
 
-import PrivacyPolicyPage from './pages/policies/PrivacyPolicyPage';
-import TermsConditionsPage from './pages/policies/TermsConditionsPage';
-import ReturnRefundPolicyPage from './pages/policies/ReturnRefundPolicyPage';
-import ShippingPolicyPage from './pages/policies/ShippingPolicyPage';
-import CancellationPolicyPage from './pages/policies/CancellationPolicyPage';
+const PrivacyPolicyPage = lazy(() => import('./pages/policies/PrivacyPolicyPage'));
+const TermsConditionsPage = lazy(() => import('./pages/policies/TermsConditionsPage'));
+const ReturnRefundPolicyPage = lazy(() => import('./pages/policies/ReturnRefundPolicyPage'));
+const ShippingPolicyPage = lazy(() => import('./pages/policies/ShippingPolicyPage'));
+const CancellationPolicyPage = lazy(() => import('./pages/policies/CancellationPolicyPage'));
+
+/** Shown for the moment a route's code is being fetched. */
+function RouteLoading() {
+  return (
+    <div className="flex min-h-[60vh] items-center justify-center" role="status" aria-label="Loading">
+      <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-[var(--gold-500)]" />
+    </div>
+  );
+}
 
 export default function App() {
   useAuthListener();
@@ -96,6 +105,9 @@ export default function App() {
   return (
     <Router>
       <Toaster position="top-center" richColors />
+      {/* Each route is its own download, so a customer never fetches the admin
+          panel and the charting and PDF libraries that come with it. */}
+      <Suspense fallback={<RouteLoading />}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -154,6 +166,7 @@ export default function App() {
           </Route>
         </Route>
       </Routes>
+      </Suspense>
     </Router>
   );
 }
