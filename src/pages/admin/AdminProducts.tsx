@@ -44,6 +44,19 @@ export default function AdminProducts() {
     }
   }, []);
 
+  /**
+   * product_private is a new collection. Until firestore.rules is deployed
+   * there is no rule for it, so every write is denied — which says nothing
+   * useful to whoever is looking at the screen.
+   */
+  function supplierWriteHelp(error: any): string {
+    if (error?.code === 'permission-denied') {
+      return 'Supplier details could not be saved because the database rules are out of date. '
+           + 'Run: firebase deploy --only firestore:rules';
+    }
+    return `Supplier details could not be saved: ${error?.message || 'unknown error'}`;
+  }
+
   async function loadProducts() {
 
     setLoading(true);
@@ -94,7 +107,7 @@ export default function AdminProducts() {
       }
       toast.success(`Supplier details for ${stale.length} product${stale.length === 1 ? '' : 's'} are now admin-only.`);
     } catch (error: any) {
-      toast.error(`Could not secure supplier details: ${error?.message || 'unknown error'}`);
+      toast.error(supplierWriteHelp(error));
       console.error('supplier migration failed', error);
     }
   }
@@ -239,7 +252,13 @@ export default function AdminProducts() {
           createdAt: serverTimestamp(),
         });
       }
-      await setDoc(doc(db, 'product_private', productId), supplierPayload, { merge: true });
+      // The product itself is saved by this point. A rules deploy that has not
+      // happened yet must not read as "the product did not save".
+      try {
+        await setDoc(doc(db, 'product_private', productId), supplierPayload, { merge: true });
+      } catch (error: any) {
+        toast.warning(supplierWriteHelp(error));
+      }
       toast.success(editingId ? 'Product updated successfully' : 'Product created successfully');
       
       setFormData(EMPTY_FORM);
