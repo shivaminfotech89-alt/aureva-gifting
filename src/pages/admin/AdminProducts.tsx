@@ -117,7 +117,27 @@ export default function AdminProducts() {
     }
   }
 
-  const filteredProducts = products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredProducts = products.filter(p => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return true;
+    // Searching by the dealer code matters more than by name when reordering,
+    // and a colour's own code should find its product too.
+    return p.name.toLowerCase().includes(q)
+      || (p.sku || '').toLowerCase().includes(q)
+      || variantsOf(p).some(v => (v.sku || '').toLowerCase().includes(q) || v.color.toLowerCase().includes(q));
+  });
+
+  const stats = React.useMemo(() => {
+    const visible = products.filter(p => p.enabled);
+    return {
+      total: products.length,
+      visible: visible.length,
+      hidden: products.length - visible.length,
+      outOfStock: products.filter(p => totalStock(p) <= 0).length,
+      units: products.reduce((n, p) => n + totalStock(p), 0),
+      colorOptions: products.reduce((n, p) => n + variantsOf(p).length, 0),
+    };
+  }, [products]);
 
   const handleDownloadCatalog = async () => {
     setIsGeneratingCatalog(true);
@@ -788,6 +808,31 @@ export default function AdminProducts() {
           </Dialog>
         </div>
       </div>
+
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        {[
+          { label: 'Total products', value: stats.total, tone: 'text-[#0F172A]' },
+          { label: 'Visible in shop', value: stats.visible, tone: 'text-emerald-600' },
+          { label: 'Hidden', value: stats.hidden, tone: 'text-slate-500' },
+          { label: 'Out of stock', value: stats.outOfStock, tone: stats.outOfStock > 0 ? 'text-red-600' : 'text-slate-500' },
+          { label: 'Units in stock', value: stats.units.toLocaleString('en-IN'), tone: 'text-[#0F172A]' },
+        ].map(card => (
+          <div
+            key={card.label}
+            className="rounded-2xl border border-slate-100 bg-white/80 px-4 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">{card.label}</p>
+            <p className={`mt-1 text-2xl font-bold ${card.tone}`}>{loading ? '—' : card.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <p className="mb-3 text-[13px] text-slate-500">
+        {searchQuery.trim()
+          ? `Showing ${filteredProducts.length} of ${stats.total} products for "${searchQuery.trim()}"`
+          : `Showing all ${stats.total} products`}
+        {stats.colorOptions > 0 && ` · ${stats.colorOptions} color options`}
+      </p>
 
       <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
         <div className="overflow-x-auto">
