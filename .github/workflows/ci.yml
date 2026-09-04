@@ -1,0 +1,53 @@
+name: CI
+
+# The blank-page bug reached production because nothing ran between a merge
+# and a deploy. These are the checks that would have caught it.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      # The Firestore emulator the rules and import checks run against is a
+      # Java program.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit -p tsconfig.json
+
+      - name: Build
+        run: npm run build
+
+      - name: Shop and admin behaviour
+        run: |
+          npm run test:ui
+          npm run test:dupes
+          npm run test:stats
+          npm run test:upi
+
+      - name: Firestore rules
+        run: npm run test:rules
+
+      - name: Catalog imports
+        run: npm run test:imports
+
+      # Assets must be referenced from the domain root, or a page one level
+      # deep cannot load its JavaScript. This is the regression that blanked
+      # every product page.
+      - name: Build output is servable at every route depth
+        run: node scripts/check-build.mjs

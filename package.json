@@ -12,7 +12,10 @@
     "test:imports": "firebase emulators:exec --only firestore --project aureva-import-check \"node tests/import.check.mjs\"",
     "test:ui": "tsx tests/variants.test.tsx",
     "test:dupes": "tsx tests/duplicates.test.tsx",
-    "test:stats": "tsx tests/inventory.stats.test.tsx"
+    "test:stats": "tsx tests/inventory.stats.test.tsx",
+    "test:upi": "tsx tests/upi.test.tsx",
+    "test": "npm run test:rules && npm run test:imports && npm run test:ui && npm run test:dupes && npm run test:stats && npm run test:upi && npm run test:build",
+    "test:build": "node scripts/check-build.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
