@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function ShippingPolicyPage() {
   return (
-    <div className="container mx-auto px-4 max-w-4xl py-12 md:py-12 lg:py-12">
+    <div className="container mx-auto max-w-4xl px-4 pb-16 pt-28 md:pt-32">
       <h1 className="text-[1.75rem] md:text-[2rem] font-display font-bold tracking-tight mb-8">Shipping Policy</h1>
       
       <div className="prose prose-slate max-w-none text-muted-foreground prose-headings:text-foreground prose-headings:font-display">
@@ -41,6 +41,9 @@ export default function ShippingPolicyPage() {
 
         <h2 className="text-2xl font-bold mt-10 mb-4 text-foreground">5. Customer Tracking</h2>
         <p>A master tracking link or a tracking sheet will be provided via email and WhatsApp upon dispatch, allowing you to monitor the delivery status of all your shipments in real-time.</p>
+
+        <h2 className="text-2xl font-bold mt-10 mb-4 text-foreground">6. Inspection on Delivery</h2>
+        <p>Please inspect every consignment on arrival and <strong>record a continuous unboxing video before breaking the parcel seal</strong>. Damage, shortage and wrong-item claims must be raised within 48 hours of delivery and cannot be assessed without that recording. Where you are shipping to multiple locations, ask each recipient to do the same. Full requirements are set out in our <a href="/refund" className="underline">Return, Exchange &amp; Refund Policy</a>.</p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="container mx-auto px-4 max-w-4xl py-12 md:py-12 lg:py-12">
+    <div className="container mx-auto max-w-4xl px-4 pb-16 pt-28 md:pt-32">
       <h1 className="text-[1.75rem] md:text-[2rem] font-display font-bold tracking-tight mb-8">Privacy Policy</h1>
       
       <div className="prose prose-slate max-w-none text-muted-foreground prose-headings:text-foreground prose-headings:font-display">
@@ -23,6 +23,7 @@ export default function PrivacyPolicyPage() {
           <li><strong>Personal Details:</strong> Names, phone numbers, email addresses, delivery addresses, GST numbers, and corporate entity names.</li>
           <li><strong>Payment Verification Data:</strong> For processing payments, we may collect UTR/transaction reference numbers, UPI details, and payment verification receipts. All payment gateways used are secure third-party platforms.</li>
           <li><strong>Customization Elements:</strong> Logos, artwork, custom text, and brand identity guidelines provided for product customization.</li>
+          <li><strong>Claim Evidence:</strong> Unboxing videos, photographs and written descriptions you submit in support of a return, exchange or replacement claim. These recordings may incidentally capture your premises or personnel; we use them solely to assess the claim and, where relevant, to pursue it with our courier or supplier.</li>
         </ul>
 
         <h2 className="text-2xl font-bold mt-10 mb-4 text-foreground">2. Communication & Consent</h2>
@@ -50,7 +51,7 @@ export default function PrivacyPolicyPage() {
         </ul>
 
         <h2 className="text-2xl font-bold mt-10 mb-4 text-foreground">5. Data Retention & Security</h2>
-        <p>We retain your order histories, transaction references, and customized artwork models only as long as necessary for administrative, legal, and operational purposes. We employ robust security measures across our platform.</p>
+        <p>We retain your order histories, transaction references, and customized artwork files only as long as necessary for administrative, legal, and operational purposes. Claim evidence, including unboxing videos, is retained only until the claim is closed and any related courier or supplier recovery is settled, after which it is deleted. We employ robust security measures across our platform.</p>
 
         <h2 className="text-2xl font-bold mt-10 mb-4 text-foreground">6. Contact Us</h2>
         <p>If you have questions about our data practices, please email us at <strong>aurevagifts@gmail.com</strong>.</p>

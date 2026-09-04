@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CancellationPolicyPage() {
   return (
-    <div className="container mx-auto px-4 max-w-4xl py-12 md:py-12 lg:py-12">
+    <div className="container mx-auto max-w-4xl px-4 pb-16 pt-28 md:pt-32">
       <h1 className="text-[1.75rem] md:text-[2rem] font-display font-bold tracking-tight mb-8">Cancellation Policy</h1>
       
       <div className="prose prose-slate max-w-none text-muted-foreground prose-headings:text-foreground prose-headings:font-display">
@@ -31,7 +31,7 @@ export default function CancellationPolicyPage() {
         <p>For items without any bulk custom printing:</p>
         <ul className="list-disc pl-6 mb-6 space-y-2">
           <li>If the order has NOT been dispatched from our supplier warehouse, you may cancel it. Any verified payments will be fully refunded.</li>
-          <li>If the order HAS been dispatched, you must follow the standard Returns process. A restocking fee and return logistics cost will be borne by the customer.</li>
+          <li>If the order HAS been dispatched, you must follow the standard Returns process, which requires a continuous unboxing video recorded before the parcel seal is broken. A restocking fee and return logistics cost will be borne by the customer. See our <a href="/refund" className="underline">Return, Exchange &amp; Refund Policy</a>.</li>
         </ul>
 
         <h2 className="text-2xl font-bold mt-10 mb-4 text-foreground">4. How to Cancel</h2>
