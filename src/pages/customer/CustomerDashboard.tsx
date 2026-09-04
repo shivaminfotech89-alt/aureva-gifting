@@ -9,6 +9,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Package, User, FileText, CheckCircle2, Clock, Truck, ShieldCheck, MapPin, X, ArrowRight, Settings, LogOut, Heart, ShoppingBag, RefreshCw, XCircle, Plus, Edit2, Trash2, Smartphone } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
+import { upiPayLink, upiQrImageUrl } from '../../lib/upi';
 import { auth } from '../../lib/firebase';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialog';
 import { Link } from 'react-router-dom';
@@ -338,6 +339,16 @@ export default function CustomerDashboard() {
     printWindow.document.write(invoiceHtml);
     printWindow.document.close();
   };
+
+  // The payee comes from Admin -> Settings; the fallback in lib/upi covers a
+  // site that has not set one.
+  const upiLink = upiPayLink({
+    upiId: adminSettings?.upiId,
+    payeeName: adminSettings?.upiName,
+    amount: paymentOrder?.grandTotal,
+    orderId: paymentOrder?.id,
+  });
+  const upiQrUrl = upiQrImageUrl(upiLink);
 
   return (
     <div className="bg-zinc-50 min-h-screen pb-24">
@@ -839,7 +850,7 @@ export default function CustomerDashboard() {
           <div className="p-6 bg-white flex flex-col items-center flex-shrink-0">
             <div className="bg-white p-4 rounded-xl border shadow-sm relative group w-[220px] h-[220px] flex items-center justify-center mb-6">
                 <img 
-                  src={(adminSettings?.qrCodeUrl) || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`upi://pay?pa=${adminSettings?.adminWhatsApp ? '7990878248@ybl' : '7990878248@ybl'}&pn=Aureva&mc=0000&tn=AurevaOrder_${paymentOrder?.id || ''}&am=${paymentOrder?.grandTotal}&cu=INR`)}`} 
+                  src={(adminSettings?.qrCodeUrl) || upiQrUrl}
                   alt="UPI QR Code" 
                   className="w-full h-full object-contain"
                   onError={(e) => {
