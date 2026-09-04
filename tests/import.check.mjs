@@ -34,7 +34,7 @@ for (const f of files) {
       mrp: Number(r.mrp ?? 0),
       minOrderQuantity: Number(r.minOrderQuantity ?? 1),
       availabilityStatus: r.availabilityStatus || 'available_on_request',
-      images: r.images || [], createdAt: serverTimestamp(),
+      images: r.images || [], variants: r.variants || [], createdAt: serverTimestamp(),
     }, { merge: true });
   }
   await assertSucceeds(batch.commit());
@@ -62,5 +62,7 @@ const cats = {};
 snap.docs.forEach(d => { const c = d.data().categoryId || '(none)'; cats[c] = (cats[c] || 0) + 1; });
 console.log(`\n${snap.size} products written (${total} rows, no id collisions)`);
 console.log('hidden until priced:', snap.docs.filter(d => d.data().enabled === false).length, '/', snap.size);
+const withColors = snap.docs.filter(d => (d.data().variants || []).length > 0);
+console.log(`color options: ${withColors.length} products carry ${withColors.reduce((n, d) => n + d.data().variants.length, 0)} colors`);
 console.log('categories:', Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} ${v}`).join(', '));
 await env.cleanup(); process.exit(0);

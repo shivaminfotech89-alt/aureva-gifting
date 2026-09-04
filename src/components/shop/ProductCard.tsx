@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { useSettingsStore } from '../../store/settingsStore';
 import { openWhatsApp, productInquiryMessage } from '../../lib/whatsapp';
 import { productImage, PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
+import { ProductVariant, variantsOf, swatchColor, totalStock } from '../../lib/variants';
 
 export interface ProductData {
   id: string;
@@ -41,10 +42,18 @@ export interface ProductData {
   minOrderQuantity?: number;
   availabilityStatus?: 'in_stock' | 'available_on_request' | 'bulk_only' | 'custom_production' | 'temporarily_unavailable';
   estimatedProcurementTime?: 'ready' | '2_3_days' | '5_7_days' | '7_10_days';
+  /** Colour options. One product, several dealer codes — see lib/variants. */
+  variants?: ProductVariant[];
 }
 
 export function ProductCard({ product }: { product: ProductData }) {
   const addItem = useCartStore(state => state.addItem);
+  const variants = variantsOf(product);
+  // The card shows one photo, so it shows the first colour and says how many
+  // others there are. Choosing happens on the product page.
+  const lead: ProductVariant | undefined = variants[0];
+  const cardImage = lead?.image || productImage(product.images);
+  const stock = totalStock(product);
   const { hasItem, addItem: addToWishlist, removeItem: removeFromWishlist } = useWishlistStore();
   const settings = useSettingsStore(state => state.settings);
   
@@ -78,7 +87,9 @@ export function ProductCard({ product }: { product: ProductData }) {
       gstPercent: product.gstPercent,
       quantity: product.minOrderQuantity || 1,
       minOrderQuantity: product.minOrderQuantity || 1,
-      image: productImage(product.images)
+      image: cardImage,
+      variantColor: lead?.color,
+      variantSku: lead?.sku || product.sku,
     });
     toast.success(`${product.name} added to cart`);
   };
@@ -90,10 +101,11 @@ export function ProductCard({ product }: { product: ProductData }) {
     e.stopPropagation();
     openWhatsApp(settings?.adminWhatsApp, productInquiryMessage({
       name: product.name,
-      sku: product.sku,
+      sku: lead?.sku || product.sku,
+      color: lead?.color,
       price: discountedPrice,
       minOrderQuantity: product.minOrderQuantity,
-      images: product.images,
+      images: [cardImage],
       path: `/product/${product.id}`,
     }));
   };
@@ -113,7 +125,7 @@ export function ProductCard({ product }: { product: ProductData }) {
       <Card className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-none transition-shadow duration-300 hover:shadow-[0_8px_24px_-12px_rgba(15,23,42,0.18)]">
         <div className="relative flex h-44 items-center justify-center overflow-hidden bg-[#FAFAF8] p-4 md:h-52">
           <img
-            src={productImage(product.images)}
+            src={cardImage}
             alt={product.name}
             loading="lazy"
             decoding="async"
@@ -121,7 +133,7 @@ export function ProductCard({ product }: { product: ProductData }) {
             onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
           />
 
-          {product.stock <= 0 && (
+          {stock <= 0 && (
             <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/70 backdrop-blur-[1px]">
               <span className="rounded-full bg-[var(--navy-800)] px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
                 Out of stock
@@ -129,7 +141,7 @@ export function ProductCard({ product }: { product: ProductData }) {
             </div>
           )}
 
-          {(product.discountPercent ?? 0) > 0 && product.stock > 0 && (
+          {(product.discountPercent ?? 0) > 0 && stock > 0 && (
             <div className="absolute right-3 top-3 z-10 rounded-full bg-[var(--gold-500)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--navy-900)]">
               {product.discountPercent}% off
             </div>
@@ -149,8 +161,23 @@ export function ProductCard({ product }: { product: ProductData }) {
           <h3 className="font-display line-clamp-2 text-[15px] leading-snug text-[var(--navy-800)] transition-colors group-hover:text-[var(--gold-600)]">
             {product.name}
           </h3>
-          {product.sku && (
-            <p className="mt-1 text-[10.5px] uppercase tracking-[0.1em] text-slate-400">Code {product.sku}</p>
+          {(lead?.sku || product.sku) && (
+            <p className="mt-1 text-[10.5px] uppercase tracking-[0.1em] text-slate-400">
+              Code {lead?.sku || product.sku}
+            </p>
+          )}
+          {variants.length > 1 && (
+            <div className="mt-2 flex items-center gap-1.5">
+              {variants.slice(0, 5).map(v => (
+                <span
+                  key={v.color}
+                  title={v.color}
+                  className="h-3 w-3 rounded-full border border-slate-300"
+                  style={{ backgroundColor: swatchColor(v.color) }}
+                />
+              ))}
+              <span className="ml-0.5 text-[11px] text-slate-500">{variants.length} colors</span>
+            </div>
           )}
           <p className="mt-1.5 line-clamp-2 text-[12.5px] leading-relaxed text-slate-500">{product.description}</p>
 
@@ -187,7 +214,7 @@ export function ProductCard({ product }: { product: ProductData }) {
               aria-label={`Add ${product.name} to cart`}
               className="h-9 w-9 shrink-0 rounded-lg bg-[var(--navy-800)] text-white transition-colors hover:bg-[var(--gold-500)] hover:text-[var(--navy-900)] disabled:opacity-40"
               onClick={handleAddToCart}
-              disabled={product.stock <= 0}
+              disabled={stock <= 0}
             >
               <ShoppingCart className="h-4 w-4" />
             </Button>

@@ -45,6 +45,8 @@ export function productInquiryMessage(product: {
   name: string;
   /** Dealer catalog code. The sales team reorders by this, so it leads. */
   sku?: string;
+  /** Chosen colour, when the product has options. */
+  color?: string;
   price?: number;
   minOrderQuantity?: number;
   /** Product photo, so the enquiry arrives with a picture rather than a name. */
@@ -60,6 +62,7 @@ export function productInquiryMessage(product: {
     '',
     `*${product.name}*`,
   ];
+  if (product.color && product.color.trim() !== '') lines.push(`Color: ${product.color.trim()}`);
   if (product.sku && product.sku.trim() !== '') lines.push(`Product code: ${product.sku.trim()}`);
   if (typeof product.price === 'number') lines.push(`Price: ${formatCurrency(product.price)}`);
   if (product.minOrderQuantity && product.minOrderQuantity > 1) {

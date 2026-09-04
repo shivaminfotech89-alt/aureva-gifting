@@ -16,17 +16,31 @@
  },
  {
   "sku": "AT0782-1",
-  "name": "CROSS Titanium Black W/Chrome Ballpoint Pen",
+  "name": "CROSS Titanium W/Chrome Ballpoint Pen",
   "categoryId": "Pens & Highlighters",
   "description": "",
   "basePrice": 1695.0,
   "gstPercent": 18,
-  "stock": 16,
+  "stock": 26,
   "minOrderQuantity": 5,
   "availabilityStatus": "in_stock",
   "mrp": 1695.0,
   "images": [
    "/products/nexon/at0782-1.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "AT0782-1",
+    "stock": 16,
+    "image": "/products/nexon/at0782-1.jpg"
+   },
+   {
+    "color": "Grey",
+    "sku": "AT0782-2",
+    "stock": 10,
+    "image": "/products/nexon/at0782-2.jpg"
+   }
   ]
  },
  {
@@ -42,21 +56,6 @@
   "mrp": 4999.0,
   "images": [
    "/products/nexon/ac238125-1-str100055-buc00056.jpg"
-  ]
- },
- {
-  "sku": "AT0782-2",
-  "name": "CROSS Titanium Grey W/Chrome Ballpoint Pen",
-  "categoryId": "Pens & Highlighters",
-  "description": "",
-  "basePrice": 1695.0,
-  "gstPercent": 18,
-  "stock": 10,
-  "minOrderQuantity": 5,
-  "availabilityStatus": "in_stock",
-  "mrp": 1695.0,
-  "images": [
-   "/products/nexon/at0782-2.jpg"
   ]
  },
  {
@@ -91,92 +90,72 @@
  },
  {
   "sku": "ACP157710864-1 + ACP6918173-1",
-  "name": "Riontin - CR PU Luggage Tag - Black + Classic Century Lite Passport Holder - Black With Matching Box",
+  "name": "Riontin CR PU Luggage Tag + Classic Century Lite Passport Holder With Matching Box",
   "categoryId": "Travel Accessories",
   "description": "",
   "basePrice": 2999.0,
   "gstPercent": 18,
-  "stock": 40,
+  "stock": 115,
   "minOrderQuantity": 1,
   "availabilityStatus": "in_stock",
   "mrp": 2999.0,
   "images": [
    "/products/nexon/acp157710864-1-acp6918173-1.jpg"
-  ]
- },
- {
-  "sku": "ACP157710864-318 + ACP6918173-318",
-  "name": "Riontin - CR PU Luggage Tag - Dark Brown + Classic Century Lite Passport Holder - Dark Brown With Matching Box",
-  "categoryId": "Travel Accessories",
-  "description": "",
-  "basePrice": 2999.0,
-  "gstPercent": 18,
-  "stock": 0,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "available_on_request",
-  "mrp": 2999.0,
-  "images": [
-   "/products/nexon/acp157710864-318-acp6918173-318.jpg"
-  ]
- },
- {
-  "sku": "ACP6918173-5 + ACP157710864- 5",
-  "name": "Riontin - CR PU Luggage Tag - Navy + Classic Century Lite Passport Holder - Navy With Matching Box",
-  "categoryId": "Travel Accessories",
-  "description": "",
-  "basePrice": 2999.0,
-  "gstPercent": 18,
-  "stock": 75,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 2999.0,
-  "images": [
-   "/products/nexon/acp6918173-5-acp157710864-5.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "ACP157710864-1 + ACP6918173-1",
+    "stock": 40,
+    "image": "/products/nexon/acp157710864-1-acp6918173-1.jpg"
+   },
+   {
+    "color": "Dark Brown",
+    "sku": "ACP157710864-318 + ACP6918173-318",
+    "stock": 0,
+    "image": "/products/nexon/acp157710864-318-acp6918173-318.jpg"
+   },
+   {
+    "color": "Navy",
+    "sku": "ACP6918173-5 + ACP157710864- 5",
+    "stock": 75,
+    "image": "/products/nexon/acp6918173-5-acp157710864-5.jpg"
+   }
   ]
  },
  {
   "sku": "ACP162410826-1 +  AC990001-1",
-  "name": "Tristo Lite Card Case - Black + Agenda Pen",
+  "name": "Tristo Lite Card Case + Agenda Pen",
   "categoryId": "Corporate Gift Sets",
   "description": "",
   "basePrice": 4199.0,
   "gstPercent": 18,
-  "stock": 180,
+  "stock": 285,
   "minOrderQuantity": 1,
   "availabilityStatus": "in_stock",
   "mrp": 4199.0,
   "images": [
    "/products/nexon/acp162410826-1-ac990001-1.jpg"
-  ]
- },
- {
-  "sku": "ACP162410826-318 + AC990001-1",
-  "name": "Tristo Lite Card Case - Dark Brown + Agenda Pen",
-  "categoryId": "Corporate Gift Sets",
-  "description": "",
-  "basePrice": 4199.0,
-  "gstPercent": 18,
-  "stock": 105,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 4199.0,
-  "images": [
-   "/products/nexon/acp162410826-318-ac990001-1.jpg"
-  ]
- },
- {
-  "sku": "ACP162410826- 5 + AC990001-1",
-  "name": "Tristo Lite Card Case - Navy + Agenda Pen",
-  "categoryId": "Corporate Gift Sets",
-  "description": "",
-  "basePrice": 4199.0,
-  "gstPercent": 18,
-  "stock": 0,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "available_on_request",
-  "mrp": 4199.0,
-  "images": [
-   "/products/nexon/acp162410826-5-ac990001-1.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "ACP162410826-1 +  AC990001-1",
+    "stock": 180,
+    "image": "/products/nexon/acp162410826-1-ac990001-1.jpg"
+   },
+   {
+    "color": "Dark Brown",
+    "sku": "ACP162410826-318 + AC990001-1",
+    "stock": 105,
+    "image": "/products/nexon/acp162410826-318-ac990001-1.jpg"
+   },
+   {
+    "color": "Navy",
+    "sku": "ACP162410826- 5 + AC990001-1",
+    "stock": 0,
+    "image": "/products/nexon/acp162410826-5-ac990001-1.jpg"
+   }
   ]
  },
  {
@@ -211,67 +190,42 @@
  },
  {
   "sku": "AC9953320_6M-1",
-  "name": "Jiloz Prime Briefcase - Black (With Trolley Strap)",
+  "name": "Jiloz Prime Briefcase With Trolley Strap",
   "categoryId": "Briefcases",
   "description": "",
   "basePrice": 5499.0,
   "gstPercent": 18,
-  "stock": 180,
+  "stock": 200,
   "minOrderQuantity": 1,
   "availabilityStatus": "in_stock",
   "mrp": 5499.0,
   "images": [
    "/products/nexon/ac9953320-6m-1.jpg"
-  ]
- },
- {
-  "sku": "ACP11313320-5",
-  "name": "Jiloz Prime Briefcase Navy With Trolley Strap",
-  "categoryId": "Briefcases",
-  "description": "",
-  "basePrice": 5499.0,
-  "gstPercent": 18,
-  "stock": 15,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 5499.0,
-  "images": [
-   "/products/nexon/acp11313320-5.jpg"
-  ]
- },
- {
-  "sku": "ACP11313320-3",
-  "name": "Jiloz Prime Briefcase - Brown",
-  "categoryId": "Briefcases",
-  "description": "",
-  "basePrice": 5499.0,
-  "gstPercent": 18,
-  "stock": 5,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 5499.0,
-  "images": [
-   "/products/nexon/acp11313320-3.jpg"
-  ]
- },
- {
-  "sku": "AC4282782_6-3",
-  "name": "High Volt 14\" Briefcase - Brown",
-  "categoryId": "Briefcases",
-  "description": "",
-  "basePrice": 5499.0,
-  "gstPercent": 18,
-  "stock": 0,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "available_on_request",
-  "mrp": 5499.0,
-  "images": [
-   "/products/nexon/ac4282782-6-3.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "AC9953320_6M-1",
+    "stock": 180,
+    "image": "/products/nexon/ac9953320-6m-1.jpg"
+   },
+   {
+    "color": "Brown",
+    "sku": "ACP11313320-3",
+    "stock": 5,
+    "image": "/products/nexon/acp11313320-3.jpg"
+   },
+   {
+    "color": "Navy",
+    "sku": "ACP11313320-5",
+    "stock": 15,
+    "image": "/products/nexon/acp11313320-5.jpg"
+   }
   ]
  },
  {
   "sku": "AC4282782_6-1",
-  "name": "High Volt 14\" Briefcase - Black",
+  "name": "High Volt 14\" Briefcase",
   "categoryId": "Briefcases",
   "description": "",
   "basePrice": 5499.0,
@@ -282,6 +236,20 @@
   "mrp": 5499.0,
   "images": [
    "/products/nexon/ac4282782-6-1.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "AC4282782_6-1",
+    "stock": 220,
+    "image": "/products/nexon/ac4282782-6-1.jpg"
+   },
+   {
+    "color": "Brown",
+    "sku": "AC4282782_6-3",
+    "stock": 0,
+    "image": "/products/nexon/ac4282782-6-3.jpg"
+   }
   ]
  },
  {
@@ -301,107 +269,95 @@
  },
  {
   "sku": "ACP14435759-1",
-  "name": "Walmer CR Briefcase 15 Inch - Black (With Box)",
+  "name": "Walmer CR Briefcase 15 Inch (With Box)",
   "categoryId": "Briefcases",
   "description": "",
   "basePrice": 6499.0,
   "gstPercent": 18,
-  "stock": 275,
+  "stock": 565,
   "minOrderQuantity": 1,
   "availabilityStatus": "in_stock",
   "mrp": 6499.0,
   "images": [
    "/products/nexon/acp14435759-1.jpg"
-  ]
- },
- {
-  "sku": "ACP14435759-3",
-  "name": "Walmer CR Briefcase 15 Inch - Brown (With Box)",
-  "categoryId": "Briefcases",
-  "description": "",
-  "basePrice": 6499.0,
-  "gstPercent": 18,
-  "stock": 5,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 6499.0,
-  "images": [
-   "/products/nexon/acp14435759-3.jpg"
-  ]
- },
- {
-  "sku": "ACP14435759-5",
-  "name": "Walmer CR Briefcase 15 Inch - Navy (With Box)",
-  "categoryId": "Briefcases",
-  "description": "",
-  "basePrice": 6499.0,
-  "gstPercent": 18,
-  "stock": 285,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 6499.0,
-  "images": [
-   "/products/nexon/acp14435759-5.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "ACP14435759-1",
+    "stock": 275,
+    "image": "/products/nexon/acp14435759-1.jpg"
+   },
+   {
+    "color": "Brown",
+    "sku": "ACP14435759-3",
+    "stock": 5,
+    "image": "/products/nexon/acp14435759-3.jpg"
+   },
+   {
+    "color": "Navy",
+    "sku": "ACP14435759-5",
+    "stock": 285,
+    "image": "/products/nexon/acp14435759-5.jpg"
+   }
   ]
  },
  {
   "sku": "ACP14356062-1",
-  "name": "Racie Laptop Sleeve With Luggage Strap And Handle - Black",
+  "name": "Racie CR Laptop Sleeve With Luggage Strap And Handle",
   "categoryId": "Laptop Bags & Sleeves",
   "description": "",
   "basePrice": 2499.0,
   "gstPercent": 18,
-  "stock": 1380,
+  "stock": 2150,
   "minOrderQuantity": 1,
   "availabilityStatus": "in_stock",
   "mrp": 2499.0,
   "images": [
    "/products/nexon/acp14356062-1.jpg"
-  ]
- },
- {
-  "sku": "ACP14356062-3",
-  "name": "Racie CR Laptop Sleeve With Luggage Strap And Handle - Brown",
-  "categoryId": "Laptop Bags & Sleeves",
-  "description": "",
-  "basePrice": 2499.0,
-  "gstPercent": 18,
-  "stock": 770,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 2499.0,
-  "images": [
-   "/products/nexon/acp14356062-3.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "ACP14356062-1",
+    "stock": 1380,
+    "image": "/products/nexon/acp14356062-1.jpg"
+   },
+   {
+    "color": "Brown",
+    "sku": "ACP14356062-3",
+    "stock": 770,
+    "image": "/products/nexon/acp14356062-3.jpg"
+   }
   ]
  },
  {
   "sku": "ACP15426308-1",
-  "name": "Rianton 14 Briefcase - Black",
+  "name": "Rianton 14 Briefcase",
   "categoryId": "Briefcases",
   "description": "",
   "basePrice": 2999.0,
   "gstPercent": 18,
-  "stock": 2,
+  "stock": 12,
   "minOrderQuantity": 1,
   "availabilityStatus": "in_stock",
   "mrp": 2999.0,
   "images": [
    "/products/nexon/acp15426308-1.jpg"
-  ]
- },
- {
-  "sku": "ACP15426308-3",
-  "name": "Rianton 14 Briefcase - Brown",
-  "categoryId": "Briefcases",
-  "description": "",
-  "basePrice": 2999.0,
-  "gstPercent": 18,
-  "stock": 10,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 2999.0,
-  "images": [
-   "/products/nexon/acp15426308-3.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "ACP15426308-1",
+    "stock": 2,
+    "image": "/products/nexon/acp15426308-1.jpg"
+   },
+   {
+    "color": "Brown",
+    "sku": "ACP15426308-3",
+    "stock": 10,
+    "image": "/products/nexon/acp15426308-3.jpg"
+   }
   ]
  },
  {
@@ -480,7 +436,7 @@
  },
  {
   "sku": "AC15958121-1",
-  "name": "Limen SF Slim Wallet Black",
+  "name": "Limen SF Slim Wallet",
   "categoryId": "Wallets",
   "description": "",
   "basePrice": 1999.0,
@@ -491,51 +447,49 @@
   "mrp": 1999.0,
   "images": [
    "/products/nexon/ac15958121-1.jpg"
-  ]
- },
- {
-  "sku": "AC15958121-3",
-  "name": "Limen SF Slim Wallet Brown",
-  "categoryId": "Wallets",
-  "description": "",
-  "basePrice": 1999.0,
-  "gstPercent": 18,
-  "stock": 0,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "available_on_request",
-  "mrp": 1999.0,
-  "images": [
-   "/products/nexon/ac15958121-3.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "AC15958121-1",
+    "stock": 270,
+    "image": "/products/nexon/ac15958121-1.jpg"
+   },
+   {
+    "color": "Brown",
+    "sku": "AC15958121-3",
+    "stock": 0,
+    "image": "/products/nexon/ac15958121-3.jpg"
+   }
   ]
  },
  {
   "sku": "AC15948121-1",
-  "name": "Croco Liten Slim Wallet Black",
+  "name": "Croco Liten Slim Wallet",
   "categoryId": "Wallets",
   "description": "",
   "basePrice": 1999.0,
   "gstPercent": 18,
-  "stock": 525,
+  "stock": 1190,
   "minOrderQuantity": 1,
   "availabilityStatus": "in_stock",
   "mrp": 1999.0,
   "images": [
    "/products/nexon/ac15948121-1.jpg"
-  ]
- },
- {
-  "sku": "AC15948121-5",
-  "name": "Croco Liten Slim Wallet - Navy Blue",
-  "categoryId": "Wallets",
-  "description": "",
-  "basePrice": 999.0,
-  "gstPercent": 18,
-  "stock": 665,
-  "minOrderQuantity": 1,
-  "availabilityStatus": "in_stock",
-  "mrp": 999.0,
-  "images": [
-   "/products/nexon/ac15948121-5.jpg"
+  ],
+  "variants": [
+   {
+    "color": "Black",
+    "sku": "AC15948121-1",
+    "stock": 525,
+    "image": "/products/nexon/ac15948121-1.jpg"
+   },
+   {
+    "color": "Navy Blue",
+    "sku": "AC15948121-5",
+    "stock": 665,
+    "image": "/products/nexon/ac15948121-5.jpg"
+   }
   ]
  }
 ]
