@@ -2,10 +2,10 @@ import React from 'react';
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="container mx-auto px-4 max-w-4xl py-12 md:py-20 lg:py-24">
-      <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight mb-8">Privacy Policy</h1>
+    <div className="container mx-auto px-4 max-w-4xl py-12 md:py-12 lg:py-12">
+      <h1 className="text-[1.75rem] md:text-[2rem] font-display font-bold tracking-tight mb-8">Privacy Policy</h1>
       
-      <div className="prose prose-slate max-w-none text-muted-foreground prose-headings:text-foreground prose-headings:font-serif">
+      <div className="prose prose-slate max-w-none text-muted-foreground prose-headings:text-foreground prose-headings:font-display">
         <p className="lead text-lg mb-8">
           At AUREVA Corporate Gifting, we value your privacy and are committed to protecting your personal data. This Privacy Policy outlines how we collect, use, and safeguard your information when you engage with our bulk-order and supplier sourcing services.
         </p>

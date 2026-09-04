@@ -7,6 +7,7 @@ import { collection, onSnapshot, query, orderBy, limit, where, doc } from 'fireb
 import { db } from '../lib/firebase';
 import { ProductCard, ProductData } from '../components/shop/ProductCard';
 import { useSettingsStore } from '../store/settingsStore';
+import { CONTAINER, Eyebrow, SectionHeading } from '../components/ui/section';
 
 export interface BannerData {
   id: string;
@@ -17,58 +18,6 @@ export interface BannerData {
   ctaLink: string;
   enabled: boolean;
   order: number;
-}
-
-/**
- * Section label. One shape for every eyebrow on the page so the rhythm reads
- * as deliberate rather than per-section improvisation.
- */
-function Eyebrow({ children, tone = 'dark' }: { children: React.ReactNode; tone?: 'dark' | 'light' }) {
-  return (
-    <span
-      className={`inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] ${
-        tone === 'light' ? 'text-[var(--gold-400)]' : 'text-[var(--gold-600)]'
-      }`}
-    >
-      <span className={`h-px w-8 ${tone === 'light' ? 'bg-[var(--gold-400)]/50' : 'bg-[var(--gold-600)]/40'}`} />
-      {children}
-    </span>
-  );
-}
-
-function SectionHeading({
-  eyebrow,
-  title,
-  accent,
-  body,
-  tone = 'dark',
-  align = 'center',
-}: {
-  eyebrow: string;
-  title: string;
-  accent?: string;
-  body?: string;
-  tone?: 'dark' | 'light';
-  align?: 'center' | 'left';
-}) {
-  return (
-    <div className={`max-w-2xl ${align === 'center' ? 'mx-auto text-center' : ''}`}>
-      <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
-      <h2
-        className={`font-display mt-5 text-[2.25rem] leading-[1.1] tracking-[-0.02em] md:text-5xl ${
-          tone === 'light' ? 'text-white' : 'text-[var(--navy-800)]'
-        }`}
-      >
-        {title}
-        {accent && <span className="text-[var(--gold-500)] italic"> {accent}</span>}
-      </h2>
-      {body && (
-        <p className={`mt-5 text-[15px] leading-relaxed md:text-base ${tone === 'light' ? 'text-white/60' : 'text-slate-500'}`}>
-          {body}
-        </p>
-      )}
-    </div>
-  );
 }
 
 /**
@@ -188,7 +137,7 @@ export default function HomePage() {
     <div className="w-full bg-white">
 
       {/* Hero */}
-      <section className="relative flex min-h-[36rem] items-center overflow-hidden bg-[var(--navy-900)] lg:min-h-[44rem]">
+      <section className="relative flex min-h-[28rem] items-center overflow-hidden bg-[var(--navy-900)] lg:min-h-[34rem]">
         <AnimatePresence mode="wait">
           {active && (
             <motion.div
@@ -222,7 +171,7 @@ export default function HomePage() {
           )}
         </AnimatePresence>
 
-        <div className="relative z-10 mx-auto w-full max-w-[88rem] px-6 py-24 md:px-10 lg:py-32">
+        <div className={`relative z-10 ${CONTAINER} py-16 lg:py-20`}>
           {active && (
             <div className="max-w-2xl">
               <motion.div
@@ -239,7 +188,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1 }}
-                className="font-display mt-6 text-[2.75rem] leading-[1.05] tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl"
+                className="font-display mt-6 text-[2rem] leading-[1.1] tracking-[-0.02em] text-white sm:text-[2.75rem] lg:text-[3.25rem]"
               >
                 {renderTitle(active.title)}
               </motion.h1>
@@ -249,7 +198,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mt-7 max-w-xl text-lg font-light leading-relaxed text-white/65"
+                className="mt-4 max-w-lg text-[15px] font-light leading-relaxed text-white/65"
               >
                 {active.subtitle}
               </motion.p>
@@ -259,18 +208,18 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="mt-10 flex flex-col gap-4 sm:flex-row"
+                className="mt-7 flex flex-col gap-3 sm:flex-row"
               >
                 <Link to={active.ctaLink}>
                   <Button
                     size="lg"
-                    className="h-14 w-full rounded-lg bg-[var(--gold-500)] px-9 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--navy-900)] transition-colors hover:bg-[var(--gold-400)] sm:w-auto"
+                    className="h-11 w-full rounded-lg bg-[var(--gold-500)] px-7 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--navy-900)] transition-colors hover:bg-[var(--gold-400)] sm:w-auto"
                   >
                     {active.ctaText}
                   </Button>
                 </Link>
                 <Link to="/corporate">
-                  <span className="inline-flex h-14 w-full items-center justify-center rounded-lg border border-white/25 px-9 text-sm font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:border-white/60 hover:bg-white/5 sm:w-auto">
+                  <span className="inline-flex h-11 w-full items-center justify-center rounded-lg border border-white/25 px-7 text-sm font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:border-white/60 hover:bg-white/5 sm:w-auto">
                     Request a Quotation
                   </span>
                 </Link>
@@ -298,7 +247,7 @@ export default function HomePage() {
 
       {/* Assurances */}
       <section className="border-b border-slate-200 bg-[var(--navy-800)]">
-        <div className="mx-auto grid max-w-[88rem] grid-cols-2 gap-y-6 px-6 py-7 md:px-10 lg:grid-cols-4">
+        <div className={`grid grid-cols-2 gap-y-5 py-5 lg:grid-cols-4 ${CONTAINER}`}>
           {[
             { icon: ShieldCheck, text: 'Premium quality guaranteed' },
             { icon: Truck, text: 'Secure pan-India delivery' },
@@ -314,20 +263,20 @@ export default function HomePage() {
       </section>
 
       {/* Categories */}
-      <section className="bg-white py-20 md:py-28">
-        <div className="mx-auto max-w-[88rem] px-6 md:px-10">
+      <section className="bg-white py-12 md:py-16">
+        <div className={CONTAINER}>
           <SectionHeading
             eyebrow="Our Catalog"
             title="Shop by"
             accent="category"
             body="Four families of gifting, each one ready to carry your brand."
           />
-          <div className="mt-14 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
+          <div className="mt-9 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
             {categories.map((cat, idx) => (
               <Link
                 to={`/shop?category=${encodeURIComponent(cat.name)}`}
                 key={cat.id || idx}
-                className="group relative block h-72 overflow-hidden rounded-xl lg:h-[22rem]"
+                className="group relative block h-52 overflow-hidden rounded-xl lg:h-60"
               >
                 <img
                   src={cat.url}
@@ -359,8 +308,8 @@ export default function HomePage() {
       </section>
 
       {/* Collections */}
-      <section className="bg-[var(--navy-800)] py-20 md:py-28">
-        <div className="mx-auto max-w-[88rem] px-6 md:px-10">
+      <section className="bg-[var(--navy-800)] py-12 md:py-16">
+        <div className={CONTAINER}>
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <SectionHeading
               eyebrow="Seasonal"
@@ -378,10 +327,10 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mt-9 grid grid-cols-1 gap-6 md:grid-cols-3">
             {collectionsData.map((c, idx) => (
               <Link to={`/shop?q=${encodeURIComponent(c.title)}`} key={c.id || idx} className="group block">
-                <div className="relative h-[26rem] overflow-hidden rounded-xl bg-[var(--navy-700)] lg:h-[30rem]">
+                <div className="relative h-72 overflow-hidden rounded-xl bg-[var(--navy-700)] lg:h-80">
                   <img
                     src={c.img}
                     alt={c.title}
@@ -409,15 +358,15 @@ export default function HomePage() {
       </section>
 
       {/* Featured products */}
-      <section className="bg-[#FAFAF8] py-20 md:py-28">
-        <div className="mx-auto max-w-[88rem] px-6 md:px-10">
+      <section className="bg-[#FAFAF8] py-12 md:py-16">
+        <div className={CONTAINER}>
           <SectionHeading
             eyebrow="Handpicked"
             title="Featured"
             accent="products"
             body="Our most requested corporate gifts, chosen for the impression they leave."
           />
-          <div className="mt-14 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-9 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {featuredProducts.map((product, idx) => (
               <motion.div
                 key={product.id}
@@ -436,7 +385,7 @@ export default function HomePage() {
       {/* Personalisation */}
       <section className="bg-[var(--navy-800)]">
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          <div className="relative order-2 min-h-[24rem] lg:order-1 lg:min-h-full">
+          <div className="relative order-2 min-h-[16rem] lg:order-1 lg:min-h-full">
             <img
               src={brandingSection?.imageUrl || FALLBACK_BRANDING_IMAGE}
               alt="Custom branding applied to Aureva gifts"
@@ -452,12 +401,12 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-[var(--navy-900)]/25" />
           </div>
 
-          <div className="order-1 px-6 py-20 md:px-14 lg:order-2 lg:px-20 lg:py-28">
+          <div className="order-1 px-5 py-12 sm:px-8 lg:order-2 lg:px-14 lg:py-16">
             <Eyebrow tone="light">{brandingSection?.subTitle || 'Personalisation'}</Eyebrow>
             {/* Plain text: the previous version pushed admin-authored HTML through
                 dangerouslySetInnerHTML, which both defeated the styling and made
                 the homepage an injection point. */}
-            <h2 className="font-display mt-5 text-[2.25rem] leading-[1.1] tracking-[-0.02em] text-white md:text-5xl">
+            <h2 className="font-display mt-5 text-[1.75rem] leading-[1.15] tracking-[-0.015em] text-white md:text-[2.125rem]">
               {brandingSection?.headingText || (
                 <>Make it truly <span className="italic text-[var(--gold-500)]">yours.</span></>
               )}
@@ -466,7 +415,7 @@ export default function HomePage() {
               {brandingSection?.body || 'Upload your corporate logo at checkout and see exactly how your gifts will look. Laser engraving, UV printing and embossing on every premium item.'}
             </p>
 
-            <ol className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-white/10 sm:grid-cols-2">
+            <ol className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-white/10 sm:grid-cols-2">
               {[
                 ['Select product', 'Choose from thousands of premium items.'],
                 ['Upload logo', 'Preview your brand identity instantly.'],
@@ -481,8 +430,8 @@ export default function HomePage() {
               ))}
             </ol>
 
-            <Link to="/corporate" className="mt-12 inline-block">
-              <span className="inline-flex h-13 items-center gap-2 rounded-lg border border-[var(--gold-500)]/50 px-8 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--gold-400)] transition-colors hover:bg-[var(--gold-500)] hover:text-[var(--navy-900)]">
+            <Link to="/corporate" className="mt-8 inline-block">
+              <span className="inline-flex h-11 items-center gap-2 rounded-lg border border-[var(--gold-500)]/50 px-8 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--gold-400)] transition-colors hover:bg-[var(--gold-500)] hover:text-[var(--navy-900)]">
                 Learn more
                 <ArrowRight className="h-4 w-4" />
               </span>
@@ -492,12 +441,12 @@ export default function HomePage() {
       </section>
 
       {/* Enterprise + catalog */}
-      <section className="bg-white py-20 md:py-28">
-        <div className="mx-auto grid max-w-[88rem] grid-cols-1 gap-6 px-6 md:px-10 lg:grid-cols-2">
+      <section className="bg-white py-12 md:py-16">
+        <div className={`grid grid-cols-1 gap-5 lg:grid-cols-2 ${CONTAINER}`}>
 
-          <div className="rounded-2xl border border-slate-200 bg-[#FAFAF8] p-10 md:p-14">
+          <div className="rounded-xl border border-slate-200 bg-[#FAFAF8] p-7 md:p-10">
             <Eyebrow>Enterprise</Eyebrow>
-            <h2 className="font-display mt-5 text-[2rem] leading-[1.1] tracking-[-0.02em] text-[var(--navy-800)] md:text-[2.75rem]">
+            <h2 className="font-display mt-5 text-[1.625rem] leading-[1.15] tracking-[-0.015em] text-[var(--navy-800)] md:text-[2rem]">
               Enterprise scale.<br />
               <span className="italic text-[var(--gold-500)]">Boutique care.</span>
             </h2>
@@ -506,12 +455,12 @@ export default function HomePage() {
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Link to="/corporate">
-                <span className="inline-flex h-13 w-full items-center justify-center rounded-lg bg-[var(--navy-800)] px-8 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[var(--navy-900)] sm:w-auto">
+                <span className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-[var(--navy-800)] px-8 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[var(--navy-900)] sm:w-auto">
                   Request a quotation
                 </span>
               </Link>
               <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">
-                <span className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-lg border border-slate-300 px-8 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--navy-800)] transition-colors hover:border-[var(--navy-800)] sm:w-auto">
+                <span className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-slate-300 px-8 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--navy-800)] transition-colors hover:border-[var(--navy-800)] sm:w-auto">
                   <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
                   WhatsApp
                 </span>
@@ -522,11 +471,11 @@ export default function HomePage() {
           {/* Replaces the old newsletter box, whose submit handler only ever
               showed "Subscribed successfully!" and stored nothing. This routes
               into the catalog flow, which does capture the lead. */}
-          <div className="relative overflow-hidden rounded-2xl bg-[var(--navy-800)] p-10 md:p-14">
+          <div className="relative overflow-hidden rounded-xl bg-[var(--navy-800)] p-7 md:p-10">
             <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[var(--gold-500)]/10 blur-3xl" />
             <div className="relative">
               <Eyebrow tone="light">Catalog</Eyebrow>
-              <h2 className="font-display mt-5 text-[2rem] leading-[1.1] tracking-[-0.02em] text-white md:text-[2.75rem]">
+              <h2 className="font-display mt-5 text-[1.625rem] leading-[1.15] tracking-[-0.015em] text-white md:text-[2rem]">
                 The full range,<br />
                 <span className="italic text-[var(--gold-500)]">in one PDF.</span>
               </h2>
@@ -535,7 +484,7 @@ export default function HomePage() {
               </p>
               <button
                 onClick={openCatalog}
-                className="mt-9 inline-flex h-13 items-center gap-2.5 rounded-lg bg-[var(--gold-500)] px-8 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--navy-900)] transition-colors hover:bg-[var(--gold-400)]"
+                className="mt-9 inline-flex h-11 items-center gap-2.5 rounded-lg bg-[var(--gold-500)] px-8 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[var(--navy-900)] transition-colors hover:bg-[var(--gold-400)]"
               >
                 <BookOpen className="h-4 w-4" strokeWidth={1.75} />
                 Download catalog

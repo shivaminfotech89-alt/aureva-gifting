@@ -1,82 +1,124 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Youtube } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Youtube } from 'lucide-react';
 import { useSettingsStore } from '../../store/settingsStore';
 import { AurevaLogo } from '../ui/AurevaLogo';
+import { CONTAINER } from '../ui/section';
+
+const QUICK_LINKS = [
+  ['/shop', 'Shop All'],
+  ['/corporate', 'Corporate Orders'],
+  ['/about', 'Our Story'],
+  ['/contact', 'Contact Us'],
+];
+
+const LEGAL_LINKS = [
+  ['/privacy', 'Privacy Policy'],
+  ['/terms', 'Terms & Conditions'],
+  ['/refund', 'Refund Policy'],
+  ['/shipping', 'Shipping Policy'],
+  ['/cancellation', 'Cancellation Policy'],
+];
+
+function ColumnHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <h4 className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--gold-400)]">{children}</h4>
+  );
+}
 
 export default function Footer() {
   const { settings } = useSettingsStore();
 
-  const handleSocialLink = (url?: string) => {
-    return url && url.trim() !== '' ? url : '#';
-  };
+  const social = [
+    { url: settings?.instagramUrl, Icon: Instagram, label: 'Instagram' },
+    { url: settings?.linkedinUrl, Icon: Linkedin, label: 'LinkedIn' },
+    { url: settings?.facebookUrl, Icon: Facebook, label: 'Facebook' },
+    { url: settings?.youtubeUrl, Icon: Youtube, label: 'YouTube' },
+    // A link to "#" is not a link. Only render the ones actually configured.
+  ].filter(s => s.url && s.url.trim() !== '');
 
   return (
-    <footer className="bg-secondary text-secondary-foreground">
-      <div className="container px-4 py-12 md:py-16 md:px-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
-          
-          <div className="space-y-4">
-            <AurevaLogo variant="dark" />
-            <p className="text-secondary-foreground/70 text-sm leading-relaxed max-w-xs mt-4">
-              Premium Gifts for Lasting Business Impressions. We specialize in luxury corporate gifting that elevates your brand and nurtures key relationships.
+    <footer className="bg-[var(--navy-900)] text-white">
+      <div className={`${CONTAINER} py-12 md:py-14`}>
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4 md:gap-x-10">
+
+          <div className="col-span-2 md:col-span-1">
+            <AurevaLogo variant="light" />
+            <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-white/50">
+              Premium gifts for lasting business impressions. Luxury corporate gifting that elevates your brand.
             </p>
-            <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg text-xs text-amber-700/80 max-w-xs">
-               <strong>IMPORTANT:</strong> AUREVA specializes in bulk corporate gifting orders. Product availability, pricing, and customization are subject to stock confirmation and minimum order quantity requirements.
-            </div>
-            <div className="flex space-x-4 pt-2">
-              <a href={handleSocialLink(settings?.instagramUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Instagram className="h-5 w-5" /></a>
-              <a href={handleSocialLink(settings?.linkedinUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Linkedin className="h-5 w-5" /></a>
-              <a href={handleSocialLink(settings?.facebookUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Facebook className="h-5 w-5" /></a>
-              <a href={handleSocialLink(settings?.youtubeUrl)} target="_blank" rel="noreferrer" className="text-secondary-foreground/70 hover:text-primary transition-colors"><Youtube className="h-5 w-5" /></a>
-            </div>
+            {social.length > 0 && (
+              <div className="mt-5 flex gap-4">
+                {social.map(({ url, Icon, label }) => (
+                  <a
+                    key={label}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="text-white/40 transition-colors hover:text-[var(--gold-400)]"
+                  >
+                    <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="space-y-4">
-            <h4 className="font-semibold text-lg text-primary">Quick Links</h4>
-            <ul className="space-y-2 text-sm text-secondary-foreground/80">
-              <li><Link to="/shop" className="hover:text-primary transition-colors">Shop All</Link></li>
-              <li><Link to="/corporate" className="hover:text-primary transition-colors">Corporate Orders</Link></li>
-              <li><Link to="/about" className="hover:text-primary transition-colors">Our Story</Link></li>
-              <li><Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
-              <li><Link to="/track" className="hover:text-primary transition-colors">Track Order</Link></li>
+          <div>
+            <ColumnHeading>Explore</ColumnHeading>
+            <ul className="mt-4 space-y-2.5 text-[13px]">
+              {QUICK_LINKS.map(([to, label]) => (
+                <li key={to}>
+                  <Link to={to} className="text-white/60 transition-colors hover:text-[var(--gold-400)]">{label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <h4 className="font-semibold text-lg text-primary">Legal</h4>
-            <ul className="space-y-2 text-sm text-secondary-foreground/80">
-              <li><Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link></li>
-              <li><Link to="/refund" className="hover:text-primary transition-colors">Refund Policy</Link></li>
-              <li><Link to="/shipping" className="hover:text-primary transition-colors">Shipping Policy</Link></li>
-              <li><Link to="/cancellation" className="hover:text-primary transition-colors">Cancellation Policy</Link></li>
+          <div>
+            <ColumnHeading>Legal</ColumnHeading>
+            <ul className="mt-4 space-y-2.5 text-[13px]">
+              {LEGAL_LINKS.map(([to, label]) => (
+                <li key={to}>
+                  <Link to={to} className="text-white/60 transition-colors hover:text-[var(--gold-400)]">{label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <h4 className="font-semibold text-lg text-primary">Contact</h4>
-            <ul className="space-y-3 text-sm text-secondary-foreground/80">
-              <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-primary shrink-0" />
-                <span>Ahmedabad, Gujarat<br/>380058, India</span>
+          <div>
+            <ColumnHeading>Contact</ColumnHeading>
+            <ul className="mt-4 space-y-3 text-[13px] text-white/60">
+              <li className="flex items-start gap-2.5">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--gold-500)]" strokeWidth={1.5} />
+                <span>Ahmedabad, Gujarat 380058, India</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-primary shrink-0" />
-                <span>{settings?.contactNumber || "+91 9825622421"}</span>
+              <li className="flex items-center gap-2.5">
+                <Phone className="h-4 w-4 shrink-0 text-[var(--gold-500)]" strokeWidth={1.5} />
+                <a href={`tel:${(settings?.contactNumber || '+919825622421').replace(/\s/g, '')}`} className="transition-colors hover:text-[var(--gold-400)]">
+                  {settings?.contactNumber || '+91 98256 22421'}
+                </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-primary shrink-0" />
-                <span>{settings?.supportEmail || "aurevagifts@gmail.com"}</span>
+              <li className="flex items-center gap-2.5">
+                <Mail className="h-4 w-4 shrink-0 text-[var(--gold-500)]" strokeWidth={1.5} />
+                <a href={`mailto:${settings?.supportEmail || 'aurevagifts@gmail.com'}`} className="break-all transition-colors hover:text-[var(--gold-400)]">
+                  {settings?.supportEmail || 'aurevagifts@gmail.com'}
+                </a>
               </li>
             </ul>
           </div>
 
         </div>
-        
-        <div className="mt-12 pt-8 border-t border-secondary-foreground/10 flex flex-col md:flex-row items-center justify-between text-xs text-secondary-foreground/60">
+
+        <p className="mt-10 border-t border-white/10 pt-6 text-[12px] leading-relaxed text-white/35">
+          Aureva specialises in bulk corporate gifting. Product availability, pricing and customisation are subject to
+          stock confirmation and minimum order quantity requirements.
+        </p>
+
+        <div className="mt-6 flex flex-col gap-3 text-[11px] text-white/35 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Aureva Corporate Gifting. All rights reserved.</p>
-          <div className="flex gap-4 mt-4 md:mt-0">
+          <div className="flex gap-5">
             <span>GST Registered</span>
             <span>Secure Checkout</span>
           </div>

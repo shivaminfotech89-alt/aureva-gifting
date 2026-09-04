@@ -38,10 +38,10 @@ export default function WishlistPage() {
   }, [items]);
 
   return (
-    <div className="container mx-auto px-4 py-12 md:px-8 max-w-7xl">
+    <div className="container mx-auto px-4 py-12 md:px-8 max-w-[80rem]">
       <div className="flex items-center gap-4 mb-10">
         <Heart className="w-8 h-8 text-primary" />
-        <h1 className="text-3xl md:text-5xl font-bold font-sans tracking-tight text-primary">Your Wishlist</h1>
+        <h1 className="font-display text-[1.75rem] md:text-[2rem] tracking-[-0.015em] text-[var(--navy-800)]">Your Wishlist</h1>
       </div>
 
       {loading ? (
@@ -49,9 +49,9 @@ export default function WishlistPage() {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       ) : items.length === 0 ? (
-        <div className="bg-card border rounded-2xl p-16 text-center max-w-2xl mx-auto shadow-sm">
-          <Heart className="w-16 h-16 text-muted-foreground/30 mx-auto mb-6" />
-          <h2 className="text-2xl font-bold mb-4">Your wishlist is empty</h2>
+        <div className="bg-card border rounded-xl p-16 text-center max-w-2xl mx-auto shadow-sm">
+          <Heart className="w-16 h-12 text-muted-foreground/30 mx-auto mb-6" />
+          <h2 className="font-display text-2xl mb-4 text-[var(--navy-800)]">Your wishlist is empty</h2>
           <p className="text-muted-foreground mb-8">Save your favorite premium items here while you decide.</p>
           <Link to="/shop">
             <Button size="lg" className="font-bold uppercase tracking-wider px-8">Explore Products</Button>
