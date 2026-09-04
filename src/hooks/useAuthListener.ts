@@ -2,6 +2,7 @@ import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useRef } from 'react';
 import { auth, db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { useAuthStore } from '../store/authStore';
+import { isSuperAdminEmail } from '../lib/constants';
 
 export function useAuthListener() {
   const setUser = useAuthStore((state) => state.setUser);
@@ -50,7 +51,7 @@ export function useAuthListener() {
             }
             
             // Base hardcoded admins
-            const isHardcodedAdmin = ['shivaminfotech89@gmail.com', 'aurevagifts@gmail.com'].includes(user.email || '');
+            const isHardcodedAdmin = isSuperAdminEmail(user.email);
 
             const updateProfileWithAdminData = async (adminData: any) => {
                if (!isMounted) return;
@@ -66,17 +67,13 @@ export function useAuthListener() {
                   isAdmin = false;
                }
 
-               if (isAdmin) {
-                 currentProfile.role = 'admin';
-                 currentProfile.adminRole = adminRoleValue;
-               } else {
-                 currentProfile.role = 'customer';
-                 currentProfile.adminRole = null;
-               }
+               currentProfile.role = isAdmin ? 'admin' : 'customer';
 
-               // Save and update state
-               await setDoc(userDocRef, currentProfile, { merge: true });
-               setProfile({...currentProfile});
+               // Persist only the durable identity fields. adminRole is derived
+               // from admin_settings on every load, so it never gets written.
+               const { adminRole, ...persisted } = currentProfile;
+               await setDoc(userDocRef, persisted, { merge: true });
+               setProfile({ ...persisted, adminRole: isAdmin ? adminRoleValue : null });
             };
 
             // Setup real-time listener for admin_settings
@@ -104,7 +101,7 @@ export function useAuthListener() {
         } catch (error) {
           console.error("Auth listener error:", error);
           // Set a fallback profile to prevent being entirely blocked
-          const isHardcodedAdmin = ['shivaminfotech89@gmail.com', 'aurevagifts@gmail.com'].includes(user.email || '');
+          const isHardcodedAdmin = isSuperAdminEmail(user.email);
           setProfile({
             uid: user.uid,
             email: user.email || '',

@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { ArrowLeft, Shield, Globe, Receipt, Building, Bell, Image as ImageIcon, Plus, Edit2, Trash2, Mail, Smartphone, AlertCircle, Palette, Key, Eye } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { isSuperAdminEmail } from '../../lib/constants';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Textarea } from '../../components/ui/textarea';
@@ -27,7 +28,7 @@ interface AdminUser {
 }
 
 export default function AdminSettings() {
-  const { user } = useAuthStore();
+  const { user, profile } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -72,7 +73,7 @@ export default function AdminSettings() {
 
   const [authorizedAdmins, setAuthorizedAdmins] = useState<AdminUser[]>([]);
   const [loadingAdmins, setLoadingAdmins] = useState(false);
-  const isSuperAdmin = user?.email === 'shivaminfotech89@gmail.com' || user?.email === 'aurevagifts@gmail.com' || (useAuthStore.getState().profile?.adminRole === 'Super Admin') || (useAuthStore.getState().profile?.adminRole === 'admin');
+  const isSuperAdmin = isSuperAdminEmail(user?.email) || profile?.adminRole === 'Super Admin' || profile?.adminRole === 'admin';
 
   // Add Admin Modal State
   const [isAddAdminOpen, setIsAddAdminOpen] = useState(false);

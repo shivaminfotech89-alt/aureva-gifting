@@ -1,166 +1,260 @@
 rules_version = '2';
 
+// Keep the super-admin list and the order status list in step with
+// src/lib/constants.ts. Nothing enforces that automatically.
+//
+// Known gap: order pricing is still computed on the client and accepted as
+// given. Rules cannot recompute a cart (no loops, and no way to read a product
+// per line item), so a determined caller can still post an order with an
+// understated total. Closing that properly needs a Cloud Function that prices
+// the cart server-side. What the rules below do guarantee is that an order
+// starts in the initial status, belongs to its creator, and can only reach
+// 'paid' through an admin.
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+
+    // --- Identity ---
+
+    function isSignedIn() { return request.auth != null; }
+
+    function isSuperAdmin() {
+      return isSignedIn() &&
+             request.auth.token.email in ['shivaminfotech89@gmail.com', 'aurevagiftingsolution@gmail.com'];
     }
 
-    // --- Core Helpers ---
-    function isSignedIn() { return request.auth != null; }
-    function isSuperAdmin() { return isSignedIn() && request.auth.token.email in ['shivaminfotech89@gmail.com', 'aurevagiftingsolution@gmail.com']; }
-    function isAdmin() { return isSuperAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/admin_settings/$(request.auth.token.email))); }
+    function adminRecord() {
+      return get(/databases/$(database)/documents/admin_settings/$(request.auth.token.email)).data;
+    }
+
+    // A disabled admin previously kept full write access: the old rule checked
+    // only that the admin_settings document existed and ignored its status,
+    // even though the client honours it. Revoking an admin now actually works.
+    function isAdmin() {
+      return isSuperAdmin() ||
+             (isSignedIn() && request.auth.token.email != null &&
+              exists(/databases/$(database)/documents/admin_settings/$(request.auth.token.email)) &&
+              adminRecord().status == 'Active');
+    }
+
     function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
-    
+
+    // --- Shorthand ---
+
     function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
     function incoming() { return request.resource.data; }
     function existing() { return resource.data; }
+    function changed() { return incoming().diff(existing()).affectedKeys(); }
 
-    // --- Validation Helpers ---
+    // --- Validation ---
+
     function isValidUser(data) {
-      return data.keys().hasAll(['email', 'role', 'createdAt']) &&
+      return data.keys().hasAll(['email', 'role']) &&
              data.email is string && data.email.size() > 0 &&
-             data.role in ['admin', 'customer'] &&
-             data.createdAt is number;
+             data.role in ['admin', 'customer'];
     }
 
     function isValidProduct(data) {
       return data.keys().hasAll(['name', 'basePrice', 'gstPercent', 'stock', 'enabled']) &&
              data.name is string && data.name.size() > 0 &&
-             data.basePrice is number &&
-             data.gstPercent is number &&
+             data.basePrice is number && data.basePrice >= 0 &&
+             data.gstPercent is number && data.gstPercent >= 0 &&
              data.stock is number &&
              data.enabled is bool;
     }
 
     function isValidCategory(data) {
       return data.keys().hasAll(['name', 'createdAt']) &&
-             data.name is string && data.name.size() > 0 &&
-             data.createdAt is number;
+             data.name is string && data.name.size() > 0;
     }
 
-    function isValidOrder(data) {
-      return data.keys().hasAll(['userId', 'totalAmount', 'status', 'createdAt']) &&
-             data.userId is string && data.userId.size() > 0 &&
-             data.totalAmount is number &&
-             data.status in ['pending_payment', 'admin_approval', 'pending', 'payment_verified', 'processing', 'confirmed', 'shipped', 'delivered', 'cancelled'] &&
-             data.createdAt is number;
-    }
-    
     function isValidCoupon(data) {
       return data.keys().hasAll(['code', 'discountType', 'discountValue', 'isActive']) &&
              data.code is string && data.code.size() > 0 &&
              data.discountType in ['percentage', 'fixed'] &&
-             data.discountValue is number &&
+             data.discountValue is number && data.discountValue >= 0 &&
              data.isActive is bool;
+    }
+
+    // Mirrors ORDER_STATUS_IDS in src/lib/constants.ts. The trailing entries are
+    // legacy values still present in documents written by earlier builds.
+    function orderStatuses() {
+      return ['inquiry_received', 'pending_supplier_confirmation', 'supplier_confirmed',
+              'pending', 'awaiting_payment', 'payment_verification_pending', 'paid',
+              'processing', 'dispatched', 'out_for_delivery', 'delivered', 'cancelled',
+              'confirmed', 'shipped', 'payment_verified', 'payment_failed'];
+    }
+
+    // Statuses a customer may still act on. Past these, only an admin moves an order.
+    function customerMutableStatuses() {
+      return ['inquiry_received', 'pending', 'awaiting_payment'];
+    }
+
+    function isValidNewOrder(data) {
+      return data.keys().hasAll(['userId', 'items', 'subTotal', 'gstTotal', 'discount',
+                                 'grandTotal', 'status', 'createdAt']) &&
+             data.userId is string && data.userId == request.auth.uid &&
+             data.items is list && data.items.size() > 0 && data.items.size() <= 200 &&
+             data.subTotal is number && data.subTotal >= 0 &&
+             data.gstTotal is number && data.gstTotal >= 0 &&
+             data.discount is number && data.discount >= 0 &&
+             data.grandTotal is number && data.grandTotal >= 0 &&
+             // The total may not exceed the parts it is built from.
+             data.grandTotal <= data.subTotal + data.gstTotal + 0.01 &&
+             // Every order starts here. A caller cannot open one already paid.
+             data.status == 'inquiry_received' &&
+             data.createdAt == request.time;
     }
 
     // --- Collections ---
 
-    // Users
     match /users/{userId} {
       allow get: if isOwner(userId) || isAdmin();
       allow list: if isAdmin();
-      allow create: if isOwner(userId) && isValidId(userId) && 
-                       isValidUser(incoming()) && 
-                       incoming().role == 'customer'; // new user can only be customer
+
+      allow create: if isOwner(userId) && isValidId(userId) &&
+                       isValidUser(incoming()) &&
+                       incoming().role == 'customer';
+
       allow update: if isValidId(userId) && (
-        (isOwner(userId) && !isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'company', 'email', 'savedAddresses', 'defaultAddressId', 'photoURL', 'updatedAt']) && incoming().role == existing().role) ||
-        (isAdmin() && isValidUser(incoming())) // admins can update all fields
+        (isOwner(userId) &&
+         changed().hasOnly(['name', 'phone', 'company', 'email', 'savedAddresses',
+                            'defaultAddressId', 'photoURL', 'updatedAt']) &&
+         incoming().role == existing().role) ||
+        (isAdmin() && isValidUser(incoming()))
       );
+
+      allow delete: if isAdmin();
     }
 
-    // Products
     match /products/{productId} {
-      allow get: if true;
-      allow list: if true;
-      allow create: if isAdmin() && isValidId(productId) && isValidProduct(incoming()) && incoming().createdAt == request.time;
-      allow update: if isValidId(productId) && isAdmin() && isValidProduct(incoming());
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(productId) && isValidProduct(incoming());
+      allow update: if isAdmin() && isValidId(productId) && isValidProduct(incoming());
       allow delete: if isAdmin() && isValidId(productId);
     }
 
-    // Categories
     match /categories/{categoryId} {
       allow read: if true;
-      allow create: if isAdmin() && isValidId(categoryId) && isValidCategory(incoming()) && incoming().createdAt == request.time;
-      allow update: if isValidId(categoryId) && isAdmin() && isValidCategory(incoming());
+      allow create: if isAdmin() && isValidId(categoryId) && isValidCategory(incoming());
+      allow update: if isAdmin() && isValidId(categoryId) && isValidCategory(incoming());
       allow delete: if isAdmin() && isValidId(categoryId);
     }
 
-    // Orders
     match /orders/{orderId} {
-      allow get: if (isOwner(existing().userId) || isAdmin()) && isValidId(orderId);
+      allow get: if isValidId(orderId) && (isAdmin() || isOwner(existing().userId));
       allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
-      allow create: if isOwner(incoming().userId) && isValidId(orderId) && incoming().createdAt == request.time;
+
+      allow create: if isValidId(orderId) && isOwner(incoming().userId) && isValidNewOrder(incoming());
+
       allow update: if isValidId(orderId) && (
         isAdmin() ||
-        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && existing().status == 'pending' && incoming().status == 'cancelled') ||
-        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'paymentUtr', 'updatedAt']) && existing().status == 'pending_payment' && incoming().status == 'admin_approval') ||
-        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'paymentId', 'updatedAt']) && existing().status == 'pending_payment' && incoming().status == 'paid') ||
-        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['failedPaymentLogs']))
+
+        // A customer submits a UPI reference for verification. Note the status
+        // they may set: only an admin can move an order to 'paid'. The previous
+        // rule let the customer do that themselves.
+        (isOwner(existing().userId) &&
+         changed().hasOnly(['status', 'paymentMethod', 'utrNumber', 'paymentSubmittedAt', 'updatedAt']) &&
+         existing().status in customerMutableStatuses() &&
+         incoming().status == 'payment_verification_pending' &&
+         incoming().utrNumber is string &&
+         incoming().utrNumber.size() > 0 && incoming().utrNumber.size() <= 64) ||
+
+        // A customer cancels an order that has not been paid for.
+        (isOwner(existing().userId) &&
+         changed().hasOnly(['status', 'updatedAt']) &&
+         existing().status in customerMutableStatuses() &&
+         incoming().status == 'cancelled')
+      );
+
+      allow delete: if isAdmin() && isValidId(orderId);
+    }
+
+    match /coupons/{couponId} {
+      // Codes were world-readable, so anyone could enumerate every discount in
+      // the shop. Checkout is behind a login, so signed-in is enough here. The
+      // stronger fix is to validate coupons in a callable function and stop
+      // exposing the collection at all.
+      allow read: if isSignedIn();
+
+      allow create: if isAdmin() && isValidId(couponId) && isValidCoupon(incoming());
+      allow delete: if isAdmin() && isValidId(couponId);
+
+      allow update: if isValidId(couponId) && (
+        (isAdmin() && isValidCoupon(incoming())) ||
+
+        // A shopper redeeming a coupon may only bump the counters, and only by
+        // one. Previously any signed-in user could write these to any value.
+        (isSignedIn() &&
+         changed().hasOnly(['usageCount', 'totalRevenue']) &&
+         incoming().usageCount == (('usageCount' in existing()) ? existing().usageCount : 0) + 1 &&
+         incoming().totalRevenue >= (('totalRevenue' in existing()) ? existing().totalRevenue : 0))
       );
     }
 
-    // Coupons
-    match /coupons/{couponId} {
-      allow read: if true;
-      allow create: if isAdmin() && isValidId(couponId) && isValidCoupon(incoming());
-      allow update: if isAdmin() && isValidId(couponId) || (
-        isValidId(couponId) && isSignedIn() && incoming().diff(existing()).affectedKeys().hasOnly(['usageCount', 'totalRevenue'])
-      );
-      allow delete: if isAdmin() && isValidId(couponId);
-    }
-    // Settings
+    // Read publicly: the footer, WhatsApp button and contact details come from
+    // here before the visitor has signed in.
     match /settings/{settingId} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
-    // Homepage Collections
+
     match /homepageCategories/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
+
     match /homepageCollections/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
-    // Banners
+
     match /banners/{bannerId} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    
-    // Media Library
+
     match /mediaLibrary/{docId} {
-      allow read: if isAdmin();
-      allow write: if isAdmin();
+      allow read, write: if isAdmin();
     }
-    
-    // Admin Settings (Access Control)
+
     match /admin_settings/{emailId} {
-      allow read: if isAdmin();
+      // A signed-in user reads their own record on every load to discover
+      // whether they are an admin. They learn nothing about anyone else.
+      allow get: if isAdmin() || (isSignedIn() && request.auth.token.email == emailId);
+      allow list: if isAdmin();
       allow write: if isSuperAdmin();
     }
-    // Admin Notifications
+
     match /admin_notifications/{docId} {
       allow read: if isAdmin();
-      allow create: if true;
+      // Written when a signed-in customer places an order. This was open to
+      // anonymous callers, who could flood the collection the admin bell reads.
+      allow create: if isSignedIn() &&
+                       incoming().keys().hasAll(['type', 'title', 'createdAt']) &&
+                       incoming().title is string && incoming().title.size() <= 500;
       allow update, delete: if isAdmin();
     }
 
-    // Catalog Leads
     match /catalogLeads/{docId} {
       allow read: if isAdmin();
-      allow create: if true;
+      // Deliberately open to anonymous visitors: capturing the lead is the
+      // point of the catalog funnel. Bounded so it cannot be used as free
+      // storage.
+      allow create: if incoming().keys().hasAll(['name', 'email', 'phone', 'category', 'status']) &&
+                       incoming().name is string && incoming().name.size() <= 200 &&
+                       incoming().email is string && incoming().email.size() <= 320 &&
+                       incoming().phone is string && incoming().phone.size() <= 32 &&
+                       incoming().category is string && incoming().category.size() <= 200 &&
+                       incoming().status == 'new';
       allow update, delete: if isAdmin();
     }
 
-    // Email Logs
     match /email_logs/{docId} {
       allow read: if isAdmin();
-      allow create: if true;
+      allow create: if isSignedIn() &&
+                       incoming().keys().hasAll(['to', 'subject']) &&
+                       incoming().subject is string && incoming().subject.size() <= 500;
       allow update, delete: if isAdmin();
     }
   }
