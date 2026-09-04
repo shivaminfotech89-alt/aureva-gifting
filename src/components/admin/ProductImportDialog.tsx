@@ -95,8 +95,10 @@ export function validateRows(rows: unknown, publish = false): { ok: Prepared[]; 
         stock,
         // The shop only lists enabled products, and categories are derived from
         // what the shop can see, so importing hidden means nothing appears at
-        // all. The caller decides.
-        enabled: row.enabled === true || publish,
+        // all. The caller decides — except for rows with no price, which stay
+        // hidden either way. A supplier sheet with a gap in the price column
+        // must not put a product on sale at zero rupees.
+        enabled: basePrice > 0 && (row.enabled === true || publish),
         minOrderQuantity: Number.isFinite(Number(row.minOrderQuantity)) ? Number(row.minOrderQuantity) : 1,
         availabilityStatus: typeof row.availabilityStatus === 'string' ? row.availabilityStatus : 'available_on_request',
         images,
@@ -116,6 +118,8 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
   const [progress, setProgress] = useState(0);
   const [publish, setPublish] = useState(false);
   const [parsedRaw, setParsedRaw] = useState<unknown>(null);
+
+  const unpriced = rows.filter(r => Number(r.data.basePrice) === 0).length;
 
   const reset = () => { setRows([]); setErrors([]); setFileName(''); setProgress(0); setPublish(false); };
 
@@ -219,6 +223,17 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
             <div className="flex items-start gap-2 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800">
               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
               <span><strong>{rows.length}</strong> product{rows.length === 1 ? '' : 's'} ready to import.</span>
+            </div>
+          )}
+
+          {publish && unpriced > 0 && (
+            <div className="flex items-start gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+              <span>
+                <strong>{unpriced}</strong> product{unpriced === 1 ? ' has' : 's have'} no price in this file, so
+                {unpriced === 1 ? ' it stays' : ' they stay'} hidden. Add a price in the product list, then use
+                Show in shop.
+              </span>
             </div>
           )}
 
