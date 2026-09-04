@@ -58,6 +58,7 @@ service cloud.firestore {
       return data.keys().hasAll(['name', 'basePrice', 'gstPercent', 'stock', 'enabled']) &&
              data.name is string && data.name.size() > 0 &&
              data.basePrice is number && data.basePrice >= 0 &&
+             (!('mrp' in data) || (data.mrp is number && data.mrp >= 0)) &&
              data.gstPercent is number && data.gstPercent >= 0 &&
              data.stock is number &&
              data.enabled is bool;

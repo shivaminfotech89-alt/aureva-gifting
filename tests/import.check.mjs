@@ -9,7 +9,12 @@ const env = await initializeTestEnvironment({ projectId: 'aureva-import-check',
 await env.clearFirestore();
 const admin = env.authenticatedContext('u', { email: 'shivaminfotech89@gmail.com' }).firestore();
 
-const files = readdirSync('imports').filter(f => f.endsWith('.json')).sort();
+// powerplus-ALL.json is the numbered files concatenated for a single import,
+// so checking it alongside them would report every sku as a duplicate of
+// itself. Verify the parts, then verify the aggregate matches them.
+const files = readdirSync('imports')
+  .filter(f => f.endsWith('.json') && f !== 'powerplus-ALL.json')
+  .sort();
 let total = 0;
 const skus = new Map();
 
@@ -34,6 +39,16 @@ for (const f of files) {
   total += rows.length;
   console.log(`  ${f}: ${rows.length} products`);
 }
+
+// The aggregate must equal the sum of the parts, or an import of ALL would
+// silently ship something different from the files that were checked.
+const combined = JSON.parse(readFileSync('imports/powerplus-ALL.json', 'utf8'));
+const partSkus = new Set();
+for (const f of files) JSON.parse(readFileSync(`imports/${f}`, 'utf8')).forEach(r => partSkus.add(r.sku));
+const combinedSkus = new Set(combined.map(r => r.sku));
+if (combined.length !== total) throw new Error(`powerplus-ALL.json has ${combined.length} rows, the parts have ${total}`);
+for (const sku of partSkus) if (!combinedSkus.has(sku)) throw new Error(`powerplus-ALL.json is missing sku ${sku}`);
+console.log(`\npowerplus-ALL.json matches the parts: ${combined.length} rows, ${combinedSkus.size} distinct skus`);
 
 const snap = await getDocs(collection(admin, 'products'));
 const cats = {};

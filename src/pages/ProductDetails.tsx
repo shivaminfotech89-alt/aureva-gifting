@@ -145,6 +145,13 @@ export default function ProductDetails() {
   const currentCustomizationCharge = customizationEnabled ? 
     (logoCharge + (customizationText.trim() ? pTextPrint : 0)) : 0;
 
+  const mrpInclusive = (() => {
+    const gross = (n: number) => n + calculateGST(n, product.gstPercent);
+    if (typeof product.mrp === 'number' && product.mrp > discountedPrice) return gross(product.mrp);
+    if ((product.discountPercent ?? 0) > 0) return gross(product.basePrice);
+    return null;
+  })();
+
   const priceWithGst = (discountedPrice + currentCustomizationCharge) + calculateGST(discountedPrice + currentCustomizationCharge, product.gstPercent);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -288,9 +295,9 @@ export default function ProductDetails() {
             </div>
 
             <div className="flex flex-col mb-8 p-6 bg-white rounded-xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-              {(product.discountPercent ?? 0) > 0 && (
+              {mrpInclusive !== null && (
                 <span className="text-lg text-slate-400 line-through decoration-red-500 decoration-2 mb-1">
-                  MRP {formatCurrency(product.basePrice + calculateGST(product.basePrice, product.gstPercent))}
+                  MRP {formatCurrency(mrpInclusive)}
                 </span>
               )}
               <div className="flex items-baseline gap-2">

@@ -24,6 +24,7 @@ export interface ImportRow {
   sku?: unknown;
   categoryId?: unknown;
   basePrice?: unknown;
+  mrp?: unknown;
   gstPercent?: unknown;
   stock?: unknown;
   enabled?: unknown;
@@ -68,10 +69,12 @@ export function validateRows(rows: unknown, publish = false): { ok: Prepared[]; 
     const basePrice = num(row.basePrice, 0);
     const gstPercent = num(row.gstPercent, 18);
     const stock = num(row.stock, 0);
+    const mrp = num(row.mrp, 0);
 
     if (Number.isNaN(basePrice) || basePrice < 0) { errors.push(`${label} (${name}): "basePrice" must be a number of 0 or more.`); return; }
     if (Number.isNaN(gstPercent) || gstPercent < 0) { errors.push(`${label} (${name}): "gstPercent" must be a number of 0 or more.`); return; }
     if (Number.isNaN(stock)) { errors.push(`${label} (${name}): "stock" must be a number.`); return; }
+    if (Number.isNaN(mrp) || mrp < 0) { errors.push(`${label} (${name}): "mrp" must be a number of 0 or more.`); return; }
 
     const id = makeId(row);
     if (seen.has(id)) { errors.push(`${label} (${name}): duplicate of an earlier row — give it a distinct "sku".`); return; }
@@ -87,6 +90,7 @@ export function validateRows(rows: unknown, publish = false): { ok: Prepared[]; 
         sku: typeof row.sku === 'string' ? row.sku : '',
         categoryId: typeof row.categoryId === 'string' ? row.categoryId : '',
         basePrice,
+        mrp,
         gstPercent,
         stock,
         // The shop only lists enabled products, and categories are derived from
