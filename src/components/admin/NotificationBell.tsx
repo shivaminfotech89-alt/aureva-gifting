@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Bell, CheckCircle } from 'lucide-react';
-import { collection, query, where, onSnapshot, orderBy, doc, updateDoc, Timestamp } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, orderBy, limit, doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
@@ -14,9 +14,12 @@ export function NotificationBell() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // The list is sliced to 50 below, so there is no reason to stream every
+    // notification ever written; that set only grows.
     const q = query(
       collection(db, 'admin_notifications'),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', 'desc'),
+      limit(50),
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
