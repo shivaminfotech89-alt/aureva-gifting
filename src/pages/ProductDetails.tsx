@@ -10,6 +10,7 @@ import { Button } from '../components/ui/button';
 import { formatCurrency, calculateGST } from '../lib/utils';
 import { openWhatsApp, productInquiryMessage } from '../lib/whatsapp';
 import { variantsOf, galleryImages, swatchColor, totalStock } from '../lib/variants';
+import { deliveryEstimate } from '../lib/quotation';
 import { productImage, PRODUCT_IMAGE_PLACEHOLDER } from '../lib/productImage';
 import { toast } from 'sonner';
 import { ShieldCheck, Truck, ArrowLeft, Star, Heart, Upload, X as XIcon, Edit3, AlertCircle } from 'lucide-react';
@@ -610,8 +611,11 @@ export default function ProductDetails() {
                     <Truck className="w-6 h-6" />
                  </div>
                  <div>
-                   <h4 className="font-bold text-[var(--navy-800)] tracking-tight">Free Delivery</h4>
-                   <p className="text-[12px] font-medium text-slate-500 mt-0.5">On orders over ₹5000</p>
+                   <h4 className="font-bold text-[var(--navy-800)] tracking-tight">Ships from Ahmedabad</h4>
+                   <p className="text-[12px] font-medium text-slate-500 mt-0.5">
+                     {deliveryEstimate('Ahmedabad').label} in Ahmedabad · {deliveryEstimate(undefined, 'Gujarat').label} in Gujarat
+                     {' · '}{deliveryEstimate(undefined, 'Karnataka').label} across India
+                   </p>
                  </div>
                </div>
                <div className="flex items-start gap-4">

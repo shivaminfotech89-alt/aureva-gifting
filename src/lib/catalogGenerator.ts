@@ -23,6 +23,18 @@ const getBase64ImageFromUrl = async (imageUrl: string): Promise<string> => {
 
 let robotoRegularBase64: string | null = null;
 let robotoBoldBase64: string | null = null;
+/**
+ * Whether the rupee-capable font actually arrived.
+ *
+ * Roboto is fetched from a CDN at generation time and the failure is caught
+ * and logged, so a blocked or slow CDN left every price rendered in Helvetica
+ * — which has no rupee glyph and silently prints a superscript one on a
+ * document a customer keeps. When it is missing, say "Rs." instead.
+ */
+let rupeeFontReady = false;
+
+/** The currency prefix the loaded font can actually draw. */
+const rupee = () => (rupeeFontReady ? '\u20B9' : 'Rs. ');
 
 const loadFonts = async (doc: jsPDF) => {
   try {
@@ -59,7 +71,9 @@ const loadFonts = async (doc: jsPDF) => {
        doc.addFileToVFS('Roboto-Medium.ttf', robotoBoldBase64);
        doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
     }
+    rupeeFontReady = !!(robotoRegularBase64 && robotoBoldBase64);
   } catch(e) {
+    rupeeFontReady = false;
     console.error("Failed to load custom fonts", e);
   }
 };
@@ -341,7 +355,9 @@ export const generateCatalogPDF = async (
       doc.setFillColor(250, 250, 250);
       doc.roundedRect(pageWidth - 55, yPosition, 40, 60, 2, 2, 'F');
 
-      const formattedPrice = formatCurrency(product.basePrice).replace(/[\s\u00A0\u202F]+/g, '').replace('₹', '₹');
+      const formattedPrice = formatCurrency(product.basePrice)
+        .replace(/[\s\u00A0\u202F]+/g, '')
+        .replace('\u20B9', rupee());
       
       doc.setTextColor(15, 23, 42); 
       doc.setFontSize(11);
