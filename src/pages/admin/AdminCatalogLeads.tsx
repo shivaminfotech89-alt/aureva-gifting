@@ -170,7 +170,7 @@ export default function AdminCatalogLeads() {
                           <div className="flex items-center gap-2 group">
                             <Mail className="w-3.5 h-3.5 text-slate-400" />
                             <span className="text-slate-600">{lead.email}</span>
-                            <button onClick={() => copyToClipboard(lead.email, 'Email')} className="opacity-0 group-hover:opacity-100 p-1 hover:bg-slate-200 rounded text-slate-500 transition-opacity">
+                            <button onClick={() => copyToClipboard(lead.email, 'Email')} className="opacity-100 md:opacity-0 md:group-hover:opacity-100 p-1 hover:bg-slate-200 rounded text-slate-500 transition-opacity">
                               <Copy className="w-3 h-3" />
                             </button>
                           </div>
@@ -179,7 +179,7 @@ export default function AdminCatalogLeads() {
                           <div className="flex items-center gap-2 group">
                             <Smartphone className="w-3.5 h-3.5 text-slate-400" />
                             <span className="text-slate-600">{lead.phone}</span>
-                            <button onClick={() => copyToClipboard(lead.phone, 'Mobile Number')} className="opacity-0 group-hover:opacity-100 p-1 hover:bg-slate-200 rounded text-slate-500 transition-opacity">
+                            <button onClick={() => copyToClipboard(lead.phone, 'Mobile Number')} className="opacity-100 md:opacity-0 md:group-hover:opacity-100 p-1 hover:bg-slate-200 rounded text-slate-500 transition-opacity">
                               <Copy className="w-3 h-3" />
                             </button>
                           </div>
