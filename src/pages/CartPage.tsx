@@ -1,4 +1,5 @@
 import React from 'react';
+import { PRODUCT_IMAGE_PLACEHOLDER } from '../lib/productImage';
 import { useCartStore } from '../store/cartStore';
 import { Button, buttonVariants } from '../components/ui/button';
 import { QuotationPanel } from '../components/shop/QuotationPanel';
@@ -58,7 +59,7 @@ export default function CartPage() {
                     alt={item.name} 
                     className="w-full h-full object-cover" 
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400";
+                      (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER;
                     }}
                   />
                 </div>

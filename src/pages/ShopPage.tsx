@@ -9,58 +9,13 @@ import { Button } from '../components/ui/button';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
-const FALLBACK_PRODUCTS: ProductData[] = [
-  // Keeping fallback products for preview resilience
-  {
-    id: 'sample-1',
-    name: 'Executive Leather Briefcase',
-    description: 'Premium full-grain leather briefcase perfect for executives.',
-    basePrice: 12500,
-    gstPercent: 18,
-    categoryId: 'Bags',
-    images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600'],
-    stock: 50,
-    enabled: true,
-  },
-  {
-    id: 'sample-2',
-    name: 'Gold Plated Pen Set',
-    description: 'Luxurious gold-plated pen set in a polished wooden box.',
-    basePrice: 4500,
-    gstPercent: 12,
-    categoryId: 'Stationery',
-    images: ['https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&q=80&w=600'],
-    stock: 120,
-    enabled: true,
-  },
-  {
-    id: 'sample-3',
-    name: 'Corporate Wellness Hamper',
-    description: 'A curated selection of premium organic teas and wellness products.',
-    basePrice: 3200,
-    gstPercent: 18,
-    categoryId: 'Hampers',
-    images: ['https://images.unsplash.com/photo-1608248593842-8021c6a1d821?auto=format&fit=crop&q=80&w=600'],
-    stock: 80,
-    enabled: true,
-  },
-  {
-    id: 'sample-4',
-    name: 'Wireless Desk Charger Organizer',
-    description: 'Modern desk organizer with an integrated wireless charging pad.',
-    basePrice: 2800,
-    gstPercent: 18,
-    categoryId: 'Electronics',
-    images: ['https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?auto=format&fit=crop&q=80&w=600'],
-    stock: 200,
-    enabled: true,
-  }
-];
+
 
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   
   const searchQuery = searchParams.get('q') || '';
   const selectedCategory = searchParams.get('category') || 'All';
@@ -125,14 +80,14 @@ export default function ShopPage() {
           ...doc.data()
         })) as ProductData[];
         
-        if (fetchedProducts.length === 0) {
-          setProducts(FALLBACK_PRODUCTS);
-        } else {
-          setProducts(fetchedProducts);
-        }
-      } catch (error) {
-        setProducts(FALLBACK_PRODUCTS);
-        handleFirestoreError(error, OperationType.LIST, 'products');
+        // An empty catalog shows as empty. Standing in four sample products
+        // meant a customer could open one, add it to a cart and try to order
+        // something that does not exist.
+        setProducts(fetchedProducts);
+      } catch (error: any) {
+        setProducts([]);
+        setLoadError(error?.message || 'unknown error');
+        console.error('shop product load failed', error);
       } finally {
         setLoading(false);
       }
@@ -140,6 +95,8 @@ export default function ShopPage() {
     loadProducts();
   }, []);
 
+  // Distinguishes "nothing matched your filters" from "we could not reach the
+  // catalog", which used to look identical because both showed samples.
   const categories = useMemo(() => {
     const cats = new Set(products.map(p => p.categoryId || 'Uncategorized'));
     return ['All', ...Array.from(cats)].sort();
@@ -393,8 +350,14 @@ export default function ShopPage() {
                 <div className="bg-slate-50 p-6 rounded-xl mb-6 border border-slate-100 shadow-sm">
                   <Search className="w-10 h-10 text-slate-300" />
                 </div>
-                <h2 className="text-2xl font-display font-bold mb-3 text-[var(--navy-800)]">No products found</h2>
-                <p className="text-slate-500 max-w-md text-lg">Try adjusting your filters or search query to find what you're looking for.</p>
+                <h2 className="text-2xl font-display font-bold mb-3 text-[var(--navy-800)]">
+                  {loadError ? 'Could not load the catalog' : 'No products found'}
+                </h2>
+                <p className="text-slate-500 max-w-md text-lg">
+                  {loadError
+                    ? 'Something went wrong reaching our catalog. Please refresh, or contact us and we will send you what you need.'
+                    : "Try adjusting your filters or search query to find what you're looking for."}
+                </p>
                 <Button 
                   className="mt-8 bg-[var(--navy-800)] text-white hover:bg-slate-800 rounded-xl h-12 px-8 font-bold shadow-md"
                   size="lg"

@@ -7,7 +7,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/dialog';
-import { ArrowLeft, Plus, Edit, Trash2, Image as ImageIcon, Database, Search, Download, Lock } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Trash2, Image as ImageIcon, Search, Download, Lock } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 import { toast } from 'sonner';
 import { ProductImportDialog, idForSku } from '../../components/admin/ProductImportDialog';
@@ -452,69 +452,7 @@ export default function AdminProducts() {
     }
   };
 
-  const seedProducts = async () => {
-    const sampleProducts = [
-      {
-        id: 'sample-1',
-        name: 'Executive Leather Briefcase',
-        description: 'Premium full-grain leather briefcase perfect for executives.',
-        basePrice: 12500,
-        gstPercent: 18,
-        images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600'],
-        stock: 50,
-        enabled: true,
-        categoryId: 'Bags',
-        createdAt: serverTimestamp(),
-      },
-      {
-        id: 'sample-2',
-        name: 'Gold Plated Pen Set',
-        description: 'Luxurious gold-plated pen set in a polished wooden box.',
-        basePrice: 4500,
-        gstPercent: 12,
-        images: ['https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&q=80&w=600'],
-        stock: 120,
-        enabled: true,
-        categoryId: 'Stationery',
-        createdAt: serverTimestamp(),
-      },
-      {
-        id: 'sample-3',
-        name: 'Corporate Wellness Hamper',
-        description: 'A curated selection of premium organic teas and wellness products.',
-        basePrice: 3200,
-        gstPercent: 18,
-        images: ['https://images.unsplash.com/photo-1608248593842-8021c6a1d821?auto=format&fit=crop&q=80&w=600'],
-        stock: 80,
-        enabled: true,
-        categoryId: 'Hampers',
-        createdAt: serverTimestamp(),
-      },
-      {
-        id: 'sample-4',
-        name: 'Wireless Desk Charger Organizer',
-        description: 'Modern desk organizer with an integrated wireless charging pad.',
-        basePrice: 2800,
-        gstPercent: 18,
-        images: ['https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?auto=format&fit=crop&q=80&w=600'],
-        stock: 200,
-        enabled: true,
-        categoryId: 'Electronics',
-        createdAt: serverTimestamp(),
-      }
-    ];
 
-    try {
-      setLoading(true);
-      for (const p of sampleProducts) {
-        await setDoc(doc(db, 'products', p.id), p);
-      }
-      toast.success('Sample products seeded successfully!');
-      loadProducts();
-    } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'products');
-    }
-  };
 
   return (
     <div>
@@ -551,9 +489,6 @@ export default function AdminProducts() {
             Download PDF
           </Button>
           <ProductImportDialog onImported={loadProducts} />
-          <Button variant="outline" onClick={seedProducts} className="gap-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#0F172A] rounded-xl h-10 shadow-sm">
-            <Database className="h-4 w-4" /> Seed Products
-          </Button>
           <Dialog open={isDialogOpen} onOpenChange={(open) => {
             setIsDialogOpen(open);
             if (!open) {
@@ -814,7 +749,7 @@ export default function AdminProducts() {
                   </div>
                   <Input 
                     id="imageUrl" 
-                    placeholder="https://images.unsplash.com/..." 
+                    placeholder="/products/nexon/code.jpg or https://…" 
                     value={formData.imageUrl && !formData.imageUrl.startsWith('data:') ? formData.imageUrl : ''} 
                     onChange={e => setFormData({...formData, imageUrl: e.target.value})} 
                   />

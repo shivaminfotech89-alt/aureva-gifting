@@ -1,10 +1,11 @@
+import { PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
 import React, { useState, useEffect } from 'react';
 
 interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc?: string;
 }
 
-export function ImageWithFallback({ src, fallbackSrc = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400', alt, className, ...props }: ImageWithFallbackProps) {
+export function ImageWithFallback({ src, fallbackSrc = PRODUCT_IMAGE_PLACEHOLDER, alt, className, ...props }: ImageWithFallbackProps) {
   const [imgSrc, setImgSrc] = useState<string | undefined>(src);
   const [hasError, setHasError] = useState(false);
 
