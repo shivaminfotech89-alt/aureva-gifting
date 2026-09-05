@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
@@ -339,7 +340,7 @@ export default function AdminOrderDetails() {
                               alt={item.name} 
                               className="w-full h-full object-cover" 
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400';
+                                (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER;
                               }}
                             />
                           )}

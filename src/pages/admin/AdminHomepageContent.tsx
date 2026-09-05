@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
 import { collection, doc, setDoc, deleteDoc, onSnapshot, getDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { Button } from '../../components/ui/button';
@@ -234,37 +235,21 @@ export default function AdminHomepageContent() {
       const c = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       c.sort((x: any, y: any) => (x.order || 0) - (y.order || 0));
       
-      if (snapshot.empty) {
-         const { setDoc, doc } = await import('firebase/firestore');
-         const defaults = [
-           { id: 'cat_default_1', name: "Executive Drinkware", url: "https://images.unsplash.com/photo-1517260739337-6799d239ce83?auto=format&fit=crop&q=80", order: 1 },
-           { id: 'cat_default_2', name: "Office Essentials", url: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&q=80", order: 2 },
-           { id: 'cat_default_3', name: "Tech Gadgets", url: "https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?auto=format&fit=crop&q=80", order: 3 },
-           { id: 'cat_default_4', name: "Eco-friendly", url: "https://images.unsplash.com/photo-1536766768582-1dd38f32acab?auto=format&fit=crop&q=80", order: 4 }
-         ];
-         setCategories(defaults); // Optimistic UI
-         defaults.forEach(d => setDoc(doc(db, 'homepageCategories', d.id), d));
-      } else {
-         setCategories(c);
-      }
+      // Opening this page used to write four categories into the live
+      // database — Executive Drinkware, Office Essentials, Tech Gadgets,
+      // Eco-friendly — none of which the catalog carries, each with a stock
+      // photo. Their tiles then sat on the homepage opening an empty shop.
+      // An empty list stays empty until someone adds a real one.
+      setCategories(c);
     }, (err) => console.error("homepageCategories error", err));
 
     // Festival Collections
     const unsubCols = onSnapshot(collection(db, 'homepageCollections'), async (snapshot) => {
       const col = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       col.sort((x: any, y: any) => (x.order || 0) - (y.order || 0));
-      if (snapshot.empty) {
-         const { setDoc, doc } = await import('firebase/firestore');
-         const defaults = [
-          { id: 'col_default_1', title: "Diwali Hampers", sub: "Premium Dry Fruits & Essentials", img: "https://images.unsplash.com/photo-1511269366734-cd2500028fb3?auto=format&fit=crop&q=80&w=800", order: 1 },
-          { id: 'col_default_2', title: "New Year Kits", sub: "Planners, Pens & Tech", img: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800", order: 2 },
-          { id: 'col_default_3', title: "Welcome Kits", sub: "Onboarding Essentials", img: "https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&q=80&w=800", order: 3 }
-         ];
-         setCollections(defaults);
-         defaults.forEach(d => setDoc(doc(db, 'homepageCollections', d.id), d));
-      } else {
-         setCollections(col);
-      }
+      // Same as the categories above: these three wrote themselves into the
+      // database on first visit.
+      setCollections(col);
     }, (err) => console.error("homepageCollections error", err));
 
     // Branding Section
@@ -394,10 +379,10 @@ export default function AdminHomepageContent() {
                        <div className="absolute top-2 left-2 z-10 bg-white/90 px-2 py-1 rounded-md text-[10px] font-extrabold text-slate-800 tracking-wider uppercase shadow-sm">SLIDER {idx + 1}</div>
                        <div className="relative group rounded-xl overflow-hidden border bg-slate-100 h-48 sm:h-56">
                          <img 
-                           src={b.imageUrl || 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&q=80'} 
+                           src={b.imageUrl || PRODUCT_IMAGE_PLACEHOLDER} 
                            className={`h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ${!b.imageUrl && 'opacity-30'}`} 
                            alt="Slider"
-                           onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&q=80'; }}
+                           onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
                          />
                          {/* Edit Overlay */}
                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity backdrop-blur-sm z-20 gap-3">
@@ -475,10 +460,10 @@ export default function AdminHomepageContent() {
                  <div key={c.id} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full relative group">
                     <div className="h-56 w-full relative overflow-hidden bg-slate-100 flex-shrink-0">
                         <img 
-                          src={c.url || 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80'} 
+                          src={c.url || PRODUCT_IMAGE_PLACEHOLDER} 
                           className={`h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ${!c.url && 'opacity-30'}`} 
                           alt={c.name} 
-                          onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80'; }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
                         />
                         
                         {/* Image Overlay */}
@@ -536,10 +521,10 @@ export default function AdminHomepageContent() {
                  <div key={c.id} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full relative group">
                     <div className="h-64 w-full relative overflow-hidden bg-slate-900 flex-shrink-0">
                         <img 
-                          src={c.img || 'https://images.unsplash.com/photo-1511269366734-cd2500028fb3?auto=format&fit=crop&q=80'} 
+                          src={c.img || PRODUCT_IMAGE_PLACEHOLDER} 
                           className={`absolute inset-0 h-full w-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-700 ${!c.img && 'opacity-30'}`} 
                           alt={c.title}
-                          onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511269366734-cd2500028fb3?auto=format&fit=crop&q=80'; }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
                         />
                         
                         {/* Floating Content overlay for Festival feel */}
@@ -606,10 +591,10 @@ export default function AdminHomepageContent() {
                  <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col gap-2">
                     <div className="relative group rounded-2xl overflow-hidden border bg-slate-100 h-64 lg:h-80 shadow-md">
                         <img 
-                          src={brandingSection?.imageUrl || 'https://images.unsplash.com/photo-1587834575747-df9039afac29?auto=format&fit=crop&q=80&w=1200'} 
+                          src={brandingSection?.imageUrl || PRODUCT_IMAGE_PLACEHOLDER} 
                           className={`h-full w-full object-cover group-hover:scale-105 transition-transform duration-700 ${!brandingSection?.imageUrl && 'opacity-30'}`} 
                           alt="Branding"
-                          onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1587834575747-df9039afac29?auto=format&fit=crop&q=80&w=1200'; }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
                         />
                         {brandingSection?.imageUrl ? (
                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm z-20">

@@ -30,34 +30,26 @@ const FALLBACK_BANNERS: BannerData[] = [
   { id: 'f2', title: 'Curated festival hampers', subtitle: 'Premium hampers for the season, packaged and branded for your enterprise.', ctaText: 'Shop Festive', ctaLink: '/shop', imageUrl: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80', enabled: true, order: 1 },
 ];
 
-const FALLBACK_PRODUCTS: ProductData[] = [
-  { id: 'sample-1', name: 'Executive Leather Briefcase', description: 'Premium full-grain leather briefcase perfect for executives.', basePrice: 12500, gstPercent: 18, images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600'], stock: 50, enabled: true },
-  { id: 'sample-2', name: 'Luxury Pen Set', description: 'Gold-plated fountain pen with custom engraving options.', basePrice: 4500, gstPercent: 18, images: ['https://images.unsplash.com/photo-1585336261022-680e294ce8b9?auto=format&fit=crop&q=80&w=600'], stock: 100, enabled: true },
-  { id: 'sample-4', name: 'Premium Coffee Blend & Mug', description: 'Artisan roasted coffee beans with an insulated ceramic mug.', basePrice: 2800, gstPercent: 18, images: ['https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&fit=crop&q=80&w=600'], stock: 150, enabled: true },
-  { id: 'sample-5', name: 'Smart Desk Organizer', description: 'Minimalist wooden organizer with built-in wireless charging.', basePrice: 6500, gstPercent: 18, images: ['https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&q=80&w=600'], stock: 75, enabled: true },
-];
 
-const FALLBACK_CATEGORIES = [
-  { name: 'Executive Drinkware', url: 'https://images.unsplash.com/photo-1517260739337-6799d239ce83?auto=format&fit=crop&q=80' },
-  { name: 'Office Essentials', url: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&q=80' },
-  { name: 'Tech Gadgets', url: 'https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?auto=format&fit=crop&q=80' },
-  { name: 'Eco-friendly', url: 'https://images.unsplash.com/photo-1536766768582-1dd38f32acab?auto=format&fit=crop&q=80' },
-];
 
-const FALLBACK_COLLECTIONS = [
-  { title: 'Diwali Hampers', sub: 'Dry fruits & essentials', img: 'https://images.unsplash.com/photo-1511269366734-cd2500028fb3?auto=format&fit=crop&q=80&w=800' },
-  { title: 'New Year Kits', sub: 'Planners, pens & tech', img: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800' },
-  { title: 'Welcome Kits', sub: 'Onboarding essentials', img: 'https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&q=80&w=800' },
-];
+
+
+
 
 const FALLBACK_BRANDING_IMAGE = 'https://images.unsplash.com/photo-1587834575747-df9039afac29?auto=format&fit=crop&q=80&w=1200';
 
 export default function HomePage() {
   const [banners, setBanners] = useState<BannerData[]>(FALLBACK_BANNERS);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [featuredProducts, setFeaturedProducts] = useState<ProductData[]>(FALLBACK_PRODUCTS);
-  const [categories, setCategories] = useState<any[]>(FALLBACK_CATEGORIES);
-  const [collectionsData, setCollectionsData] = useState<any[]>(FALLBACK_COLLECTIONS);
+  // Empty, not sample data. Four invented products the shop does not stock
+  // were shown whenever the real ones were slow or the query returned nothing,
+  // and a customer could open one and put it in a cart.
+  const [featuredProducts, setFeaturedProducts] = useState<ProductData[]>([]);
+  // "Executive Drinkware", "Office Essentials", "Tech Gadgets" and
+  // "Eco-friendly" are not categories this catalog has, so all four tiles
+  // opened an empty shop.
+  const [categories, setCategories] = useState<any[]>([]);
+  const [collectionsData, setCollectionsData] = useState<any[]>([]);
   const [brandingSection, setBrandingSection] = useState<any>({ imageUrl: FALLBACK_BRANDING_IMAGE });
 
   const { settings } = useSettingsStore();
@@ -76,25 +68,24 @@ export default function HomePage() {
 
     const qProducts = query(collection(db, 'products'), where('enabled', '==', true), limit(4));
     const unsubProducts = onSnapshot(qProducts, (snapshot) => {
-      const p = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ProductData)).filter(x => x.enabled);
-      if (p.length > 0) {
-        setFeaturedProducts(p);
-      } else {
-        setFeaturedProducts(FALLBACK_PRODUCTS);
-      }
+      // Whatever the shop actually has. If that is nothing, the section
+      // hides itself rather than filling with products we do not sell.
+      setFeaturedProducts(
+        snapshot.docs.map(d => ({ id: d.id, ...d.data() } as ProductData)).filter(x => x.enabled),
+      );
     }, (err) => console.error('homepage products error: ', err));
 
     const unsubCats = onSnapshot(query(collection(db, 'homepageCategories'), orderBy('order', 'asc')), (snapshot) => {
       const c = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
       if (c.length > 0) { setCategories(c); } else {
-        setCategories(FALLBACK_CATEGORIES);
+        setCategories([]);
       }
     }, (err) => console.error('homepage cats error: ', err));
 
     const unsubCols = onSnapshot(query(collection(db, 'homepageCollections'), orderBy('order', 'asc')), (snapshot) => {
       const c = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
       if (c.length > 0) { setCollectionsData(c); } else {
-        setCollectionsData(FALLBACK_COLLECTIONS);
+        setCollectionsData([]);
       }
     }, (err) => console.error('homepage cols error: ', err));
 
@@ -268,7 +259,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* Categories. Hidden until there are some: a heading over an empty
+          grid looks broken, and the tiles used to be filled with categories
+          the catalog does not carry. */}
+      {categories.length > 0 && (
       <section className="bg-white py-12 md:py-16">
         <div className={CONTAINER}>
           <SectionHeading
@@ -312,6 +306,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Collections */}
       <section className="bg-[var(--navy-800)] py-12 md:py-16">
@@ -363,7 +358,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured products */}
+      {featuredProducts.length > 0 && (
       <section className="bg-[#FAFAF8] py-12 md:py-16">
         <div className={CONTAINER}>
           <SectionHeading
@@ -387,6 +382,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Personalization */}
       <section className="bg-[var(--navy-800)]">
