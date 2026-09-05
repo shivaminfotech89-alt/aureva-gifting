@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { Button, buttonVariants } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
@@ -11,6 +12,12 @@ import { Briefcase, Building2, CheckCircle2, Handshake, Mail, MessageSquare } fr
 import { useSettingsStore } from '../store/settingsStore';
 
 export default function CorporateBulkPage() {
+  useSeo({
+    title: 'Bulk Corporate Gifting in Ahmedabad | Request a Quote',
+    description: 'Bulk corporate gifting for companies in Ahmedabad and across India. Logo branding, GST invoice, minimum order quantities and a quotation on request.',
+    path: '/corporate',
+  });
+
   const [loading, setLoading] = useState(false);
   const { settings } = useSettingsStore();
 

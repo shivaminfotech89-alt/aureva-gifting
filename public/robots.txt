@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# The admin panel is behind a login; there is nothing there to index.
+Disallow: /admin
+Disallow: /account
+Disallow: /checkout
+Disallow: /cart
+
+Sitemap: https://www.aurevagift.com/sitemap.xml

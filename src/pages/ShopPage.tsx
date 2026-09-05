@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { ProductCard, ProductData } from '../components/shop/ProductCard';
@@ -98,6 +99,21 @@ export default function ShopPage() {
     else params.delete('budget');
     setSearchParams(params, { replace: true });
   };
+
+  useSeo({
+    title: selectedCategory !== 'All'
+      ? `${selectedCategory} — Corporate Gifts in Bulk`
+      : 'Shop Corporate Gifts in Bulk | Ahmedabad',
+    description: selectedCategory !== 'All'
+      ? `Bulk ${selectedCategory.toLowerCase()} for corporate gifting, branded with your logo. Shipped across India from Ahmedabad, with GST invoice and quotation on request.`
+      : 'Browse corporate gifts in bulk — diaries, drinkware, bags, pens and premium gift sets, branded with your logo. Shipped across India from Ahmedabad.',
+    // Must match the URL in the sitemap. Falling back to window.location.pathname
+    // would canonicalise every category to plain /shop, and Google would drop
+    // all 43 category pages as duplicates of it.
+    path: selectedCategory !== 'All'
+      ? `/shop?category=${encodeURIComponent(selectedCategory)}`
+      : '/shop',
+  });
 
   useEffect(() => {
     async function loadProducts() {

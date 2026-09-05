@@ -1,4 +1,5 @@
 import { registeredAddressLines } from '../lib/business';
+import { useSeo } from '../hooks/useSeo';
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -10,6 +11,12 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 export default function ContactPage() {
+  useSeo({
+    title: 'Contact Aureva Corporate Gifting, Ahmedabad',
+    description: 'Corporate gifting company in South Bopal, Ahmedabad. Call, email or message us on WhatsApp for bulk gifting enquiries and quotations.',
+    path: '/contact',
+  });
+
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {

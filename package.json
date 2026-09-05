@@ -19,7 +19,9 @@
     "test:gst": "tsx tests/business.test.tsx",
     "test:inline": "tsx tests/inline-edit.test.tsx",
     "test:shop": "tsx tests/shop-nav.test.tsx",
-    "test:quote": "tsx tests/quotation.test.tsx"
+    "test:quote": "tsx tests/quotation.test.tsx",
+    "seo": "node scripts/generate-seo.mjs",
+    "prebuild": "node scripts/generate-seo.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
