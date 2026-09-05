@@ -6,6 +6,7 @@ import { useCartStore } from '../../store/cartStore';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useAuthStore } from '../../store/authStore';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useCategories } from '../../hooks/useCategories';
 import { useSettingsStore } from '../../store/settingsStore';
 
 import { auth } from '../../lib/firebase';
@@ -16,6 +17,7 @@ import { AurevaLogo } from '../ui/AurevaLogo';
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { categories } = useCategories();
   const totalItems = useCartStore(state => state.getTotalItems());
   const wishlistItemsCount = useWishlistStore(state => state.items.length);
   const { user, profile } = useAuthStore();
@@ -120,37 +122,43 @@ export default function Navbar() {
           
           <div className="group relative z-[50]">
             <Link to="/shop" className={`transition-colors hover:text-[var(--gold-500)] flex items-center gap-1 ${location.pathname.includes('/shop') ? 'text-[var(--gold-500)]' : ''}`}> Shop </Link>
-            {/* Simple Mega Menu Hover */}
+            {/* Categories come from the catalog. The eight that used to be
+                hardcoded here — Drinkware, Office Essentials, Tech Gifts and
+                the rest — matched nothing, so every link opened an empty shop. */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
-               <div className="w-[600px] bg-white rounded-xl shadow-2xl border border-slate-100 p-8 grid grid-cols-3 gap-6 text-slate-800">
-                  <div>
-                     <h4 className="font-bold text-[var(--gold-500)] mb-4 uppercase tracking-widest text-xs">Categories</h4>
-                     <ul className="space-y-3 text-sm">
-                       <li><Link to="/shop?category=Drinkware" className="hover:text-[var(--gold-500)] transition-colors">Premium Drinkware</Link></li>
-                       <li><Link to="/shop?category=Office Essentials" className="hover:text-[var(--gold-500)] transition-colors">Office Essentials</Link></li>
-                       <li><Link to="/shop?category=Electronics" className="hover:text-[var(--gold-500)] transition-colors">Tech Gifts</Link></li>
-                       <li><Link to="/shop?category=Eco Friendly" className="hover:text-[var(--gold-500)] transition-colors">Eco-Friendly Gifts</Link></li>
-                     </ul>
+               <div className="w-[620px] rounded-xl border border-slate-100 bg-white p-7 text-slate-800 shadow-2xl">
+                  <div className="mb-4 flex items-baseline justify-between">
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--gold-500)]">Shop by category</h4>
+                    <Link to="/shop" className="text-xs font-semibold text-slate-500 underline hover:text-[var(--gold-500)]">
+                      View all {categories.length > 0 ? `${categories.length} categories` : 'products'}
+                    </Link>
                   </div>
-                  <div>
-                     <h4 className="font-bold text-[var(--gold-500)] mb-4 uppercase tracking-widest text-xs">Collections</h4>
-                     <ul className="space-y-3 text-sm">
-                       <li><Link to="/shop?category=Diwali Hampers" className="hover:text-[var(--gold-500)] transition-colors">Diwali Hampers</Link></li>
-                       <li><Link to="/shop?category=Welcome Kits" className="hover:text-[var(--gold-500)] transition-colors">Welcome Kits</Link></li>
-                       <li><Link to="/shop?category=Corporate Branding" className="hover:text-[var(--gold-500)] transition-colors">Corporate Branding</Link></li>
-                       <li><Link to="/shop?category=Bags" className="hover:text-[var(--gold-500)] transition-colors">Executive Premium</Link></li>
-                     </ul>
-                  </div>
-                  <div className="bg-slate-50 p-4 rounded-lg flex flex-col justify-end relative overflow-hidden">
-                     <span className="relative z-10 text-xs font-bold uppercase tracking-widest text-[var(--gold-500)] mb-2">New Arrival</span>
-                     <span className="relative z-10 font-display font-bold text-lg mb-2">The Executive Box</span>
-                     <Link to="/shop" className="relative z-10 text-xs font-bold underline hover:text-[var(--gold-500)]">Shop Now</Link>
-                  </div>
+                  {categories.length > 0 ? (
+                    <ul className="grid max-h-[320px] grid-cols-3 gap-x-6 gap-y-2.5 overflow-y-auto text-sm">
+                      {categories.map(name => (
+                        <li key={name}>
+                          <Link
+                            to={`/shop?category=${encodeURIComponent(name)}`}
+                            className="block truncate transition-colors hover:text-[var(--gold-500)]"
+                            title={name}
+                          >
+                            {name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-slate-500">
+                      <Link to="/shop" className="font-semibold underline hover:text-[var(--gold-500)]">Browse the full range</Link>
+                    </p>
+                  )}
                </div>
             </div>
           </div>
           <Link to="/corporate" className="transition-colors hover:text-[var(--gold-500)]">Corporate Bulk</Link>
           <Link to="/about" className="transition-colors hover:text-[var(--gold-500)]">About Us</Link>
+          {/* Present in the mobile menu but missing from the desktop one. */}
+          <Link to="/contact" className="transition-colors hover:text-[var(--gold-500)]">Contact</Link>
         </nav>
 
         {/* Right Actions */}

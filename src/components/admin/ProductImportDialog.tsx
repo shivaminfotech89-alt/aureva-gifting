@@ -223,6 +223,22 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
         await batch.commit();
         setProgress(Math.min(i + slice.length, rows.length));
       }
+      // Keep the categories collection in step with what was just imported.
+      // The shop menu reads it, and a category with no document is a category
+      // customers cannot navigate to.
+      const categoryNames = [...new Set(
+        rows.map(r => String(r.data.categoryId || '').trim()).filter(n => n !== ''),
+      )];
+      for (let i = 0; i < categoryNames.length; i += CHUNK) {
+        const batch = writeBatch(db);
+        for (const name of categoryNames.slice(i, i + CHUNK)) {
+          const id = idForSku(name);
+          if (!id) continue;
+          batch.set(doc(db, 'categories', id), { name, createdAt: serverTimestamp() }, { merge: true });
+        }
+        await batch.commit();
+      }
+
       let removed = 0;
       if (removeSuperseded && supersededIds.length > 0) {
         for (let i = 0; i < supersededIds.length; i += CHUNK) {
@@ -233,7 +249,7 @@ export function ProductImportDialog({ onImported }: { onImported: () => void }) 
         removed = supersededIds.length;
       }
       toast.success(
-        `Imported ${rows.length} product${rows.length === 1 ? '' : 's'}.` +
+        `Imported ${rows.length} product${rows.length === 1 ? '' : 's'} across ${categoryNames.length} categories.` +
         (removed ? ` Removed ${removed} that became color options.` : ''),
       );
       onImported();
