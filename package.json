@@ -14,9 +14,10 @@
     "test:dupes": "tsx tests/duplicates.test.tsx",
     "test:stats": "tsx tests/inventory.stats.test.tsx",
     "test:upi": "tsx tests/upi.test.tsx",
-    "test": "npm run test:rules && npm run test:imports && npm run test:ui && npm run test:dupes && npm run test:stats && npm run test:upi && npm run test:gst && npm run test:build",
+    "test": "npm run test:rules && npm run test:imports && npm run test:ui && npm run test:dupes && npm run test:stats && npm run test:upi && npm run test:inline && npm run test:gst && npm run test:build",
     "test:build": "node scripts/check-build.mjs",
-    "test:gst": "tsx tests/business.test.tsx"
+    "test:gst": "tsx tests/business.test.tsx",
+    "test:inline": "tsx tests/inline-edit.test.tsx"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

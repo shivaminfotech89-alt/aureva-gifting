@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, Menu, X, ArrowLeft, Settings, Tag, Grid, Calendar, Warehouse, BarChart3, MessageCircle, Mail, Ticket, Star, Bell, FileText, Shield, Palette, CreditCard, Truck, Receipt, Search, Database, Activity, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingBag, Users, LogOut, Menu, X, ArrowLeft, Settings, Ticket, FileText, Palette, ChevronLeft, ChevronRight, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import { auth } from '../../../lib/firebase';
 import { signOut } from 'firebase/auth';
@@ -34,65 +34,39 @@ export default function AdminLayout() {
     const adminRole = profile?.adminRole || 'Super Admin';
     const isSuperAdmin = adminRole === 'Super Admin' || adminRole === 'admin'; // fallback
 
+    // Only pages that do something. Fifteen of the twenty-two entries here
+    // used to open the same empty "coming soon" page, and Inventory opened
+    // Products, so the eight real screens were the minority of the menu.
+    // Routes for the rest still exist — see ROUTES_NOT_IN_MENU — so an old
+    // bookmark does not turn into "Access Denied".
     const allGroups = [
       {
         title: "Main",
         items: [
           { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, roles: ['Super Admin', 'Project Manager', 'Admin', 'Order Manager', 'Marketing Manager'] },
           { name: 'Orders', path: '/admin/orders', icon: ShoppingBag, roles: ['Super Admin', 'Admin', 'Order Manager'] },
-          { name: 'Products', path: '/admin/products', icon: Package, roles: ['Super Admin', 'Project Manager', 'Admin'] },
+          { name: 'Products & Inventory', path: '/admin/products', icon: Package, roles: ['Super Admin', 'Project Manager', 'Admin'] },
         ]
       },
       {
-        title: "Catalog & Content",
-        items: [
-          { name: 'Categories', path: '/admin/categories', icon: Grid, roles: ['Super Admin', 'Admin'] },
-          { name: 'Budget Catalogs', path: '/admin/budget-catalogs', icon: FileText, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
-          { name: 'Image Management', path: '/admin/banners', icon: Palette, roles: ['Super Admin', 'Project Manager', 'Marketing Manager'] },
-          { name: 'Inventory', path: '/admin/inventory', icon: Warehouse, roles: ['Super Admin', 'Admin'] },
-          { name: 'Coupon Management', path: '/admin/coupons', icon: Ticket, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
-        ]
-      },
-      {
-        title: "Customers & Analytics",
+        title: "Customers",
         items: [
           { name: 'Customers', path: '/admin/customers', icon: Users, roles: ['Super Admin', 'Admin', 'Order Manager'] },
           { name: 'Catalog Leads', path: '/admin/catalog-leads', icon: Download, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
-          { name: 'Analytics', path: '/admin/analytics', icon: BarChart3, roles: ['Super Admin', 'Project Manager'] },
-          { name: 'Reviews', path: '/admin/reviews', icon: Star, roles: ['Super Admin', 'Marketing Manager'] },
-          { name: 'Reports', path: '/admin/reports', icon: FileText, roles: ['Super Admin', 'Order Manager', 'Project Manager'] },
         ]
       },
       {
-        title: "Marketing",
+        title: "Catalog & Marketing",
         items: [
-          { name: 'WhatsApp Leads', path: '/admin/whatsapp-leads', icon: MessageCircle, roles: ['Super Admin', 'Marketing Manager'] },
-          { name: 'Email Campaigns', path: '/admin/email-campaigns', icon: Mail, roles: ['Super Admin', 'Project Manager', 'Marketing Manager'] },
-          { name: 'Notifications', path: '/admin/notifications', icon: Bell, roles: ['Super Admin', 'Marketing Manager'] },
+          { name: 'Images & Banners', path: '/admin/banners', icon: Palette, roles: ['Super Admin', 'Project Manager', 'Marketing Manager'] },
+          { name: 'Budget Catalogs', path: '/admin/budget-catalogs', icon: FileText, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
+          { name: 'Coupons', path: '/admin/coupons', icon: Ticket, roles: ['Super Admin', 'Admin', 'Marketing Manager'] },
         ]
       },
       {
         title: "System",
         items: [
-          { name: 'Admin Settings', path: '/admin/settings', icon: Settings, roles: ['Super Admin'] },
-          { name: 'Roles', path: '/admin/roles', icon: Shield, roles: ['Super Admin'] },
-          { name: 'Appearance', path: '/admin/appearance', icon: Palette, roles: ['Super Admin'] },
-        ]
-      },
-      {
-        title: "Operations",
-        items: [
-          { name: 'Payments', path: '/admin/payments', icon: CreditCard, roles: ['Super Admin'] },
-          { name: 'Shipping', path: '/admin/shipping', icon: Truck, roles: ['Super Admin', 'Order Manager'] },
-          { name: 'Tax', path: '/admin/tax', icon: Receipt, roles: ['Super Admin'] },
-        ]
-      },
-      {
-        title: "Advanced",
-        items: [
-          { name: 'SEO', path: '/admin/seo', icon: Search, roles: ['Super Admin', 'Marketing Manager'] },
-          { name: 'Backup', path: '/admin/backup', icon: Database, roles: ['Super Admin'] },
-          { name: 'Logs', path: '/admin/logs', icon: Activity, roles: ['Super Admin'] },
+          { name: 'Settings', path: '/admin/settings', icon: Settings, roles: ['Super Admin'] },
         ]
       }
     ];
@@ -109,12 +83,26 @@ export default function AdminLayout() {
 
   const menuGroups = getFilteredMenuGroups();
 
+  /**
+   * Real routes that are deliberately not in the sidebar: /admin/inventory is
+   * the products screen under an older name, and the rest are placeholders
+   * kept so existing links still resolve. The access check below builds its
+   * allowlist from the menu, so without these it would deny them.
+   */
+  const ROUTES_NOT_IN_MENU = [
+    '/admin/inventory', '/admin/categories', '/admin/analytics', '/admin/reviews',
+    '/admin/reports', '/admin/whatsapp-leads', '/admin/email-campaigns',
+    '/admin/notifications', '/admin/roles', '/admin/appearance', '/admin/payments',
+    '/admin/shipping', '/admin/tax', '/admin/seo', '/admin/backup', '/admin/logs',
+  ];
+
   useEffect(() => {
     // Collect all allowed paths + base route + IDs (like orders/:id)
     if (profile?.role === 'admin') {
-       const allowedPaths = new Set(
-         menuGroups.flatMap(group => group.items.map(item => item.path))
-       );
+       const allowedPaths = new Set([
+         ...menuGroups.flatMap(group => group.items.map(item => item.path)),
+         ...ROUTES_NOT_IN_MENU,
+       ]);
        
        let currentPath = location.pathname;
        // Quick regex for paths with ids

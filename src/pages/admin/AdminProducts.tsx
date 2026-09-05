@@ -15,6 +15,8 @@ import { Link } from 'react-router-dom';
 
 import { PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
 import { ProductVariant, variantsOf, swatchColor, totalStock } from '../../lib/variants';
+import { InlineNumber } from '../../components/admin/InlineNumber';
+import { StockCell } from '../../components/admin/StockCell';
 
 const EMPTY_FORM = {
   name: '', description: '', sku: '', basePrice: '', mrp: '', discountPercent: '', gstPercent: '18',
@@ -261,6 +263,29 @@ export default function AdminProducts() {
     return extras;
   }, [products]);
 
+  /**
+   * Writes one field of one product and patches it into the list.
+   *
+   * Reloading the whole collection after changing a single number is what made
+   * the dialog feel slow, so the row is updated locally and rolled back only if
+   * the write is refused.
+   */
+  const patchProduct = async (id: string, patch: Record<string, unknown>, label: string) => {
+    const before = products.find(p => p.id === id);
+    setProducts(current => current.map(p => (p.id === id ? { ...p, ...patch } as ProductData : p)));
+    try {
+      await updateDoc(doc(db, 'products', id), { ...patch, updatedAt: serverTimestamp() });
+      toast.success(label);
+    } catch (error: any) {
+      if (before) setProducts(current => current.map(p => (p.id === id ? before : p)));
+      const why = error?.code === 'permission-denied'
+        ? 'You do not have permission to change this product.'
+        : (error?.message || 'Unknown error');
+      toast.error(`Could not save: ${why}`);
+      throw error;
+    }
+  };
+
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -410,13 +435,10 @@ export default function AdminProducts() {
 
 
   const toggleEnabled = async (id: string, current: boolean) => {
-    try {
-      await updateDoc(doc(db, 'products', id), { enabled: !current });
-      setProducts(products.map(p => p.id === id ? { ...p, enabled: !current } : p));
-      toast.success(current ? 'Product disabled' : 'Product enabled');
-    } catch (error) {
-      handleFirestoreError(error, OperationType.UPDATE, `products/${id}`);
-    }
+    // Same path as the other in-place edits: optimistic, rolled back on
+    // refusal, and the reason shown. It used to end in a throw nobody caught.
+    await patchProduct(id, { enabled: !current }, current ? 'Hidden from the shop' : 'Now visible in the shop')
+      .catch(() => {});
   };
 
   const deleteProduct = async (id: string) => {
@@ -961,17 +983,41 @@ export default function AdminProducts() {
                     <td className="px-6 py-5">
                       <span className="bg-[#0F172A]/5 text-[#0F172A] border border-slate-200 font-medium px-3 py-1.5 rounded-md text-xs">{product.categoryId || 'Uncategorized'}</span>
                     </td>
-                    <td className="px-6 py-5 whitespace-nowrap font-bold text-[#0F172A]">{formatCurrency(product.basePrice)}</td>
+                    <td className="px-6 py-5 whitespace-nowrap">
+                      <InlineNumber
+                        value={product.basePrice}
+                        ariaLabel={`Corporate price for ${product.name}`}
+                        format={n => formatCurrency(n)}
+                        className="font-bold text-[#0F172A]"
+                        onSave={next => patchProduct(product.id, { basePrice: next }, 'Price updated')}
+                      />
+                      {typeof product.mrp === 'number' && product.mrp > 0 && (
+                        <div className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-400">
+                          MRP
+                          <InlineNumber
+                            value={product.mrp}
+                            ariaLabel={`MRP for ${product.name}`}
+                            format={n => formatCurrency(n)}
+                            className="text-[11px] text-slate-500"
+                            onSave={next => patchProduct(product.id, { mrp: next }, 'MRP updated')}
+                          />
+                        </div>
+                      )}
+                    </td>
                     <td className="px-6 py-5">
-                      {(() => {
-                        // With colours, the row shows the total across them.
-                        const s = totalStock(product);
-                        return (
-                          <span className={`px-3 py-1.5 rounded-md text-xs font-bold border shadow-sm ${s > 10 ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' : s > 0 ? 'bg-amber-100/50 text-amber-700 border-amber-200' : 'bg-red-500/10 text-red-600 border-red-200'}`}>
-                            {s} in stock
-                          </span>
-                        );
-                      })()}
+                      <StockCell
+                        product={product}
+                        onSaveStock={next => patchProduct(product.id, { stock: next }, 'Stock updated')}
+                        onSaveVariantStock={variants =>
+                          patchProduct(
+                            product.id,
+                            // Keep the product's own stock as the total, so the
+                            // shop and the counts agree with the colours.
+                            { variants, stock: variants.reduce((n, v) => n + Number(v.stock || 0), 0) },
+                            'Stock updated',
+                          )
+                        }
+                      />
                     </td>
                     <td className="px-6 py-5">
                        <button onClick={() => toggleEnabled(product.id, product.enabled)} className={`px-3 py-1.5 rounded-md border shadow-sm text-xs font-bold tracking-wider uppercase transition-colors ${product.enabled ? 'bg-[#d4af37]/10 text-[#b49124] border-[#d4af37]/20 hover:bg-[#d4af37]/20' : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'}`}>
