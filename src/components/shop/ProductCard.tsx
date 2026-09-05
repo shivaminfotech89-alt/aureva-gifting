@@ -123,13 +123,16 @@ export function ProductCard({ product }: { product: ProductData }) {
   return (
     <Link to={`/product/${product.id}`} className="block h-full">
       <Card className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-none transition-shadow duration-300 hover:shadow-[0_8px_24px_-12px_rgba(15,23,42,0.18)]">
-        <div className="relative flex h-44 items-center justify-center overflow-hidden bg-[#FAFAF8] p-4 md:h-52">
+        {/* Square, so every card is the same height whatever shape the
+            supplier's photo is. object-contain keeps the whole product in
+            view rather than cropping it to fill. */}
+        <div className="relative aspect-square w-full overflow-hidden bg-white p-3">
           <img
             src={cardImage}
             alt={product.name}
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+            className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
             onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
           />
 
@@ -158,7 +161,7 @@ export function ProductCard({ product }: { product: ProductData }) {
         </div>
 
         <CardContent className="flex flex-1 flex-col p-4">
-          <h3 className="font-display line-clamp-2 text-[15px] leading-snug text-[var(--navy-800)] transition-colors group-hover:text-[var(--gold-600)]">
+          <h3 className="font-display line-clamp-2 min-h-[2.6em] text-[15px] leading-snug text-[var(--navy-800)] transition-colors group-hover:text-[var(--gold-600)]">
             {product.name}
           </h3>
           {(lead?.sku || product.sku) && (
@@ -179,9 +182,11 @@ export function ProductCard({ product }: { product: ProductData }) {
               <span className="ml-0.5 text-[11px] text-slate-500">{variants.length} colors</span>
             </div>
           )}
-          <p className="mt-1.5 line-clamp-2 text-[12.5px] leading-relaxed text-slate-500">{product.description}</p>
+          {product.description && (
+            <p className="mt-1.5 line-clamp-2 text-[12.5px] leading-relaxed text-slate-500">{product.description}</p>
+          )}
 
-          <div className="mt-4 flex items-end justify-between border-t border-slate-100 pt-3.5">
+          <div className="mt-auto flex items-end justify-between border-t border-slate-100 pt-3.5">
             <div>
               <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--gold-600)]">Corporate price</p>
               <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2">
@@ -201,7 +206,7 @@ export function ProductCard({ product }: { product: ProductData }) {
 
           {/* Inquire without leaving the listing. Most corporate buyers want a
               conversation before a cart. */}
-          <div className="mt-3.5 flex gap-2">
+          <div className="mt-3 flex gap-2">
             <button
               onClick={handleWhatsAppInquiry}
               className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#25D366] px-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[#1eb457]"
