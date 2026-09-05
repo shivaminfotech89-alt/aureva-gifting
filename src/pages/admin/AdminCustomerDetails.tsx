@@ -127,7 +127,7 @@ export default function AdminCustomerDetails() {
                              <p className="font-bold text-[#0F172A]">{formatCurrency(order.grandTotal)}</p>
                              <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Total</p>
                           </div>
-                          <Button variant="ghost" size="icon" asChild className="opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
+                          <Button variant="ghost" size="icon" asChild className="opacity-100 md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 transition-opacity">
                              <Link to={`/admin/orders/${order.id}`}><ChevronRight className="w-5 h-5"/></Link>
                           </Button>
                        </div>

@@ -289,7 +289,7 @@ export default function AdminOrders() {
                       className="hover:underline flex items-center gap-1 group"
                     >
                       #{order.id.slice(-8).toUpperCase()}
-                      <Eye className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Eye className="h-3 w-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
                     </Link>
                   </td>
                   <td className="px-6 py-5">

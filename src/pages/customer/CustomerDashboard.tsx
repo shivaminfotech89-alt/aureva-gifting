@@ -615,7 +615,7 @@ export default function CustomerDashboard() {
                         <div className="text-zinc-500 text-sm space-y-1 mb-6">
                            <div className="flex items-center gap-2"><Smartphone className="w-4 h-4" /> {address.phone}</div>
                         </div>
-                        <div className="absolute bottom-5 right-5 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-5 right-5 flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                           <button 
                             onClick={() => {
                               setEditingAddressId(address.id);

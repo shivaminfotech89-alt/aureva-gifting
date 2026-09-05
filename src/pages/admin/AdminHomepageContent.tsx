@@ -13,6 +13,12 @@ import { Label } from '../../components/ui/label';
 import { Switch } from '../../components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 
+/**
+ * A Firestore document caps at 1 MiB and these images live inside one as
+ * base64, which inflates by a third. Leave room for the document's own fields.
+ */
+const MAX_DATA_URL = 900_000;
+
 function ImageUploadDropzone({ value, onChange, recommended }: { value?: string, onChange: (url: string) => void, recommended?: string }) {
   const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -31,8 +37,8 @@ function ImageUploadDropzone({ value, onChange, recommended }: { value?: string,
       img.onload = () => {
         setProgress(60);
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 1200;
-        const MAX_HEIGHT = 1200;
+        const MAX_WIDTH = 1400;
+        const MAX_HEIGHT = 1400;
         let width = img.width;
         let height = img.height;
 
@@ -47,17 +53,36 @@ function ImageUploadDropzone({ value, onChange, recommended }: { value?: string,
         ctx?.drawImage(img, 0, 0, width, height);
         setProgress(80);
         setTimeout(async () => {
-           const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+           // The image is stored inside the Firestore document as base64, and a
+           // document cannot exceed 1 MiB. Shrink until it fits rather than
+           // letting the save fail with a size error nobody can act on.
+           let dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+           for (const quality of [0.7, 0.6, 0.5, 0.4]) {
+             if (dataUrl.length <= MAX_DATA_URL) break;
+             dataUrl = canvas.toDataURL('image/jpeg', quality);
+           }
+           if (dataUrl.length > MAX_DATA_URL) {
+             setProgress(0);
+             toast.error(
+               'That image is too large even after compressing. Please use a smaller one, '
+               + 'or save it from your phone at a lower resolution.',
+             );
+             return;
+           }
+
            onChange(dataUrl);
-           
+
            try {
              const { addDoc, collection, serverTimestamp } = await import('firebase/firestore');
              const { db } = await import('../../lib/firebase');
              await addDoc(collection(db, 'mediaLibrary'), { url: dataUrl, name: file.name, createdAt: serverTimestamp() });
-           } catch (err) {
+           } catch (err: any) {
              console.error("Failed to save to media library", err);
+             // The picture is still on the item being edited; only the reusable
+             // copy failed, and saying nothing looked like nothing happened.
+             toast.warning('Saved to this item, but could not add it to Recent Images.');
            }
-           
+
            setProgress(100);
            setTimeout(() => setProgress(0), 1000);
         }, 100);
@@ -99,7 +124,7 @@ function ImageUploadDropzone({ value, onChange, recommended }: { value?: string,
           {value ? (
              <div className="relative w-full max-h-40 overflow-hidden rounded-lg group">
                 <img src={value} className="w-full h-full object-contain" alt="Preview" />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity gap-4">
+                <div className="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center justify-center transition-opacity gap-4">
                    <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg text-white font-medium hover:bg-white/20">
                      <Edit3 className="w-4 h-4"/> Replace
                    </div>
@@ -153,17 +178,19 @@ function ImageSelectionField({ value, onChange, recommended, mediaLibrary, defau
 
   return (
     <div className="border rounded-2xl p-1 bg-slate-50 shadow-inner">
-      <Tabs defaultValue={defaultTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-2">
-          <TabsTrigger value="upload">Upload New</TabsTrigger>
-          <TabsTrigger value="library">Recent Images ({mediaLibrary.length})</TabsTrigger>
+      <Tabs defaultValue={defaultTab} className="flex w-full min-w-0 flex-col">
+        <TabsList className="mb-2 grid w-full grid-cols-2">
+          <TabsTrigger value="upload" className="text-xs sm:text-sm">Upload New</TabsTrigger>
+          <TabsTrigger value="library" className="text-xs sm:text-sm">
+            Recent ({mediaLibrary.length})
+          </TabsTrigger>
         </TabsList>
         <div className="p-3 bg-white rounded-xl border">
           <TabsContent value="upload" className="space-y-4 m-0">
             <ImageUploadDropzone value={value} onChange={onChange} recommended={recommended} />
-            <div className="flex items-center gap-2">
-               <span className="text-xs font-bold text-slate-400 uppercase">OR PASTE URL:</span>
-               <Input className="flex-1 h-9 text-sm" value={value || ''} onChange={e => onChange(e.target.value)} placeholder="https://" />
+            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2">
+               <span className="text-xs font-bold uppercase text-slate-400 sm:whitespace-nowrap">Or paste URL</span>
+               <Input className="h-9 w-full min-w-0 text-sm sm:flex-1" value={value || ''} onChange={e => onChange(e.target.value)} placeholder="https://" />
             </div>
           </TabsContent>
           <TabsContent value="library" className="m-0">
@@ -175,7 +202,7 @@ function ImageSelectionField({ value, onChange, recommended, mediaLibrary, defau
                </div>
             ) : (
                <div className="space-y-4">
-                 <div className="grid grid-cols-3 gap-3 max-h-[300px] overflow-y-auto pr-1">
+                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[300px] overflow-y-auto pr-1">
                    {mediaLibrary.map(m => (
                       <div 
                         key={m.id} 
@@ -186,10 +213,10 @@ function ImageSelectionField({ value, onChange, recommended, mediaLibrary, defau
                          {value === m.url && (
                             <div className="absolute top-2 right-2 bg-[#F4C542] text-[#0F172A] p-1 rounded-full shadow-sm"><Check className="w-3 h-3"/></div>
                          )}
-                         <div className="absolute inset-x-0 bottom-0 bg-black/60 opacity-0 group-hover:opacity-100 p-1.5 text-[10px] text-white truncate text-center transition-opacity">
+                         <div className="absolute inset-x-0 bottom-0 bg-black/60 opacity-100 md:opacity-0 md:group-hover:opacity-100 p-1.5 text-[10px] text-white truncate text-center transition-opacity">
                            {m.name || 'Image'}
                          </div>
-                         <button type="button" onClick={(e) => handleDeleteMedia(m.id, e)} className="absolute top-1 left-1 bg-red-500 text-white p-1 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-red-600 transition-opacity">
+                         <button type="button" onClick={(e) => handleDeleteMedia(m.id, e)} className="absolute top-1 left-1 bg-red-500 text-white p-1 rounded-lg opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:bg-red-600 transition-opacity">
                             <Trash2 className="w-3 h-3"/>
                          </button>
                       </div>
@@ -356,23 +383,25 @@ export default function AdminHomepageContent() {
                   <Link to="/admin"><ArrowLeft className="w-4 h-4"/> Back to Dashboard</Link>
                </Button>
             </div>
-            <h1 className="text-3xl font-bold font-serif text-[#0F172A] tracking-tight">Homepage Content Management</h1>
-            <p className="text-slate-500 mt-2">Manage sliders, categories, and promotional banners for the homepage.</p>
+            <h1 className="font-serif text-2xl font-bold tracking-tight text-[#0F172A] sm:text-3xl">Homepage Content Management</h1>
+            <p className="mt-2 text-sm text-slate-500 sm:text-base">Manage sliders, categories, and promotional banners for the homepage.</p>
          </div>
       </div>
 
-      <Tabs defaultValue="sliders" className="w-full">
-        <div className="sticky top-0 z-10 bg-slate-50/80 backdrop-blur-md pb-4 pt-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-          <TabsList className="flex flex-nowrap w-full overflow-x-auto justify-start border-none bg-slate-100 p-1.5 rounded-2xl md:inline-flex md:w-auto snap-x">
-             <TabsTrigger value="sliders" className="rounded-xl px-5 py-2.5 whitespace-nowrap data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-[#0F172A] data-[state=active]:font-semibold snap-start transition-all">Hero Sliders</TabsTrigger>
-             <TabsTrigger value="categories" className="rounded-xl px-5 py-2.5 whitespace-nowrap data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-[#0F172A] data-[state=active]:font-semibold snap-start transition-all">Categories</TabsTrigger>
-             <TabsTrigger value="collections" className="rounded-xl px-5 py-2.5 whitespace-nowrap data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-[#0F172A] data-[state=active]:font-semibold snap-start transition-all">Festival Campaigns</TabsTrigger>
-             <TabsTrigger value="branding" className="rounded-xl px-5 py-2.5 whitespace-nowrap data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-[#0F172A] data-[state=active]:font-semibold snap-start transition-all">Corporate Branding</TabsTrigger>
+      <Tabs defaultValue="sliders" className="flex w-full min-w-0 flex-col">
+        <div className="sticky top-0 z-10 -mx-4 min-w-0 bg-slate-50/80 px-4 pb-4 pt-2 backdrop-blur-md sm:mx-0 sm:px-0">
+          <div className="w-full min-w-0 max-w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <TabsList className="flex w-max min-w-full flex-nowrap justify-start rounded-2xl border-none bg-slate-100 p-1.5 snap-x md:w-auto md:min-w-0">
+             <TabsTrigger value="sliders" className="rounded-xl px-4 py-2.5 text-sm whitespace-nowrap sm:px-5 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-[#0F172A] data-[state=active]:font-semibold snap-start transition-all">Hero Sliders</TabsTrigger>
+             <TabsTrigger value="categories" className="rounded-xl px-4 py-2.5 text-sm whitespace-nowrap sm:px-5 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-[#0F172A] data-[state=active]:font-semibold snap-start transition-all">Categories</TabsTrigger>
+             <TabsTrigger value="collections" className="rounded-xl px-4 py-2.5 text-sm whitespace-nowrap sm:px-5 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-[#0F172A] data-[state=active]:font-semibold snap-start transition-all">Festival Campaigns</TabsTrigger>
+             <TabsTrigger value="branding" className="rounded-xl px-4 py-2.5 text-sm whitespace-nowrap sm:px-5 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-[#0F172A] data-[state=active]:font-semibold snap-start transition-all">Corporate Branding</TabsTrigger>
           </TabsList>
+          </div>
         </div>
 
         <TabsContent value="sliders" className="mt-6">
-           <div className="flex justify-between items-center mb-6">
+           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-2xl font-serif font-bold text-slate-800">Hero Sliders</h2>
               <Button onClick={() => openDialog('banner')} className="bg-[#0F172A] text-white hover:bg-slate-800 rounded-xl px-4 py-2 h-auto"><Plus className="w-5 h-5 mr-2"/> Add Slider</Button>
            </div>
@@ -389,7 +418,7 @@ export default function AdminHomepageContent() {
                            onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
                          />
                          {/* Edit Overlay */}
-                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity backdrop-blur-sm z-20 gap-3">
+                         <div className="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity backdrop-blur-sm z-20 gap-3">
                             <div className="flex gap-2">
                               <Button onClick={() => openDialog('banner', b, 'upload')} variant="secondary" className="rounded-xl shadow-lg border-0 bg-white/90 hover:bg-white text-slate-800 font-semibold" size="sm">
                                 <ImageIcon className="w-4 h-4 mr-2"/> Replace Image
@@ -424,7 +453,7 @@ export default function AdminHomepageContent() {
                           </div>
                        </div>
                        
-                       <div className="grid grid-cols-2 gap-4 text-sm mb-4 mt-2">
+                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-4 mt-2">
                           <div className="bg-slate-50 py-2.5 px-4 rounded-xl border border-slate-100">
                              <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5 tracking-wider">Button Text</span>
                              <span className="font-medium text-[#0F172A] truncate block">{b.ctaText || 'None'}</span>
@@ -455,7 +484,7 @@ export default function AdminHomepageContent() {
         </TabsContent>
 
         <TabsContent value="categories" className="mt-6">
-           <div className="flex justify-between items-center mb-6">
+           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-2xl font-serif font-bold text-slate-800">Category Images</h2>
               <Button onClick={() => openDialog('category')} className="bg-[#0F172A] text-white hover:bg-slate-800 rounded-xl px-4 py-2 h-auto"><Plus className="w-5 h-5 mr-2"/> Add Category</Button>
            </div>
@@ -471,7 +500,7 @@ export default function AdminHomepageContent() {
                         />
                         
                         {/* Image Overlay */}
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm gap-3">
+                        <div className="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm gap-3">
                            <Button onClick={() => openDialog('category', c, 'upload')} variant="secondary" className="rounded-xl shadow-lg border-0 bg-white/90 hover:bg-white text-slate-800 font-semibold" size="sm">
                              <ImageIcon className="w-4 h-4 mr-2"/> Replace Image
                            </Button>
@@ -522,7 +551,7 @@ export default function AdminHomepageContent() {
         </TabsContent>
 
         <TabsContent value="collections" className="mt-6">
-           <div className="flex justify-between items-center mb-6">
+           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-2xl font-serif font-bold text-slate-800">Festival Campaigns</h2>
               <Button onClick={() => openDialog('collection')} className="bg-[#0F172A] text-white hover:bg-slate-800 rounded-xl px-4 py-2 h-auto"><Plus className="w-5 h-5 mr-2"/> Add Campaign</Button>
            </div>
@@ -544,7 +573,7 @@ export default function AdminHomepageContent() {
                         </div>
 
                         {/* Edit Overlay */}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity backdrop-blur-sm z-20">
+                        <div className="absolute inset-0 bg-black/60 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity backdrop-blur-sm z-20">
                            <div className="flex gap-3">
                              <Button onClick={() => openDialog('collection', c, 'upload')} variant="secondary" className="rounded-xl shadow-lg border-0 bg-white/90 hover:bg-white text-slate-800 font-semibold" size="sm">
                                <ImageIcon className="w-4 h-4 mr-2"/> Replace Image
@@ -597,7 +626,7 @@ export default function AdminHomepageContent() {
         </TabsContent>
 
         <TabsContent value="branding" className="mt-6">
-           <div className="flex justify-between items-center mb-6">
+           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-2xl font-serif font-bold text-slate-800">Corporate Branding Section</h2>
            </div>
            <Card className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm p-6 lg:p-8">
@@ -613,7 +642,7 @@ export default function AdminHomepageContent() {
                           onError={(e) => { (e.target as HTMLImageElement).src = PRODUCT_IMAGE_PLACEHOLDER; }}
                         />
                         {brandingSection?.imageUrl ? (
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm z-20">
+                          <div className="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm z-20">
                               <Button type="button" variant="destructive" onClick={async (e) => {
                                  e.preventDefault();
                                  e.stopPropagation();
@@ -671,7 +700,7 @@ export default function AdminHomepageContent() {
       </Tabs>
 
       <Dialog open={isDialogOp} onOpenChange={setIsDialogOp}>
-        <DialogContent className="bg-white">
+        <DialogContent className="bg-white max-h-[90vh] w-[calc(100vw-2rem)] overflow-y-auto sm:max-w-lg">
            <DialogHeader>
               <DialogTitle>
                  {dialogType === 'banner' ? 'Manage Hero Slider' : dialogType === 'category' ? 'Manage Category' : 'Manage Festival Campaign'}
@@ -796,7 +825,7 @@ export default function AdminHomepageContent() {
       </Dialog>
 
       <Dialog open={!!deletePending} onOpenChange={(open) => !open && setDeletePending(null)}>
-         <DialogContent className="max-w-md p-6 border-slate-100 shadow-xl rounded-2xl">
+         <DialogContent className="w-[calc(100vw-2rem)] max-w-md p-6 border-slate-100 shadow-xl rounded-2xl">
             <DialogHeader>
                <DialogTitle className="text-xl font-bold text-slate-800">Confirm Deletion</DialogTitle>
             </DialogHeader>
