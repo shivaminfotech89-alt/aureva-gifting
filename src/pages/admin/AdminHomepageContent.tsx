@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PRODUCT_IMAGE_PLACEHOLDER } from '../../lib/productImage';
+import { useCategories } from '../../hooks/useCategories';
 import { collection, doc, setDoc, deleteDoc, onSnapshot, getDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../../lib/firebase';
 import { Button } from '../../components/ui/button';
 import { toast } from 'sonner';
-import { Plus, Trash2, Edit3, Image as ImageIcon, Check, X, GripVertical, ArrowLeft, UploadCloud } from 'lucide-react';
+import { Plus, Trash2, Edit3, Image as ImageIcon, Check, X, GripVertical, ArrowLeft, UploadCloud, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
 import { Input } from '../../components/ui/input';
@@ -220,6 +221,9 @@ export default function AdminHomepageContent() {
   const [defaultImageTab, setDefaultImageTab] = useState<string>('upload');
 
   const [formData, setFormData] = useState<any>({});
+  // The real categories in the catalog. A tile has to point at one of these or
+  // it opens an empty shop, which is what every tile used to do.
+  const { categories: catalogCategories } = useCategories();
   const [deletePending, setDeletePending] = useState<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
@@ -497,6 +501,12 @@ export default function AdminHomepageContent() {
                        )}
                        
                        <div className="flex border-t border-slate-100 pt-4 mt-auto items-center">
+{!(c.linkCategory || catalogCategories.includes(c.name)) && (
+                             <p className="mt-2 flex items-start gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2 py-1.5 text-[11px] leading-snug text-amber-900">
+                               <AlertTriangle className="mt-px h-3 w-3 shrink-0" />
+                               Opens an empty shop. Click Edit and choose which category it shows.
+                             </p>
+                           )}
                            <Button onClick={() => openDialog('category', c)} variant="ghost" size="sm" className="text-[#0F172A] hover:bg-slate-50 font-semibold px-0 mr-auto">
                              <Edit3 className="w-4 h-4 mr-2 text-slate-400"/> Edit Details
                            </Button>
@@ -566,6 +576,12 @@ export default function AdminHomepageContent() {
                        )}
                        
                        <div className="flex border-t border-slate-100 pt-4 mt-auto items-center">
+{!(c.linkCategory) && (
+                             <p className="mt-2 flex items-start gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2 py-1.5 text-[11px] leading-snug text-amber-900">
+                               <AlertTriangle className="mt-px h-3 w-3 shrink-0" />
+                               Opens an empty shop. Click Edit and choose which category it shows.
+                             </p>
+                           )}
                            <Button onClick={() => openDialog('collection', c)} variant="ghost" size="sm" className="text-[#0F172A] hover:bg-slate-50 font-semibold px-0 mr-auto">
                              <Edit3 className="w-4 h-4 mr-2 text-slate-400"/> Edit Details
                            </Button>
@@ -698,6 +714,21 @@ export default function AdminHomepageContent() {
                        <ImageSelectionField value={formData.url} onChange={(val) => setFormData({...formData, url: val})} recommended="800x800 square" mediaLibrary={mediaLibrary} defaultTab={defaultImageTab} />
                    </div>
                    <div className="space-y-2">
+                      <Label>Shows products from</Label>
+                      <select
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        value={formData.linkCategory || ''}
+                        onChange={e => setFormData({ ...formData, linkCategory: e.target.value })}
+                      >
+                        <option value="">Choose a category…</option>
+                        {catalogCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                      <p className="text-[11px] text-slate-500">
+                        Which products open when a customer clicks this. Without one the tile
+                        opens an empty shop — that is why the festival campaigns showed nothing.
+                      </p>
+                   </div>
+                   <div className="space-y-2">
                       <Label>Description</Label>
                       <Input value={formData.description || ''} onChange={e=>setFormData({...formData, description: e.target.value})} />
                    </div>
@@ -717,6 +748,37 @@ export default function AdminHomepageContent() {
                    <div className="space-y-2">
                        <Label>Campaign Image (Recommended: 800x1200 portrait)</Label>
                        <ImageSelectionField value={formData.img} onChange={(val) => setFormData({...formData, img: val})} recommended="800x1200 portrait" mediaLibrary={mediaLibrary} defaultTab={defaultImageTab} />
+                   </div>
+                   <div className="space-y-2">
+                      <Label>Shows products from</Label>
+                      <select
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        value={formData.linkCategory || ''}
+                        onChange={e => setFormData({ ...formData, linkCategory: e.target.value })}
+                      >
+                        <option value="">Choose a category…</option>
+                        {catalogCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                      <p className="text-[11px] text-slate-500">
+                        Which products open when a customer clicks this. Without one the tile
+                        opens an empty shop — that is why the festival campaigns showed nothing.
+                      </p>
+                   </div>
+
+                   <div className="space-y-2">
+                      <Label>Shows products from</Label>
+                      <select
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        value={formData.linkCategory || ''}
+                        onChange={e => setFormData({ ...formData, linkCategory: e.target.value })}
+                      >
+                        <option value="">Choose a category…</option>
+                        {catalogCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                      <p className="text-[11px] text-slate-500">
+                        Which products open when a customer clicks this. Without one the tile
+                        opens an empty shop — that is why the festival campaigns showed nothing.
+                      </p>
                    </div>
                    <div className="space-y-2">
                       <Label>Description</Label>

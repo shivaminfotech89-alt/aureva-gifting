@@ -38,6 +38,25 @@ const FALLBACK_BANNERS: BannerData[] = [
 
 const FALLBACK_BRANDING_IMAGE = 'https://images.unsplash.com/photo-1587834575747-df9039afac29?auto=format&fit=crop&q=80&w=1200';
 
+/**
+ * Where a homepage tile sends a customer.
+ *
+ * A festival campaign linked to /shop?q=<its title>, which is a text search of
+ * product names — nothing is called "Diwali Hampers", so every campaign opened
+ * an empty shop. A category tile linked to its own display name, which only
+ * worked if that name happened to match a catalog category exactly.
+ *
+ * A tile now carries the category it should open. The old behaviour is kept as
+ * the fallback so tiles saved before this still do what they did.
+ */
+function homeTileLink(linkCategory: string | undefined, label: string, fallback: 'category' | 'search' = 'category') {
+  const chosen = String(linkCategory || '').trim();
+  if (chosen) return `/shop?category=${encodeURIComponent(chosen)}`;
+  return fallback === 'search'
+    ? `/shop?q=${encodeURIComponent(label)}`
+    : `/shop?category=${encodeURIComponent(label)}`;
+}
+
 export default function HomePage() {
   const [banners, setBanners] = useState<BannerData[]>(FALLBACK_BANNERS);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -274,7 +293,7 @@ export default function HomePage() {
           <div className="mt-9 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
             {categories.map((cat, idx) => (
               <Link
-                to={`/shop?category=${encodeURIComponent(cat.name)}`}
+                to={homeTileLink(cat.linkCategory, cat.name)}
                 key={cat.id || idx}
                 className="group relative block h-52 overflow-hidden rounded-xl lg:h-60"
               >
@@ -330,7 +349,7 @@ export default function HomePage() {
 
           <div className="mt-9 grid grid-cols-1 gap-6 md:grid-cols-3">
             {collectionsData.map((c, idx) => (
-              <Link to={`/shop?q=${encodeURIComponent(c.title)}`} key={c.id || idx} className="group block">
+              <Link to={homeTileLink(c.linkCategory, c.title, 'search')} key={c.id || idx} className="group block">
                 <div className="relative h-72 overflow-hidden rounded-xl bg-[var(--navy-700)] lg:h-80">
                   <img
                     src={c.img}
