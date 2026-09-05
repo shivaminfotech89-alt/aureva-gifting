@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCartStore } from '../store/cartStore';
 import { Button, buttonVariants } from '../components/ui/button';
+import { QuotationPanel } from '../components/shop/QuotationPanel';
 import { formatCurrency, calculateGST } from '../lib/utils';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -133,8 +134,8 @@ export default function CartPage() {
               <span className="font-bold text-[var(--navy-800)] text-base">{formatCurrency(getGstTotal())}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-slate-500 font-bold uppercase tracking-wider text-[11px]">Delivery</span>
-              <span className="font-bold text-[var(--gold-500)] text-[11px] uppercase tracking-wider">Calculated at checkout</span>
+              <span className="text-slate-500 font-bold uppercase tracking-wider text-[11px]">Ships from</span>
+              <span className="font-bold text-[var(--navy-800)] text-[11px] uppercase tracking-wider">Ahmedabad, Gujarat</span>
             </div>
           </div>
           
@@ -147,8 +148,10 @@ export default function CartPage() {
             Proceed to Checkout <ArrowRight className="h-5 w-5" />
           </Link>
           <div className="mt-6 text-center">
-             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Secure Encryption & 100% Buyer Protection</p>
+             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Secure Encryption &amp; 100% Buyer Protection</p>
           </div>
+
+          <QuotationPanel />
         </div>
       </div>
     </div>
