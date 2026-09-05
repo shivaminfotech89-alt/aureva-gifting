@@ -174,11 +174,11 @@ export const generateCatalogPDF = async (
   doc.setTextColor(200, 200, 200);
   doc.setFontSize(11);
   doc.setFont("helvetica", "bold");
-  doc.text("www.aurevagifts.com", pageWidth / 2, startY, { align: 'center' });
+  doc.text(BUSINESS.site.replace(/^https?:\/\//, ''), pageWidth / 2, startY, { align: 'center' });
   
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
-  doc.text("Email: aurevagifts@gmail.com   |   WhatsApp: +91 7990878248", pageWidth / 2, startY + 8, { align: 'center' });
+  doc.text(`Email: ${BUSINESS.email}   |   WhatsApp: ${BUSINESS.whatsapp}`, pageWidth / 2, startY + 8, { align: 'center' });
   doc.text(
     `${BUSINESS.registeredAddress.locality}, ${BUSINESS.registeredAddress.city}, ` +
     `${BUSINESS.registeredAddress.state} ${BUSINESS.registeredAddress.pin}, ${BUSINESS.registeredAddress.country}`,

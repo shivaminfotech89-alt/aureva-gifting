@@ -17,6 +17,12 @@ export const BUSINESS = {
   legalName: 'Megha Hasmukhbhai Panchal',
   constitution: 'Proprietorship',
   gstin: '24DHHPP9291K1ZM',
+  /** The live site. The catalog PDF printed aurevagifts.com, with an s, which
+      is not this domain — every catalog sent out carried a dead address. */
+  site: 'https://www.aurevagift.com',
+  email: 'aurevagifts@gmail.com',
+  phone: '+919825622421',
+  whatsapp: '+917990878248',
   /** First two digits of the GSTIN. 24 is Gujarat. */
   stateCode: '24',
   state: 'Gujarat',

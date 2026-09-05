@@ -11,6 +11,8 @@ import { formatCurrency, calculateGST } from '../lib/utils';
 import { openWhatsApp, productInquiryMessage } from '../lib/whatsapp';
 import { variantsOf, galleryImages, swatchColor, totalStock } from '../lib/variants';
 import { deliveryEstimate } from '../lib/quotation';
+import { useSeo } from '../hooks/useSeo';
+import { BUSINESS } from '../lib/business';
 import { productImage, PRODUCT_IMAGE_PLACEHOLDER } from '../lib/productImage';
 import { toast } from 'sonner';
 import { ShieldCheck, Truck, ArrowLeft, Star, Heart, Upload, X as XIcon, Edit3, AlertCircle } from 'lucide-react';
@@ -40,6 +42,41 @@ export default function ProductDetails() {
   const { settings } = useSettingsStore();
 
   const isWishlisted = product ? hasItem(product.id) : false;
+
+  // Every product page shipped the same title, so 566 pages looked identical
+  // in a search result. The Product markup is what lets Google show a price
+  // and availability next to the link.
+  const seoImage = product?.images?.find(u => typeof u === 'string' && !u.startsWith('data:'));
+  useSeo({
+    title: product
+      ? `${product.name} — Corporate Gifting in Bulk`
+      : 'Product | Aureva Corporate Gifting',
+    description: product
+      ? `${product.name}${product.sku ? ` (code ${product.sku})` : ''} for bulk corporate gifting. `
+        + `Branded with your logo, shipped across India from Ahmedabad. GST invoice and quotation on request.`
+      : undefined,
+    image: seoImage ? `${BUSINESS.site}${seoImage}` : undefined,
+    jsonLd: product ? {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.name,
+      ...(product.sku ? { sku: product.sku } : {}),
+      ...(product.description ? { description: product.description } : {}),
+      ...(product.categoryId ? { category: product.categoryId } : {}),
+      ...(seoImage ? { image: `${BUSINESS.site}${seoImage}` } : {}),
+      brand: { '@type': 'Brand', name: BUSINESS.brand },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'INR',
+        price: String(product.basePrice ?? 0),
+        availability: totalStock(product) > 0
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/PreOrder',
+        url: `${BUSINESS.site}/product/${product.id}`,
+        seller: { '@type': 'Organization', name: BUSINESS.brand },
+      },
+    } : undefined,
+  });
 
   const handleBuyNow = () => {
     if (!product) return;

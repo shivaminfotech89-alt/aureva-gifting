@@ -1,9 +1,16 @@
 import React from 'react';
+import { useSeo } from '../hooks/useSeo';
 import { buttonVariants } from '../components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, Shield, Gift } from 'lucide-react';
 
 export default function AboutPage() {
+  useSeo({
+    title: 'About Aureva | Corporate Gifting Company in Ahmedabad',
+    description: 'Aureva Corporate Gifting is a brand of MSD Corporation, Ahmedabad. We source and brand bulk corporate gifts for companies across India.',
+    path: '/about',
+  });
+
   return (
     <div className="w-full bg-zinc-50 min-h-screen">
       {/* Premium Hero Section */}
